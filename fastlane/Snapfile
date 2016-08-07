@@ -1,0 +1,22 @@
+devices([
+  "iPhone 6s",
+  "iPhone 6s Plus",
+  "iPhone 5s",
+  "iPhone 4s"
+])
+
+languages([
+  "en-US",
+  "pl-PL",
+  "de-DE",
+  "es-ES"
+])
+
+workspace "./Brewer.xcworkspace"
+scheme "UITests"
+
+
+reinstall_app
+stop_after_first_error true
+clear_previous_screenshots true
+launch_arguments(["use_mock_data"])

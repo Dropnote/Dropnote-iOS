@@ -1,0 +1,2 @@
+#!/bin/bash
+swiftgen strings Brewer/Resources/en.lproj/Localizable.strings --output Brewer/Classes/Shared/Utilities/Localizable.swift
