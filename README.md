@@ -4,7 +4,7 @@
 
 [Dropnote](http://dropnote.today) - your personal coffee brewings diary.
 
-Available in AppStore: #URL#
+Download on the [App Store](https://itunes.apple.com/us/app/dropnote-coffee-brewing-notebook/id1112293581).
 
 ## Why is it public repo?
 
@@ -39,15 +39,15 @@ _Brewer_ is the initial name (current code name) of the project. _Dropnote_ was 
 
 List of features to be implemented in near future.
 
-- iCloud synchronization
+- data synchronization between devices
 - Interactive timer in _time_ step
 - Better UX in score details
 
 ## Contributing
 
-Honestly, I don't expect any contribution because it's personal project (but I'll appreciate it, anyway).
+Honestly, I don't expect much contribution in this personal project, but if you find a bug I'd appreciate an issue or pull request.
 
-However, I'd love to hear feedback about code design or have some discussions about used solutions.
+Primarily, I'd love to hear feedback about code design or used solutions.
 
 ## Acknowledgements
 

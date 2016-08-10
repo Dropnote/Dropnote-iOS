@@ -42,7 +42,7 @@ In every top directory you'll find an (Swinject) assembly file that configures c
 
 ## MVVM
 
-MVVM architecture is very popular nowadays and in Dropnote you'll find my variation of it. All views and view controllers belong to View layer, view model objects in ViewModel and models or controllers in Model.
+MVVM architecture is very popular nowadays and in Dropnote you'll find my variation. All views and view controllers belong to View layer, view model objects in ViewModel and models or controllers in Model.
 
 I try to stick to following rules:
 
@@ -58,19 +58,20 @@ Applying this everywhere makes the project consistent and puts me in comfortable
 
 Short note on tests.
 
-There are no tests or specs in the project. It has not been written using TDD.<br/>
-So to speak, I had limited resources and time, so with that size of the app I decided rather to ship it than fully test it. I hope the most fragile parts will have specs soon.
+There are no tests or specs in the project. It has not been written using TDD.
+
+So to speak, I had limited resources and time, so with that size of the app I decided rather to ship than fully test. I hope the most fragile parts will have specs soon.
 
 ## Storyboards
 
 Since the very beginning of my iOS journey I haven't used Interface Build nor Storybards if didn't have to.
 
-So, there was layout on frames at first. After that, AutoLayout with all its benefits and pains came. Finally, I decided to try Storybards in my company internal project. I put whole app in one storyboard and it was a mistake.
-Then I had a couple of different approaches. Now, I created (almost) one storyboard per view controller. It was not a very good move as well.
+So, there was layout on frames at first. After that, AutoLayout with all its benefits and pains came in. Finally, I decided to try Storybards in my company internal project. I put whole app in one storyboard and it was a mistake.
+Then I had a couple of different approaches. In Dropnote, I created (almost) one storyboard per view controller. It was not a very good move as well.
 
-Currently, I don't like storyboards and Interface Builder. I have code and layout in two different and very well separated places, reusability of UI compoments is very limited, graphical views composing may seem cool but in a longer perspective maintaining storyboard is a pain, there are some merge conflicts hard to resolve, I can't code review the storyboard XML in a way I can do it with code, swift is incompatibile with storyboard (e.g. you can't use generic view controllers), I don't have control over when and how view controllers are created, etc.
+As a result of all above, I don't like storyboards and Interface Builder. There's a long list of what I don't like: I have code and layout in two different and very well separated places, reusability of UI compoments is very limited, graphical views composing may seem cool but in a longer perspective maintaining storyboard is a pain, there are some merge conflicts hard to resolve, I can't code review the storyboard XML in a way I can do it with code, swift is incompatibile with storyboard (e.g. you can't use generic view controllers), I don't have control over when and how view controllers are created (therefore, in Swift you have to use unwrapped optional for properties), etc.
 
-That's all probably quite controversial and subjective, for me is enough to enjoy writing layout in code. Of course, once I started using storyboards in Dropnote, I won't drop them. This is an experiment and has to be continued.
+That's all probably quite controversial and subjective, but for me is enough to enjoy writing layout in code. Of course, once I started using storyboards in Dropnote, I won't drop them. This is an experiment and has to be continued (unless I rewrite everything).
 
 ## Persistence
 
@@ -84,4 +85,4 @@ The CoreData stack I found suitable for this project is:
 
 ## Networking
 
-Dropnote is quite independent app. It doesn't require anything but user input. That's why currently there's no networking layer in the project.
+Currently, Dropnote is quite self-contained app. It doesn't require anything but user input. So there's no networking layer in the project.
