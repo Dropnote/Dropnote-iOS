@@ -1,3 +1,7 @@
+# 1.0.1 (August 11th, 2016)
+
+- Fixed adding coffee in new brew process
+
 # 1.0.0 (August, 2016)
 
 - Added starting new brew
