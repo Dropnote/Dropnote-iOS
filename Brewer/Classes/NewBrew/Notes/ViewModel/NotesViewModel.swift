@@ -15,10 +15,10 @@ protocol NotesViewModelType {
 }
 
 final class NotesViewModel: NotesViewModelType {
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     let brewModelController: BrewModelControllerType
     
-    private(set) var notes = Variable("")
+    fileprivate(set) var notes = Variable("")
     
     init(brewModelController: BrewModelControllerType) {
         self.brewModelController = brewModelController
@@ -26,7 +26,7 @@ final class NotesViewModel: NotesViewModelType {
         notes.asDriver().driveNext(setNotesToBrew).addDisposableTo(disposeBag)
     }
     
-    private func setNotesToBrew(notes: String) {
+    fileprivate func setNotesToBrew(_ notes: String) {
         brewModelController.currentBrew()?.notes = notes
     }
 }

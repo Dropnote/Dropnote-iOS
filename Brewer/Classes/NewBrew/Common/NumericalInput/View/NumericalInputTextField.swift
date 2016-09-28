@@ -11,7 +11,7 @@ import UIKit
 
 final class NumericalInputTextField: UITextField {
 
-    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         if action == #selector(cut)
             || action == #selector(paste)
             || action == #selector(delete)

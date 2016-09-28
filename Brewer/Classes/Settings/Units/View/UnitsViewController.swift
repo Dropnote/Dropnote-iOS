@@ -15,7 +15,7 @@ extension UnitsViewController: ThemeConfigurable { }
 extension UnitsViewController: ThemeConfigurationContainer { }
 
 final class UnitsViewController: UIViewController {
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     @IBOutlet weak var unitsSegmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
 
@@ -24,7 +24,7 @@ final class UnitsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = tr(.UnitsItemTitle)
+        title = tr(.unitsItemTitle)
         
         setUpSegementedControlTitles()
         setDataSourceAtIndex(0)
@@ -37,7 +37,7 @@ final class UnitsViewController: UIViewController {
         enableSwipeToBack()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureWithTheme(themeConfiguration)
         unitsSegmentedControl.configureWithTheme(themeConfiguration)
@@ -47,17 +47,17 @@ final class UnitsViewController: UIViewController {
 
     // MARK: Configuration
 
-    private func setUpSegementedControlTitles() {
-        viewModel.titles.enumerate().map {
+    fileprivate func setUpSegementedControlTitles() {
+        viewModel.titles.enumerated().map {
             index, title in (title, index)
-        }.forEach(unitsSegmentedControl.setTitle)
+        }.forEach(unitsSegmentedControl.setTitle(_:forSegmentAt:))
         
-        unitsSegmentedControl.accessibilityHint = "Chooses between units categories " + viewModel.titles.joinWithSeparator(",")
+        unitsSegmentedControl.accessibilityHint = "Chooses between units categories " + viewModel.titles.joined(separator: ",")
     }
 
     // MARK: Data source switching
 
-    private func setUpSwitchingDataSources() {
+    fileprivate func setUpSwitchingDataSources() {
         unitsSegmentedControl
             .rx_value
             .asDriver()
@@ -65,7 +65,7 @@ final class UnitsViewController: UIViewController {
             .addDisposableTo(disposeBag)
     }
     
-    private func setDataSourceAtIndex(index: Int) {
+    fileprivate func setDataSourceAtIndex(_ index: Int) {
         viewModel.setDataSourceAtIndex(index)
         tableView.reloadData()
     }
@@ -73,13 +73,13 @@ final class UnitsViewController: UIViewController {
 
 extension UnitsViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        viewModel.selectUnitAtIndex(indexPath.row)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.selectUnitAtIndex((indexPath as NSIndexPath).row)
         tableView.reloadData()
     }
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.accessibilityLabel = "Select \(indexPath.row + 1)"
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
         cell.configureWithTheme(themeConfiguration)
         cell.textLabel?.configureWithTheme(themeConfiguration)
         cell.detailTextLabel?.configureWithTheme(themeConfiguration)        

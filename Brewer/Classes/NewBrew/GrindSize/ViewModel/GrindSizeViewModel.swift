@@ -11,24 +11,24 @@ import RxSwift
 import RxCocoa
 
 enum GrindSizeUnit: Int32 {
-	case Slider
-	case Numeric
+	case slider
+	case numeric
 }
 
 enum GrindSizeSliderValue: Double {
-	case ExtraFine = 1.0
-	case Fine = 2.0
-	case Medium = 3.0
-	case Coarse = 4.0
+	case extraFine = 1.0
+	case fine = 2.0
+	case medium = 3.0
+	case coarse = 4.0
 }
 
 extension GrindSizeSliderValue: CustomStringConvertible {
 	var description: String {
 		switch self {
-		case .ExtraFine: return tr(.GrindSizeLevelExtraFine)
-		case .Fine: return tr(.GrindSizeLevelFine)
-		case .Medium: return tr(.GrindSizeLevelMedium)
-        case .Coarse: return tr(.GrindSizeLevelCoarse)
+		case .extraFine: return tr(.grindSizeLevelExtraFine)
+		case .fine: return tr(.grindSizeLevelFine)
+		case .medium: return tr(.grindSizeLevelMedium)
+        case .coarse: return tr(.grindSizeLevelCoarse)
 		}
 	}
 }
@@ -44,7 +44,7 @@ protocol GringSizeViewModelType {
 }
 
 final class GringSizeViewModel: GringSizeViewModelType {
-	private let disposeBag = DisposeBag()
+	fileprivate let disposeBag = DisposeBag()
     
     enum Keys: String {
         case GrindSizeSliderVisibility = "GrindSizeSliderVisibilitySetting"
@@ -54,16 +54,16 @@ final class GringSizeViewModel: GringSizeViewModelType {
 	let brewModelController: BrewModelControllerType
     let keyValueStore: KeyValueStoreType
 
-	private(set) var sliderValue = Variable<Float>(0.0)
-	private(set) var numericValue = Variable<String>("")
+	fileprivate(set) var sliderValue = Variable<Float>(0.0)
+	fileprivate(set) var numericValue = Variable<String>("")
     
     var informativeText: String {
-        return tr(.GrindSizeInformativeText)
+        return tr(.grindSizeInformativeText)
     }
     
     var isSliderVisible: Bool {
         set {
-            keyValueStore.setObject(NSNumber(bool: newValue), forKey: Keys.GrindSizeSliderVisibility.rawValue)
+            keyValueStore.setObject(NSNumber(value: newValue as Bool), forKey: Keys.GrindSizeSliderVisibility.rawValue)
         }
         get {
             if let visibilitySetting = keyValueStore.objectForKey(Keys.GrindSizeSliderVisibility.rawValue) as? NSNumber {
@@ -73,8 +73,8 @@ final class GringSizeViewModel: GringSizeViewModelType {
         }
     }
 
-	var sliderMinimumValue: Float { return Float(GrindSizeSliderValue.ExtraFine.rawValue) }
-	var sliderMaximumValue: Float { return Float(GrindSizeSliderValue.Coarse.rawValue) }
+	var sliderMinimumValue: Float { return Float(GrindSizeSliderValue.extraFine.rawValue) }
+	var sliderMaximumValue: Float { return Float(GrindSizeSliderValue.coarse.rawValue) }
 
 	init(brewModelController: BrewModelControllerType, keyValueStore: KeyValueStoreType) {
 		self.brewModelController = brewModelController
@@ -83,7 +83,7 @@ final class GringSizeViewModel: GringSizeViewModelType {
 		configureAttributeUpdates()
 	}
     
-    private func configureAttributeUpdates() {
+    fileprivate func configureAttributeUpdates() {
         let sliderObservable = sliderValue
             .asObservable()
             .map { (Double(round($0 * 4)), GrindSizeUnit.Slider.rawValue) }
@@ -106,7 +106,7 @@ final class GringSizeViewModel: GringSizeViewModelType {
         }
     }
 
-	private func updateAttribute<O: ObservableType>(source: O, resultSelector: (O.E, BrewAttribute) throws -> (BrewAttribute)) {
+	fileprivate func updateAttribute<O: ObservableType>(_ source: O, resultSelector: @escaping (O.E, BrewAttribute) throws -> (BrewAttribute)) {
 		let attributeObservable: Observable<BrewAttribute> = {
 			if let attribute = brewModelController.currentBrew()?.brewAttributeForType(.GrindSize) {
 				return Observable.just(attribute)

@@ -11,7 +11,7 @@ import UIKit
 
 extension UIViewController {    
     func pop() {
-        navigationController?.popViewControllerAnimated(true)
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -19,12 +19,12 @@ extension UIViewController: UIGestureRecognizerDelegate {
     
     func enableSwipeToBack() {
         if let navigationController = navigationController {
-            navigationController.interactivePopGestureRecognizer?.enabled = true
+            navigationController.interactivePopGestureRecognizer?.isEnabled = true
             navigationController.interactivePopGestureRecognizer?.delegate = self
         }
     }
     
-    public func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }

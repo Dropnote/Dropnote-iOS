@@ -13,10 +13,10 @@ final class WeightUnitsDataSource: UnitsDataSourceType {
     }
 
     var title: String {
-        return tr(.UnitCategoryCoffee)
+        return tr(.unitCategoryCoffee)
     }
 
     var category: Int {
-        return UnitCategory.Weight.rawValue
+        return UnitCategory.weight.rawValue
     }
 }

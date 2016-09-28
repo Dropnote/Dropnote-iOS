@@ -9,21 +9,21 @@ import RxSwift
 import RxCocoa
 
 final class WaterInputViewModel: NumericalInputViewModelType {
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
     var unit: String {
-        return UnitCategory.WaterUnit(rawValue: unitModelController.rawUnit(forCategory: UnitCategory.Water.rawValue))!.description
+        return UnitCategory.WaterUnit(rawValue: unitModelController.rawUnit(forCategory: UnitCategory.water.rawValue))!.description
     }
 
     var informativeText: String {
-        return tr(.WaterInformativeText)
+        return tr(.waterInformativeText)
     }
     
     var currentValue: String? {
         guard let brew = brewModelController.currentBrew() else { return nil }
         guard let attribute = brew.brewAttributeForType(BrewAttributeType.WaterWeight) else { return nil }
         let value = BrewAttributeType.WaterWeight.format(attribute.value, withUnitType: attribute.unit)
-        return value.stringByReplacingOccurrencesOfString(" ", withString: "")
+        return value.replacingOccurrences(of: " ", with: "")
     }
     
     lazy var inputTransformer: NumericalInputTransformerType = InputTransformer.numberTransformer()
@@ -36,21 +36,21 @@ final class WaterInputViewModel: NumericalInputViewModelType {
         self.brewModelController = brewModelController
     }
 
-    func setInputValue(value: String) {
+    func setInputValue(_ value: String) {
         guard let brew = brewModelController.currentBrew() else { return }
         guard let waterWeight = Double(value) else {
             XCGLogger.error("Couldn't convert \"\(value)\" to double!")
             return
         }
 
-        let unit = Int32(unitModelController.rawUnit(forCategory: UnitCategory.Water.rawValue))
+        let unit = Int32(unitModelController.rawUnit(forCategory: UnitCategory.water.rawValue))
         brewModelController
             .createNewBrewAttribute(forType: .WaterWeight)
             .subscribeNext(configureAttibute(withBrew: brew, unit: unit, waterWeight: waterWeight))
             .addDisposableTo(disposeBag)
     }
     
-    private func configureAttibute(withBrew brew: Brew, unit: Int32, waterWeight: Double) -> (BrewAttribute) -> Void {
+    fileprivate func configureAttibute(withBrew brew: Brew, unit: Int32, waterWeight: Double) -> (BrewAttribute) -> Void {
         return {
             attribute in
             attribute.type = BrewAttributeType.WaterWeight.intValue

@@ -7,7 +7,7 @@ import Foundation
 import Swinject
 
 final class SettingsAssembly: AssemblyType {
-    func assemble(container: Container) {
+    func assemble(_ container: Container) {
 
         // MARK: Main
 
@@ -78,6 +78,6 @@ final class SettingsAssembly: AssemblyType {
     }
 }
 
-extension NSUserDefaults: KeyValueStoreType {
+extension UserDefaults: KeyValueStoreType {
 
 }

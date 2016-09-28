@@ -15,7 +15,7 @@ import CoreData
 extension CoffeeMachine {
 
     @NSManaged var name: String?
-    @NSManaged var updatedAt: NSTimeInterval
+    @NSManaged var updatedAt: TimeInterval
     @NSManaged var brews: NSSet?
 
 }

@@ -4,58 +4,58 @@ import RxSwift
 import RxCocoa
 
 final class KeyboardManager {
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     
     var keyboardInfoChange: Observable<KeyboardInfo> {
         return keyboardInfoChangeSubject.asObservable()
     }
-    private let keyboardInfoChangeSubject: PublishSubject<KeyboardInfo>
+    fileprivate let keyboardInfoChangeSubject: PublishSubject<KeyboardInfo>
     
     init() {
         keyboardInfoChangeSubject = PublishSubject()
         
-        let center = NSNotificationCenter.defaultCenter()
-        center.rx_notification(UIKeyboardWillShowNotification).map(keyboardWillShowNotification)
+        let center = NotificationCenter.default
+        center.rx_notification(NSNotification.Name.UIKeyboardWillShow).map(keyboardWillShowNotification)
             .subscribe(keyboardInfoChangeSubject).addDisposableTo(disposeBag)
-        center.rx_notification(UIKeyboardDidShowNotification).map(keyboardDidShowNotification)
+        center.rx_notification(NSNotification.Name.UIKeyboardDidShow).map(keyboardDidShowNotification)
             .subscribe(keyboardInfoChangeSubject).addDisposableTo(disposeBag)
-        center.rx_notification(UIKeyboardWillHideNotification).map(keyboardWillHideNotification)
+        center.rx_notification(NSNotification.Name.UIKeyboardWillHide).map(keyboardWillHideNotification)
             .subscribe(keyboardInfoChangeSubject).addDisposableTo(disposeBag)
-        center.rx_notification(UIKeyboardDidHideNotification).map(keyboardDidHideNotification)
+        center.rx_notification(NSNotification.Name.UIKeyboardDidHide).map(keyboardDidHideNotification)
             .subscribe(keyboardInfoChangeSubject).addDisposableTo(disposeBag)
     }
     
-    private func keyboardWillShowNotification(notification: NSNotification) -> KeyboardInfo {
-        return KeyboardInfo.fromNotificationUserInfo(notification.userInfo, state: .WillShow)
+    fileprivate func keyboardWillShowNotification(_ notification: Notification) -> KeyboardInfo {
+        return KeyboardInfo.fromNotificationUserInfo((notification as NSNotification).userInfo, state: .willShow)
     }
     
-    private func keyboardDidShowNotification(notification: NSNotification) -> KeyboardInfo {
-        return KeyboardInfo.fromNotificationUserInfo(notification.userInfo, state: .Visible)
+    fileprivate func keyboardDidShowNotification(_ notification: Notification) -> KeyboardInfo {
+        return KeyboardInfo.fromNotificationUserInfo((notification as NSNotification).userInfo, state: .visible)
     }
     
-    private func keyboardWillHideNotification(notification: NSNotification) -> KeyboardInfo {
-        return KeyboardInfo.fromNotificationUserInfo(notification.userInfo, state: .WillHide)
+    fileprivate func keyboardWillHideNotification(_ notification: Notification) -> KeyboardInfo {
+        return KeyboardInfo.fromNotificationUserInfo((notification as NSNotification).userInfo, state: .willHide)
     }
     
-    private func keyboardDidHideNotification(notification: NSNotification) -> KeyboardInfo {
-        return KeyboardInfo.fromNotificationUserInfo(notification.userInfo, state: .Hidden)
+    fileprivate func keyboardDidHideNotification(_ notification: Notification) -> KeyboardInfo {
+        return KeyboardInfo.fromNotificationUserInfo((notification as NSNotification).userInfo, state: .hidden)
     }
 }
 
 enum KeyboardState {
-    case Hidden
-    case WillShow
-    case Visible
-    case WillHide
+    case hidden
+    case willShow
+    case visible
+    case willHide
 }
 
 extension KeyboardState: CustomStringConvertible {
     var description: String {
         switch self {
-        case .Hidden: return "Hidden"
-        case .WillHide: return "WillHide"
-        case .WillShow: return "WillShow"
-        case .Visible: return "Visible"
+        case .hidden: return "Hidden"
+        case .willHide: return "WillHide"
+        case .willShow: return "WillShow"
+        case .visible: return "Visible"
         }
     }
 }
@@ -65,26 +65,26 @@ struct KeyboardInfo {
     let beginFrame: CGRect
     let endFrame: CGRect
     let animationCurve: UIViewAnimationCurve
-    let animationDuration: NSTimeInterval
+    let animationDuration: TimeInterval
 
     var animationOptions: UIViewAnimationOptions {
         switch animationCurve {
-        case .EaseInOut: return UIViewAnimationOptions.CurveEaseInOut
-        case .EaseIn: return UIViewAnimationOptions.CurveEaseIn
-        case .EaseOut: return UIViewAnimationOptions.CurveEaseOut
-        case .Linear: return UIViewAnimationOptions.CurveLinear
+        case .easeInOut: return UIViewAnimationOptions()
+        case .easeIn: return UIViewAnimationOptions.curveEaseIn
+        case .easeOut: return UIViewAnimationOptions.curveEaseOut
+        case .linear: return UIViewAnimationOptions.curveLinear
         }
     }
     
-    static func fromNotificationUserInfo(info: [NSObject : AnyObject]?, state: KeyboardState) -> KeyboardInfo {
+    static func fromNotificationUserInfo(_ info: [AnyHashable: Any]?, state: KeyboardState) -> KeyboardInfo {
         var beginFrame = CGRect.zero
-        info?[UIKeyboardFrameBeginUserInfoKey]?.getValue(&beginFrame)
+        (info?[UIKeyboardFrameBeginUserInfoKey] as AnyObject).getValue(&beginFrame)
         
         var endFrame = CGRect.zero
-        info?[UIKeyboardFrameEndUserInfoKey]?.getValue(&endFrame)
+        (info?[UIKeyboardFrameEndUserInfoKey] as AnyObject).getValue(&endFrame)
         
-        let curve = UIViewAnimationCurve(rawValue: info?[UIKeyboardAnimationCurveUserInfoKey] as? Int ?? 0) ?? .EaseInOut
-        let duration = NSTimeInterval(info?[UIKeyboardAnimationDurationUserInfoKey] as? Double ?? 0.0)
+        let curve = UIViewAnimationCurve(rawValue: info?[UIKeyboardAnimationCurveUserInfoKey] as? Int ?? 0) ?? .easeInOut
+        let duration = TimeInterval(info?[UIKeyboardAnimationDurationUserInfoKey] as? Double ?? 0.0)
         return KeyboardInfo(state: state, beginFrame: beginFrame, endFrame: endFrame, animationCurve: curve, animationDuration: duration)
     }
 }

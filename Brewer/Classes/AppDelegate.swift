@@ -8,6 +8,7 @@
 
 import UIKit
 import Swinject
+import SwinjectStoryboard
 import RxSwift
 import XCGLogger
 
@@ -18,28 +19,28 @@ import XCGLogger
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
-	private let disposeBag = DisposeBag()
+	fileprivate let disposeBag = DisposeBag()
 
 	var window: UIWindow?
 	var assembler: Assembler!
 	var themeConfiguration: ThemeConfiguration?
 
-	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         #if !DEBUG
             Fabric.with([Crashlytics.self])
         #else
-            if NSProcessInfo.processInfo().arguments.contains("use_mock_data") {
+            if ProcessInfo.processInfo.arguments.contains("use_mock_data") {
                 loadMockData()
             }
         #endif
 		return true
 	}
 
-	func applicationDidBecomeActive(application: UIApplication) {
+	func applicationDidBecomeActive(_ application: UIApplication) {
 		loadReveal()
 	}
 
-	func applicationDidEnterBackground(application: UIApplication) {
+	func applicationDidEnterBackground(_ application: UIApplication) {
 		let stack: StackType = assembler.resolver.resolve(StackType.self)!
 		stack.save().subscribe().addDisposableTo(disposeBag)
 	}
@@ -60,7 +61,7 @@ extension SwinjectStoryboard {
                 BrewScoreDetailsAssembly(),
                 ], propertyLoaders: nil, container: defaultContainer)
             
-            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
                 appDelegate.assembler = assembler
                 appDelegate.themeConfiguration = assembler.resolver.resolve(ThemeConfiguration.self)
             }            

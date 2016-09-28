@@ -8,8 +8,8 @@ import UIKit
 import Swinject
 
 final class NewBrewDataSource {
-    private(set) var progressIcons: [Asset] = []
-    private(set) var stepViewControllers: [[UIViewController]] = []
+    fileprivate(set) var progressIcons: [Asset] = []
+    fileprivate(set) var stepViewControllers: [[UIViewController]] = []
 
     let brewContext: StartBrewContext
     let brewModelController: BrewModelControllerType
@@ -30,7 +30,7 @@ final class NewBrewDataSource {
         stepViewControllers.append(loadSummaryViewControllers())
     }
 
-    private func loadCoffeeSectionViewControllers(brewContext: StartBrewContext) -> [UIViewController] {
+    fileprivate func loadCoffeeSectionViewControllers(_ brewContext: StartBrewContext) -> [UIViewController] {
         func instantiateViewController(
                 withIdentifier identifier: SelectableSearchIdentifier,
                 model: BrewModelControllerType
@@ -51,9 +51,9 @@ final class NewBrewDataSource {
         return viewControllers
     }
 
-    private func loadAttributesViewControllers(brewContext: StartBrewContext) -> [UIViewController] {
+    fileprivate func loadAttributesViewControllers(_ brewContext: StartBrewContext) -> [UIViewController] {
         let sequence = settingsModelController
-            .sequenceStepsForBrewMethod(brewContext.method, filter: .Active)
+            .sequenceStepsForBrewMethod(brewContext.method, filter: .active)
             .map { $0.type! }
         print(sequence)
         return sequence.map {
@@ -86,7 +86,7 @@ final class NewBrewDataSource {
         }
     }
 
-    private func loadSummaryViewControllers() -> [UIViewController] {
+    fileprivate func loadSummaryViewControllers() -> [UIViewController] {
         let viewController: BrewDetailsViewController = resolver.viewControllerForIdentifier("BrewDetails")
         viewController.viewModel = resolver.resolve(BrewDetailsViewModelType.self, argument: brewModelController.currentBrew()!)
         return [viewController]

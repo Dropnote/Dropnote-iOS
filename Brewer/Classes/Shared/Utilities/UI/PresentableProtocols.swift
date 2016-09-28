@@ -28,17 +28,17 @@ protocol ImagePresentable {
 
 protocol PresentableConfigurable {
     associatedtype Presentable
-    func configureWithPresentable(presentable: Presentable)
+    func configureWithPresentable(_ presentable: Presentable)
 }
 
 // MARK: Title Value
 
-typealias TitleValuePresentable = protocol<TitlePresentable, ValuePresentable>
+typealias TitleValuePresentable = TitlePresentable & ValuePresentable
 
 // MARK: Title Image
 
-typealias TitleImagePresentable = protocol<TitlePresentable, ImagePresentable>
+typealias TitleImagePresentable = TitlePresentable & ImagePresentable
 
 // MARK: Title Value Slider
 
-typealias ScoreCellPresentable = protocol<TitlePresentable, ValuePresentable, SliderPresentable>
+typealias ScoreCellPresentable = TitlePresentable & ValuePresentable & SliderPresentable

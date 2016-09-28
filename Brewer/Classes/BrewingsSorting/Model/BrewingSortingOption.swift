@@ -6,10 +6,10 @@
 import Foundation
 
 enum BrewingSortingOption {
-    case DateAscending
-    case DateDescending
-    case ScoreAscending
-    case ScoreDescending
+    case dateAscending
+    case dateDescending
+    case scoreAscending
+    case scoreDescending
 
-    static let allValues: [BrewingSortingOption] = [.DateAscending, .DateDescending, .ScoreAscending, .ScoreDescending]
+    static let allValues: [BrewingSortingOption] = [.dateAscending, .dateDescending, .scoreAscending, .scoreDescending]
 }

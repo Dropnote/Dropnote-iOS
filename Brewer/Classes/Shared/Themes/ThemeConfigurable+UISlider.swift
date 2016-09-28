@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension ThemeConfigurable where Self: UISlider {
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         guard let theme = theme else { return }
         backgroundColor = theme.lightColor
         tintColor = theme.lightTintColor

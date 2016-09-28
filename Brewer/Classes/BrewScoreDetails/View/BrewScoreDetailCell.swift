@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 
 final class BrewScoreDetailCell: UITableViewCell {
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var slider: UISlider!
@@ -20,7 +20,7 @@ final class BrewScoreDetailCell: UITableViewCell {
 
 extension BrewScoreDetailCell: PresentableConfigurable {
     
-    func configureWithPresentable(presentable: ScoreCellPresentable) {
+    func configureWithPresentable(_ presentable: ScoreCellPresentable) {
         accessibilityHint = "Slider for \(presentable.title) value, current is \(presentable.value)"
         titleLabel.text = presentable.title
         valueLabel.text = presentable.value
@@ -32,11 +32,11 @@ extension BrewScoreDetailCell: PresentableConfigurable {
 
 extension BrewScoreDetailCell {
     
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         backgroundColor = theme?.lightColor
         slider.configureWithTheme(theme)
         [titleLabel, valueLabel].forEach {
-            $0.configureWithTheme(theme)
+            $0!.configureWithTheme(theme)
         }
     }
 }

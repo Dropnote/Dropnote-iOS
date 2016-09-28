@@ -16,16 +16,16 @@ final class BrewNotesCell: UITableViewCell, Highlightable {
     var normalColor: UIColor?
     var highlightColor: UIColor?
     
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
-            highlightViews([self, titleLabel, valueLabel], highlighted: highlighted)
+            highlightViews([self, titleLabel, valueLabel], highlighted: isHighlighted)
         }
     }
 }
 
 extension BrewNotesCell: PresentableConfigurable {
     
-    func configureWithPresentable(presentable: TitleValuePresentable) {
+    func configureWithPresentable(_ presentable: TitleValuePresentable) {
         accessibilityHint = "Represents notes taken during brew session"
         titleLabel.text = presentable.title
         valueLabel.text = presentable.value
@@ -34,10 +34,10 @@ extension BrewNotesCell: PresentableConfigurable {
 
 extension BrewNotesCell {
     
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         super.configureWithTheme(theme)
         [titleLabel, valueLabel].forEach {
-            $0.configureWithTheme(theme)
+            $0!.configureWithTheme(theme)
         }
         normalColor = theme?.lightColor
         highlightColor = highlightColorForTheme(theme)

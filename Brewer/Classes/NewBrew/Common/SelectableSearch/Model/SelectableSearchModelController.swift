@@ -10,26 +10,26 @@ import XCGLogger
 
 protocol SelectableSearchItemInserterType {
     associatedtype Entity
-    func insertEntityWithName(name: String) throws -> Entity
+    func insertEntityWithName(_ name: String) throws -> Entity
 }
 
 protocol SelectableSearchModelControllerType {
     var placeholder: String? { get }
-    var fetchedResultsController: NSFetchedResultsController! { get }
-    func setSearchString(search: String?)
-    func setItemIndex(index: Int?)
+    var fetchedResultsController: NSFetchedResultsController<AnyObject>! { get }
+    func setSearchString(_ search: String?)
+    func setItemIndex(_ index: Int?)
     func addSearchItem()
     func selectedItemIndex() -> Int?
 }
 
-struct SelectableSearchItemInserter<T where T: NSManagedObject, T: Entity, T: SelectableSearchModelItem>: SelectableSearchItemInserterType {
-    private let operations: CoreDataOperations<T>
+struct SelectableSearchItemInserter<T>: SelectableSearchItemInserterType where T: NSManagedObject, T: Entity, T: SelectableSearchModelItem {
+    fileprivate let operations: CoreDataOperations<T>
 
     init(context: NSManagedObjectContext) {
         self.operations = CoreDataOperations(managedObjectContext: context)
     }
 
-    func insertEntityWithName(name: String) throws -> T {
+    func insertEntityWithName(_ name: String) throws -> T {
         let items = try operations.fetch(withPredicate: NSPredicate(format: "name == %@", name))
         if let item = items.last {
             return item
@@ -52,14 +52,14 @@ class SelectableSearchModelController: SelectableSearchModelControllerType {
     let brewModelController: BrewModelControllerType
     
     final var placeholder: String?
-    final private(set) var currentSearch: String?
+    final fileprivate(set) var currentSearch: String?
 
     init(stack: StackType, brewModelController: BrewModelControllerType) {
         self.stack = stack
         self.brewModelController = brewModelController
     }
 
-    final lazy var fetchedResultsController: NSFetchedResultsController! = {
+    final lazy var fetchedResultsController: NSFetchedResultsController! = { 
         let fetchRequest = NSFetchRequest(entityName: self.entityName())
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "updatedAt", ascending: false)]
         let fetchedResultsController = NSFetchedResultsController(
@@ -75,9 +75,9 @@ class SelectableSearchModelController: SelectableSearchModelControllerType {
         return fetchedResultsController
     }()
 
-    final func setSearchString(search: String?) {
+    final func setSearchString(_ search: String?) {
         currentSearch = search
-        if let search = search where !search.isEmpty {
+        if let search = search , !search.isEmpty {
             fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "%K CONTAINS[cd] %@", "name", search)
         } else {
             fetchedResultsController.fetchRequest.predicate = NSPredicate.truePredicate()
@@ -88,7 +88,7 @@ class SelectableSearchModelController: SelectableSearchModelControllerType {
     
     func entityName() -> String { abstractMethod() }
 
-    func setItemIndex(index: Int?) { abstractMethod() }
+    func setItemIndex(_ index: Int?) { abstractMethod() }
 
     func addSearchItem() { abstractMethod() }
 }

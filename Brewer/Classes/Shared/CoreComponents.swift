@@ -8,13 +8,13 @@ import CoreData
 import Swinject
 
 final class CoreComponentsAssembly: AssemblyType {
-    func assemble(container: Container) {
+    func assemble(_ container: Container) {
         container.register(StackType.self) {
             r in CoreDataStack(storeType: isRunningTests() ? NSInMemoryStoreType : NSSQLiteStoreType)
         }.inObjectScope(.Container)
 
         container.register(KeyValueStoreType.self) {
-            r in NSUserDefaults.standardUserDefaults()
+            r in UserDefaults.standardUserDefaults
         }
         
         container.register(ThemeConfiguration.self) {

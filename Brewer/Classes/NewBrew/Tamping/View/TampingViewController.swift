@@ -12,7 +12,7 @@ extension TampingViewController: Activable { }
 extension TampingViewController: ThemeConfigurationContainer { }
 
 final class TampingViewController: UIViewController {
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     
     @IBOutlet var tampingView: TampingView!
 
@@ -27,7 +27,7 @@ final class TampingViewController: UIViewController {
         tampingView.informativeLabel.text = viewModel.informativeText
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.configureWithTheme(themeConfiguration)
         tampingView.configureWithTheme(themeConfiguration)

@@ -12,10 +12,10 @@ import CoreData
 extension BrewingSortingOption {
     var sortDescriptor: NSSortDescriptor {
         switch self {
-        case .DateDescending: return NSSortDescriptor(key: "created", ascending: false)
-        case .DateAscending: return NSSortDescriptor(key: "created", ascending: true)
-        case .ScoreDescending: return NSSortDescriptor(key: "score", ascending: false)
-        case .ScoreAscending: return NSSortDescriptor(key: "score", ascending: true)
+        case .dateDescending: return NSSortDescriptor(key: "created", ascending: false)
+        case .dateAscending: return NSSortDescriptor(key: "created", ascending: true)
+        case .scoreDescending: return NSSortDescriptor(key: "score", ascending: false)
+        case .scoreAscending: return NSSortDescriptor(key: "score", ascending: true)
         }
     }
 }

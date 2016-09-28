@@ -12,11 +12,11 @@ import UIKit
 // MARK: Font
 
 extension UIFont {
-	static func avenirBook(size: CGFloat) -> UIFont? {
+	static func avenirBook(_ size: CGFloat) -> UIFont? {
 		return UIFont(name: "Avenir-Book", size: size)
 	}
 
-	static func avenirMedium(size: CGFloat) -> UIFont? {
+	static func avenirMedium(_ size: CGFloat) -> UIFont? {
 		return UIFont(name: "Avenir-Medium", size: size)
 	}
 }
@@ -26,14 +26,14 @@ extension UIFont {
 extension UIImage {
 
 	func alwaysOriginal() -> UIImage {
-		return imageWithRenderingMode(.AlwaysOriginal)
+		return withRenderingMode(.alwaysOriginal)
 	}
 }
 
 // MARK: UITableView
 
 extension UITableView {
-    func hideSearchBar(animated animated: Bool = false) {
+    func hideSearchBar(animated: Bool = false) {
 		if let bar = self.tableHeaderView as? UISearchBar {
 			let height = bar.frame.height
 			let offset = contentOffset.y
@@ -43,7 +43,7 @@ extension UITableView {
 		}
 	}
     
-    func showSearchBar(animated animated: Bool = false) {
+    func showSearchBar(animated: Bool = false) {
         if let _ = self.tableHeaderView as? UISearchBar {
             if contentOffset.y != 0 {
                 setContentOffset(CGPoint.zero, animated: animated)
@@ -56,7 +56,7 @@ extension UITableView {
 
 extension UIScrollView {
     
-    func scrollVerticallyToPageAtIndex(index: Int) {
+    func scrollVerticallyToPageAtIndex(_ index: Int) {
         setContentOffset(CGPoint(x: CGFloat(index) * frame.width, y: 0), animated: true)
     }
 }
@@ -65,7 +65,7 @@ extension UIScrollView {
 
 extension UIView {
 
-	static func viewWithBackgroundColor(color: UIColor?) -> UIView {
+	static func viewWithBackgroundColor(_ color: UIColor?) -> UIView {
 		let view = UIView()
 		view.backgroundColor = color
 		return view

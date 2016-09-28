@@ -9,9 +9,9 @@ final class Analytics {
     
     static let sharedInstance = Analytics()
     
-    private var tracker: GAITracker?
+    fileprivate var tracker: GAITracker?
     
-    private init() {
+    fileprivate init() {
         #if !DEBUG
             setup()
             tracker = GAI.sharedInstance().defaultTracker
@@ -20,7 +20,7 @@ final class Analytics {
     
     // MARK: Setup
 
-    private func setup() {
+    fileprivate func setup() {
         var error: NSError?
         GGLContext.sharedInstance().configureWithError(&error)
         if let error = error {
@@ -29,25 +29,25 @@ final class Analytics {
         
         
         let gai = GAI.sharedInstance()
-        gai.trackUncaughtExceptions = true
-        gai.logger.logLevel = GAILogLevel.Warning
+        gai?.trackUncaughtExceptions = true
+        gai?.logger.logLevel = GAILogLevel.warning
     }
     
     // MARK: Events
     
     func trackScreen(withTitle title: String) {
         tracker?.set(kGAIScreenName, value: title)
-        tracker?.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject: AnyObject])
+        tracker?.send(GAIDictionaryBuilder.createScreenView().build() as [AnyHashable: Any])
     }
     
     func trackMethodPickEvent(onScreen screen: String, method: BrewMethod) {
         tracker?.send(
-            GAIDictionaryBuilder.createEventWithCategory(
-                screen,
+            GAIDictionaryBuilder.createEvent(
+                withCategory: screen,
                 action: "Selected",
                 label: method.rawValue,
                 value: 1)
-                .build() as [NSObject: AnyObject]
+                .build() as [AnyHashable: Any]
         )
     }
 }

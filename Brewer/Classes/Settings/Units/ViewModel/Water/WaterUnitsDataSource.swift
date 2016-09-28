@@ -13,10 +13,10 @@ final class WaterUnitsDataSource: UnitsDataSourceType {
     }
 
     var title: String {
-        return tr(.UnitCategoryWater)
+        return tr(.unitCategoryWater)
     }
 
     var category: Int {
-        return UnitCategory.Water.rawValue
+        return UnitCategory.water.rawValue
     }
 }

@@ -6,15 +6,26 @@
 import Foundation
 import XCGLogger
 import ObjectMapper
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 enum SequenceStepFilter {
-    case All
-    case Active
+    case all
+    case active
 }
 
 protocol SequenceSettingsModelControllerType {
-    func sequenceStepsForBrewMethod(brewMethod: BrewMethod, filter: SequenceStepFilter) -> [BrewingSequenceStep]
-    func saveSequenceStepsForBrewMethod(brewMethod: BrewMethod, sequenceSteps: [BrewingSequenceStep])
+    func sequenceStepsForBrewMethod(_ brewMethod: BrewMethod, filter: SequenceStepFilter) -> [BrewingSequenceStep]
+    func saveSequenceStepsForBrewMethod(_ brewMethod: BrewMethod, sequenceSteps: [BrewingSequenceStep])
 }
 
 final class SequenceSettingsModelController: SequenceSettingsModelControllerType {
@@ -22,9 +33,9 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
         static let brewingSequence = "BrewingSequenceSettingsKey"
     }
     
-    private let store: KeyValueStoreType
-    private let brewingSequenceMapper = Mapper<BrewingSequenceStep>()
-    private(set) var brewingSequenceSettings: Dictionary<BrewMethod, [BrewingSequenceStep]> = [:]
+    fileprivate let store: KeyValueStoreType
+    fileprivate let brewingSequenceMapper = Mapper<BrewingSequenceStep>()
+    fileprivate(set) var brewingSequenceSettings: Dictionary<BrewMethod, [BrewingSequenceStep]> = [:]
 
     init(store: KeyValueStoreType) {
         self.store = store
@@ -32,20 +43,20 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
         loadSettings()
     }
 
-    func sequenceStepsForBrewMethod(brewMethod: BrewMethod, filter: SequenceStepFilter) -> [BrewingSequenceStep] {
+    func sequenceStepsForBrewMethod(_ brewMethod: BrewMethod, filter: SequenceStepFilter) -> [BrewingSequenceStep] {
         return brewingSequenceSettings[brewMethod]?
-            .filter { filter == .All ? true : $0.enabled! }
-            .sort { $0.position < $1.position } ?? []
+            .filter { filter == .all ? true : $0.enabled! }
+            .sorted { $0.position < $1.position } ?? []
     }
 
-    func saveSequenceStepsForBrewMethod(brewMethod: BrewMethod, sequenceSteps: [BrewingSequenceStep]) {
+    func saveSequenceStepsForBrewMethod(_ brewMethod: BrewMethod, sequenceSteps: [BrewingSequenceStep]) {
         brewingSequenceSettings[brewMethod] = sequenceSteps
         saveSettings()
     }
 
     // MARK: Settings saving
 
-    private func saveSettings() {
+    fileprivate func saveSettings() {
         var rawSeqenceSettings: Dictionary<String, String> = [:]
         brewingSequenceSettings.forEach {
             method, steps in
@@ -57,7 +68,7 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
 
     // MARK: Settings loading
 
-    private func loadSettings() {
+    fileprivate func loadSettings() {
         guard let rawSequenceSettings = store.objectForKey(Keys.brewingSequence) as? Dictionary<String, String> else {
             XCGLogger.error("Can't load settings!")
             return
@@ -69,7 +80,7 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
 
     // MARK: Default settings
 
-    private func presetDefaultSettings() {
+    fileprivate func presetDefaultSettings() {
         if store.objectForKey(Keys.brewingSequence) == nil {
 
             var defaultSeqenceSettings: Dictionary<String, String> = [:]
@@ -103,17 +114,17 @@ struct BrewingSequenceStep: Mappable {
 
     }
 
-    mutating func mapping(map: Map) {
+    mutating func mapping(_ map: Map) {
         type <- map["type"]
         position <- map["position"]
         enabled <- map["enabled"]
     }
 
-    mutating func setEnabled(enabled: Bool) {
+    mutating func setEnabled(_ enabled: Bool) {
         self.enabled = enabled
     }
 
-    mutating func setPosition(position: Int) {
+    mutating func setPosition(_ position: Int) {
         self.position = position
     }
 }

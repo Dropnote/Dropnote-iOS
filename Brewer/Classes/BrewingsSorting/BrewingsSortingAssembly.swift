@@ -7,7 +7,7 @@ import Foundation
 import Swinject
 
 final class BrewingsSortingAssembly: AssemblyType {
-    func assemble(container: Container) {
+    func assemble(_ container: Container) {
         container.registerForStoryboard(BrewingsSortingViewController.self) {
             r, c in
             c.themeConfiguration = r.resolve(ThemeConfiguration.self)

@@ -7,8 +7,8 @@ import Foundation
 import UIKit
 
 final class BrewingsSortingOptionCell: UITableViewCell {
-    private var normalColor: UIColor?
-    private var selectedColor: UIColor?
+    fileprivate var normalColor: UIColor?
+    fileprivate var selectedColor: UIColor?
     
     override var accessoryType: UITableViewCellAccessoryType {
         didSet {
@@ -16,8 +16,8 @@ final class BrewingsSortingOptionCell: UITableViewCell {
         }
     }
     
-    private func adjustImageTintColorDependingOnSelection() {
-        if case .Checkmark = accessoryType {
+    fileprivate func adjustImageTintColorDependingOnSelection() {
+        if case .checkmark = accessoryType {
             imageView?.tintColor = selectedColor
         } else {
             imageView?.tintColor = normalColor
@@ -27,16 +27,16 @@ final class BrewingsSortingOptionCell: UITableViewCell {
 
 extension BrewingsSortingOptionCell: PresentableConfigurable {
 
-    func configureWithPresentable(presentable: TitleImagePresentable) {
+    func configureWithPresentable(_ presentable: TitleImagePresentable) {
         accessibilityHint = "Represents sorting \(presentable.title)"
         textLabel?.text = presentable.title
-        imageView?.image = presentable.image.imageWithRenderingMode(.AlwaysTemplate)
+        imageView?.image = presentable.image.withRenderingMode(.alwaysTemplate)
     }
 }
 
 extension BrewingsSortingOptionCell {
 
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         super.configureWithTheme(theme)
         normalColor = theme?.darkColor
         selectedColor = theme?.lightTintColor

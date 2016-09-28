@@ -10,7 +10,7 @@ protocol Entity {
     static func entityName() -> String
 }
 
-struct CoreDataOperations<T where T: NSManagedObject, T: Entity> {
+struct CoreDataOperations<T> where T: NSManagedObject, T: Entity {
     let context: NSManagedObjectContext
 
     init(managedObjectContext context: NSManagedObjectContext) {
@@ -18,22 +18,22 @@ struct CoreDataOperations<T where T: NSManagedObject, T: Entity> {
     }
 
     func create() -> T {
-        return NSEntityDescription.insertNewObjectForEntityForName(T.entityName(), inManagedObjectContext: context) as! T
+        return NSEntityDescription.insertNewObject(forEntityName: T.entityName(), into: context) as! T
     }
     
     func fetch(withPredicate predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil) throws -> [T] {
         let fetchRequest = NSFetchRequest(entityName: T.entityName())
         fetchRequest.predicate = predicate
         fetchRequest.sortDescriptors = sortDescriptors
-        return try context.executeFetchRequest(fetchRequest) as! [T]
+        return try context.fetch(fetchRequest) as! [T]
     }
 
     func save() throws {
         try context.save()
     }
     
-    func objectForID(objectID: NSManagedObjectID) -> T? {
-        return context.objectRegisteredForID(objectID) as? T
+    func objectForID(_ objectID: NSManagedObjectID) -> T? {
+        return context.registeredObject(for: objectID) as? T
     }
 }
 

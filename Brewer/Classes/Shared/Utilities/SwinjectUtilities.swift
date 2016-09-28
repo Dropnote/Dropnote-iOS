@@ -6,10 +6,11 @@
 import Foundation
 import UIKit
 import Swinject
+import SwinjectStoryboard
 
 extension Resolvable where Self: PropertyRetrievable {
 
-    func viewControllerForIdentifier<T where T: UIViewController>(identifier: String) -> T {
+    func viewControllerForIdentifier<T>(_ identifier: String) -> T where T: UIViewController {
         let sb = SwinjectStoryboard.create(name: identifier, bundle: nil, container: self)
         return sb.instantiateViewControllerWithIdentifier(identifier) as! T
     }

@@ -15,11 +15,11 @@ final class AboutViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = tr(.SettingsAboutMenuItemTitle)
+        title = tr(.settingsAboutMenuItemTitle)
         configureWithTheme(themeConfiguration)
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.configureWithTheme(themeConfiguration)
         (cell as? AboutViewPhotoCell)?.configureWithTheme(themeConfiguration)
         

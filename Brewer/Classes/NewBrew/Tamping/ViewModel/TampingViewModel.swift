@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 enum TampingUnit: Int32 {
-    case Continuous
+    case continuous
 }
 
 protocol TampingViewModelType {
@@ -20,13 +20,13 @@ protocol TampingViewModelType {
 }
 
 final class TampingViewModel: TampingViewModelType {
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     let brewModelController: BrewModelControllerType
     
-    private(set) var tampingValue = Variable<Float>(0.0)
+    fileprivate(set) var tampingValue = Variable<Float>(0.0)
     
     var informativeText: String {
-        return tr(.TampingInformativeText)
+        return tr(.tampingInformativeText)
     }
     
     init(brewModelController: BrewModelControllerType) {
@@ -41,7 +41,7 @@ final class TampingViewModel: TampingViewModelType {
         }
     }
     
-    private func updateAttribute<O: ObservableType>(source: O, resultSelector: (O.E, BrewAttribute) throws -> (BrewAttribute)) {
+    fileprivate func updateAttribute<O: ObservableType>(_ source: O, resultSelector: @escaping (O.E, BrewAttribute) throws -> (BrewAttribute)) {
         let attributeObservable: Observable<BrewAttribute> = {
             if let attribute = brewModelController.currentBrew()?.brewAttributeForType(.TampStrength) {
                 return Observable.just(attribute)

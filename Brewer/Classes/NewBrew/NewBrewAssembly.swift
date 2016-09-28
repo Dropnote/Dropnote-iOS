@@ -8,7 +8,7 @@ import Swinject
 
 // swiftlint:disable function_body_length
 final class NewBrewAssembly: AssemblyType {
-	func assemble(container: Container) {
+	func assemble(_ container: Container) {
 
 		// MARK: New Brew container
 

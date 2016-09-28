@@ -8,57 +8,57 @@ import UIKit
 
 protocol BrewingsSortingViewModelType: TableViewConfigurable {
     var sortingOption: BrewingSortingOption { get set }
-    func selectSortingOptionAtIndexPath(indexPath: NSIndexPath)
+    func selectSortingOptionAtIndexPath(_ indexPath: IndexPath)
 }
 
 extension BrewingSortingOption: TitleImagePresentable {
     var title: String {
         switch self {
-            case .DateAscending: return tr(.BrewingsSortingDateAscending)
-            case .DateDescending: return tr(.BrewingsSortingDateDescending)
-            case .ScoreAscending: return tr(.BrewingsSortingScoreAscending)
-            case .ScoreDescending: return tr(.BrewingsSortingScoreDescending)
+            case .dateAscending: return tr(.brewingsSortingDateAscending)
+            case .dateDescending: return tr(.brewingsSortingDateDescending)
+            case .scoreAscending: return tr(.brewingsSortingScoreAscending)
+            case .scoreDescending: return tr(.brewingsSortingScoreDescending)
         }
     }
 
     var image: UIImage {
         switch self {
-            case .DateAscending: return UIImage(asset: .Ic_oldest)
-            case .DateDescending: return UIImage(asset: .Ic_newest)
-            case .ScoreAscending: return UIImage(asset: .Ic_worst)
-            case .ScoreDescending: return UIImage(asset: .Ic_best)
+            case .dateAscending: return UIImage(asset: .Ic_oldest)
+            case .dateDescending: return UIImage(asset: .Ic_newest)
+            case .scoreAscending: return UIImage(asset: .Ic_worst)
+            case .scoreDescending: return UIImage(asset: .Ic_best)
         }
     }
 }
 
 final class BrewingsSortingViewModel: BrewingsSortingViewModelType {
-    var sortingOption: BrewingSortingOption = .DateDescending
+    var sortingOption: BrewingSortingOption = .dateDescending
     lazy var dataSource: TableViewSourceWrapper<BrewingsSortingViewModel> = TableViewSourceWrapper(tableDataSource: self)
     
     var listItems: [[BrewingSortingOption]] {
         return [BrewingSortingOption.allValues]
     }
 
-    func configureWithTableView(tableView: UITableView) {
+    func configureWithTableView(_ tableView: UITableView) {
         tableView.dataSource = dataSource
     }
     
-    func selectSortingOptionAtIndexPath(indexPath: NSIndexPath) {
-        sortingOption = listItems[indexPath.section][indexPath.row]
+    func selectSortingOptionAtIndexPath(_ indexPath: IndexPath) {
+        sortingOption = listItems[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
     }
 }
 
 extension BrewingsSortingViewModel: TableListDataSource {
     
-    func cellIdentifierForIndexPath(indexPath: NSIndexPath) -> String {
+    func cellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
         return "BrewingsSortingOptionCell"
     }
     
-    func listView(listView: UITableView, configureCell cell: BrewingsSortingOptionCell,
-                  withObject object: BrewingSortingOption, atIndexPath indexPath: NSIndexPath) {
+    func listView(_ listView: UITableView, configureCell cell: BrewingsSortingOptionCell,
+                  withObject object: BrewingSortingOption, atIndexPath indexPath: IndexPath) {
         cell.configureWithPresentable(object)
         if object == self.sortingOption {
-            cell.accessoryType = .Checkmark
+            cell.accessoryType = .checkmark
         }
     }
 }

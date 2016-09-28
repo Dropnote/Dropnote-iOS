@@ -20,7 +20,7 @@ final class BrewCell: UITableViewCell, Highlightable {
         accessoryView = UIImageView(image: UIImage(asset: .Ic_arrow))
     }
 
-    func configureWithViewModel(viewModel: BrewCellViewModelType) {
+    func configureWithViewModel(_ viewModel: BrewCellViewModelType) {
         accessibilityHint = "Shows brew details for \(viewModel.coffee)"
         createdAtLabel.text = viewModel.createdAt
         coffeeLabel.text = viewModel.coffee
@@ -33,20 +33,20 @@ final class BrewCell: UITableViewCell, Highlightable {
         scoreView.layoutIfNeeded()
     }
     
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
-            highlightViews([self, self.createdAtLabel, self.coffeeLabel], highlighted: highlighted)            
+            highlightViews([self, self.createdAtLabel, self.coffeeLabel], highlighted: isHighlighted)            
         }
     }
 }
 
 extension BrewCell {
     
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         backgroundColor = theme?.lightColor
         scoreView.configureWithTheme(theme)
         [createdAtLabel, coffeeLabel].forEach {
-            $0.configureWithTheme(theme)
+            $0!.configureWithTheme(theme)
         }
         coffeeLabel.font = theme?.mediumFontWithSize(coffeeLabel.font.pointSize)
         normalColor = theme?.lightColor

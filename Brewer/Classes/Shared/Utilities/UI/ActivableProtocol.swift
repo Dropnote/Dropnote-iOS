@@ -22,7 +22,7 @@ extension Activable {
 
 extension Activable {
     
-    func handleActiveValue(active: Bool) {
+    func handleActiveValue(_ active: Bool) {
         if let responder = self as? UIResponder {
             if active {
                 responder.becomeFirstResponder()
@@ -37,7 +37,7 @@ extension UITextField: Activable { }
 extension Activable where Self: UITextField {
     var active: Bool {
         get {
-            return isFirstResponder()
+            return isFirstResponder
         }
         set(activeValue) {
             handleActiveValue(activeValue)
@@ -49,7 +49,7 @@ extension UISearchBar: Activable { }
 extension Activable where Self: UISearchBar {
     var active: Bool {
         get {
-            return isFirstResponder()
+            return isFirstResponder
         }
         set(activeValue) {
             handleActiveValue(activeValue)
@@ -61,7 +61,7 @@ extension UITextView: Activable { }
 extension Activable where Self: UITextView {
     var active: Bool {
         get {
-            return isFirstResponder()
+            return isFirstResponder
         }
         set(activeValue) {
             handleActiveValue(activeValue)

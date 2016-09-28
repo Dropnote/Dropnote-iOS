@@ -12,15 +12,15 @@ import UIKit
 final class BrewCellScoreView: UIView {
     @IBOutlet weak var scoreLabel: UILabel!
     
-    private let fillingView = UIView()
+    fileprivate let fillingView = UIView()
     var fillingFactor: Double = 0
-    var borderColor: UIColor = .whiteColor() {
+    var borderColor: UIColor = .white() {
         didSet {
-            layer.borderColor = borderColor.CGColor
+            layer.borderColor = borderColor.cgColor
         }
     }
     
-    var fillingColor: UIColor = .whiteColor() {
+    var fillingColor: UIColor = .white() {
         didSet {
             fillingView.backgroundColor = fillingColor
         }
@@ -30,7 +30,7 @@ final class BrewCellScoreView: UIView {
         super.init(coder: aDecoder)
         clipsToBounds = true
         layer.borderWidth = 3
-        insertSubview(fillingView, atIndex: 0)
+        insertSubview(fillingView, at: 0)
     }
     
     override func layoutSubviews() {
@@ -47,9 +47,9 @@ final class BrewCellScoreView: UIView {
 
 extension BrewCellScoreView {
     
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         super.configureWithTheme(theme)
         scoreLabel.configureWithTheme(theme)
-        scoreLabel.backgroundColor = UIColor.clearColor()
+        scoreLabel.backgroundColor = UIColor.clear
     }
 }

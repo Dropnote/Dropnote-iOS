@@ -24,18 +24,18 @@ extension NSPredicate {
 }
 
 extension Float {
-    func format(format: String) -> String {
+    func format(_ format: String) -> String {
         return String(format: "%\(format)f", self)
     }
 }
 
 extension Double {
-    func format(format: String) -> String {
+    func format(_ format: String) -> String {
         return String(format: "%\(format)f", self)
     }
 }
 
-extension CollectionType {    
+extension Collection {    
     func elements<T>(ofType type: T.Type) -> [T] {
         return self.filter { $0 is T }.map { $0 as! T }
     }

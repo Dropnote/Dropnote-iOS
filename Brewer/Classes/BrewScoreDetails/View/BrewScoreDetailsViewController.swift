@@ -11,25 +11,25 @@ import RxCocoa
 extension BrewScoreDetailsViewController: ThemeConfigurationContainer { }
 
 final class BrewScoreDetailsViewController: UIViewController {
-	private let disposeBag = DisposeBag()
+	fileprivate let disposeBag = DisposeBag()
 	@IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var headerView: BrewScoreDetailsHeaderView!
     
-    private lazy var doneBarButtonItem: UIBarButtonItem = UIBarButtonItem(
+    fileprivate lazy var doneBarButtonItem: UIBarButtonItem = UIBarButtonItem(
         image: UIImage(named: "ic_done")!,
-        style: .Plain,
+        style: .plain,
         target: self,
         action: #selector(done)
     )
 	
     var themeConfiguration: ThemeConfiguration?
     var viewModel: BrewScoreDetailsViewModelType!
-    private var shouldSaveScore = false
+    fileprivate var shouldSaveScore = false
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		title = tr(.BrewScoreDetailsItemTitle)
-        headerView.titleLabel.text = tr(.BrewDetailScore)
+		title = tr(.brewScoreDetailsItemTitle)
+        headerView.titleLabel.text = tr(.brewDetailScore)
         navigationItem.rightBarButtonItem = doneBarButtonItem
         
 		viewModel.scoreValue
@@ -46,7 +46,7 @@ final class BrewScoreDetailsViewController: UIViewController {
         enableSwipeToBack()
 	}
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.configureWithTheme(themeConfiguration)
         headerView.configureWithTheme(themeConfiguration)
@@ -55,7 +55,7 @@ final class BrewScoreDetailsViewController: UIViewController {
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.scoreDetails)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if shouldSaveScore {
             viewModel.saveScore()
@@ -64,16 +64,16 @@ final class BrewScoreDetailsViewController: UIViewController {
         }
     }
     
-    @objc private func done() {
+    @objc fileprivate func done() {
         shouldSaveScore = true
-        navigationController?.popViewControllerAnimated(true)
+        navigationController?.popViewController(animated: true)
     }
 }
 
 extension BrewScoreDetailsViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.accessibilityLabel = "Select \(indexPath.row + 1)"
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
         (cell as? BrewScoreDetailCell)?.configureWithTheme(themeConfiguration)
     }
 }

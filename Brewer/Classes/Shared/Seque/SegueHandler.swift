@@ -8,7 +8,7 @@ import UIKit
 
 extension UIViewController {
 
-    func segueIdentifierForSegue(segue: UIStoryboardSegue) -> SegueIdentifier {
+    func segueIdentifierForSegue(_ segue: UIStoryboardSegue) -> SegueIdentifier {
         guard let identifier = segue.identifier else {
             fatalError("Segue identifier doesn't exist")
         }
@@ -18,12 +18,12 @@ extension UIViewController {
         return segueIdentifier
     }
 
-    func performSegue(segueIdentifier: SegueIdentifier) {
-        performSegueWithIdentifier(segueIdentifier.rawValue, sender: nil)
+    func performSegue(_ segueIdentifier: SegueIdentifier) {
+        self.performSegue(withIdentifier: segueIdentifier.rawValue, sender: nil)
     }
 
-    func performSegue(segueIdentifier: SegueIdentifier, sender: AnyObject?) {
-        performSegueWithIdentifier(segueIdentifier.rawValue, sender: sender)
+    func performSegue(_ segueIdentifier: SegueIdentifier, sender: AnyObject?) {
+        self.performSegue(withIdentifier: segueIdentifier.rawValue, sender: sender)
     }
 
 }

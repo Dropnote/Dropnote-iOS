@@ -12,14 +12,14 @@ import XCGLogger
 
 protocol NewBrewViewModelType {
     var reloadDataAnimatedSubject: PublishSubject<Bool> { get }
-    var failedToCreateNewBrewSubject: PublishSubject<ErrorType> { get }
+    var failedToCreateNewBrewSubject: PublishSubject<Error> { get }
 
 	var brewContext: StartBrewContext { get }
     var progressIcons: [Asset] { get }
 
-	func configureWithCollectionView(collectionView: UICollectionView)
-	func setActiveViewControllerAtIndex(index: Int) -> UIViewController?
-	func stepViewController(forIndexPath indexPath: NSIndexPath) -> UIViewController
+	func configureWithCollectionView(_ collectionView: UICollectionView)
+	func setActiveViewControllerAtIndex(_ index: Int) -> UIViewController?
+	func stepViewController(forIndexPath indexPath: IndexPath) -> UIViewController
 	func cleanUp() -> Observable<Void>
 	func finishBrew() -> Observable<Void>
 }
@@ -31,7 +31,7 @@ struct StartBrewContext {
 extension NewBrewViewModel: ResolvableContainer { }
 
 final class NewBrewViewModel: NSObject, NewBrewViewModelType {
-	private let disposeBag = DisposeBag()
+	fileprivate let disposeBag = DisposeBag()
 
     var resolver: ResolverType?
 	let brewContext: StartBrewContext
@@ -39,13 +39,13 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
 	let brewModelController: BrewModelControllerType
 
 	let reloadDataAnimatedSubject = PublishSubject<Bool>()
-	let failedToCreateNewBrewSubject = PublishSubject<ErrorType>()
+	let failedToCreateNewBrewSubject = PublishSubject<Error>()
     
     var progressIcons: [Asset] {
         return dataSource.progressIcons
     }
 
-	private lazy var dataSource: NewBrewDataSource = {
+	fileprivate lazy var dataSource: NewBrewDataSource = {
 		guard let resolver = self.resolver else { fatalError("Resolver is missing!") }
 		let dataSource = NewBrewDataSource(
 				brewContext: self.brewContext,
@@ -65,12 +65,12 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
 		super.init()
 	}
 
-	func configureWithCollectionView(collectionView: UICollectionView) {
+	func configureWithCollectionView(_ collectionView: UICollectionView) {
 		collectionView.dataSource = self
 		reloadStepViewControllersWithBrewContext(brewContext, animated: false)
 	}
 
-	func setActiveViewControllerAtIndex(currentIndex: Int) -> UIViewController? {
+	func setActiveViewControllerAtIndex(_ currentIndex: Int) -> UIViewController? {
 		precondition(dataSource.stepViewControllers.count > 1)
 		let activables = [dataSource.stepViewControllers[0], dataSource.stepViewControllers[1]]
 			.flatMap { $0 }
@@ -78,7 +78,7 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
 			.map { $0 as! Activable }
 
 		var activeViewController: UIViewController?
-		for (i, var activable) in activables.enumerate() {
+		for (i, var activable) in activables.enumerated() {
 			activable.active = currentIndex == i
 			if activable.active {
 				activeViewController = activable as? UIViewController
@@ -87,8 +87,8 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
 		return activeViewController
 	}
 
-	func stepViewController(forIndexPath indexPath: NSIndexPath) -> UIViewController {
-		return dataSource.stepViewControllers[indexPath.section][indexPath.item]
+	func stepViewController(forIndexPath indexPath: IndexPath) -> UIViewController {
+		return dataSource.stepViewControllers[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).item]
 	}
 
 	func cleanUp() -> Observable<Void> {
@@ -105,7 +105,7 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
 		}
 	}
 
-    private func reloadStepViewControllersWithBrewContext(brewContext: StartBrewContext, animated: Bool) {
+    fileprivate func reloadStepViewControllersWithBrewContext(_ brewContext: StartBrewContext, animated: Bool) {
 		brewModelController
 			.createNewBrew(
                 withMethod: brewContext.method,
@@ -124,16 +124,16 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
 
 extension NewBrewViewModel: UICollectionViewDataSource {
 
-	func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+	func numberOfSections(in collectionView: UICollectionView) -> Int {
 		return dataSource.stepViewControllers.count
 	}
 
-	func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return dataSource.stepViewControllers[section].count
 	}
 
-	func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCellWithReuseIdentifier("NewBrewCollectionViewCell", forIndexPath: indexPath) as! NewBrewCollectionViewCell
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewBrewCollectionViewCell", for: indexPath) as! NewBrewCollectionViewCell
 		let viewController = stepViewController(forIndexPath: indexPath)
 		cell.stepView = viewController.view
 		return cell

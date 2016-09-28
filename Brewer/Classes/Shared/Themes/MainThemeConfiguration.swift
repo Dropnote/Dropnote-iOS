@@ -16,11 +16,11 @@ struct MainThemeConfiguration: ThemeConfiguration {
     let lightTintColor = UIColor.lightSkyBlue()
     let darkTintColor = UIColor.spiroDiscoBall()
     
-    func defaultFontWithSize(size: CGFloat) -> UIFont {
+    func defaultFontWithSize(_ size: CGFloat) -> UIFont {
         return UIFont.avenirBook(size)!
     }
     
-    func mediumFontWithSize(size: CGFloat) -> UIFont {
+    func mediumFontWithSize(_ size: CGFloat) -> UIFont {
         return UIFont.avenirMedium(size)!
     }
 
@@ -36,8 +36,8 @@ struct MainThemeConfiguration: ThemeConfiguration {
 
     var tabBarItemConfigurations: [UIControlState: TabBarItemThemeConfiguration] {
         return [
-            .Normal: MainTabBarItemThemeConfiguration(font: UIFont.avenirBook(10)!, color: lightColor),
-            .Selected: MainTabBarItemThemeConfiguration(font: UIFont.avenirBook(10)!, color: lightTintColor),
+            UIControlState(): MainTabBarItemThemeConfiguration(font: UIFont.avenirBook(10)!, color: lightColor),
+            .selected: MainTabBarItemThemeConfiguration(font: UIFont.avenirBook(10)!, color: lightTintColor),
         ]
     }
     
@@ -51,22 +51,22 @@ struct MainThemeConfiguration: ThemeConfiguration {
     
     // MARK: Private
 
-	private struct MainTabBarItemThemeConfiguration: TabBarItemThemeConfiguration {
+	fileprivate struct MainTabBarItemThemeConfiguration: TabBarItemThemeConfiguration {
 		var font: UIFont
 		var color: UIColor
 	}
 
-	private struct MainTabBarThemeConfiguration: TabBarThemeConfiguration {
+	fileprivate struct MainTabBarThemeConfiguration: TabBarThemeConfiguration {
 		var tintColor: UIColor
 		var barTintColor: UIColor
 		var translucent: Bool
 	}
 
-	private struct MainBarButtonItemThemeConfiguration: BarButtonItemThemeConfiguration {
+	fileprivate struct MainBarButtonItemThemeConfiguration: BarButtonItemThemeConfiguration {
 		var tintColor: UIColor
 	}
 
-	private struct MainNavigationBarThemeConfiguration: NavigationBarThemeConfiguration {
+	fileprivate struct MainNavigationBarThemeConfiguration: NavigationBarThemeConfiguration {
 		var titleFont: UIFont
 		var titleColor: UIColor
 		var tintColor: UIColor

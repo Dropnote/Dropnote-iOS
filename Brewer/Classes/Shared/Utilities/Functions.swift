@@ -6,15 +6,15 @@
 import Foundation
 
 func isRunningTests() -> Bool {
-    return NSProcessInfo.processInfo().environment["XCInjectBundle"] != nil
+    return ProcessInfo.processInfo.environment["XCInjectBundle"] != nil
 }
 
 struct Dispatcher {
-    static func delay(delay: Double, closure: () -> ()) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
+    static func delay(_ delay: Double, closure: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
     }
 }
 
-@noreturn func abstractMethod() {
+func abstractMethod() -> Never  {
     fatalError("Override this method")
 }

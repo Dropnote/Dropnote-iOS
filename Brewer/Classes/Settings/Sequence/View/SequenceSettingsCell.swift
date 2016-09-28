@@ -17,22 +17,22 @@ final class SequenceSettingsCell: UITableViewCell {
         }
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         set(newValue) {
-            super.selected = newValue
+            super.isSelected = newValue
             backgroundColor = themeBackgroundColor
         }
         get {
-            return super.selected
+            return super.isSelected
         }
     }
 }
 
 extension SequenceSettingsCell {
     
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         themeBackgroundColor = theme?.lightColor
-        themeSelectedBackgroundColor = theme?.lightTintColor.colorWithAlphaComponent(0.3)
+        themeSelectedBackgroundColor = theme?.lightTintColor.withAlphaComponent(0.3)
         textLabel?.configureWithTheme(theme)
     }
 }

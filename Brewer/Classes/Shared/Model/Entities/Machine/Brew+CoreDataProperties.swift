@@ -14,7 +14,7 @@ import CoreData
 
 extension Brew {
 
-    @NSManaged var created: NSTimeInterval
+    @NSManaged var created: TimeInterval
     @NSManaged var method: Int32
     @NSManaged var notes: String?
     @NSManaged var score: Double
