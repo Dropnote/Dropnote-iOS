@@ -1,5 +1,4 @@
 PODS:
-  - Box (2.0)
   - Crashlytics (3.8.2):
     - Fabric (~> 1.6.3)
   - DZNEmptyDataSet (1.8.1)
@@ -69,7 +68,6 @@ PODS:
   - XCGLogger/Core (4.0.0)
 
 DEPENDENCIES:
-  - Box (~> 2.0)
   - Crashlytics
   - DZNEmptyDataSet
   - Fabric
@@ -87,7 +85,6 @@ DEPENDENCIES:
   - XCGLogger (~> 4.0.0)
 
 SPEC CHECKSUMS:
-  Box: 70713ca3679e4e11ad4c470e9b58265f506fc659
   Crashlytics: 27acca95a01b042a8294291dd6dff27f8f6af6d7
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Fabric: bc5bec42cef4bcf1ee3ce0e218fc518e4b44dfbb
@@ -110,6 +107,6 @@ SPEC CHECKSUMS:
   SwinjectStoryboard: b52b45821a50386ef604c3cd098f8029a50a268d
   XCGLogger: 38063ea89b4c8b23232d18efd2e12eb0005f3ea4
 
-PODFILE CHECKSUM: 915522830c57391a5492d75db2b8ca40495a8e0f
+PODFILE CHECKSUM: 260a5f11fb31e44f963987e6284d855a9cfbf90d
 
 COCOAPODS: 1.0.1

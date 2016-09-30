@@ -14,7 +14,6 @@ target :Brewer do
 
     pod 'ObjectMapper'
     pod 'XCGLogger', '~> 4.0.0'
-    pod 'Box', '~> 2.0'
     pod 'FormatterKit'
     pod 'DZNEmptyDataSet'
 

@@ -115,6 +115,7 @@
 		A1528D5F1D23017800852522 /* Highlightable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1528D5E1D23017800852522 /* Highlightable.swift */; };
 		A156209F1CE76313003F40D0 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A156209E1CE76313003F40D0 /* KeyboardManager.swift */; };
 		A15620A11CE763B5003F40D0 /* NewBrewNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15620A01CE763B5003F40D0 /* NewBrewNavigationBar.swift */; };
+		A157DB361D9ECB2400860626 /* Box.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A157DB351D9ECB2400860626 /* Box.framework */; };
 		A15DFCDA1C9EFBF000319CB2 /* BrewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15DFCD91C9EFBF000319CB2 /* BrewsViewModel.swift */; };
 		A1609A931CFCC99200D06DAC /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1609A921CFCC99200D06DAC /* List.swift */; };
 		A1669B5E1D51203F00614B35 /* NumericalInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1669B5D1D51203F00614B35 /* NumericalInputTextField.swift */; };
@@ -304,6 +305,7 @@
 		A1528D5E1D23017800852522 /* Highlightable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Highlightable.swift; sourceTree = "<group>"; };
 		A156209E1CE76313003F40D0 /* KeyboardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		A15620A01CE763B5003F40D0 /* NewBrewNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBrewNavigationBar.swift; sourceTree = "<group>"; };
+		A157DB351D9ECB2400860626 /* Box.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Box.framework; path = "../../Library/Developer/Xcode/DerivedData/Brewer-gayynftwtesnvufarvwdiqdpwzbh/Build/Products/Debug-iphonesimulator/Box.framework"; sourceTree = "<group>"; };
 		A15DFCD91C9EFBF000319CB2 /* BrewsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BrewsViewModel.swift; path = ViewModel/BrewsViewModel.swift; sourceTree = "<group>"; };
 		A1609A921CFCC99200D06DAC /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		A1669B5A1D511C2F00614B35 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A157DB361D9ECB2400860626 /* Box.framework in Frameworks */,
 				A1D2E9A31C5EA4FA009D9029 /* libz.tbd in Frameworks */,
 				A1D2E9A11C5EA4F2009D9029 /* CoreGraphics.framework in Frameworks */,
 				A1D2E99F1C5EA4EB009D9029 /* QuartzCore.framework in Frameworks */,
@@ -410,6 +413,7 @@
 		1DC1AA9162D4971B1CA8060B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A157DB351D9ECB2400860626 /* Box.framework */,
 				A1D2E9A21C5EA4FA009D9029 /* libz.tbd */,
 				A1D2E9A01C5EA4F2009D9029 /* CoreGraphics.framework */,
 				A1D2E99E1C5EA4EB009D9029 /* QuartzCore.framework */,
