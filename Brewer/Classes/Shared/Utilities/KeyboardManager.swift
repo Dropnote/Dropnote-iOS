@@ -15,13 +15,13 @@ final class KeyboardManager {
         keyboardInfoChangeSubject = PublishSubject()
         
         let center = NotificationCenter.default
-        center.rx_notification(NSNotification.Name.UIKeyboardWillShow).map(keyboardWillShowNotification)
+        center.rx.notification(NSNotification.Name.UIKeyboardWillShow).map(keyboardWillShowNotification)
             .subscribe(keyboardInfoChangeSubject).addDisposableTo(disposeBag)
-        center.rx_notification(NSNotification.Name.UIKeyboardDidShow).map(keyboardDidShowNotification)
+        center.rx.notification(NSNotification.Name.UIKeyboardDidShow).map(keyboardDidShowNotification)
             .subscribe(keyboardInfoChangeSubject).addDisposableTo(disposeBag)
-        center.rx_notification(NSNotification.Name.UIKeyboardWillHide).map(keyboardWillHideNotification)
+        center.rx.notification(NSNotification.Name.UIKeyboardWillHide).map(keyboardWillHideNotification)
             .subscribe(keyboardInfoChangeSubject).addDisposableTo(disposeBag)
-        center.rx_notification(NSNotification.Name.UIKeyboardDidHide).map(keyboardDidHideNotification)
+        center.rx.notification(NSNotification.Name.UIKeyboardDidHide).map(keyboardDidHideNotification)
             .subscribe(keyboardInfoChangeSubject).addDisposableTo(disposeBag)
     }
     

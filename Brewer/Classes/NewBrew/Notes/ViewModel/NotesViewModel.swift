@@ -11,19 +11,19 @@ import RxSwift
 import RxCocoa
 
 protocol NotesViewModelType {
-    var notes: Variable<String> { get }
+    var notes: Variable<String?> { get }
 }
 
 final class NotesViewModel: NotesViewModelType {
     fileprivate let disposeBag = DisposeBag()
     let brewModelController: BrewModelControllerType
     
-    fileprivate(set) var notes = Variable("")
+    fileprivate(set) var notes: Variable<String?> = Variable("")
     
     init(brewModelController: BrewModelControllerType) {
         self.brewModelController = brewModelController
         notes.value = brewModelController.currentBrew()?.notes ?? ""
-        notes.asDriver().driveNext(setNotesToBrew).addDisposableTo(disposeBag)
+        notes.asDriver().map { $0 ?? "" }.drive(onNext: setNotesToBrew).addDisposableTo(disposeBag)
     }
     
     fileprivate func setNotesToBrew(_ notes: String) {

@@ -59,11 +59,11 @@ extension BrewingsSortingViewController: UITableViewDelegate {
             }
         }
 
-        MainScheduler
+        _ = MainScheduler
             .asyncInstance
             .scheduleRelative(viewModel.sortingOption, dueTime: 0.2) {
                 [weak self] sortingOption in
-                guard let `self` = self else { return NopDisposable.instance }
+                guard let `self` = self else { return Disposables.create() }
                 self.switchSortingOptionSubject.onNext(sortingOption)
                 self.dismissViewControllerAnimatedSubject.onNext(true)
                 return BooleanDisposable(isDisposed: true)

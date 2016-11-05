@@ -46,7 +46,7 @@ final class WeightInputViewModel: NumericalInputViewModelType {
         let unit = Int32(unitModelController.rawUnit(forCategory: UnitCategory.weight.rawValue))
         brewModelController
             .createNewBrewAttribute(forType: .CoffeeWeight)
-            .subscribeNext(configureAttibute(withBrew: brew, unit: unit, coffeeWeight: coffeeWeight))
+            .subscribe(onNext: configureAttibute(withBrew: brew, unit: unit, coffeeWeight: coffeeWeight))
             .addDisposableTo(disposeBag)
     }
     

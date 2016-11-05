@@ -22,10 +22,10 @@ struct CoreDataOperations<T> where T: NSManagedObject, T: Entity {
     }
     
     func fetch(withPredicate predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil) throws -> [T] {
-        let fetchRequest = NSFetchRequest(entityName: T.entityName())
+        let fetchRequest = NSFetchRequest<T>(entityName: T.entityName())
         fetchRequest.predicate = predicate
         fetchRequest.sortDescriptors = sortDescriptors
-        return try context.fetch(fetchRequest) as! [T]
+        return try context.fetch(fetchRequest)
     }
 
     func save() throws {
@@ -37,9 +37,3 @@ struct CoreDataOperations<T> where T: NSManagedObject, T: Entity {
     }
 }
 
-extension NSFetchedResultsController {
-    
-    func fetchedItems<T: AnyObject>() -> [T] {
-        return (fetchedObjects ?? []) as! [T]
-    }
-}

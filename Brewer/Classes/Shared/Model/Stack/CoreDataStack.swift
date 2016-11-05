@@ -12,15 +12,15 @@ protocol StackType {
 
     func createPrivateContext() -> NSManagedObjectContext
     
-    func asyncOperation(_ operation: (NSManagedObjectContext) -> ())
+    func asyncOperation(_ operation: @escaping (NSManagedObjectContext) -> ())
 
-    func asyncBackgroundOperation(_ operation: (NSManagedObjectContext) -> ())
-    func backgroundOperation(_ operation: (NSManagedObjectContext) -> ()) -> Observable<Bool>
+    func asyncBackgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> ())
+    func backgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> ()) -> Observable<Bool>
 
     func save() -> Observable<Bool>
 }
 
-class CoreDataStack: StackType {
+final class CoreDataStack: StackType {
     fileprivate(set) var mainContext: NSManagedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     fileprivate var writingContext: NSManagedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
 
@@ -66,7 +66,7 @@ class CoreDataStack: StackType {
                 observer.onNext(true)
                 observer.onCompleted()
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
     
@@ -89,19 +89,19 @@ class CoreDataStack: StackType {
                     observer.onNext(true)
                     observer.onCompleted()
                 } catch {
-                    observer.on(.Error(error))
+                    observer.on(.error(error))
                 }
             }
 
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
     // MARK: Stack setup
 
     fileprivate func initializeSQLite(_ storeType: String) {
-        let priority = DispatchQueue.GlobalQueuePriority.default
-        DispatchQueue.global(priority: priority).async {
+        let queue = DispatchQueue.global(qos: DispatchQoS.QoSClass.default)
+        queue.async {
             let url = self.applicationDocumentsDirectory.appendingPathComponent("Brewer.sqlite")
             let failureReason = "There was an error creating or loading the application's saved data."
             do {

@@ -14,7 +14,7 @@ final class NumericalInputViewController: UIViewController {
         didSet {
             inputTextField.accessibilityLabel = "Type"
             inputTextField.delegate = self
-            inputTextField.tintColor = .clear()
+            inputTextField.tintColor = UIColor.clear
         }
     }
     @IBOutlet weak var informativeLabel: InformativeLabel!

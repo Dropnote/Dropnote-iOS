@@ -23,7 +23,7 @@ final class TampingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = BrewAttributeType.TampStrength.description
-        tampingView.slider.rx_value.bindTo(viewModel.tampingValue).addDisposableTo(disposeBag)
+        tampingView.slider.rx.value.bindTo(viewModel.tampingValue).addDisposableTo(disposeBag)
         tampingView.informativeLabel.text = viewModel.informativeText
     }
     

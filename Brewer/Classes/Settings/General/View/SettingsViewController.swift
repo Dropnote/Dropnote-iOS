@@ -42,11 +42,11 @@ final class SettingsViewController: UIViewController {
             _ = methodPickerViewController
                 .didSelectBrewMethodSubject
                 .observeOn(MainScheduler.asyncInstance)
-                .subscribeNext {
+                .subscribe(onNext: {
                     brewMethod in
                     Analytics.sharedInstance.trackMethodPickEvent(onScreen: AppScreen.settings, method: brewMethod)
-                    methodPickerViewController.performSegue(.SequenceSettings, sender: brewMethod.rawValue)
-            }
+                    methodPickerViewController.performSegue(.SequenceSettings, sender: brewMethod.rawValue as AnyObject?)
+            })
         }
         if case .About = segueIdentifierForSegue(segue) {
             let aboutViewController = segue.destination as! AboutViewController

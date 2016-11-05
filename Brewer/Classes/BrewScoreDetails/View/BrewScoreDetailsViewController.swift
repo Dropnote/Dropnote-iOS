@@ -34,7 +34,7 @@ final class BrewScoreDetailsViewController: UIViewController {
         
 		viewModel.scoreValue
 			.asObservable()
-            .bindTo(headerView.valueLabel.rx_text)
+            .bindTo(headerView.valueLabel.rx.text)
 			.addDisposableTo(disposeBag)
         
         tableView.delegate = self
@@ -66,7 +66,7 @@ final class BrewScoreDetailsViewController: UIViewController {
     
     @objc fileprivate func done() {
         shouldSaveScore = true
-        navigationController?.popViewController(animated: true)
+        _ = navigationController?.popViewController(animated: true)
     }
 }
 

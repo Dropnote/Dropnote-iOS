@@ -18,7 +18,7 @@ final class GrindSizeViewController: UIViewController {
     @IBOutlet weak var numericValueTextField: UITextField! {
         didSet {
             numericValueTextField.delegate = self
-            numericValueTextField.tintColor = .clear()
+            numericValueTextField.tintColor = UIColor.clear
         }
     }
     @IBOutlet weak var switchButton: UIButton! {
@@ -51,7 +51,7 @@ final class GrindSizeViewController: UIViewController {
         sliderContainerView.isHidden = !viewModel.isSliderVisible
         numericValueTextField.isHidden = viewModel.isSliderVisible
         
-        sliderContainerView.slider.rx_value.bindTo(viewModel.sliderValue).addDisposableTo(disposeBag)
+        sliderContainerView.slider.rx.value.bindTo(viewModel.sliderValue).addDisposableTo(disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {

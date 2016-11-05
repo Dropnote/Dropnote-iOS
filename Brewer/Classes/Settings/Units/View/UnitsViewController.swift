@@ -59,7 +59,7 @@ final class UnitsViewController: UIViewController {
 
     fileprivate func setUpSwitchingDataSources() {
         unitsSegmentedControl
-            .rx_value
+            .rx.value
             .asDriver()
             .drive(onNext: setDataSourceAtIndex)
             .addDisposableTo(disposeBag)

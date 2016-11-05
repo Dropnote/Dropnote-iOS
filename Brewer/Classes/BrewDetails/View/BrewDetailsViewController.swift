@@ -79,7 +79,7 @@ final class BrewDetailsViewController: UIViewController {
 			let viewController = segue.destination as! NumericalInputViewController
 			viewController.title = box.value.description
 			viewController.viewModel = resolver.resolve(NumericalInputViewModelType.self,
-														arguments: (box.value, viewModel.brewModelController))!
+														arguments: box.value, viewModel.brewModelController)!
 			break
 		case .Tamping:
 			let viewController = segue.destination as! TampingViewController
@@ -97,7 +97,7 @@ final class BrewDetailsViewController: UIViewController {
 			}
 			let viewController = segue.destination as! SelectableSearchViewController
 			viewController.viewModel = resolver.resolve(SelectableSearchViewModelType.self,
-														arguments: (box.value, viewModel.brewModelController))!
+														arguments: box.value, viewModel.brewModelController)!
 			viewController.title = box.value.description
 			break
 		default:
@@ -130,7 +130,7 @@ final class BrewDetailsViewController: UIViewController {
             self.viewModel.removeCurrentBrew {
                 [weak self] didRemove in
                 if didRemove {
-                    self?.navigationController?.popViewController(animated: true)
+                    _ = self?.navigationController?.popViewController(animated: true)
                 }
             }
         })

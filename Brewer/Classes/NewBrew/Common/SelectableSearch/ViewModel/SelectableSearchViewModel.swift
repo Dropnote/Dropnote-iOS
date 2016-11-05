@@ -16,7 +16,7 @@ import RxCocoa
 protocol SelectableSearchViewModelType: TableViewConfigurable {
     var placeholder: String { get }
 
-    func setSearchString(_ search: String)
+    func setSearchString(_ search: String?)
     func addNewSearchItemIfNeeded(_ search: String?)
     func selectItemAtIndexPath(_ indexPath: IndexPath)
 }
@@ -24,7 +24,7 @@ protocol SelectableSearchViewModelType: TableViewConfigurable {
 final class SelectableSearchViewModel: NSObject, SelectableSearchViewModelType {
     
     fileprivate(set) var placeholder: String
-    fileprivate(set) var fetchedResultsControllerDelegate: TableViewFetchedResultsControllerDynamicChangesHandler!
+    fileprivate(set) var fetchedResultsControllerDelegate: TableViewFetchedResultsControllerDynamicChangesHandler<NSManagedObject>!
     fileprivate var selectedItemIndex: Int? {
         didSet {
             modelController.setItemIndex(selectedItemIndex)
@@ -42,8 +42,9 @@ final class SelectableSearchViewModel: NSObject, SelectableSearchViewModelType {
 
     // MARK: Table View configuration
 
-    var listItems: [[SelectableSearchModelItem]] {        
-        return [modelController.fetchedResultsController.fetchedItems()]
+    var listItems: [[SelectableSearchModelItem]] {
+        let items = modelController.fetchedResultsController.fetchedObjects ?? []
+        return [items.map { $0 as! SelectableSearchModelItem }]
     }
 
     func configureWithTableView(_ tableView: UITableView) {
@@ -63,7 +64,8 @@ final class SelectableSearchViewModel: NSObject, SelectableSearchViewModelType {
 
     // MARK: Search
 
-    func setSearchString(_ search: String) {
+    func setSearchString(_ search: String?) {
+        guard let search = search else { return }
         let trimmedSearch = search.trimmingCharacters(in: CharacterSet.whitespaces)
         modelController.setSearchString(trimmedSearch)
         selectedItemIndex = nil

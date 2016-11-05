@@ -93,7 +93,7 @@ final class InputTransformer: NumericalInputTransformerType {
     fileprivate func insertSeparator(_ separator: Character, toString string: String) -> String {
         let index = string.characters.index(string.startIndex, offsetBy: separatorIndex)
         var mutableString = String(string)
-        mutableString.insert(separator, at: index)
+        mutableString?.insert(separator, at: index)
         return mutableString!
     }
 }

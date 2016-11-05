@@ -62,26 +62,26 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
             method, steps in
             rawSeqenceSettings[method.rawValue] = brewingSequenceMapper.toJSONString(steps)
         }
-        store.setObject(rawSeqenceSettings, forKey: Keys.brewingSequence)
-        store.synchronize()
+        store.set(rawSeqenceSettings, forKey: Keys.brewingSequence)
+        _ = store.synchronize()
     }
 
     // MARK: Settings loading
 
     fileprivate func loadSettings() {
-        guard let rawSequenceSettings = store.objectForKey(Keys.brewingSequence) as? Dictionary<String, String> else {
+        guard let rawSequenceSettings = store.object(forKey: Keys.brewingSequence) as? Dictionary<String, String> else {
             XCGLogger.error("Can't load settings!")
             return
         }
         rawSequenceSettings.forEach {
-            brewingSequenceSettings[BrewMethod(rawValue: $0)!] = brewingSequenceMapper.mapArray($1) ?? []
+            brewingSequenceSettings[BrewMethod(rawValue: $0)!] = brewingSequenceMapper.mapArray(JSONString: $1) ?? []
         }
     }
 
     // MARK: Default settings
 
     fileprivate func presetDefaultSettings() {
-        if store.objectForKey(Keys.brewingSequence) == nil {
+        if store.object(forKey: Keys.brewingSequence) == nil {
 
             var defaultSeqenceSettings: Dictionary<String, String> = [:]
             for method in BrewMethod.allValues {
@@ -94,7 +94,7 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
                 }
                 defaultSeqenceSettings[method.rawValue] = brewingSequenceMapper.toJSONString(sequenceSteps)
             }
-            store.setObject(defaultSeqenceSettings, forKey: Keys.brewingSequence)
+            store.set(defaultSeqenceSettings, forKey: Keys.brewingSequence)
         }
     }
 }
@@ -110,11 +110,11 @@ struct BrewingSequenceStep: Mappable {
         self.enabled = enabled
     }
 
-    init?(_ map: Map) {
+    init?(map: Map) {
 
     }
 
-    mutating func mapping(_ map: Map) {
+    mutating func mapping(map: Map) {
         type <- map["type"]
         position <- map["position"]
         enabled <- map["enabled"]

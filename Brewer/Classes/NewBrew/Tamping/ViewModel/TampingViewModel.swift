@@ -35,7 +35,7 @@ final class TampingViewModel: TampingViewModelType {
         updateAttribute(tampingValue.asObservable()) {
             value, attribute in
             attribute.type = BrewAttributeType.TampStrength.intValue
-            attribute.unit = TampingUnit.Continuous.rawValue
+            attribute.unit = TampingUnit.continuous.rawValue
             attribute.value = Double(value)
             return attribute
         }
@@ -52,7 +52,7 @@ final class TampingViewModel: TampingViewModelType {
         
         Observable
             .combineLatest(source, attributeObservable, resultSelector: resultSelector)
-            .subscribeNext { attribute in attribute.brew = self.brewModelController.currentBrew() }
+            .subscribe(onNext: { attribute in attribute.brew = self.brewModelController.currentBrew() })
             .addDisposableTo(disposeBag)
     }
 }

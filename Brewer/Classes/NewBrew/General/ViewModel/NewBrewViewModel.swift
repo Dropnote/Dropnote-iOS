@@ -93,16 +93,16 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
 
 	func cleanUp() -> Observable<Void> {
 		XCGLogger.info("Removing unfinished brew")
-		return brewModelController.removeUnfinishedBrew().doOnError {
+        return brewModelController.removeUnfinishedBrew().do(onError: {
 			XCGLogger.error("Error when removing unfinished brew = \($0)")
-		}.map { _ in return () }
+		}).map { _ in return () }
 	}
 
 	func finishBrew() -> Observable<Void> {
 		brewModelController.currentBrew()?.isFinished = true
-		return brewModelController.saveBrew().doOnError {
+        return brewModelController.saveBrew().do(onError: {
 			XCGLogger.error("Error when finishing brew = \($0)")
-		}
+		})
 	}
 
     fileprivate func reloadStepViewControllersWithBrewContext(_ brewContext: StartBrewContext, animated: Bool) {
@@ -112,7 +112,7 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
                 coffee: nil,
                 coffeeMachine: nil)
             .observeOn(MainScheduler.instance)
-            .doOnNext { _ in self.dataSource.reloadData() }
+            .do(onNext: { _ in self.dataSource.reloadData() })
             .map { _ in false }
 			.subscribe(
 				onNext: reloadDataAnimatedSubject.onNext,

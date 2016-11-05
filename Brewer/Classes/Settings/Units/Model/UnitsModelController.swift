@@ -31,14 +31,14 @@ final class UnitsModelController: UnitsModelControllerType {
 
     func setRawUnit(_ rawUnit: Int, forCategory rawCategory: Int) {
         unitsSettings[String(rawCategory)] = rawUnit
-        store.setObject(unitsSettings, forKey: Keys.units)
-        store.synchronize()
+        store.set(unitsSettings, forKey: Keys.units)
+        _ = store.synchronize()
     }
 
     // MARK: Settings loading
 
     fileprivate func loadSettings() {
-        guard let rawUnitsSettings = store.objectForKey(Keys.units) as? Dictionary<String, Int> else {
+        guard let rawUnitsSettings = store.object(forKey: Keys.units) as? Dictionary<String, Int> else {
             XCGLogger.error("Can't load settings!")
             return
         }
@@ -48,14 +48,14 @@ final class UnitsModelController: UnitsModelControllerType {
     // MARK: Default settings
 
     fileprivate func presetDefaultSettings() {
-        if store.objectForKey(Keys.units) == nil {
+        if store.object(forKey: Keys.units) == nil {
             let defaultSettings = [
                 String(UnitCategory.water.rawValue) : UnitCategory.water.defaultSetting(),
                 String(UnitCategory.weight.rawValue) : UnitCategory.weight.defaultSetting(),
                 String(UnitCategory.temperature.rawValue) : UnitCategory.temperature.defaultSetting(),
             ]
-            store.setObject(defaultSettings, forKey: Keys.units)
-            store.synchronize()
+            store.set(defaultSettings, forKey: Keys.units)
+            _ = store.synchronize()
         }
     }
 }

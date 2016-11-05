@@ -53,13 +53,13 @@ PODS:
   - Nimble (5.0.0)
   - ObjectMapper (2.0.0)
   - Quick (0.10.0)
-  - RxBlocking (3.0.0-beta.1):
-    - RxSwift (~> 3.0.0-beta.1)
-  - RxCocoa (3.0.0-beta.1):
-    - RxSwift (~> 3.0.0-beta.1)
-  - RxSwift (3.0.0-beta.1)
-  - RxTests (3.0.0-beta.1):
-    - RxSwift (~> 3.0.0-beta.1)
+  - RxBlocking (3.0.0):
+    - RxSwift (~> 3.0)
+  - RxCocoa (3.0.0):
+    - RxSwift (~> 3.0)
+  - RxSwift (3.0.0)
+  - RxTest (3.0.0):
+    - RxSwift (~> 3.0)
   - Swinject (2.0.0-beta.2)
   - SwinjectStoryboard (1.0.0-beta.2):
     - Swinject (= 2.0.0-beta.2)
@@ -76,10 +76,10 @@ DEPENDENCIES:
   - Nimble (~> 5.0.0)
   - ObjectMapper
   - Quick
-  - RxBlocking (~> 3.0.0-beta.1)
-  - RxCocoa (~> 3.0.0-beta.1)
-  - RxSwift (~> 3.0.0-beta.1)
-  - RxTests (~> 3.0.0-beta.1)
+  - RxBlocking (~> 3.0.0)
+  - RxCocoa (~> 3.0.0)
+  - RxSwift (~> 3.0.0)
+  - RxTest (~> 3.0.0)
   - Swinject (= 2.0.0-beta.2)
   - SwinjectStoryboard (= 1.0.0-beta.2)
   - XCGLogger (~> 4.0.0)
@@ -99,14 +99,14 @@ SPEC CHECKSUMS:
   Nimble: 56fc9f5020effa2206de22c3dd910f4fb011b92f
   ObjectMapper: aed2570edabbd3c9b26c939e1cabdb6558f933e0
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
-  RxBlocking: 422944880fe63b432c459dc87be7c8178dcf45f3
-  RxCocoa: 8cecf331302b8ae5381bbab1bccba4ede2eae6a8
-  RxSwift: 0823e8d7969c23bfa9ddfb2afa4881e424a1a710
-  RxTests: 819cbca750007349f03cfdb89bc07d412f67ab96
+  RxBlocking: 0132c660340d8b8f34b65b2e099167ea6134eecf
+  RxCocoa: 0a2f3ae381cf16f4021a4cee7a4420f83058a965
+  RxSwift: a930cd662f5b4a7ca9dc3518585dba91dadf497c
+  RxTest: 770511db5d602b618ee8c8a7c06b4b71f9168f7c
   Swinject: 69a893192efa9f2cc44be79ef423d04d571b6af9
   SwinjectStoryboard: b52b45821a50386ef604c3cd098f8029a50a268d
   XCGLogger: 38063ea89b4c8b23232d18efd2e12eb0005f3ea4
 
-PODFILE CHECKSUM: 260a5f11fb31e44f963987e6284d855a9cfbf90d
+PODFILE CHECKSUM: d871f9a9b89485fdb680a9f2ee33261915242104
 
 COCOAPODS: 1.0.1

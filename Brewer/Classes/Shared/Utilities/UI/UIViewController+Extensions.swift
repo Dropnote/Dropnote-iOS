@@ -11,7 +11,7 @@ import UIKit
 
 extension UIViewController {    
     func pop() {
-        navigationController?.popViewController(animated: true)
+        _ = navigationController?.popViewController(animated: true)
     }
 }
 

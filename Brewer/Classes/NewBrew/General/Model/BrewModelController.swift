@@ -64,9 +64,9 @@ final class BrewModelController: BrewModelControllerType {
 					observer.onError(error)
 				}
 			}
-			return NopDisposable.instance
+			return Disposables.create()
 		}
-			.doOn(onNext: {
+			.do(onNext: {
 				brew in self.brew = brew
 		})
 	}
@@ -115,7 +115,7 @@ final class BrewModelController: BrewModelControllerType {
                 observer.onNext(attribute)
                 observer.onCompleted()
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
     
@@ -148,7 +148,7 @@ final class BrewModelController: BrewModelControllerType {
                     observer.onError(error)
                 }
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
         .flatMap(removeBrew)
     }
@@ -165,7 +165,7 @@ final class BrewModelController: BrewModelControllerType {
                     let brew = operations.objectForID(brewID)
                     
                     if let brew = brew {
-                        context.deleteObject(brew)
+                        context.delete(brew)
                         observer.onNext(true)
                     } else {
                         observer.onNext(false)
@@ -177,7 +177,7 @@ final class BrewModelController: BrewModelControllerType {
                     observer.onError(error)
                 }
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 }

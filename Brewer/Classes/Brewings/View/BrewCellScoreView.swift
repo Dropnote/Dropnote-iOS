@@ -14,13 +14,13 @@ final class BrewCellScoreView: UIView {
     
     fileprivate let fillingView = UIView()
     var fillingFactor: Double = 0
-    var borderColor: UIColor = .white() {
+    var borderColor: UIColor = .white {
         didSet {
             layer.borderColor = borderColor.cgColor
         }
     }
     
-    var fillingColor: UIColor = .white() {
+    var fillingColor: UIColor = .white {
         didSet {
             fillingView.backgroundColor = fillingColor
         }

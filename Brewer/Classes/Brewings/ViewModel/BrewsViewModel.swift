@@ -32,7 +32,7 @@ final class BrewingsViewModel: BrewingsViewModelType {
     }
     
     fileprivate var brews: [Brew] {
-        return brewsModelController.fetchedResultsController.fetchedItems()
+        return brewsModelController.fetchedResultsController.fetchedObjects ?? []
     }
     
     var listItems: [[BrewCellViewModel]] {

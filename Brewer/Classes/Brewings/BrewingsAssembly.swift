@@ -7,7 +7,7 @@ import Foundation
 import Swinject
 
 final class BrewingsAssembly: AssemblyType {
-    func assemble(_ container: Container) {
+    func assemble(container: Container) {
 
         container.registerForStoryboard(BrewingsViewController.self) {
             r, c in

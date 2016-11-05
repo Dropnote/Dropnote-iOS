@@ -37,7 +37,7 @@ final class Analytics {
     
     func trackScreen(withTitle title: String) {
         tracker?.set(kGAIScreenName, value: title)
-        tracker?.send(GAIDictionaryBuilder.createScreenView().build() as [AnyHashable: Any])
+        tracker?.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
     }
     
     func trackMethodPickEvent(onScreen screen: String, method: BrewMethod) {
@@ -47,7 +47,7 @@ final class Analytics {
                 action: "Selected",
                 label: method.rawValue,
                 value: 1)
-                .build() as [AnyHashable: Any]
+                .build() as [NSObject : AnyObject]
         )
     }
 }

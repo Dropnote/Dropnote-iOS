@@ -36,7 +36,7 @@ final class NewBrewDataSource {
                 model: BrewModelControllerType
             ) -> SelectableSearchViewController {
             let viewController: SelectableSearchViewController = resolver.viewControllerForIdentifier("SelectableSearch")
-            viewController.viewModel = resolver.resolve(SelectableSearchViewModelType.self, arguments: (identifier, model))
+            viewController.viewModel = resolver.resolve(SelectableSearchViewModelType.self, arguments: identifier, model)
             viewController.title = identifier.description
             return viewController
         }
@@ -63,7 +63,7 @@ final class NewBrewDataSource {
             viewController.title = $0.description
 
             if viewController is NumericalInputViewController {
-                let numericalInputViewModel = resolver.resolve(NumericalInputViewModelType.self, arguments: ($0, brewModelController))!
+                let numericalInputViewModel = resolver.resolve(NumericalInputViewModelType.self, arguments: $0, brewModelController)!
                 (viewController as! NumericalInputViewController).viewModel = numericalInputViewModel
             }
 

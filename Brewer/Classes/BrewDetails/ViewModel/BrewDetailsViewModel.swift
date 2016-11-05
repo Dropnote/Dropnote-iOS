@@ -100,9 +100,9 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 
 	func saveBrewIfNeeded() {
 		if editable {
-			brewModelController.saveBrew().subscribeError {
+            brewModelController.saveBrew().subscribe(onError: {
 				print(($0 as NSError).localizedDescription)
-			}.addDisposableTo(disposeBag)
+			}).addDisposableTo(disposeBag)
 		}
 	}
 
@@ -167,7 +167,7 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
     }
     
     func removeCurrentBrew(_ completion: @escaping ((Bool) -> Void)) {
-        brewModelController.removeCurrentBrew().subscribeNext(completion).addDisposableTo(disposeBag)
+        brewModelController.removeCurrentBrew().subscribe(onNext: completion).addDisposableTo(disposeBag)
     }
 }
 

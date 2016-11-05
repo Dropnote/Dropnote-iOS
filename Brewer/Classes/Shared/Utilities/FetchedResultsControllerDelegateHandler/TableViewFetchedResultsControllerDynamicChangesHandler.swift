@@ -9,7 +9,7 @@ import CoreData
 import XCGLogger
 
 // swiftlint:disable type_name
-final class TableViewFetchedResultsControllerDynamicChangesHandler<ResultType where ResultType: NSManagedObject>
+final class TableViewFetchedResultsControllerDynamicChangesHandler<ResultType: NSManagedObject>
 // swiftlint:enable type_name    
     : NSObject
     , NSFetchedResultsControllerDelegate {

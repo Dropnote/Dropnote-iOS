@@ -25,8 +25,8 @@ extension BrewScoreDetailCell: PresentableConfigurable {
         titleLabel.text = presentable.title
         valueLabel.text = presentable.value
         slider.value = presentable.sliderValue.value
-        slider.rx_value.bindTo(presentable.sliderValue).addDisposableTo(disposeBag)
-        slider.rx_value.map { $0.format(".1") }.bindTo(valueLabel.rx_text).addDisposableTo(disposeBag)
+        slider.rx.value.bindTo(presentable.sliderValue).addDisposableTo(disposeBag)
+        slider.rx.value.map { $0.format(".1") }.bindTo(valueLabel.rx.text).addDisposableTo(disposeBag)
     }
 }
 

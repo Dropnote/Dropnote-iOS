@@ -30,14 +30,14 @@ final class BrewScoreDetailViewModel: ScoreCellPresentable {
         
         sliderValue
             .asDriver()
-            .driveNext {
+            .drive(onNext: {
                 value in
                 if let cupping = brew.cuppingAttributeForType(cuppingAttriubute) {
                     cupping.brew = brew
                     cupping.type = cuppingAttriubute.rawValue
                     cupping.value = Double(value)
                 }
-            }
+            })
             .addDisposableTo(disposeBag)
 	}
 }
@@ -76,9 +76,9 @@ final class BrewScoreDetailsViewModel: BrewScoreDetailsViewModelType {
 	fileprivate func configureScoreCalculation() {
         guard let items = listItems.first else { return }
 		let sliderValues = items.map { $0.sliderValue }
-		sliderValues
-			.map { $0.asDriver() }
-			.toObservable()
+
+        Observable
+            .from(sliderValues.map { $0.asDriver() })
 			.merge()
 			.map { _ in self.totalScore(sliderValues.map { $0.value }) }
 			.map { $0.format(".1") }

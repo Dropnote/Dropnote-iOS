@@ -15,7 +15,7 @@ protocol SelectableSearchItemInserterType {
 
 protocol SelectableSearchModelControllerType {
     var placeholder: String? { get }
-    var fetchedResultsController: NSFetchedResultsController<AnyObject>! { get }
+    var fetchedResultsController: NSFetchedResultsController<NSManagedObject>! { get }
     func setSearchString(_ search: String?)
     func setItemIndex(_ index: Int?)
     func addSearchItem()
@@ -59,8 +59,8 @@ class SelectableSearchModelController: SelectableSearchModelControllerType {
         self.brewModelController = brewModelController
     }
 
-    final lazy var fetchedResultsController: NSFetchedResultsController! = { 
-        let fetchRequest = NSFetchRequest(entityName: self.entityName())
+    final lazy var fetchedResultsController: NSFetchedResultsController<NSManagedObject>! = {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: self.entityName())
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "updatedAt", ascending: false)]
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,

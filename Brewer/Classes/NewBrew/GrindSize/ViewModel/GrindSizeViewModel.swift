@@ -63,10 +63,10 @@ final class GringSizeViewModel: GringSizeViewModelType {
     
     var isSliderVisible: Bool {
         set {
-            keyValueStore.setObject(NSNumber(value: newValue as Bool), forKey: Keys.GrindSizeSliderVisibility.rawValue)
+            keyValueStore.set(NSNumber(value: newValue as Bool), forKey: Keys.GrindSizeSliderVisibility.rawValue)
         }
         get {
-            if let visibilitySetting = keyValueStore.objectForKey(Keys.GrindSizeSliderVisibility.rawValue) as? NSNumber {
+            if let visibilitySetting = keyValueStore.object(forKey: Keys.GrindSizeSliderVisibility.rawValue) as? NSNumber {
                 return visibilitySetting.boolValue
             }
             return true
@@ -86,15 +86,16 @@ final class GringSizeViewModel: GringSizeViewModelType {
     fileprivate func configureAttributeUpdates() {
         let sliderObservable = sliderValue
             .asObservable()
-            .map { (Double(round($0 * 4)), GrindSizeUnit.Slider.rawValue) }
+            .map { (Double(round($0 * 4)), GrindSizeUnit.slider.rawValue) }
         
         let numericObservable = numericValue
             .asObservable()
             .filter { !$0.characters.isEmpty }
-            .map { (Double($0)!, GrindSizeUnit.Numeric.rawValue) }
+            .map { (Double($0)!, GrindSizeUnit.numeric.rawValue) }
         
-        let valueUnits = [sliderObservable, numericObservable]
-            .toObservable()
+        
+        let valueUnits = Observable
+            .of(sliderObservable, numericObservable)
             .merge()
         
         updateAttribute(valueUnits) {
@@ -117,7 +118,7 @@ final class GringSizeViewModel: GringSizeViewModelType {
 
 		Observable
 			.combineLatest(source, attributeObservable, resultSelector: resultSelector)
-			.subscribeNext { attribute in attribute.brew = self.brewModelController.currentBrew() }
+            .subscribe(onNext: { attribute in attribute.brew = self.brewModelController.currentBrew() })
 			.addDisposableTo(disposeBag)
 	}
 

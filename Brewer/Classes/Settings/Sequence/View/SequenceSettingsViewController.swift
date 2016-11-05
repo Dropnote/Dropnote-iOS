@@ -45,7 +45,7 @@ final class SequenceSettingsViewController: UIViewController {
     @IBAction func editAction(_ barButtonItem: UIBarButtonItem) {
         if barButtonItem.title == tr(.navigationDone) {
             Dispatcher.delay(0.6) {
-                self.navigationController?.popViewController(animated: true)
+                _ = self.navigationController?.popViewController(animated: true)
             }
         }
         

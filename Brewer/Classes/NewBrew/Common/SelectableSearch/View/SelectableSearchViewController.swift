@@ -42,11 +42,11 @@ final class SelectableSearchViewController: UIViewController {
 		tableView.tableFooterView = UIView()
 		viewModel.configureWithTableView(tableView)
 		inputTextField
-            .rx_text
+            .rx.text
             .asDriver()
-            .distinctUntilChanged()
+            .distinctUntilChanged(==)
             .skip(1)
-            .driveNext(viewModel.setSearchString)
+            .drive(onNext: viewModel.setSearchString)
             .addDisposableTo(disposeBag)
 	}
 

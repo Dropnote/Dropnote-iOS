@@ -30,7 +30,8 @@ final class NotesViewController: UIViewController {
         super.viewDidLoad()
         title = BrewAttributeType.Notes.description
         notesTextView.text = viewModel.notes.value
-        notesTextView.rx_text.bindTo(viewModel.notes).addDisposableTo(disposeBag)
+        
+        notesTextView.rx.text.bindTo(viewModel.notes).addDisposableTo(disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {

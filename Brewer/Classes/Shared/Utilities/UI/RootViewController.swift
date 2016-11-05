@@ -37,12 +37,12 @@ final class RootViewController: UITabBarController {
         _ = methodPickerViewController?
             .didSelectBrewMethodSubject
             .observeOn(MainScheduler.asyncInstance)
-            .subscribeNext {
+            .subscribe(onNext: {
                 brewMethod in
                 Analytics.sharedInstance.trackMethodPickEvent(onScreen: AppScreen.newBrew, method: brewMethod)
                 let context = StartBrewContext(method: brewMethod)
                 self.performSegue(.StartNewBrew, sender: Box(context))
-        }
+            })
         
         contentViewControllers?
             .elements(ofType: TabBarConfigurable.self)
@@ -61,7 +61,7 @@ final class RootViewController: UITabBarController {
             newBrewViewController.viewModel = resolver.resolve(NewBrewViewModelType.self, argument: boxedBrewContext.value)!
             _ = newBrewViewController
                 .hideViewControllerSwitchingToHistorySubject
-                .subscribeNext(dismissNewBrewViewController)
+                .subscribe(onNext: dismissNewBrewViewController)
         }
 
         if let unwindSegue = segue as? NewBrewUnwindSegue , unwindSegue.shouldSwitchToHistory == true {

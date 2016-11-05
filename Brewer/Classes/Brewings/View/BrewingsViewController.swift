@@ -71,15 +71,15 @@ final class BrewingsViewController: UIViewController {
             guard let brewingsSortingViewController = navigationController.topViewController as? BrewingsSortingViewController else { return }
             brewingsSortingViewController.viewModel.sortingOption = viewModel.sortingOption
 
-            _ = brewingsSortingViewController.dismissViewControllerAnimatedSubject.subscribeNext {
+            _ = brewingsSortingViewController.dismissViewControllerAnimatedSubject.subscribe(onNext: {
                 animated in
                 self.dismiss(animated: animated, completion: nil)
-            }
-            _ = brewingsSortingViewController.switchSortingOptionSubject.subscribeNext {
+            })
+            _ = brewingsSortingViewController.switchSortingOptionSubject.subscribe(onNext: {
                 sortingOption in
                 self.viewModel.sortingOption = sortingOption
                 self.tableView.reloadData()
-            }
+            })
         }
     }
 }

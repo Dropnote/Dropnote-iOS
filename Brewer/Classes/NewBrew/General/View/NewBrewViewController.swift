@@ -37,10 +37,10 @@ final class NewBrewViewController: UIViewController {
 	var metrics: ScrollViewPageMetricsType!
 	var viewModel: NewBrewViewModelType! {
 		didSet {
-            _ = viewModel.failedToCreateNewBrewSubject.subscribeNext {
+            _ = viewModel.failedToCreateNewBrewSubject.subscribe(onNext: {
                 XCGLogger.error("Failed to create new brew = \($0)")
-            }
-            _ = viewModel.reloadDataAnimatedSubject.subscribeNext(reloadData)
+            })
+            _ = viewModel.reloadDataAnimatedSubject.subscribe(onNext: reloadData)
 		}
 	}
 
@@ -61,7 +61,7 @@ final class NewBrewViewController: UIViewController {
 		keyboardManager
 			.keyboardInfoChange
 			.debounce(0.01, scheduler: MainScheduler.instance)
-			.subscribeNext(handleKeyboardStateChange)
+			.subscribe(onNext: handleKeyboardStateChange)
 			.addDisposableTo(disposeBag)
     }
     
@@ -94,10 +94,13 @@ final class NewBrewViewController: UIViewController {
     }
     
     fileprivate func perform(_ observable: Observable<Void>, isSuccessfullyFinished: Bool) {
-        observable.observeOn(MainScheduler.asyncInstance).subscribeCompleted {
-            [weak self] in
-            self?.hideViewControllerSwitchingToHistorySubject.onNext(isSuccessfullyFinished)
-        }.addDisposableTo(disposeBag)
+        observable
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onCompleted: {
+                [weak self] in
+                self?.hideViewControllerSwitchingToHistorySubject.onNext(isSuccessfullyFinished)
+            })
+            .addDisposableTo(disposeBag)
     }
 
 	fileprivate func configureNavigationBar() {

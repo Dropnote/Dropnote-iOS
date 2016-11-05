@@ -59,7 +59,7 @@ extension SwinjectStoryboard {
 				BrewingsSortingAssembly(),
                 BrewDetailsAssembly(),
                 BrewScoreDetailsAssembly(),
-                ], propertyLoaders: nil, container: defaultContainer)
+                ], container: defaultContainer)
             
             if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
                 appDelegate.assembler = assembler
