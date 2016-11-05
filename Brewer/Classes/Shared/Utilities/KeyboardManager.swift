@@ -77,11 +77,8 @@ struct KeyboardInfo {
     }
     
     static func fromNotificationUserInfo(_ info: [AnyHashable: Any]?, state: KeyboardState) -> KeyboardInfo {
-        var beginFrame = CGRect.zero
-        (info?[UIKeyboardFrameBeginUserInfoKey] as AnyObject).getValue(&beginFrame)
-        
-        var endFrame = CGRect.zero
-        (info?[UIKeyboardFrameEndUserInfoKey] as AnyObject).getValue(&endFrame)
+        let beginFrame = (info?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue ?? CGRect.zero
+        let endFrame = (info?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? CGRect.zero
         
         let curve = UIViewAnimationCurve(rawValue: info?[UIKeyboardAnimationCurveUserInfoKey] as? Int ?? 0) ?? .easeInOut
         let duration = TimeInterval(info?[UIKeyboardAnimationDurationUserInfoKey] as? Double ?? 0.0)
