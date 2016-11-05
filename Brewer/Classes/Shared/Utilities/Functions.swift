@@ -15,6 +15,6 @@ struct Dispatcher {
     }
 }
 
-func abstractMethod() -> Never  {
+func abstractMethod() -> Never {
     fatalError("Override this method")
 }

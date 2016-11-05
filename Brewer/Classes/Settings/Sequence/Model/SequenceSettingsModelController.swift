@@ -6,7 +6,8 @@
 import Foundation
 import XCGLogger
 import ObjectMapper
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+
+fileprivate func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
     return l < r
@@ -16,7 +17,6 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     return false
   }
 }
-
 
 enum SequenceStepFilter {
     case all

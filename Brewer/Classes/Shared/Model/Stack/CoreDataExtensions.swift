@@ -36,4 +36,3 @@ struct CoreDataOperations<T> where T: NSManagedObject, T: Entity {
         return context.registeredObject(for: objectID) as? T
     }
 }
-
