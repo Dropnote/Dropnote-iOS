@@ -22,51 +22,51 @@ final class BrewingsSortingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = tr(.BrewingsSortingSortTitle)
+        title = tr(.brewingsSortingSortTitle)
         
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         viewModel.configureWithTableView(tableView)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureWithTheme(themeConfiguration)
         tableView.configureWithTheme(themeConfiguration)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.brewingSort)
     }
 
-    @IBAction func close(sender: AnyObject) {
+    @IBAction func close(_ sender: AnyObject) {
         dismissViewControllerAnimatedSubject.onNext(true)
     }
 }
 
 extension BrewingsSortingViewController: UITableViewDelegate {
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.accessibilityLabel = "Select \(indexPath.row + 1)"
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
         (cell as? BrewingsSortingOptionCell)?.configureWithTheme(themeConfiguration)
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let currentCell = tableView.cellForRowAtIndexPath(indexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let currentCell = tableView.cellForRow(at: indexPath)
         viewModel.selectSortingOptionAtIndexPath(indexPath)
         for cell in tableView.visibleCells {
             if cell == currentCell {
-                cell.accessoryType = .Checkmark
+                cell.accessoryType = .checkmark
             } else {
-                cell.accessoryType = .None
+                cell.accessoryType = .none
             }
         }
 
-        MainScheduler
+        _ = MainScheduler
             .asyncInstance
             .scheduleRelative(viewModel.sortingOption, dueTime: 0.2) {
                 [weak self] sortingOption in
-                guard let `self` = self else { return NopDisposable.instance }
+                guard let `self` = self else { return Disposables.create() }
                 self.switchSortingOptionSubject.onNext(sortingOption)
                 self.dismissViewControllerAnimatedSubject.onNext(true)
-                return BooleanDisposable(disposed: true)
+                return BooleanDisposable(isDisposed: true)
         }
     }
 }

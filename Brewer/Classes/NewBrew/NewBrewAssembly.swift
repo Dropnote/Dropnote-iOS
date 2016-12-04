@@ -48,7 +48,7 @@ final class NewBrewAssembly: AssemblyType {
 		container.register(SelectableSearchViewModelType.self) {
 			(r, identifier: SelectableSearchIdentifier, brewModelController: BrewModelControllerType) in
 			return SelectableSearchViewModel(modelController:
-					r.resolve(SelectableSearchModelControllerType.self, arguments: (identifier, brewModelController))!
+					r.resolve(SelectableSearchModelControllerType.self, arguments: identifier, brewModelController)!
 			)
 		}
 
@@ -91,22 +91,22 @@ final class NewBrewAssembly: AssemblyType {
 		// MARK: Attributes: Weight, Water, Temperature, Time
 
 		container.register(WeightInputViewModel.self) {
-			r, brewModelContorller in WeightInputViewModel(unitModelController: r.resolve(UnitsModelControllerType)!, brewModelController: brewModelContorller)
+			r, brewModelContorller in WeightInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelContorller)
 		}
 
 		container.register(WaterInputViewModel.self) {
-			r, brewModelContorller in WaterInputViewModel(unitModelController: r.resolve(UnitsModelControllerType)!, brewModelController: brewModelContorller)
+			r, brewModelContorller in WaterInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelContorller)
 		}
 
 		container.register(TemperatureInputViewModel.self) {
 			r, brewModelContorller in TemperatureInputViewModel(
-                unitModelController: r.resolve(UnitsModelControllerType)!,
+                unitModelController: r.resolve(UnitsModelControllerType.self)!,
                 brewModelController: brewModelContorller
             )
 		}
 
 		container.register(TimeInputViewModel.self) {
-			r, brewModelContorller in TimeInputViewModel(unitModelController: r.resolve(UnitsModelControllerType)!, brewModelController: brewModelContorller)
+			r, brewModelContorller in TimeInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelContorller)
 		}
 
 		// MARK: Notes

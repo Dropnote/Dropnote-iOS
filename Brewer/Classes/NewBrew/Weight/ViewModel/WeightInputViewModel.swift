@@ -9,21 +9,21 @@ import RxCocoa
 import XCGLogger
 
 final class WeightInputViewModel: NumericalInputViewModelType {
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
     var unit: String {
-        return UnitCategory.WeightUnit(rawValue:unitModelController.rawUnit(forCategory: UnitCategory.Weight.rawValue))!.description
+        return UnitCategory.WeightUnit(rawValue:unitModelController.rawUnit(forCategory: UnitCategory.weight.rawValue))!.description
     }
 
     var informativeText: String {
-        return tr(.WeightInformativeText)
+        return tr(.weightInformativeText)
     }
     
     var currentValue: String? {
         guard let brew = brewModelController.currentBrew() else { return nil }
         guard let attribute = brew.brewAttributeForType(BrewAttributeType.CoffeeWeight) else { return nil }
         let value = BrewAttributeType.CoffeeWeight.format(attribute.value, withUnitType: attribute.unit)
-        return value.stringByReplacingOccurrencesOfString(" ", withString: "")
+        return value.replacingOccurrences(of: " ", with: "")
     }
 
     lazy var inputTransformer: NumericalInputTransformerType = InputTransformer.numberTransformer()
@@ -36,21 +36,21 @@ final class WeightInputViewModel: NumericalInputViewModelType {
         self.brewModelController = brewModelController
     }
 
-    func setInputValue(value: String) {
+    func setInputValue(_ value: String) {
         guard let brew = brewModelController.currentBrew() else { return}
         guard let coffeeWeight = Double(value) else {
             XCGLogger.error("Couldn't convert \"\(value)\" to double!")
             return
         }
 
-        let unit = Int32(unitModelController.rawUnit(forCategory: UnitCategory.Weight.rawValue))
+        let unit = Int32(unitModelController.rawUnit(forCategory: UnitCategory.weight.rawValue))
         brewModelController
             .createNewBrewAttribute(forType: .CoffeeWeight)
-            .subscribeNext(configureAttibute(withBrew: brew, unit: unit, coffeeWeight: coffeeWeight))
+            .subscribe(onNext: configureAttibute(withBrew: brew, unit: unit, coffeeWeight: coffeeWeight))
             .addDisposableTo(disposeBag)
     }
     
-    private func configureAttibute(withBrew brew: Brew, unit: Int32, coffeeWeight: Double) -> (BrewAttribute) -> Void {
+    fileprivate func configureAttibute(withBrew brew: Brew, unit: Int32, coffeeWeight: Double) -> (BrewAttribute) -> Void {
         return {
             attribute in
             attribute.type = BrewAttributeType.CoffeeWeight.intValue

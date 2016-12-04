@@ -20,7 +20,7 @@ protocol BrewModelControllerType {
 
 final class BrewModelController: BrewModelControllerType {
     let stack: StackType
-    private var brew: Brew?
+    fileprivate var brew: Brew?
 
     init(stack: StackType, brew: Brew? = nil) {
         self.stack = stack
@@ -64,34 +64,34 @@ final class BrewModelController: BrewModelControllerType {
 					observer.onError(error)
 				}
 			}
-			return NopDisposable.instance
+			return Disposables.create()
 		}
-			.doOn(onNext: {
+			.do(onNext: {
 				brew in self.brew = brew
 		})
 	}
     
-    private func configureBrew(brew: Brew, withMethod method: BrewMethod) {
-        brew.created = NSDate.timeIntervalSinceReferenceDate()
+    fileprivate func configureBrew(_ brew: Brew, withMethod method: BrewMethod) {
+        brew.created = Date.timeIntervalSinceReferenceDate
         brew.method = method.intValue
         brew.isFinished = false
     }
     
-    private func configureBrew(brew: Brew, withCoffeeID coffeeID: NSManagedObjectID?, inContext context: NSManagedObjectContext) {
+    fileprivate func configureBrew(_ brew: Brew, withCoffeeID coffeeID: NSManagedObjectID?, inContext context: NSManagedObjectContext) {
         if let id = coffeeID {
-            let safeCoffee = context.objectWithID(id) as! Coffee
+            let safeCoffee = context.object(with: id) as! Coffee
             brew.coffee = safeCoffee
         }
     }
     
-    private func configureBrew(brew: Brew, withCoffeeMachineID coffeeMachineID: NSManagedObjectID?, inContext context: NSManagedObjectContext) {
+    fileprivate func configureBrew(_ brew: Brew, withCoffeeMachineID coffeeMachineID: NSManagedObjectID?, inContext context: NSManagedObjectContext) {
         if let id = coffeeMachineID {
-            let safeCoffeeMachine = context.objectWithID(id) as! CoffeeMachine
+            let safeCoffeeMachine = context.object(with: id) as! CoffeeMachine
             brew.coffeeMachine = safeCoffeeMachine
         }
     }
     
-    private func configureCuppingAttributesForBrew(brew: Brew, inContext context: NSManagedObjectContext) {
+    fileprivate func configureCuppingAttributesForBrew(_ brew: Brew, inContext context: NSManagedObjectContext) {
         let cuppingOperations = CoreDataOperations<Cupping>(managedObjectContext: context)
         for cuppingAttribute in CuppingAttribute.allValues {
             let cupping = cuppingOperations.create()
@@ -115,13 +115,13 @@ final class BrewModelController: BrewModelControllerType {
                 observer.onNext(attribute)
                 observer.onCompleted()
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
     
     func saveBrew() -> Observable<()> {
-        currentBrew()?.coffee?.updatedAt = NSDate.timeIntervalSinceReferenceDate()
-        currentBrew()?.coffeeMachine?.updatedAt = NSDate.timeIntervalSinceReferenceDate()        
+        currentBrew()?.coffee?.updatedAt = Date.timeIntervalSinceReferenceDate
+        currentBrew()?.coffeeMachine?.updatedAt = Date.timeIntervalSinceReferenceDate        
         return stack.save().map { _ in }
     }
 
@@ -148,12 +148,12 @@ final class BrewModelController: BrewModelControllerType {
                     observer.onError(error)
                 }
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
         .flatMap(removeBrew)
     }
     
-    private func removeBrew(brew: Brew?) -> Observable<Bool> {
+    fileprivate func removeBrew(_ brew: Brew?) -> Observable<Bool> {
         guard let brew = brew else { return .just(false) }
         let brewID = brew.objectID
         return Observable.create {
@@ -165,7 +165,7 @@ final class BrewModelController: BrewModelControllerType {
                     let brew = operations.objectForID(brewID)
                     
                     if let brew = brew {
-                        context.deleteObject(brew)
+                        context.delete(brew)
                         observer.onNext(true)
                     } else {
                         observer.onNext(false)
@@ -177,7 +177,7 @@ final class BrewModelController: BrewModelControllerType {
                     observer.onError(error)
                 }
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 }

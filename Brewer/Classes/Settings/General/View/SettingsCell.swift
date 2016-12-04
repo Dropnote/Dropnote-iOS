@@ -13,16 +13,16 @@ final class SettingsCell: UITableViewCell, Highlightable {
     var normalColor: UIColor?
     var highlightColor: UIColor?
     
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
-            highlightViews([self, textLabel!], highlighted: highlighted)
+            highlightViews([self, textLabel!], highlighted: isHighlighted)
         }
     }
 }
 
 extension SettingsCell: PresentableConfigurable {
     
-    func configureWithPresentable(presentable: TitlePresentable) {
+    func configureWithPresentable(_ presentable: TitlePresentable) {
         accessibilityHint = "Opens \(presentable.title)"
         textLabel?.text = presentable.title
     }
@@ -30,7 +30,7 @@ extension SettingsCell: PresentableConfigurable {
 
 extension SettingsCell {
     
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         super.configureWithTheme(theme)
         [textLabel!, detailTextLabel!].forEach {
             $0.configureWithTheme(theme)

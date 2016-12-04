@@ -16,23 +16,23 @@ import XCGLogger
 protocol BrewingsViewModelType: TableViewConfigurable {
     var sortingOption: BrewingSortingOption { get set }
 
-    func brew(forIndexPath indexPath: NSIndexPath) -> Brew
-    func setSearchText(searchText: String)
+    func brew(forIndexPath indexPath: IndexPath) -> Brew
+    func setSearchText(_ searchText: String)
     func resetFilters()
 }
 
 final class BrewingsViewModel: BrewingsViewModelType {
-    private(set) var brewsModelController: BrewingsModelControllerType
-	private(set) var fetchedResultsControllerDelegate: TableViewFetchedResultsControllerDynamicChangesHandler!
+    fileprivate(set) var brewsModelController: BrewingsModelControllerType
+	fileprivate(set) var fetchedResultsControllerDelegate: TableViewFetchedResultsControllerDynamicChangesHandler<Brew>!
     
-    var sortingOption: BrewingSortingOption = .DateDescending {
+    var sortingOption: BrewingSortingOption = .dateDescending {
         didSet {
             brewsModelController.sortingOption = sortingOption
         }
     }
     
-    private var brews: [Brew] {
-        return brewsModelController.fetchedResultsController.fetchedItems()
+    fileprivate var brews: [Brew] {
+        return brewsModelController.fetchedResultsController.fetchedObjects ?? []
     }
     
     var listItems: [[BrewCellViewModel]] {
@@ -45,7 +45,7 @@ final class BrewingsViewModel: BrewingsViewModelType {
 		self.brewsModelController = brewsModelController
 	}
 
-	func configureWithTableView(tableView: UITableView) {
+	func configureWithTableView(_ tableView: UITableView) {
 		fetchedResultsControllerDelegate = TableViewFetchedResultsControllerDynamicChangesHandler(
 			tableView: tableView,
 			fetchedResultsController: brewsModelController.fetchedResultsController
@@ -55,11 +55,11 @@ final class BrewingsViewModel: BrewingsViewModelType {
 		tableView.dataSource = dataSource
 	}
     
-    func brew(forIndexPath indexPath: NSIndexPath) -> Brew {
-        return brews[indexPath.row]
+    func brew(forIndexPath indexPath: IndexPath) -> Brew {
+        return brews[(indexPath as NSIndexPath).row]
     }
     
-    func setSearchText(text: String) {
+    func setSearchText(_ text: String) {
         brewsModelController.setSearchText(text)
     }
     
@@ -70,11 +70,11 @@ final class BrewingsViewModel: BrewingsViewModelType {
 
 extension BrewingsViewModel: TableListDataSource {
     
-    func cellIdentifierForIndexPath(indexPath: NSIndexPath) -> String {
+    func cellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
         return "BrewCell"
     }
     
-    func listView(listView: UITableView, configureCell cell: BrewCell, withObject object: BrewCellViewModel, atIndexPath indexPath: NSIndexPath) {
+    func listView(_ listView: UITableView, configureCell cell: BrewCell, withObject object: BrewCellViewModel, atIndexPath indexPath: IndexPath) {
         cell.configureWithViewModel(object)
     }
 }

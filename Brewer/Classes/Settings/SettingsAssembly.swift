@@ -78,6 +78,6 @@ final class SettingsAssembly: AssemblyType {
     }
 }
 
-extension NSUserDefaults: KeyValueStoreType {
+extension UserDefaults: KeyValueStoreType {
 
 }

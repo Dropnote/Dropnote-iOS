@@ -11,27 +11,27 @@ import UIKit
 
 extension ThemeConfigurable where Self: UIViewController {
 
-	func configureWithTheme(theme: ThemeConfiguration?) {
+	func configureWithTheme(_ theme: ThemeConfiguration?) {
 		guard let theme = theme else { return }
         configureTabBarItem(tabBarItem, theme: theme)
 		configureNavigationBar(theme.navigationBarConfiguration)
 		configureBarButtonItems(theme)
-        if isViewLoaded() {
+        if isViewLoaded {
             view.configureWithTheme(theme)
         }
 	}
 
-    func configureTabBarItem(tabBarItem: UITabBarItem, theme: ThemeConfiguration) {
+    func configureTabBarItem(_ tabBarItem: UITabBarItem, theme: ThemeConfiguration) {
 		theme.tabBarItemConfigurations.forEach {
 			state, config in
 			tabBarItem.setTitleTextAttributes([
 				NSFontAttributeName: config.font,
 				NSForegroundColorAttributeName: config.color
-				], forState: state)
+				], for: state)
 		}
 	}
 
-	private func configureNavigationBar(theme: NavigationBarThemeConfiguration) {
+	fileprivate func configureNavigationBar(_ theme: NavigationBarThemeConfiguration) {
 		guard let navigationBar = navigationController?.navigationBar else {
 			return
 		}
@@ -39,26 +39,26 @@ extension ThemeConfigurable where Self: UIViewController {
 			NSFontAttributeName: theme.titleFont,
 			NSForegroundColorAttributeName: theme.titleColor
 		]
-		navigationBar.translucent = theme.translucent
+		navigationBar.isTranslucent = theme.translucent
 		navigationBar.barTintColor = theme.barTintColor
 		navigationBar.tintColor = theme.tintColor
         
-        if let nc = navigationController where nc.viewControllers.first != self {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(asset: .Ic_back), style: .Plain, target: self, action: #selector(pop))
+        if let nc = navigationController , nc.viewControllers.first != self {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(asset: .Ic_back), style: .plain, target: self, action: #selector(pop))
         }
 	}
 
-	private func configureBarButtonItems(theme: ThemeConfiguration) {
+	fileprivate func configureBarButtonItems(_ theme: ThemeConfiguration) {
 		[navigationItem.rightBarButtonItems, navigationItem.leftBarButtonItems]
 			.flatMap { $0 }
-			.flatten()
+			.joined()
 			.forEach { $0.tintColor = theme.barButtonItemConfiguration.tintColor }
 	}
 }
 
 extension UIView: ThemeConfigurable { }
 extension ThemeConfigurable where Self: UIView {
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         guard let theme = theme else { return }
         backgroundColor = theme.lightColor
         tintColor = theme.lightTintColor

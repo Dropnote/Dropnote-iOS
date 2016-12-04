@@ -26,7 +26,7 @@ extension BrewAttributeType {
 		}
 	}
 
-	static func fromIntValue(intValue: Int32) -> BrewAttributeType {
+	static func fromIntValue(_ intValue: Int32) -> BrewAttributeType {
 		switch intValue {
 		case 1: return .Time
         case 2: return .GrindSize

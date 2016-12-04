@@ -9,7 +9,7 @@ import UIKit
 final class AboutViewPhotoCell: UITableViewCell {
     @IBOutlet weak var authorsLabel: UILabel!
 
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         super.configureWithTheme(theme)
         authorsLabel.configureWithTheme(theme)
     }

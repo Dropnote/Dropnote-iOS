@@ -9,28 +9,28 @@
 import Foundation
 
 enum CuppingAttribute: Int32 {
-    case Aroma
-    case Acidity
-    case Aftertaste
-    case Balance
-    case Body
-    case Sweetness
-    case Overall
+    case aroma
+    case acidity
+    case aftertaste
+    case balance
+    case body
+    case sweetness
+    case overall
     
-    static let allValues = [Aroma, Acidity, Aftertaste, Balance, Body, Sweetness, Overall]
+    static let allValues = [aroma, acidity, aftertaste, balance, body, sweetness, overall]
 }
 
 extension CuppingAttribute: CustomStringConvertible {
     
     var description: String {
         switch self {
-        case .Aroma: return tr(.CuppingAttributeAroma)
-        case .Acidity: return tr(.CuppingAttributeAcidity)
-        case .Aftertaste: return tr(.CuppingAttributeAftertaste)
-        case .Balance: return tr(.CuppingAttributeBalance)
-        case .Body: return tr(.CuppingAttributeBody)
-        case .Sweetness: return tr(.CuppingAttributeSweetness)
-        case .Overall: return tr(.CuppingAttributeOverall)
+        case .aroma: return tr(.cuppingAttributeAroma)
+        case .acidity: return tr(.cuppingAttributeAcidity)
+        case .aftertaste: return tr(.cuppingAttributeAftertaste)
+        case .balance: return tr(.cuppingAttributeBalance)
+        case .body: return tr(.cuppingAttributeBody)
+        case .sweetness: return tr(.cuppingAttributeSweetness)
+        case .overall: return tr(.cuppingAttributeOverall)
         }
     }
 }

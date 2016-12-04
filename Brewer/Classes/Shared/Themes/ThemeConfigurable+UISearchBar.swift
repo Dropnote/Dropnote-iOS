@@ -10,12 +10,12 @@ import Foundation
 import UIKit
 
 extension ThemeConfigurable where Self: UISearchBar {
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         guard let theme = theme else { return }
         backgroundColor = theme.lightColor
         barTintColor = theme.darkColor
         (self as UISearchBar).tintColor = theme.darkColor
-        translucent = theme.tabBarConfiguration.translucent
-        searchBarStyle = .Minimal
+        isTranslucent = theme.tabBarConfiguration.translucent
+        searchBarStyle = .minimal
     }
 }

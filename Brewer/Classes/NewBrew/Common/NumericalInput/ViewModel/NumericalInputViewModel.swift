@@ -11,5 +11,5 @@ protocol NumericalInputViewModelType {
     var inputTransformer: NumericalInputTransformerType { get }
     var currentValue: String? { get }
 
-    func setInputValue(value: String)
+    func setInputValue(_ value: String)
 }

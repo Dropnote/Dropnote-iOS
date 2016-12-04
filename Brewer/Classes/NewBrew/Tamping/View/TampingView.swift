@@ -20,11 +20,11 @@ final class TampingView: UIView {
 
 extension TampingView {
     
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         super.configureWithTheme(theme)
         slider.configureWithTheme(theme)
         [lightLabel, strongLabel].forEach {
-            $0.configureWithTheme(theme)
+            $0!.configureWithTheme(theme)
         }
         informativeLabel.configureWithTheme(theme)
     }

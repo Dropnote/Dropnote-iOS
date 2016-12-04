@@ -33,24 +33,24 @@ extension BrewAttributeType {
 }
 
 extension BrewAttributeType {
-	func format(value: Double, withUnitType unit: Int32) -> String {
+	func format(_ value: Double, withUnitType unit: Int32) -> String {
 		switch self {
 		case .Time:
-			let formatter = NSDateComponentsFormatter()
-			formatter.unitsStyle = .Abbreviated
-			let components = NSDateComponents()
+			let formatter = DateComponentsFormatter()
+			formatter.unitsStyle = .abbreviated
+			var components = DateComponents()
 			components.second = Int(value) % 60
 			components.minute = Int(value / 60)
-			return formatter.stringFromDateComponents(components) ?? ""
+			return formatter.string(from: components) ?? ""
 		case .CoffeeWeight, .WaterWeight:
 			return "\(value) \(UnitCategory.unitDescriptionFromIntValue(unit))"
         case .WaterTemperature:
             return value.format(".0") + " " + UnitCategory.unitDescriptionFromIntValue(unit)
 		case .GrindSize:
             switch GrindSizeUnit(rawValue: unit)! {
-            case .Slider:
+            case .slider:
                 return GrindSizeSliderValue(rawValue: value)?.description ?? ""
-            case .Numeric:
+            case .numeric:
                 return Double(value).format(".1")
             }
 		case .TampStrength: return value.format(".1")
@@ -62,13 +62,13 @@ extension BrewAttributeType {
 extension BrewAttributeType: CustomStringConvertible {
 	var description: String {
 		switch self {
-		case .Time: return tr(.AttributeTime)
-		case .GrindSize: return tr(.AttributeGrindSize)
-		case .CoffeeWeight: return tr(.AttributeCoffeeWeight)
-		case .WaterWeight: return tr(.AttributeWaterWeight)
-		case .WaterTemperature: return tr(.AttributeTemperature)
-		case .TampStrength: return tr(.AttributeTampStrength)
-		case .Notes: return tr(.AttributeNotes)
+		case .Time: return tr(.attributeTime)
+		case .GrindSize: return tr(.attributeGrindSize)
+		case .CoffeeWeight: return tr(.attributeCoffeeWeight)
+		case .WaterWeight: return tr(.attributeWaterWeight)
+		case .WaterTemperature: return tr(.attributeTemperature)
+		case .TampStrength: return tr(.attributeTampStrength)
+		case .Notes: return tr(.attributeNotes)
 		}
 	}
 }

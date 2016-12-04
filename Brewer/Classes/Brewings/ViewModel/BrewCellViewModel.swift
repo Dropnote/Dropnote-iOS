@@ -28,16 +28,16 @@ final class BrewCellViewModel: BrewCellViewModelType {
 
     init(brew: Brew) {
         
-        let createdDate = NSDate(timeIntervalSinceReferenceDate: brew.created)
-        let components = NSCalendar.currentCalendar().components(.Day, fromDate: createdDate, toDate: NSDate(), options: .WrapComponents)
-        if components.day > 2 {
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = .MediumStyle
-            createdAt = dateFormatter.stringFromDate(NSDate(timeIntervalSinceReferenceDate: brew.created))
+        let createdDate = Date(timeIntervalSinceReferenceDate: brew.created)
+        let components = (Calendar.current as NSCalendar).components(.day, from: createdDate, to: Date(), options: .wrapComponents)
+        if components.day! > 2 {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            createdAt = dateFormatter.string(from: Date(timeIntervalSinceReferenceDate: brew.created))
         } else {
             let intervalFormatter = TTTTimeIntervalFormatter()
             intervalFormatter.usesIdiomaticDeicticExpressions = true
-            createdAt = intervalFormatter.stringForTimeIntervalFromDate(NSDate(), toDate: createdDate)
+            createdAt = intervalFormatter.stringForTimeInterval(from: Date(), to: createdDate)
         }
         
         let brewMethod = BrewMethod.fromIntValue(brew.method)

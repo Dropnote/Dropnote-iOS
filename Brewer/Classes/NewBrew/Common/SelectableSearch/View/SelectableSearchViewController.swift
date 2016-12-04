@@ -12,7 +12,7 @@ extension SelectableSearchViewController: Activable { }
 extension SelectableSearchViewController: ThemeConfigurationContainer { }
 
 final class SelectableSearchViewController: UIViewController {
-	private let disposeBag = DisposeBag()
+	fileprivate let disposeBag = DisposeBag()
 
 	var themeConfiguration: ThemeConfiguration?
 
@@ -29,7 +29,7 @@ final class SelectableSearchViewController: UIViewController {
 			if var responder = inputTextField {
 				responder.active = active
 			}
-            if let inputTextField = inputTextField where !active {
+            if let inputTextField = inputTextField , !active {
                 viewModel.addNewSearchItemIfNeeded(inputTextField.text)
             }
 		}
@@ -42,15 +42,15 @@ final class SelectableSearchViewController: UIViewController {
 		tableView.tableFooterView = UIView()
 		viewModel.configureWithTableView(tableView)
 		inputTextField
-            .rx_text
+            .rx.text
             .asDriver()
-            .distinctUntilChanged()
+            .distinctUntilChanged(==)
             .skip(1)
-            .driveNext(viewModel.setSearchString)
+            .drive(onNext: viewModel.setSearchString)
             .addDisposableTo(disposeBag)
 	}
 
-	override func viewWillAppear(animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		view.configureWithTheme(themeConfiguration)
 		tableView.configureWithTheme(themeConfiguration)
@@ -60,12 +60,12 @@ final class SelectableSearchViewController: UIViewController {
 
 extension SelectableSearchViewController: UITableViewDelegate {
 
-	func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.accessibilityLabel = "Select \(indexPath.row + 1)"
+	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
 		cell.configureWithTheme(themeConfiguration)
 	}
 
-	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		viewModel.selectItemAtIndexPath(indexPath)
 		inputTextField.text = nil
 	}

@@ -21,16 +21,16 @@ final class MethodPickerCell: UITableViewCell, Highlightable {
         accessoryView = UIImageView(image: UIImage(asset: .Ic_arrow))
     }
     
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
-            highlightViews([self], highlighted: highlighted)
+            highlightViews([self], highlighted: isHighlighted)
         }
     }
 }
 
 extension MethodPickerCell: PresentableConfigurable {
     
-    func configureWithPresentable(presentable: TitleImagePresentable) {
+    func configureWithPresentable(_ presentable: TitleImagePresentable) {
         accessibilityHint = "Selects \(presentable.title) method"
         titleLabel.text = presentable.title
         iconImageView.image = presentable.image
@@ -39,10 +39,10 @@ extension MethodPickerCell: PresentableConfigurable {
 
 extension MethodPickerCell {
     
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         super.configureWithTheme(theme)
         titleLabel.configureWithTheme(theme)
-        titleLabel.backgroundColor = UIColor.clearColor()
+        titleLabel.backgroundColor = UIColor.clear
         normalColor = theme?.lightColor
         highlightColor = highlightColorForTheme(theme)
     }

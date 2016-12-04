@@ -16,8 +16,8 @@ enum SelectableSearchIdentifier: String {
 extension SelectableSearchIdentifier: CustomStringConvertible {
     var description: String {
         switch self {
-        case .Coffee: return tr(.SelectableSearchCoffeeItemTitle)
-        case .CoffeeMachine: return tr(.SelectableSearchCoffeeMachineItemTitle)
+        case .Coffee: return tr(.selectableSearchCoffeeItemTitle)
+        case .CoffeeMachine: return tr(.selectableSearchCoffeeMachineItemTitle)
         }
     }
 }

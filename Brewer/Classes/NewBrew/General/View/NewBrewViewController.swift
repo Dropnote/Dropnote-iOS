@@ -6,15 +6,14 @@
 import Foundation
 import UIKit
 import RxSwift
-import Box
 import XCGLogger
 
 extension NewBrewViewController: ThemeConfigurable { }
 extension NewBrewViewController: ThemeConfigurationContainer { }
 
 final class NewBrewViewController: UIViewController {
-	private let disposeBag = DisposeBag()
-	private let keyboardManager = KeyboardManager()
+	fileprivate let disposeBag = DisposeBag()
+	fileprivate let keyboardManager = KeyboardManager()
 	@IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var doneBarButtonItem: UIBarButtonItem! {
         didSet {
@@ -27,7 +26,7 @@ final class NewBrewViewController: UIViewController {
 
 	var themeConfiguration: ThemeConfiguration?
 
-    private(set) var currentPageIndex = 0 {
+    fileprivate(set) var currentPageIndex = 0 {
         didSet {
             guard let progressView = progressView else { return }
             progressView.selectIconAtIndex(currentPageIndex)
@@ -37,10 +36,10 @@ final class NewBrewViewController: UIViewController {
 	var metrics: ScrollViewPageMetricsType!
 	var viewModel: NewBrewViewModelType! {
 		didSet {
-            _ = viewModel.failedToCreateNewBrewSubject.subscribeNext {
+            _ = viewModel.failedToCreateNewBrewSubject.subscribe(onNext: {
                 XCGLogger.error("Failed to create new brew = \($0)")
-            }
-            _ = viewModel.reloadDataAnimatedSubject.subscribeNext(reloadData)
+            })
+            _ = viewModel.reloadDataAnimatedSubject.subscribe(onNext: reloadData)
 		}
 	}
 
@@ -48,10 +47,10 @@ final class NewBrewViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		title = tr(.NewBrewItemTitle)
+		title = tr(.newBrewItemTitle)
 		configureWithTheme(themeConfiguration)
 		collectionView.delegate = self
-		collectionView.scrollEnabled = true
+		collectionView.isScrollEnabled = true
         collectionView.delaysContentTouches = false
 		viewModel.configureWithCollectionView(collectionView)
 
@@ -61,21 +60,21 @@ final class NewBrewViewController: UIViewController {
 		keyboardManager
 			.keyboardInfoChange
 			.debounce(0.01, scheduler: MainScheduler.instance)
-			.subscribeNext(handleKeyboardStateChange)
+			.subscribe(onNext: handleKeyboardStateChange)
 			.addDisposableTo(disposeBag)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.newBrew)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setCurrentViewController(collectionView)
     }
 
-	override func viewWillDisappear(animated: Bool) {
+	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		childViewControllers
 			.filter { $0 is Activable }
@@ -85,7 +84,7 @@ final class NewBrewViewController: UIViewController {
 			.deactivate()
 	}
 
-	@IBAction func close(sender: AnyObject) {
+	@IBAction func close(_ sender: AnyObject) {
         perform(viewModel.cleanUp(), isSuccessfullyFinished: false)		
 	}
 
@@ -93,30 +92,33 @@ final class NewBrewViewController: UIViewController {
         perform(viewModel.finishBrew(), isSuccessfullyFinished: true)
     }
     
-    private func perform(observable: Observable<Void>, isSuccessfullyFinished: Bool) {
-        observable.observeOn(MainScheduler.asyncInstance).subscribeCompleted {
-            [weak self] in
-            self?.hideViewControllerSwitchingToHistorySubject.onNext(isSuccessfullyFinished)
-        }.addDisposableTo(disposeBag)
+    fileprivate func perform(_ observable: Observable<Void>, isSuccessfullyFinished: Bool) {
+        observable
+            .observeOn(MainScheduler.asyncInstance)
+            .subscribe(onCompleted: {
+                [weak self] in
+                self?.hideViewControllerSwitchingToHistorySubject.onNext(isSuccessfullyFinished)
+            })
+            .addDisposableTo(disposeBag)
     }
 
-	private func configureNavigationBar() {
+	fileprivate func configureNavigationBar() {
 		navigationBar.configureWithTheme(themeConfiguration)
 		navigationBar.alpha = 0
         navigationBar.previousButton.accessibilityLabel = "Previous Step"
         navigationBar.nextButton.accessibilityLabel = "Next Step"
-		navigationBar.previousButton.addTarget(self, action: #selector(NewBrewViewController.previousStep), forControlEvents: .TouchUpInside)
-		navigationBar.nextButton.addTarget(self, action: #selector(NewBrewViewController.nextStep), forControlEvents: .TouchUpInside)
+		navigationBar.previousButton.addTarget(self, action: #selector(NewBrewViewController.previousStep), for: .touchUpInside)
+		navigationBar.nextButton.addTarget(self, action: #selector(NewBrewViewController.nextStep), for: .touchUpInside)
 	}
     
-    private func configureProgressView() {
+    fileprivate func configureProgressView() {
         progressView.configureWithTheme(themeConfiguration)        
-        progressView.axis = .Horizontal
-        progressView.distribution = .EqualSpacing
-        progressView.alignment = .Center
+        progressView.axis = .horizontal
+        progressView.distribution = .equalSpacing
+        progressView.alignment = .center
     }
     
-    private func reloadData(animated: Bool) {
+    fileprivate func reloadData(_ animated: Bool) {
         collectionView.reloadData()
         progressView.configureWithIcons(viewModel.progressIcons)
         progressView.selectIconAtIndex(0)
@@ -128,26 +130,26 @@ final class NewBrewViewController: UIViewController {
 
 extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 
-	func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 		let childViewController = viewModel.stepViewController(forIndexPath: indexPath)
 		addChildViewController(childViewController)
-		childViewController.didMoveToParentViewController(self)
+		childViewController.didMove(toParentViewController: self)
         
         cell.configureWithTheme(themeConfiguration)
     }
     
-    func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let childViewController = viewModel.stepViewController(forIndexPath: indexPath)
         childViewController.removeFromParentViewController()
     }
     
-    func collectionView(collectionView: UICollectionView,
+    func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
     
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         currentPageIndex = metrics.currentPageIndexForScrollView(scrollView)
         setCurrentViewController(scrollView)
         setDoneBarButtonItemIfNeeded(scrollView)
@@ -155,7 +157,7 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
         updateNavigationArrows()
 	}
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         currentPageIndex = metrics.currentPageIndexForScrollView(scrollView)
         setCurrentViewController(scrollView)
         setDoneBarButtonItemIfNeeded(scrollView)
@@ -165,38 +167,38 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 
 	// MARK: Helpers
 
-	private func setDoneBarButtonItemIfNeeded(scrollView: UIScrollView) {
+	fileprivate func setDoneBarButtonItemIfNeeded(_ scrollView: UIScrollView) {
 		if metrics.isLastPageOfScrollView(scrollView) {
-			let barButtonItem = UIBarButtonItem(image: UIImage(asset: .Ic_done), style: .Plain, target: self, action: #selector(NewBrewViewController.done))
-			navigationItem.setRightBarButtonItem(barButtonItem, animated: true)
+			let barButtonItem = UIBarButtonItem(image: UIImage(asset: .Ic_done), style: .plain, target: self, action: #selector(NewBrewViewController.done))
+			navigationItem.setRightBarButton(barButtonItem, animated: true)
 		} else {
-			navigationItem.setRightBarButtonItem(nil, animated: true)
+			navigationItem.setRightBarButton(nil, animated: true)
 		}
 	}
     
-    private func disableProgressViewIfNeeded(scrollView: UIScrollView) {
+    fileprivate func disableProgressViewIfNeeded(_ scrollView: UIScrollView) {
         if metrics.isLastPageOfScrollView(scrollView) {
             progressView.disable()
         }
     }
 
-	private func setCurrentViewController(scrollView: UIScrollView) {
+	fileprivate func setCurrentViewController(_ scrollView: UIScrollView) {
 		let currentIndex = metrics.currentPageIndexForScrollView(scrollView)
 		if let activeViewController = viewModel.setActiveViewControllerAtIndex(currentIndex) {
-			title = activeViewController.title ?? tr(.NewBrewItemTitle)
+			title = activeViewController.title ?? tr(.newBrewItemTitle)
 		} else {
-			title = tr(.NewBrewItemTitle)
+			title = tr(.newBrewItemTitle)
 		}
 	}
 
-	private func handleKeyboardStateChange(info: KeyboardInfo) {
-		if info.state == .WillShow || info.state == .Visible {
+	fileprivate func handleKeyboardStateChange(_ info: KeyboardInfo) {
+		if info.state == .willShow || info.state == .visible {
 			navigationBar.bottomConstraint.constant = info.endFrame.size.height
 		} else {
 			navigationBar.bottomConstraint.constant = 0.0
 		}
 
-		UIView.animateWithDuration(info.animationDuration, delay: 0.0, options: info.animationOptions, animations: {
+		UIView.animate(withDuration: info.animationDuration, delay: 0.0, options: info.animationOptions, animations: {
 			self.view.layoutIfNeeded()
 			}, completion: nil)
 	}

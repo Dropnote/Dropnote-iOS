@@ -12,13 +12,13 @@ extension GrindSizeViewController: Activable { }
 extension GrindSizeViewController: ThemeConfigurationContainer { }
 
 final class GrindSizeViewController: UIViewController {
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     @IBOutlet weak var informativeLabel: InformativeLabel!
     @IBOutlet weak var sliderContainerView: GrindSizeSliderContainerView!    
     @IBOutlet weak var numericValueTextField: UITextField! {
         didSet {
             numericValueTextField.delegate = self
-            numericValueTextField.tintColor = .clearColor()
+            numericValueTextField.tintColor = UIColor.clear
         }
     }
     @IBOutlet weak var switchButton: UIButton! {
@@ -45,16 +45,16 @@ final class GrindSizeViewController: UIViewController {
         title = BrewAttributeType.GrindSize.description
         informativeLabel.text = viewModel.informativeText
         
-        sliderContainerView.slider.continuous = false
+        sliderContainerView.slider.isContinuous = false
         numericValueTextField.text = viewModel.inputTransformer.initialString()
         
-        sliderContainerView.hidden = !viewModel.isSliderVisible
-        numericValueTextField.hidden = viewModel.isSliderVisible
+        sliderContainerView.isHidden = !viewModel.isSliderVisible
+        numericValueTextField.isHidden = viewModel.isSliderVisible
         
-        sliderContainerView.slider.rx_value.bindTo(viewModel.sliderValue).addDisposableTo(disposeBag)
+        sliderContainerView.slider.rx.value.bindTo(viewModel.sliderValue).addDisposableTo(disposeBag)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.configureWithTheme(themeConfiguration)
         informativeLabel.configureWithTheme(themeConfiguration)
@@ -63,15 +63,15 @@ final class GrindSizeViewController: UIViewController {
         showKeyboardIfNeeded()
     }
     
-    @IBAction func switchInputRepresentation(sender: UIButton) {        
-        numericValueTextField.hidden = !numericValueTextField.hidden
-        sliderContainerView.hidden = !sliderContainerView.hidden
-        viewModel.isSliderVisible = !sliderContainerView.hidden
+    @IBAction func switchInputRepresentation(_ sender: UIButton) {        
+        numericValueTextField.isHidden = !numericValueTextField.isHidden
+        sliderContainerView.isHidden = !sliderContainerView.isHidden
+        viewModel.isSliderVisible = !sliderContainerView.isHidden
         setButtonTitle(sender)
         showKeyboardIfNeeded()
     }
     
-    private func showKeyboardIfNeeded() {
+    fileprivate func showKeyboardIfNeeded() {
         if viewModel.isSliderVisible {
             numericValueTextField.resignFirstResponder()
         } else {
@@ -79,17 +79,17 @@ final class GrindSizeViewController: UIViewController {
         }
     }
     
-    private func setButtonTitle(button: UIButton) {
+    fileprivate func setButtonTitle(_ button: UIButton) {
         let buttonTitle = !viewModel.isSliderVisible
-            ? tr(.GrindSizeSliderButtonTitle)
-            : tr(.GrindSizeNumericButtonTitle)
-        button.setTitle(buttonTitle, forState: .Normal)
+            ? tr(.grindSizeSliderButtonTitle)
+            : tr(.grindSizeNumericButtonTitle)
+        button.setTitle(buttonTitle, for: UIControlState())
     }
 }
 
 extension GrindSizeViewController: UITextFieldDelegate {
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard string.characters.count <= 1 else {
             return false
         }

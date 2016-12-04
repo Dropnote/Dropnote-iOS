@@ -7,9 +7,9 @@ import Foundation
 
 // swiftlint:disable type_name
 enum UnitCategory: Int {
-    case Water = 1
-    case Weight = 2
-    case Temperature = 3
+    case water = 1
+    case weight = 2
+    case temperature = 3
 
     enum WaterUnit: Int {
         case oz = 11, ml = 12, g = 13
@@ -24,12 +24,12 @@ enum UnitCategory: Int {
     }
 
     enum TemperatureUnit: Int {
-        case Celsius = 31, Fahrenheit = 32
+        case celsius = 31, fahrenheit = 32
 
-        static let allValues = [Celsius, Fahrenheit]
+        static let allValues = [celsius, fahrenheit]
     }
     
-    static func unitDescriptionFromIntValue(intValue: Int32) -> String {
+    static func unitDescriptionFromIntValue(_ intValue: Int32) -> String {
         switch intValue {
         case 11: return WaterUnit.oz.description
         case 12: return WaterUnit.ml.description
@@ -38,8 +38,8 @@ enum UnitCategory: Int {
         case 21: return WeightUnit.oz.description
         case 22: return WeightUnit.g.description
             
-        case 31: return TemperatureUnit.Celsius.description
-        case 32: return TemperatureUnit.Fahrenheit.description
+        case 31: return TemperatureUnit.celsius.description
+        case 32: return TemperatureUnit.fahrenheit.description
             
         default: return ""
         }
@@ -53,9 +53,9 @@ enum UnitCategory: Int {
 extension UnitCategory: CustomStringConvertible {
     var description: String {
         switch self {
-            case .Weight: return tr(.UnitCategoryCoffee)
-            case .Water: return tr(.UnitCategoryWater)
-            case .Temperature: return tr(.UnitCategoryTemperature)
+            case .weight: return tr(.unitCategoryCoffee)
+            case .water: return tr(.unitCategoryWater)
+            case .temperature: return tr(.unitCategoryTemperature)
         }
     }
 }
@@ -88,8 +88,8 @@ extension UnitCategory.WeightUnit: CustomStringConvertible {
 extension UnitCategory.TemperatureUnit: CustomStringConvertible {
     var description: String {
         switch self {
-            case .Celsius: return "°C"
-            case .Fahrenheit: return "°F"
+            case .celsius: return "°C"
+            case .fahrenheit: return "°F"
         }
     }
 }

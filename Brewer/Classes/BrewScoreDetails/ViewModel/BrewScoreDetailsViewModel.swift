@@ -16,7 +16,7 @@ protocol BrewScoreDetailsViewModelType: TableViewConfigurable {
 }
 
 final class BrewScoreDetailViewModel: ScoreCellPresentable {
-	private let disposeBag = DisposeBag()
+	fileprivate let disposeBag = DisposeBag()
 	var title: String
 	var value: String
 	var sliderValue: Variable<Float>
@@ -30,20 +30,20 @@ final class BrewScoreDetailViewModel: ScoreCellPresentable {
         
         sliderValue
             .asDriver()
-            .driveNext {
+            .drive(onNext: {
                 value in
                 if let cupping = brew.cuppingAttributeForType(cuppingAttriubute) {
                     cupping.brew = brew
                     cupping.type = cuppingAttriubute.rawValue
                     cupping.value = Double(value)
                 }
-            }
+            })
             .addDisposableTo(disposeBag)
 	}
 }
 
 final class BrewScoreDetailsViewModel: BrewScoreDetailsViewModelType {
-	private let disposeBag = DisposeBag()
+	fileprivate let disposeBag = DisposeBag()
     
     lazy var dataSource: TableViewSourceWrapper<BrewScoreDetailsViewModel> = TableViewSourceWrapper(tableDataSource: self)
     lazy var listItems: [[BrewScoreDetailViewModel]] = [
@@ -69,16 +69,16 @@ final class BrewScoreDetailsViewModel: BrewScoreDetailsViewModelType {
         catch { XCGLogger.error("Error when saving new brew score = \(error)") }
     }
 
-	func configureWithTableView(tableView: UITableView) {
+	func configureWithTableView(_ tableView: UITableView) {
 		tableView.dataSource = dataSource
 	}
 
-	private func configureScoreCalculation() {
+	fileprivate func configureScoreCalculation() {
         guard let items = listItems.first else { return }
 		let sliderValues = items.map { $0.sliderValue }
-		sliderValues
-			.map { $0.asDriver() }
-			.toObservable()
+
+        Observable
+            .from(sliderValues.map { $0.asDriver() })
 			.merge()
 			.map { _ in self.totalScore(sliderValues.map { $0.value }) }
 			.map { $0.format(".1") }
@@ -86,7 +86,7 @@ final class BrewScoreDetailsViewModel: BrewScoreDetailsViewModelType {
 			.addDisposableTo(disposeBag)
 	}
 
-	private func totalScore(values: [Float]) -> Float {
+	fileprivate func totalScore(_ values: [Float]) -> Float {
         guard !values.isEmpty else {
             return 0
         }
@@ -96,12 +96,12 @@ final class BrewScoreDetailsViewModel: BrewScoreDetailsViewModelType {
 
 extension BrewScoreDetailsViewModel: TableListDataSource {
     
-    func cellIdentifierForIndexPath(indexPath: NSIndexPath) -> String {
+    func cellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
         return "BrewScoreDetailCell"
     }
     
-    func listView(listView: UITableView, configureCell cell: BrewScoreDetailCell,
-                  withObject object: BrewScoreDetailViewModel, atIndexPath indexPath: NSIndexPath) {
-        cell.configureWithPresentable(listItems[indexPath.section][indexPath.row])
+    func listView(_ listView: UITableView, configureCell cell: BrewScoreDetailCell,
+                  withObject object: BrewScoreDetailViewModel, atIndexPath indexPath: IndexPath) {
+        cell.configureWithPresentable(listItems[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row])
     }
 }

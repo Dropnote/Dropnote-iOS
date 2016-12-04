@@ -9,10 +9,10 @@
 import Foundation
 
 enum GrindSize {
-    case ExtraFine
-    case Fine
-    case Medium
-    case Coarse
+    case extraFine
+    case fine
+    case medium
+    case coarse
     
-    static let allValues = [ExtraFine, Fine, Medium, Coarse]
+    static let allValues = [extraFine, fine, medium, coarse]
 }

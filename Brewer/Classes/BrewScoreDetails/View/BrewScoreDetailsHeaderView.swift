@@ -16,12 +16,12 @@ final class BrewScoreDetailsHeaderView: UIView {
 
 extension BrewScoreDetailsHeaderView {
     
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         backgroundColor = theme?.darkColor
         [titleLabel, valueLabel].forEach {
-            $0.configureWithTheme(theme)
-            $0.backgroundColor = theme?.darkColor
-            $0.textColor = theme?.lightColor
+            $0?.configureWithTheme(theme)
+            $0?.backgroundColor = theme?.darkColor
+            $0?.textColor = theme?.lightColor
         }
     }
 }

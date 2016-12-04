@@ -12,7 +12,7 @@ extension NotesViewController: Activable { }
 extension NotesViewController: ThemeConfigurationContainer { }
 
 final class NotesViewController: UIViewController {
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     @IBOutlet weak var notesTextView: UITextView!
 
     var active: Bool = false {
@@ -30,10 +30,11 @@ final class NotesViewController: UIViewController {
         super.viewDidLoad()
         title = BrewAttributeType.Notes.description
         notesTextView.text = viewModel.notes.value
-        notesTextView.rx_text.bindTo(viewModel.notes).addDisposableTo(disposeBag)
+        
+        notesTextView.rx.text.bindTo(viewModel.notes).addDisposableTo(disposeBag)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.configureWithTheme(themeConfiguration)
         notesTextView.configureWithTheme(themeConfiguration)

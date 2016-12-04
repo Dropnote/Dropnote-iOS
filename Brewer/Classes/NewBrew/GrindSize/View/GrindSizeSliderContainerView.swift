@@ -13,13 +13,13 @@ final class GrindSizeSliderContainerView: UIView {
     @IBOutlet weak var extraFineImageView: UIImageView!
     @IBOutlet weak var extraFineLabel: UILabel! {
         didSet {
-            extraFineLabel.text = tr(.GrindSizeLevelExtraFine)
+            extraFineLabel.text = tr(.grindSizeLevelExtraFine)
         }
     }
     @IBOutlet weak var coarseImageView: UIImageView!
     @IBOutlet weak var coarseLabel: UILabel! {
         didSet {
-            coarseLabel.text = tr(.GrindSizeLevelCoarse)
+            coarseLabel.text = tr(.grindSizeLevelCoarse)
         }
     }
     @IBOutlet weak var slider: UISlider!
@@ -27,11 +27,11 @@ final class GrindSizeSliderContainerView: UIView {
 
 extension GrindSizeSliderContainerView {
     
-    func configureWithTheme(theme: ThemeConfiguration?) {
+    func configureWithTheme(_ theme: ThemeConfiguration?) {
         backgroundColor = theme?.lightColor
         slider.configureWithTheme(theme)
         [extraFineLabel, coarseLabel].forEach {
-            $0.configureWithTheme(theme)
+            $0!.configureWithTheme(theme)
         }
     }
 }
