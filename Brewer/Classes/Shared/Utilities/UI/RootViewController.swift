@@ -9,7 +9,6 @@
 import Foundation
 import Swinject
 import UIKit
-import Box
 import RxSwift
 import RxCocoa
 

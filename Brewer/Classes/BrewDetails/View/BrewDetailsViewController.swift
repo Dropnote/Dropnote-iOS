@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import Swinject
-import Box
 
 extension BrewDetailsViewController: ThemeConfigurable { }
 extension BrewDetailsViewController: ThemeConfigurationContainer { }

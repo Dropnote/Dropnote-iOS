@@ -1,13 +1,17 @@
 PODS:
-  - Crashlytics (3.8.2):
+  - Crashlytics (3.8.3):
     - Fabric (~> 1.6.3)
   - DZNEmptyDataSet (1.8.1)
-  - Fabric (1.6.9)
-  - FirebaseAnalytics (3.4.2):
+  - Fabric (1.6.11)
+  - FirebaseAnalytics (3.6.0):
+    - FirebaseCore (~> 3.4)
     - FirebaseInstanceID (~> 1.0)
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
-    - GoogleUtilities (~> 1.2)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseCore (3.4.5):
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseInstanceID (1.0.8)
   - FormatterKit (1.8.1):
     - FormatterKit/AddressFormatter (= 1.8.1)
@@ -45,20 +49,21 @@ PODS:
   - Google/Core (3.0.3):
     - FirebaseAnalytics (~> 3.2)
   - GoogleAnalytics (3.17.0)
-  - GoogleInterchangeUtilities (1.2.1):
-    - GoogleSymbolUtilities (~> 1.0)
-  - GoogleSymbolUtilities (1.1.1)
-  - GoogleUtilities (1.3.1):
-    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleInterchangeUtilities (1.2.2):
+    - GoogleSymbolUtilities (~> 1.1)
+  - GoogleSymbolUtilities (1.1.2)
+  - GoogleToolboxForMac/Defines (2.1.0)
+  - GoogleToolboxForMac/NSData+zlib (2.1.0):
+    - GoogleToolboxForMac/Defines (= 2.1.0)
   - Nimble (5.0.0)
-  - ObjectMapper (2.0.0)
-  - Quick (0.10.0)
-  - RxBlocking (3.0.0):
+  - ObjectMapper (2.2.1)
+  - Quick (1.0.0)
+  - RxBlocking (3.0.1):
     - RxSwift (~> 3.0)
-  - RxCocoa (3.0.0):
+  - RxCocoa (3.0.1):
     - RxSwift (~> 3.0)
-  - RxSwift (3.0.0)
-  - RxTest (3.0.0):
+  - RxSwift (3.0.1)
+  - RxTest (3.0.1):
     - RxSwift (~> 3.0)
   - Swinject (2.0.0-beta.2)
   - SwinjectStoryboard (1.0.0-beta.2):
@@ -76,37 +81,38 @@ DEPENDENCIES:
   - Nimble (~> 5.0.0)
   - ObjectMapper
   - Quick
-  - RxBlocking (~> 3.0.0)
-  - RxCocoa (~> 3.0.0)
-  - RxSwift (~> 3.0.0)
-  - RxTest (~> 3.0.0)
-  - Swinject (= 2.0.0-beta.2)
-  - SwinjectStoryboard (= 1.0.0-beta.2)
+  - RxBlocking (~> 3.0.1)
+  - RxCocoa (~> 3.0.1)
+  - RxSwift (~> 3.0.1)
+  - RxTest (~> 3.0.1)
+  - Swinject (~> 2.0.0-beta.2)
+  - SwinjectStoryboard (~> 1.0.0-beta.2)
   - XCGLogger (~> 4.0.0)
 
 SPEC CHECKSUMS:
-  Crashlytics: 27acca95a01b042a8294291dd6dff27f8f6af6d7
+  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
-  Fabric: bc5bec42cef4bcf1ee3ce0e218fc518e4b44dfbb
-  FirebaseAnalytics: 3f5358d9104adf159cc8d99b7b501e50099a39ad
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
+  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
+  FirebaseCore: 1e383fdfe37b6b5d6ff88e84204bdee30276af0f
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   FormatterKit: 11ad17b983200629246a5a466f6f1bfa2df823cb
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
-  GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
-  GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
-  GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
+  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
+  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
+  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
   Nimble: 56fc9f5020effa2206de22c3dd910f4fb011b92f
-  ObjectMapper: aed2570edabbd3c9b26c939e1cabdb6558f933e0
-  Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
-  RxBlocking: 0132c660340d8b8f34b65b2e099167ea6134eecf
-  RxCocoa: 0a2f3ae381cf16f4021a4cee7a4420f83058a965
-  RxSwift: a930cd662f5b4a7ca9dc3518585dba91dadf497c
-  RxTest: 770511db5d602b618ee8c8a7c06b4b71f9168f7c
+  ObjectMapper: 41e43e1a89f8060ef5ea5d04ba852e269a621d68
+  Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
+  RxBlocking: 5de082d09d1ab45b49173f309f1a97d6b50f34c4
+  RxCocoa: 15a52fc590dcc700cb4a690a633b5c5184ce3a78
+  RxSwift: af5680055c4ad04480189c52d28385b1029493a6
+  RxTest: 9867e6f3c435af30fbdb44b6d8ec30b78c40b515
   Swinject: 69a893192efa9f2cc44be79ef423d04d571b6af9
   SwinjectStoryboard: b52b45821a50386ef604c3cd098f8029a50a268d
   XCGLogger: 38063ea89b4c8b23232d18efd2e12eb0005f3ea4
 
-PODFILE CHECKSUM: d871f9a9b89485fdb680a9f2ee33261915242104
+PODFILE CHECKSUM: 9e6468f8d6a2b5d1f69738faf712cac15076c350
 
 COCOAPODS: 1.0.1

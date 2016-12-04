@@ -6,7 +6,6 @@
 import Foundation
 import UIKit
 import RxSwift
-import Box
 import XCGLogger
 
 extension NewBrewViewController: ThemeConfigurable { }

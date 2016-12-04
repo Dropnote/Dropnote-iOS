@@ -6,11 +6,11 @@ inhibit_all_warnings!
 use_frameworks!
 
 target :Brewer do
-    pod 'Swinject', '2.0.0-beta.2'
-    pod 'SwinjectStoryboard', '1.0.0-beta.2'
+    pod 'Swinject', '~> 2.0.0-beta.2'
+    pod 'SwinjectStoryboard', '~> 1.0.0-beta.2'
 
-    pod 'RxSwift', '~> 3.0.0'
-    pod 'RxCocoa', '~> 3.0.0'
+    pod 'RxSwift', '~> 3.0.1'
+    pod 'RxCocoa', '~> 3.0.1'
 
     pod 'ObjectMapper'
     pod 'XCGLogger', '~> 4.0.0'
@@ -25,8 +25,8 @@ target :Brewer do
         
         pod 'Quick'
         pod 'Nimble', '~> 5.0.0'
-        pod 'RxTest', '~> 3.0.0'
-        pod 'RxBlocking', '~> 3.0.0'
+        pod 'RxTest', '~> 3.0.1'
+        pod 'RxBlocking', '~> 3.0.1'
     end
 
 end

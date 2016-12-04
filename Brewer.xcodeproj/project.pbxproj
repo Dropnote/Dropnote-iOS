@@ -92,6 +92,9 @@
 		81086F4A2CB7045BDEC42DC8 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810861B5C45A176F0E7A29FD /* SettingsViewModel.swift */; };
 		81086F708D46900AE61F0107 /* MethodPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086EED1833527712835891 /* MethodPickerCell.swift */; };
 		81086FFB2E84332D9CF9CD70 /* WaterUnitsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810864B3240D552C9E5111AE /* WaterUnitsDataSource.swift */; };
+		A10B1F6A1DF4AC8D0085A9C0 /* MutableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10B1F671DF4AC8D0085A9C0 /* MutableBox.swift */; };
+		A10B1F6B1DF4AC8D0085A9C0 /* BoxType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10B1F681DF4AC8D0085A9C0 /* BoxType.swift */; };
+		A10B1F6C1DF4AC8D0085A9C0 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10B1F691DF4AC8D0085A9C0 /* Box.swift */; };
 		A10C03941CC389630013C585 /* BrewDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10C03931CC389630013C585 /* BrewDetailsViewModel.swift */; };
 		A10C03961CC395300013C585 /* PresentableProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10C03951CC395300013C585 /* PresentableProtocols.swift */; };
 		A10F29B21CDDFD0600593284 /* ThemeConfigurable+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10F29B11CDDFD0600593284 /* ThemeConfigurable+UILabel.swift */; };
@@ -115,7 +118,6 @@
 		A1528D5F1D23017800852522 /* Highlightable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1528D5E1D23017800852522 /* Highlightable.swift */; };
 		A156209F1CE76313003F40D0 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A156209E1CE76313003F40D0 /* KeyboardManager.swift */; };
 		A15620A11CE763B5003F40D0 /* NewBrewNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15620A01CE763B5003F40D0 /* NewBrewNavigationBar.swift */; };
-		A157DB361D9ECB2400860626 /* Box.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A157DB351D9ECB2400860626 /* Box.framework */; };
 		A15DFCDA1C9EFBF000319CB2 /* BrewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15DFCD91C9EFBF000319CB2 /* BrewsViewModel.swift */; };
 		A1609A931CFCC99200D06DAC /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1609A921CFCC99200D06DAC /* List.swift */; };
 		A1669B5E1D51203F00614B35 /* NumericalInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1669B5D1D51203F00614B35 /* NumericalInputTextField.swift */; };
@@ -280,6 +282,9 @@
 		81086F84DEE057A98F40AF7B /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		81086FB974AE2734A47A34A4 /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		81086FC4186D6A63CEC193E5 /* BrewingsModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewingsModelController.swift; sourceTree = "<group>"; };
+		A10B1F671DF4AC8D0085A9C0 /* MutableBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MutableBox.swift; path = External/Box/MutableBox.swift; sourceTree = SOURCE_ROOT; };
+		A10B1F681DF4AC8D0085A9C0 /* BoxType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoxType.swift; path = External/Box/BoxType.swift; sourceTree = SOURCE_ROOT; };
+		A10B1F691DF4AC8D0085A9C0 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Box.swift; path = External/Box/Box.swift; sourceTree = SOURCE_ROOT; };
 		A10C03931CC389630013C585 /* BrewDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewDetailsViewModel.swift; sourceTree = "<group>"; };
 		A10C03951CC395300013C585 /* PresentableProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentableProtocols.swift; sourceTree = "<group>"; };
 		A10F29B11CDDFD0600593284 /* ThemeConfigurable+UILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ThemeConfigurable+UILabel.swift"; sourceTree = "<group>"; };
@@ -383,7 +388,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A157DB361D9ECB2400860626 /* Box.framework in Frameworks */,
 				A1D2E9A31C5EA4FA009D9029 /* libz.tbd in Frameworks */,
 				A1D2E9A11C5EA4F2009D9029 /* CoreGraphics.framework in Frameworks */,
 				A1D2E99F1C5EA4EB009D9029 /* QuartzCore.framework in Frameworks */,
@@ -1174,6 +1178,25 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		A10B1F5F1DF4AC090085A9C0 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				A10B1F601DF4AC110085A9C0 /* Box */,
+			);
+			name = External;
+			path = ../External;
+			sourceTree = "<group>";
+		};
+		A10B1F601DF4AC110085A9C0 /* Box */ = {
+			isa = PBXGroup;
+			children = (
+				A10B1F671DF4AC8D0085A9C0 /* MutableBox.swift */,
+				A10B1F681DF4AC8D0085A9C0 /* BoxType.swift */,
+				A10B1F691DF4AC8D0085A9C0 /* Box.swift */,
+			);
+			path = Box;
+			sourceTree = "<group>";
+		};
 		A10C03921CC3893C0013C585 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1243,6 +1266,7 @@
 				A17D8C511C039E5900A4C564 /* Info.plist */,
 				81086CFA45682C788A044E18 /* GoogleService-Info.plist */,
 				A1D933ED1D4504120057C7BB /* Brewer-Bridging-Header.h */,
+				A10B1F5F1DF4AC090085A9C0 /* External */,
 				8108664725887CA46E8A220E /* Resources */,
 				8108603E6272F6438160DD2F /* Classes */,
 			);
@@ -1384,7 +1408,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Maciej Oczko";
 				TargetAttributes = {
 					A17D8C3E1C039E5900A4C564 = {
@@ -1667,6 +1691,7 @@
 				A18F3D7B1CEC44930022A096 /* NewBrewUnwindSegue.swift in Sources */,
 				810867A3AE217178A10D1358 /* SelectableSearchViewController.swift in Sources */,
 				A1FF0BAC1CD28D50009F3494 /* BrewNotesCell.swift in Sources */,
+				A10B1F6B1DF4AC8D0085A9C0 /* BoxType.swift in Sources */,
 				A1C811461D06139B0064CF8A /* Localizable.swift in Sources */,
 				A15620A11CE763B5003F40D0 /* NewBrewNavigationBar.swift in Sources */,
 				8108674FDFFD4796F774A38C /* NumericalInputViewController.swift in Sources */,
@@ -1738,10 +1763,12 @@
 				81086E620DBDE44C23A2CB74 /* BrewingsSortingViewController.swift in Sources */,
 				810863F8FA6A35A9F84A2F6E /* BrewingsSortingViewModel.swift in Sources */,
 				8108630C5325F32DA06AC3EF /* BrewingsSortingAssembly.swift in Sources */,
+				A10B1F6A1DF4AC8D0085A9C0 /* MutableBox.swift in Sources */,
 				8108682CCEFFBC69C6937BD0 /* BrewingsSortingOptionCell.swift in Sources */,
 				81086BEB75F5A78C5314459D /* BrewingSortingOption.swift in Sources */,
 				8108684E0FBA7D627F9861F6 /* Analytics.swift in Sources */,
 				8108658A01256023E395C461 /* TabBarConfigurable.swift in Sources */,
+				A10B1F6C1DF4AC8D0085A9C0 /* Box.swift in Sources */,
 				810864E7ADEDF6525038799F /* AboutViewController.swift in Sources */,
 				810866FBC9334439DDACF15E /* KeyValueStoreType.swift in Sources */,
 				81086E114A7379178DD9AB78 /* SettingsViewController.swift in Sources */,
