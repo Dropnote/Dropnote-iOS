@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:External/Box/Box.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Brewer.xcodeproj">
    </FileRef>
    <FileRef
