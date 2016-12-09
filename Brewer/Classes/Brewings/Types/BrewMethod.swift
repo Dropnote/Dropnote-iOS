@@ -97,6 +97,20 @@ extension BrewMethod {
 	}
 }
 
+extension BrewMethod {
+    
+    static func fromQuickType(string: String) -> BrewMethod {
+        switch string {
+        case "pl.maciejoczko.Dropnote.traditional": return .AeropressTraditional
+        case "pl.maciejoczko.Dropnote.inverted": return .AeropressInverted
+        case "pl.maciejoczko.Dropnote.v60": return .PourOverV60
+        case "pl.maciejoczko.Dropnote.chemex": return .PourOverChemex
+        case "pl.maciejoczko.Dropnote.coffeemachine": return .CoffeeMachine
+        default: fatalError("Wrong brew method quick type value!")
+        }
+    }
+}
+
 extension BrewMethod: TitleImagePresentable {
     var title: String {
         return categoryDescription + " " + description
