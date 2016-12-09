@@ -330,6 +330,7 @@
 		A17E9BCD1C4AE83B0004F57A /* Coffee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coffee.swift; sourceTree = "<group>"; };
 		A18F3D7A1CEC44930022A096 /* NewBrewUnwindSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBrewUnwindSegue.swift; sourceTree = "<group>"; };
 		A1999EB91D4BDF920003A42E /* AboutViewThanksCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewThanksCell.swift; sourceTree = "<group>"; };
+		A1A8F4C21DFB0FFD00ED8FE7 /* Dropnote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dropnote.entitlements; sourceTree = "<group>"; };
 		A1A9D2631D19CD740017E8C3 /* InformativeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformativeLabel.swift; sourceTree = "<group>"; };
 		A1A9F6FC1D15761500E6D512 /* BrewDetailsRemoveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewDetailsRemoveCell.swift; sourceTree = "<group>"; };
 		A1A9F6FE1D16A7E700E6D512 /* BrewingsSorting.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BrewingsSorting.storyboard; sourceTree = "<group>"; };
@@ -1263,6 +1264,7 @@
 		A17D8C411C039E5900A4C564 /* Brewer */ = {
 			isa = PBXGroup;
 			children = (
+				A1A8F4C21DFB0FFD00ED8FE7 /* Dropnote.entitlements */,
 				A17D8C511C039E5900A4C564 /* Info.plist */,
 				81086CFA45682C788A044E18 /* GoogleService-Info.plist */,
 				A1D933ED1D4504120057C7BB /* Brewer-Bridging-Header.h */,
@@ -1922,6 +1924,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Brewer/Dropnote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Maciej Oczko (6GETRTZYQE)";
 				CURRENT_PROJECT_VERSION = 47;
 				DEVELOPMENT_TEAM = N7LF5KBDPY;
@@ -1954,6 +1957,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Brewer/Dropnote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Maciej Oczko (N7LF5KBDPY)";
 				CURRENT_PROJECT_VERSION = 47;
 				DEVELOPMENT_TEAM = N7LF5KBDPY;
@@ -2060,6 +2064,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Brewer/Dropnote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Maciej Oczko (N7LF5KBDPY)";
 				CURRENT_PROJECT_VERSION = 47;
 				DEVELOPMENT_TEAM = N7LF5KBDPY;
