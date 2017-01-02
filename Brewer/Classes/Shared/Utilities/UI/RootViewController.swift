@@ -39,8 +39,7 @@ final class RootViewController: UITabBarController {
             .subscribe(onNext: {
                 brewMethod in
                 Analytics.sharedInstance.trackMethodPickEvent(onScreen: AppScreen.newBrew, method: brewMethod)
-                let context = StartBrewContext(method: brewMethod)
-                self.performSegue(.StartNewBrew, sender: Box(context))
+                self.showNewBrewVieController(for: brewMethod)
             })
         
         contentViewControllers?
@@ -72,11 +71,16 @@ final class RootViewController: UITabBarController {
         }
     }
     
-    fileprivate func dismissNewBrewViewController(_ switchToHistory: Bool) {
+    private func dismissNewBrewViewController(_ switchToHistory: Bool) {
         if let historyViewControllerIndex = contentViewControllers?.index(where: { $0 is BrewingsViewController }) , switchToHistory == true {
             selectedIndex = historyViewControllerIndex
         }
         dismiss(animated: true, completion: nil)
+    }
+    
+    func showNewBrewVieController(for brewMethod: BrewMethod) {
+        let context = StartBrewContext(method: brewMethod)
+        performSegue(.StartNewBrew, sender: Box(context))
     }
 }
 

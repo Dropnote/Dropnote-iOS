@@ -44,6 +44,18 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 		let stack: StackType = assembler.resolver.resolve(StackType.self)!
 		stack.save().subscribe().addDisposableTo(disposeBag)
 	}
+    
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        
+        guard let rootViewController = application.keyWindow?.rootViewController as? RootViewController else {
+            completionHandler(false)
+            return
+        }
+        
+        let brewMethod = BrewMethod.fromQuickType(string: shortcutItem.type)
+        rootViewController.showNewBrewVieController(for: brewMethod)
+        completionHandler(true)
+    }
 }
 
 extension AppDelegate: ThemeConfigurationContainer { }
@@ -58,7 +70,7 @@ extension SwinjectStoryboard {
                 BrewingsAssembly(),
 				BrewingsSortingAssembly(),
                 BrewDetailsAssembly(),
-                BrewScoreDetailsAssembly(),
+                BrewScoreDetailsAssembly()
                 ], container: defaultContainer)
             
             if let appDelegate = UIApplication.shared.delegate as? AppDelegate {

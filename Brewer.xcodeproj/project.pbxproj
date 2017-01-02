@@ -1417,7 +1417,7 @@
 						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = N7LF5KBDPY;
 						LastSwiftMigration = 0800;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1925,8 +1925,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Brewer/Dropnote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Maciej Oczko (6GETRTZYQE)";
-				CURRENT_PROJECT_VERSION = 47;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_TEAM = N7LF5KBDPY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1940,8 +1941,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-D\" \"DEBUG\"";
 				PRODUCT_BUNDLE_IDENTIFIER = pl.maciejoczko.Dropnote;
 				PRODUCT_NAME = Dropnote;
-				PROVISIONING_PROFILE = "92e565de-13c1-4ab7-b9dd-33df4f893d4f";
-				PROVISIONING_PROFILE_SPECIFIER = "pl.maciejoczko.Dropnote Development";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Brewer/Brewer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1959,7 +1960,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Brewer/Dropnote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Maciej Oczko (N7LF5KBDPY)";
-				CURRENT_PROJECT_VERSION = 47;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_TEAM = N7LF5KBDPY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1973,8 +1975,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = pl.maciejoczko.Dropnote;
 				PRODUCT_NAME = Dropnote;
-				PROVISIONING_PROFILE = "d51c67dc-15f8-4b09-ac6c-3f2d605d1427";
-				PROVISIONING_PROFILE_SPECIFIER = "pl.maciejoczko.Dropnote AppStore";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Brewer/Brewer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -2066,7 +2068,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Brewer/Dropnote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Maciej Oczko (N7LF5KBDPY)";
-				CURRENT_PROJECT_VERSION = 47;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 48;
 				DEVELOPMENT_TEAM = N7LF5KBDPY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2082,8 +2085,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = pl.maciejoczko.Dropnote;
 				PRODUCT_NAME = Dropnote;
-				PROVISIONING_PROFILE = "d51c67dc-15f8-4b09-ac6c-3f2d605d1427";
-				PROVISIONING_PROFILE_SPECIFIER = "pl.maciejoczko.Dropnote AppStore";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Brewer/Brewer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
