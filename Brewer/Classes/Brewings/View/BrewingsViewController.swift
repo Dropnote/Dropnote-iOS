@@ -171,7 +171,8 @@ extension BrewingsViewController: UIViewControllerPreviewingDelegate {
 
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         guard let resolver = resolver else { return nil }
-        guard let indexPath = tableView.indexPathForRow(at: location) else { return nil }
+        let locationInTableView = tableView.convert(location, from: view)
+        guard let indexPath = tableView.indexPathForRow(at: locationInTableView) else { return nil }
         guard let cell = tableView.cellForRow(at: indexPath) else { return nil }
         
         let storyboard = UIStoryboard(name: SegueIdentifier.BrewDetails.rawValue, bundle: nil)
@@ -180,8 +181,8 @@ extension BrewingsViewController: UIViewControllerPreviewingDelegate {
         let brew = viewModel.brew(forIndexPath: indexPath)
         brewDetailsViewController.viewModel = resolver.resolve(BrewDetailsViewModelType.self, argument: brew)
         brewDetailsViewController.viewModel.editable = true
-        
-        previewingContext.sourceRect = cell.frame.offsetBy(dx: 0, dy: -tableView.contentOffset.y)
+
+        previewingContext.sourceRect = tableView.convert(cell.frame, to: view)
         
         return brewDetailsViewController
     }
