@@ -22,9 +22,9 @@ final class TableViewFetchedResultsControllerDynamicChangesHandler<ResultType: N
         return fetchedResultsController.fetchedObjects ?? []
     }
 
-    var updateCompletion: (() -> ())?
+    var updateCompletion: (() -> Void)?
 
-    init(tableView: UITableView, fetchedResultsController: NSFetchedResultsController<ResultType>, updateCompletion: (() -> ())? = nil) {
+    init(tableView: UITableView, fetchedResultsController: NSFetchedResultsController<ResultType>, updateCompletion: (() -> Void)? = nil) {
         self.fetchedResultsController = fetchedResultsController
         self.tableView = tableView
         self.updateCompletion = updateCompletion

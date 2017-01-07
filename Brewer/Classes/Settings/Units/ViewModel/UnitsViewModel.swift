@@ -31,12 +31,10 @@ final class UnitsViewModel: UnitsViewModelType {
     }
     
     var listItems: [[UnitsDataSourceItem]] {
-        get {
-            if let currentDataSource = currentDataSource {
-                return [currentDataSource.items]
-            }
-            return []
+        if let currentDataSource = currentDataSource {
+            return [currentDataSource.items]
         }
+        return []
     }
     
     lazy var dataSource: TableViewSourceWrapper<UnitsViewModel> = TableViewSourceWrapper(tableDataSource: self)

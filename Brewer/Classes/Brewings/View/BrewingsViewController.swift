@@ -26,22 +26,13 @@ final class BrewingsViewController: UIViewController {
         super.viewDidLoad()
         title = tr(.historyItemTitle)
         configureWithTheme(themeConfiguration)
-        
-        searchBar = UISearchBar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: view.frame.width, height: 44)))
-        searchBar.placeholder = tr(.historyFilterPlaceholder)
-        searchBar.showsCancelButton = true
-        searchBar.returnKeyType = .done
-        searchBar.delegate = self
-        
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
-        tableView.backgroundView = UIView()
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 80
-        tableView.tableHeaderView = searchBar
-        tableView.emptyDataSetDelegate = self
-        tableView.emptyDataSetSource = self
+        setUpSearchBar()
+        configureTableView()
         viewModel.configureWithTableView(tableView)
+        
+        if (traitCollection.forceTouchCapability == .available) {
+            registerForPreviewing(with: self, sourceView: view)
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -81,6 +72,25 @@ final class BrewingsViewController: UIViewController {
                 self.tableView.reloadData()
             })
         }
+    }
+    
+    private func setUpSearchBar() {
+        searchBar = UISearchBar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: view.frame.width, height: 44)))
+        searchBar.placeholder = tr(.historyFilterPlaceholder)
+        searchBar.showsCancelButton = true
+        searchBar.returnKeyType = .done
+        searchBar.delegate = self
+    }
+    
+    private func configureTableView() {
+        tableView.tableFooterView = UIView()
+        tableView.delegate = self
+        tableView.backgroundView = UIView()
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 80
+        tableView.tableHeaderView = searchBar
+        tableView.emptyDataSetDelegate = self
+        tableView.emptyDataSetSource = self
     }
 }
 
@@ -154,5 +164,30 @@ extension BrewingsViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource
     
     func spaceHeight(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
         return 60
+    }
+}
+
+extension BrewingsViewController: UIViewControllerPreviewingDelegate {
+
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let resolver = resolver else { return nil }
+        let locationInTableView = tableView.convert(location, from: view)
+        guard let indexPath = tableView.indexPathForRow(at: locationInTableView) else { return nil }
+        guard let cell = tableView.cellForRow(at: indexPath) else { return nil }
+        
+        let storyboard = UIStoryboard(name: SegueIdentifier.BrewDetails.rawValue, bundle: nil)
+        let brewDetailsViewController = storyboard.instantiateInitialViewController() as! BrewDetailsViewController
+
+        let brew = viewModel.brew(forIndexPath: indexPath)
+        brewDetailsViewController.viewModel = resolver.resolve(BrewDetailsViewModelType.self, argument: brew)
+        brewDetailsViewController.viewModel.editable = true
+
+        previewingContext.sourceRect = tableView.convert(cell.frame, to: view)
+        
+        return brewDetailsViewController
+    }
+
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
     }
 }

@@ -18,7 +18,7 @@ final class SettingsAssembly: AssemblyType {
         }
 
         container.register(SettingsViewModel.self) {
-            r in SettingsViewModel()
+            _ in SettingsViewModel()
         }
 
         // MARK: Method picker
@@ -30,7 +30,7 @@ final class SettingsAssembly: AssemblyType {
         }
 
         container.register(MethodPickerViewModelType.self) {
-            r in MethodPickerViewModel()
+            _ in MethodPickerViewModel()
         }
 
         // MARK: Sequence
@@ -62,7 +62,7 @@ final class SettingsAssembly: AssemblyType {
         }
 
         container.register(UnitsDataSourcesFactoryType.self) {
-            r in UnitsDataSourcesFactory()
+            _ in UnitsDataSourcesFactory()
         }
 
         container.register(UnitsModelControllerType.self) {

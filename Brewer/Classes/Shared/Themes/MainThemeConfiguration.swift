@@ -37,7 +37,7 @@ struct MainThemeConfiguration: ThemeConfiguration {
     var tabBarItemConfigurations: [UIControlState: TabBarItemThemeConfiguration] {
         return [
             UIControlState(): MainTabBarItemThemeConfiguration(font: UIFont.avenirBook(10)!, color: lightColor),
-            .selected: MainTabBarItemThemeConfiguration(font: UIFont.avenirBook(10)!, color: lightTintColor),
+            .selected: MainTabBarItemThemeConfiguration(font: UIFont.avenirBook(10)!, color: lightTintColor)
         ]
     }
     

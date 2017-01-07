@@ -35,7 +35,7 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
     
     fileprivate let store: KeyValueStoreType
     fileprivate let brewingSequenceMapper = Mapper<BrewingSequenceStep>()
-    fileprivate(set) var brewingSequenceSettings: Dictionary<BrewMethod, [BrewingSequenceStep]> = [:]
+    fileprivate(set) var brewingSequenceSettings: [BrewMethod: [BrewingSequenceStep]] = [:]
 
     init(store: KeyValueStoreType) {
         self.store = store
@@ -57,7 +57,7 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
     // MARK: Settings saving
 
     fileprivate func saveSettings() {
-        var rawSeqenceSettings: Dictionary<String, String> = [:]
+        var rawSeqenceSettings: [String: String] = [:]
         brewingSequenceSettings.forEach {
             method, steps in
             rawSeqenceSettings[method.rawValue] = brewingSequenceMapper.toJSONString(steps)
@@ -69,7 +69,7 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
     // MARK: Settings loading
 
     fileprivate func loadSettings() {
-        guard let rawSequenceSettings = store.object(forKey: Keys.brewingSequence) as? Dictionary<String, String> else {
+        guard let rawSequenceSettings = store.object(forKey: Keys.brewingSequence) as? [String: String] else {
             XCGLogger.error("Can't load settings!")
             return
         }
@@ -83,7 +83,7 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
     fileprivate func presetDefaultSettings() {
         if store.object(forKey: Keys.brewingSequence) == nil {
 
-            var defaultSeqenceSettings: Dictionary<String, String> = [:]
+            var defaultSeqenceSettings: [String: String] = [:]
             for method in BrewMethod.allValues {
                 let sequenceSteps = BrewAttributeType.allValues.map {
                     BrewingSequenceStep(

@@ -15,7 +15,7 @@ final class BrewingsSortingAssembly: AssemblyType {
         }
 
         container.register(BrewingsSortingViewModelType.self) {
-            r in return BrewingsSortingViewModel()
+            _ in return BrewingsSortingViewModel()
         }
     }
 }

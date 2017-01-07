@@ -11,7 +11,7 @@ import RxCocoa
 protocol SequenceSettingsViewModelType: UITableViewDataSource, TableViewConfigurable {
     var brewMethod: BrewMethod! { get set }
 
-    func prepareEditForTableView(_ tableView: UITableView, completion: @escaping (_ editing: Bool) -> ())
+    func prepareEditForTableView(_ tableView: UITableView, completion: @escaping (_ editing: Bool) -> Void)
 
     func shouldSelectItemAtIndexPath(_ indexPath: IndexPath) -> Bool
     func markIndexPath(_ indexPath: IndexPath, asSelected selected: Bool)
@@ -50,7 +50,7 @@ final class SequenceSettingsViewModel: NSObject, SequenceSettingsViewModelType {
         tableView.dataSource = self
     }
 
-    func prepareEditForTableView(_ tableView: UITableView, completion: @escaping (_ editing: Bool) -> ()) {
+    func prepareEditForTableView(_ tableView: UITableView, completion: @escaping (_ editing: Bool) -> Void) {
         editing = !editing
         tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
         dispatchHandler(0.25) {

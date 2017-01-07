@@ -26,8 +26,7 @@ final class Analytics {
         if let error = error {
             print("Error configuring Google services: \(error.localizedDescription)")
         }
-        
-        
+                
         let gai = GAI.sharedInstance()
         gai?.trackUncaughtExceptions = true
         gai?.logger.logLevel = GAILogLevel.warning

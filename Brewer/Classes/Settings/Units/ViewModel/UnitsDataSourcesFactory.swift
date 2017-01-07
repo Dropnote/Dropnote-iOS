@@ -14,7 +14,7 @@ final class UnitsDataSourcesFactory: UnitsDataSourcesFactoryType {
         return [
                 WaterUnitsDataSource(),
                 WeightUnitsDataSource(),
-                TemperatureUnitsDataSource(),
+                TemperatureUnitsDataSource()
         ]
     }
 }
