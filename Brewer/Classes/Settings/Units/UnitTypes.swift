@@ -47,7 +47,6 @@ enum UnitCategory: Int {
 }
 // swiftlint:enable type_name
 
-
 // MARK: CustomStringConvertible
 
 extension UnitCategory: CustomStringConvertible {

@@ -19,7 +19,7 @@ final class CoreComponentsAssembly: AssemblyType {
         }
         
         container.register(ThemeConfiguration.self) {
-            r in MainThemeConfiguration()
+            _ in MainThemeConfiguration()
         }
         
         container.registerForStoryboard(RootViewController.self) {

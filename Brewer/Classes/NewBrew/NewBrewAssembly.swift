@@ -36,7 +36,7 @@ final class NewBrewAssembly: AssemblyType {
 		}
 
 		container.register(ScrollViewPageMetricsType.self) {
-			r in ScrollViewPageMetrics()
+			_ in ScrollViewPageMetrics()
 		}
 
 		// MARK: Selectable search
@@ -116,7 +116,7 @@ final class NewBrewAssembly: AssemblyType {
 		}
 
 		container.register(NotesViewModelType.self) {
-			r, brewModelContorller in NotesViewModel(brewModelController: brewModelContorller)
+			_, brewModelContorller in NotesViewModel(brewModelController: brewModelContorller)
 		}
 
 		// MARK: Grind Size
@@ -137,7 +137,7 @@ final class NewBrewAssembly: AssemblyType {
 		}
 
 		container.register(TampingViewModelType.self) {
-			r, brewModelContorller in TampingViewModel(brewModelController: brewModelContorller)
+			_, brewModelContorller in TampingViewModel(brewModelController: brewModelContorller)
 		}
 	}
 }

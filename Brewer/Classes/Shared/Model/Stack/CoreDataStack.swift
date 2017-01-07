@@ -12,10 +12,10 @@ protocol StackType {
 
     func createPrivateContext() -> NSManagedObjectContext
     
-    func asyncOperation(_ operation: @escaping (NSManagedObjectContext) -> ())
+    func asyncOperation(_ operation: @escaping (NSManagedObjectContext) -> Void)
 
-    func asyncBackgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> ())
-    func backgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> ()) -> Observable<Bool>
+    func asyncBackgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> Void)
+    func backgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> Void) -> Observable<Bool>
 
     func save() -> Observable<Bool>
 }
@@ -50,14 +50,14 @@ final class CoreDataStack: StackType {
         return context
     }
 
-    func asyncBackgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> ()) {
+    func asyncBackgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> Void) {
         let context = createPrivateContext()
         context.perform {
             operation(context)
         }
     }
 
-    func backgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> ()) -> Observable<Bool> {
+    func backgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> Void) -> Observable<Bool> {
         return Observable.create {
             observer in
             let context = self.createPrivateContext()
@@ -70,7 +70,7 @@ final class CoreDataStack: StackType {
         }
     }
     
-    func asyncOperation(_ operation: @escaping (NSManagedObjectContext) -> ()) {
+    func asyncOperation(_ operation: @escaping (NSManagedObjectContext) -> Void) {
         let context = mainContext
         context.perform {
             operation(context)
@@ -83,7 +83,7 @@ final class CoreDataStack: StackType {
         return Observable.create {
             observer in
 
-            context.perform() {
+            context.perform {
                 do {
                     try context.save()
                     observer.onNext(true)

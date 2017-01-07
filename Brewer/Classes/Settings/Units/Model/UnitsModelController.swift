@@ -38,7 +38,7 @@ final class UnitsModelController: UnitsModelControllerType {
     // MARK: Settings loading
 
     fileprivate func loadSettings() {
-        guard let rawUnitsSettings = store.object(forKey: Keys.units) as? Dictionary<String, Int> else {
+        guard let rawUnitsSettings = store.object(forKey: Keys.units) as? [String: Int] else {
             XCGLogger.error("Can't load settings!")
             return
         }
@@ -50,9 +50,9 @@ final class UnitsModelController: UnitsModelControllerType {
     fileprivate func presetDefaultSettings() {
         if store.object(forKey: Keys.units) == nil {
             let defaultSettings = [
-                String(UnitCategory.water.rawValue) : UnitCategory.water.defaultSetting(),
-                String(UnitCategory.weight.rawValue) : UnitCategory.weight.defaultSetting(),
-                String(UnitCategory.temperature.rawValue) : UnitCategory.temperature.defaultSetting(),
+                String(UnitCategory.water.rawValue): UnitCategory.water.defaultSetting(),
+                String(UnitCategory.weight.rawValue): UnitCategory.weight.defaultSetting(),
+                String(UnitCategory.temperature.rawValue): UnitCategory.temperature.defaultSetting()
             ]
             store.set(defaultSettings, forKey: Keys.units)
             _ = store.synchronize()

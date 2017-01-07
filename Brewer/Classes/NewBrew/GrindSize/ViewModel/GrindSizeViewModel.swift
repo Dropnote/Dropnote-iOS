@@ -92,8 +92,7 @@ final class GringSizeViewModel: GringSizeViewModelType {
             .asObservable()
             .filter { !$0.characters.isEmpty }
             .map { (Double($0)!, GrindSizeUnit.numeric.rawValue) }
-        
-        
+                
         let valueUnits = Observable
             .of(sliderObservable, numericObservable)
             .merge()

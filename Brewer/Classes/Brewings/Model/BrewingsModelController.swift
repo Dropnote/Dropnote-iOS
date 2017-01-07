@@ -59,7 +59,7 @@ final class BrewingsModelController: BrewingsModelControllerType {
 
 		fetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
 			isFinishedPredicate,
-			searchPredicate ?? NSPredicate.truePredicate(),
+			searchPredicate ?? NSPredicate.truePredicate()
 		])
         
 		do {

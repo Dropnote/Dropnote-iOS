@@ -16,7 +16,7 @@ final class BrewScoreDetailsAssembly: AssemblyType {
         }
         
         container.register(BrewScoreDetailsViewModelType.self) {
-            (r, brew: Brew) in BrewScoreDetailsViewModel(brew: brew)
+            (_, brew: Brew) in BrewScoreDetailsViewModel(brew: brew)
         }
     }
 }
