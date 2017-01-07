@@ -16,11 +16,15 @@ final class MethodPickerViewController: UIViewController, ThemeConfigurable {
 	var themeConfiguration: ThemeConfiguration?
 	var viewModel: MethodPickerViewModelType!
 	let didSelectBrewMethodSubject = PublishSubject<BrewMethod>()
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        title = tr(.methodPickItemTitle)
+    }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-        title = tr(.methodPickItemTitle)
-		
+        		
 		tableView.tableFooterView = UIView()
 		tableView.delegate = self
         tableView.estimatedRowHeight = 80

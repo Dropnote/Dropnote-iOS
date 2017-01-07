@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="gRT-LL-j3V">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="gRT-LL-j3V">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -52,7 +52,7 @@
         <scene sceneID="gqX-4o-wC8">
             <objects>
                 <viewControllerPlaceholder storyboardName="Brewings" id="FdM-Aq-phu" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="1" title="My Brewings" image="ic_tab_history" selectedImage="ic_tab_history_pressed" id="dXa-IJ-ESY"/>
+                    <tabBarItem key="tabBarItem" tag="1" title="" id="dXa-IJ-ESY"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="22t-jR-P89" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -62,17 +62,17 @@
         <scene sceneID="7QC-1v-0sa">
             <objects>
                 <viewControllerPlaceholder storyboardName="Settings" id="KpL-5Q-U2I" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" tag="2" title="Settings" image="ic_tab_settings" selectedImage="ic_tab_settings_pressed" id="BD1-wj-bM9"/>
+                    <tabBarItem key="tabBarItem" tag="2" title="" id="BD1-wj-bM9"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EyR-Pg-Twu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="58.5" y="878"/>
         </scene>
-        <!--Start Brewing-->
+        <!--Navigation Controller-->
         <scene sceneID="XNi-5k-v5Y">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RiH-FO-QhF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Start Brewing" image="ic_tab_start" selectedImage="ic_tab_start_pressed" id="Nbj-q9-aIi"/>
+                    <tabBarItem key="tabBarItem" title="" id="Nbj-q9-aIi"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="S2u-wX-CcE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -88,12 +88,4 @@
             <point key="canvasLocation" x="-724" y="1213"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="ic_tab_history" width="33" height="32"/>
-        <image name="ic_tab_history_pressed" width="32" height="33"/>
-        <image name="ic_tab_settings" width="32" height="32"/>
-        <image name="ic_tab_settings_pressed" width="32" height="33"/>
-        <image name="ic_tab_start" width="32" height="32"/>
-        <image name="ic_tab_start_pressed" width="32" height="33"/>
-    </resources>
 </document>

@@ -17,10 +17,14 @@ final class SettingsViewController: UIViewController {
 
     var themeConfiguration: ThemeConfiguration?
 	var viewModel: TableViewConfigurable!
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        title = tr(.settingsItemTitle)
+    }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-        title = tr(.settingsItemTitle)
         
 		tableView.tableFooterView = UIView()
 		tableView.delegate = self
