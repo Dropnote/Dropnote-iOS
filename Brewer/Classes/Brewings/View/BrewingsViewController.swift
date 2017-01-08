@@ -21,10 +21,14 @@ final class BrewingsViewController: UIViewController {
     var themeConfiguration: ThemeConfiguration?
     var resolver: ResolverType?
     var viewModel: BrewingsViewModelType!
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        title = tr(.historyItemTitle)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = tr(.historyItemTitle)
         configureWithTheme(themeConfiguration)
         setUpSearchBar()
         configureTableView()
