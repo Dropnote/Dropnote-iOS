@@ -54,6 +54,11 @@ final class BrewingsViewController: UIViewController {
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.brewings)
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        tableView.hideSearchBar()
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if case .BrewDetails = segueIdentifierForSegue(segue), let brew = sender as? Brew {
             guard let resolver = resolver else { return }
