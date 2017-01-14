@@ -48,6 +48,7 @@
 		8108677E8BF6585F7230FEC7 /* TimeInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086C61816B703B4BED6B08 /* TimeInputViewModel.swift */; };
 		810867A3AE217178A10D1358 /* SelectableSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086B417F7735B9E48723C0 /* SelectableSearchViewController.swift */; };
 		810867D1110328B84FDFBA38 /* UnitsModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086C7EC7A6F9DB23883D36 /* UnitsModelController.swift */; };
+		810867DD57EC08CE78F686E9 /* PreInfusionTimeInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810864EA967566DB711A5F1C /* PreInfusionTimeInputViewModel.swift */; };
 		810868050E829E758B3AA4B9 /* NewBrewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086757BAD0F6928A939EFD /* NewBrewDataSource.swift */; };
 		810868058C9DD05155B15F45 /* BrewingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8108694BC19F2C5DEF607F46 /* BrewingsViewController.swift */; };
 		8108682CCEFFBC69C6937BD0 /* BrewingsSortingOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086BDEEEFC0EB51C93D93F /* BrewingsSortingOptionCell.swift */; };
@@ -225,6 +226,7 @@
 		81086426655882728288AA0B /* BrewScoreDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewScoreDetailsViewController.swift; sourceTree = "<group>"; };
 		810864B3240D552C9E5111AE /* WaterUnitsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterUnitsDataSource.swift; sourceTree = "<group>"; };
 		810864C853C4716593AF877D /* BrewScoreDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewScoreDetailsViewModel.swift; sourceTree = "<group>"; };
+		810864EA967566DB711A5F1C /* PreInfusionTimeInputViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreInfusionTimeInputViewModel.swift; sourceTree = "<group>"; };
 		8108652B71931910B7275F0E /* SelectableSearch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SelectableSearch.storyboard; sourceTree = "<group>"; };
 		8108652D10E894F410E7C05A /* BrewModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewModelController.swift; sourceTree = "<group>"; };
 		81086558579BE4C268DF2E7F /* ActivableProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivableProtocol.swift; sourceTree = "<group>"; };
@@ -493,6 +495,14 @@
 				81086E2AD77DE370B4C638F7 /* ViewModel */,
 			);
 			path = BrewScoreDetails;
+			sourceTree = "<group>";
+		};
+		810861754AE97850C8004DAC /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				810864EA967566DB711A5F1C /* PreInfusionTimeInputViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		810861C5AE0F2DBE4A08A05B /* SelectableSearch */ = {
@@ -1074,6 +1084,7 @@
 				81086318D620ECD0CCDF880E /* Weight */,
 				81086E2523EA17391A06AFBE /* Water */,
 				81086764EA92F653261E5661 /* Temperature */,
+				81086DAE8D941AEF4574685B /* PreInfusionTime */,
 			);
 			path = NewBrew;
 			sourceTree = "<group>";
@@ -1095,6 +1106,14 @@
 				A1FF0BAF1CD5E553009F3494 /* BrewScoreDetails.storyboard */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		81086DAE8D941AEF4574685B /* PreInfusionTime */ = {
+			isa = PBXGroup;
+			children = (
+				810861754AE97850C8004DAC /* ViewModel */,
+			);
+			path = PreInfusionTime;
 			sourceTree = "<group>";
 		};
 		81086DB3C25B45C3D5844CD5 /* Sequence */ = {
@@ -1779,6 +1798,7 @@
 				81086062C8E8B6207FECE0DA /* AboutViewPhotoCell.swift in Sources */,
 				A1999EBA1D4BDF920003A42E /* AboutViewThanksCell.swift in Sources */,
 				810868050E829E758B3AA4B9 /* NewBrewDataSource.swift in Sources */,
+				810867DD57EC08CE78F686E9 /* PreInfusionTimeInputViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

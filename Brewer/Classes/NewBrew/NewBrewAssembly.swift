@@ -78,12 +78,13 @@ final class NewBrewAssembly: AssemblyType {
 		}
 
 		container.register(NumericalInputViewModelType.self) {
-			(r, attribute: BrewAttributeType, brewModelContorller: BrewModelControllerType) in
+			(r, attribute: BrewAttributeType, brewModelController: BrewModelControllerType) in
 			switch attribute {
-			case .Time: return r.resolve(TimeInputViewModel.self, argument: brewModelContorller)!
-			case .CoffeeWeight: return r.resolve(WeightInputViewModel.self, argument: brewModelContorller)!
-			case .WaterWeight: return r.resolve(WaterInputViewModel.self, argument: brewModelContorller)!
-			case .WaterTemperature: return r.resolve(TemperatureInputViewModel.self, argument: brewModelContorller)!
+			case .PreInfusionTime: return r.resolve(PreInfusionTimeInputViewModel.self, argument: brewModelController)!
+			case .Time: return r.resolve(TimeInputViewModel.self, argument: brewModelController)!
+			case .CoffeeWeight: return r.resolve(WeightInputViewModel.self, argument: brewModelController)!
+			case .WaterWeight: return r.resolve(WaterInputViewModel.self, argument: brewModelController)!
+			case .WaterTemperature: return r.resolve(TemperatureInputViewModel.self, argument: brewModelController)!
 			default: fatalError("Wrong type selected for numeric input!")
 			}
 		}
@@ -91,22 +92,22 @@ final class NewBrewAssembly: AssemblyType {
 		// MARK: Attributes: Weight, Water, Temperature, Time
 
 		container.register(WeightInputViewModel.self) {
-			r, brewModelContorller in WeightInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelContorller)
+			r, brewModelController in WeightInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelController)
 		}
 
 		container.register(WaterInputViewModel.self) {
-			r, brewModelContorller in WaterInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelContorller)
+			r, brewModelController in WaterInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelController)
 		}
 
 		container.register(TemperatureInputViewModel.self) {
-			r, brewModelContorller in TemperatureInputViewModel(
+			r, brewModelController in TemperatureInputViewModel(
                 unitModelController: r.resolve(UnitsModelControllerType.self)!,
-                brewModelController: brewModelContorller
+                brewModelController: brewModelController
             )
 		}
 
 		container.register(TimeInputViewModel.self) {
-			r, brewModelContorller in TimeInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelContorller)
+			r, brewModelController in TimeInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelController)
 		}
 
 		// MARK: Notes
@@ -116,7 +117,7 @@ final class NewBrewAssembly: AssemblyType {
 		}
 
 		container.register(NotesViewModelType.self) {
-			_, brewModelContorller in NotesViewModel(brewModelController: brewModelContorller)
+			_, brewModelController in NotesViewModel(brewModelController: brewModelController)
 		}
 
 		// MARK: Grind Size
@@ -126,8 +127,8 @@ final class NewBrewAssembly: AssemblyType {
 		}
 
 		container.register(GringSizeViewModelType.self) {
-			r, brewModelContorller in GringSizeViewModel(brewModelController: brewModelContorller,
-			                                             keyValueStore: r.resolve(KeyValueStoreType.self)!)
+			r, brewModelController in GringSizeViewModel(brewModelController: brewModelController,
+														 keyValueStore: r.resolve(KeyValueStoreType.self)!)
 		}
 
 		// MARK: Tamping
@@ -137,7 +138,7 @@ final class NewBrewAssembly: AssemblyType {
 		}
 
 		container.register(TampingViewModelType.self) {
-			_, brewModelContorller in TampingViewModel(brewModelController: brewModelContorller)
+			_, brewModelController in TampingViewModel(brewModelController: brewModelController)
 		}
 	}
 }
