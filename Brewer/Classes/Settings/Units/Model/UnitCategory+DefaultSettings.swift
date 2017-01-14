@@ -8,9 +8,9 @@ import Foundation
 extension UnitCategory {
     func defaultSetting() -> Int {
         switch self {
-        case .Weight: return UnitCategory.WeightUnit.g.rawValue
-        case .Water: return UnitCategory.WaterUnit.g.rawValue
-        case .Temperature: return UnitCategory.TemperatureUnit.Celsius.rawValue
+        case .weight: return UnitCategory.WeightUnit.g.rawValue
+        case .water: return UnitCategory.WaterUnit.g.rawValue
+        case .temperature: return UnitCategory.TemperatureUnit.celsius.rawValue
         }
     }
 }

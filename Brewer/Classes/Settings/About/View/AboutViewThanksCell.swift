@@ -12,7 +12,7 @@ import UIKit
 final class AboutViewThanksCell: UITableViewCell {
     @IBOutlet weak var thanksTitleLabel: UILabel! {
         didSet {
-            thanksTitleLabel.text = tr(.SettingsAboutThanksForTransaltion) + ":"
+            thanksTitleLabel.text = tr(.settingsAboutThanksForTransaltion) + ":"
         }
     }
 }

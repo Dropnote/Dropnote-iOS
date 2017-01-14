@@ -17,7 +17,7 @@ extension Coffee {
     @NSManaged var name: String?
     @NSManaged var process: String?
     @NSManaged var variety: String?
-    @NSManaged var updatedAt: NSTimeInterval
+    @NSManaged var updatedAt: TimeInterval
     @NSManaged var brews: NSSet?
 
 }

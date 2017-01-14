@@ -9,7 +9,6 @@
 import Foundation
 import Swinject
 import UIKit
-import Box
 import RxSwift
 import RxCocoa
 
@@ -20,7 +19,7 @@ final class RootViewController: UITabBarController {
     var resolver: ResolverType?
 	var themeConfiguration: ThemeConfiguration?
 
-    private var contentViewControllers: [UIViewController]?
+    fileprivate var contentViewControllers: [UIViewController]?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -37,12 +36,11 @@ final class RootViewController: UITabBarController {
         _ = methodPickerViewController?
             .didSelectBrewMethodSubject
             .observeOn(MainScheduler.asyncInstance)
-            .subscribeNext {
+            .subscribe(onNext: {
                 brewMethod in
                 Analytics.sharedInstance.trackMethodPickEvent(onScreen: AppScreen.newBrew, method: brewMethod)
-                let context = StartBrewContext(method: brewMethod)
-                self.performSegue(.StartNewBrew, sender: Box(context))
-        }
+                self.showNewBrewVieController(for: brewMethod)
+            })
         
         contentViewControllers?
             .elements(ofType: TabBarConfigurable.self)
@@ -51,44 +49,49 @@ final class RootViewController: UITabBarController {
         configureWithTheme(themeConfiguration)
 	}
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let resolver = resolver else { fatalError("Dependency resolver is missing.") }
 
-        if case .StartNewBrew = segueIdentifierForSegue(segue) where sender is Box<StartBrewContext> {
+        if case .StartNewBrew = segueIdentifierForSegue(segue) , sender is Box<StartBrewContext> {
             let boxedBrewContext = sender as! Box<StartBrewContext>
-            let nc = segue.destinationViewController as! UINavigationController
+            let nc = segue.destination as! UINavigationController
             let newBrewViewController = nc.topViewController as! NewBrewViewController
             newBrewViewController.viewModel = resolver.resolve(NewBrewViewModelType.self, argument: boxedBrewContext.value)!
             _ = newBrewViewController
                 .hideViewControllerSwitchingToHistorySubject
-                .subscribeNext(dismissNewBrewViewController)
+                .subscribe(onNext: dismissNewBrewViewController)
         }
 
-        if let unwindSegue = segue as? NewBrewUnwindSegue where unwindSegue.shouldSwitchToHistory == true {
-            if let historyViewControllerIndex = contentViewControllers?.indexOf({ $0 is BrewingsViewController }) {
-                dispatch_async(dispatch_get_main_queue()) {
+        if let unwindSegue = segue as? NewBrewUnwindSegue , unwindSegue.shouldSwitchToHistory == true {
+            if let historyViewControllerIndex = contentViewControllers?.index(where: { $0 is BrewingsViewController }) {
+                DispatchQueue.main.async {
                     self.selectedIndex = historyViewControllerIndex
                 }
             }
         }
     }
     
-    private func dismissNewBrewViewController(switchToHistory: Bool) {
-        if let historyViewControllerIndex = contentViewControllers?.indexOf({ $0 is BrewingsViewController }) where switchToHistory == true {
+    private func dismissNewBrewViewController(_ switchToHistory: Bool) {
+        if let historyViewControllerIndex = contentViewControllers?.index(where: { $0 is BrewingsViewController }) , switchToHistory == true {
             selectedIndex = historyViewControllerIndex
         }
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func showNewBrewVieController(for brewMethod: BrewMethod) {
+        let context = StartBrewContext(method: brewMethod)
+        performSegue(.StartNewBrew, sender: Box(context))
     }
 }
 
 extension RootViewController: ThemeConfigurable {
 
-	func configureWithTheme(theme: ThemeConfiguration?) {
+	func configureWithTheme(_ theme: ThemeConfiguration?) {
 		guard let theme = theme else { return }
 
 		tabBar.tintColor = theme.tabBarConfiguration.tintColor
 		tabBar.barTintColor = theme.tabBarConfiguration.barTintColor
-		tabBar.translucent = theme.tabBarConfiguration.translucent
+		tabBar.isTranslucent = theme.tabBarConfiguration.translucent
         tabBar.items?[0].accessibilityLabel = "Select First"
         tabBar.items?[0].accessibilityHint = "Selects Starting New Brew Tab"
         tabBar.items?[1].accessibilityLabel = "Select Second"

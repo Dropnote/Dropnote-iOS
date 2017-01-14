@@ -26,10 +26,10 @@ extension InputTransformer {
 }
 
 final class InputTransformer: NumericalInputTransformerType {
-    private var digits = [Int]()
-    private let maximumDigitsCount: Int
-    private let separatorIndex: Int
-    private let separator: Character
+    fileprivate var digits = [Int]()
+    fileprivate let maximumDigitsCount: Int
+    fileprivate let separatorIndex: Int
+    fileprivate let separator: Character
 
     init(maximumDigitsCount count: Int, separatorIndex index: Int, separator character: Character) {
         maximumDigitsCount = count
@@ -60,40 +60,40 @@ final class InputTransformer: NumericalInputTransformerType {
 
         let result = digitsCopyWithFilledZeros()
             .map(String.init)
-            .joinWithSeparator("")
+            .joined(separator: "")
 
         return formatResult(result)
     }
 
     // MARK: Helpers
 
-    private func shouldAppendDigit(range: NSRange) -> Bool {
+    fileprivate func shouldAppendDigit(_ range: NSRange) -> Bool {
         return digits.count <= maximumDigitsCount && range.length == 0
     }
 
-    private func shouldRemoveDigit(range: NSRange) -> Bool {
+    fileprivate func shouldRemoveDigit(_ range: NSRange) -> Bool {
         return range.length != 0
     }
 
-    private func digitsCopyWithFilledZeros() -> [Int] {
+    fileprivate func digitsCopyWithFilledZeros() -> [Int] {
         var stringable = digits
         while stringable.count < maximumDigitsCount {
-            stringable.insert(0, atIndex: 0)
+            stringable.insert(0, at: 0)
         }
         return stringable
     }
     
-    private func formatResult(result: String) -> String {
+    fileprivate func formatResult(_ result: String) -> String {
         let numberRepresentation = Double(insertSeparator(".", toString: result))!
         return numberRepresentation
             .format(".\(maximumDigitsCount - separatorIndex)")
-            .stringByReplacingOccurrencesOfString(".", withString: String(separator))
+            .replacingOccurrences(of: ".", with: String(separator))
     }
 
-    private func insertSeparator(separator: Character, toString string: String) -> String {
-        let index = string.startIndex.advancedBy(separatorIndex)
+    fileprivate func insertSeparator(_ separator: Character, toString string: String) -> String {
+        let index = string.characters.index(string.startIndex, offsetBy: separatorIndex)
         var mutableString = String(string)
-        mutableString.insert(separator, atIndex: index)
-        return mutableString
+        mutableString?.insert(separator, at: index)
+        return mutableString!
     }
 }

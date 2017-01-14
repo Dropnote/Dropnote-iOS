@@ -9,21 +9,21 @@ import RxCocoa
 import XCGLogger
 
 final class TemperatureInputViewModel: NumericalInputViewModelType {
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
     var unit: String {
-        return UnitCategory.TemperatureUnit(rawValue:unitModelController.rawUnit(forCategory: UnitCategory.Temperature.rawValue))!.description
+        return UnitCategory.TemperatureUnit(rawValue:unitModelController.rawUnit(forCategory: UnitCategory.temperature.rawValue))!.description
     }
 
     var informativeText: String {
-        return tr(.TemperatureInformativeText)
+        return tr(.temperatureInformativeText)
     }
     
     var currentValue: String? {
         guard let brew = brewModelController.currentBrew() else { return nil }
         guard let attribute = brew.brewAttributeForType(BrewAttributeType.WaterTemperature) else { return nil }
         let value = BrewAttributeType.WaterTemperature.format(attribute.value, withUnitType: attribute.unit)
-        return value.stringByReplacingOccurrencesOfString(" ", withString: "")
+        return value.replacingOccurrences(of: " ", with: "")
     }
 
     lazy var inputTransformer: NumericalInputTransformerType = {
@@ -38,21 +38,21 @@ final class TemperatureInputViewModel: NumericalInputViewModelType {
         self.brewModelController = brewModelController
     }
 
-    func setInputValue(value: String) {
+    func setInputValue(_ value: String) {
         guard let brew = brewModelController.currentBrew() else { return }
         guard let waterTemperature = Double(value) else {
             XCGLogger.error("Couldn't convert \"\(value)\" to double!")
             return
         }
 
-        let unit = Int32(unitModelController.rawUnit(forCategory: UnitCategory.Temperature.rawValue))
+        let unit = Int32(unitModelController.rawUnit(forCategory: UnitCategory.temperature.rawValue))
         brewModelController
             .createNewBrewAttribute(forType: .WaterTemperature)
-            .subscribeNext(configureAttibute(withBrew: brew, unit: unit, waterTemperature: waterTemperature))
+            .subscribe(onNext: configureAttibute(withBrew: brew, unit: unit, waterTemperature: waterTemperature))
             .addDisposableTo(disposeBag)
     }
     
-    private func configureAttibute(withBrew brew: Brew, unit: Int32, waterTemperature: Double) -> (BrewAttribute) -> Void {
+    fileprivate func configureAttibute(withBrew brew: Brew, unit: Int32, waterTemperature: Double) -> (BrewAttribute) -> Void {
         return {
             attribute in
             attribute.type = BrewAttributeType.WaterTemperature.intValue

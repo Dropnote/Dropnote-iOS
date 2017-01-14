@@ -16,11 +16,15 @@ final class MethodPickerViewController: UIViewController, ThemeConfigurable {
 	var themeConfiguration: ThemeConfiguration?
 	var viewModel: MethodPickerViewModelType!
 	let didSelectBrewMethodSubject = PublishSubject<BrewMethod>()
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        title = tr(.methodPickItemTitle)
+    }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-        title = tr(.MethodPickItemTitle)
-		
+        		
 		tableView.tableFooterView = UIView()
 		tableView.delegate = self
         tableView.estimatedRowHeight = 80
@@ -28,15 +32,15 @@ final class MethodPickerViewController: UIViewController, ThemeConfigurable {
 		viewModel.configureWithTableView(tableView)
 	}
 
-	override func viewWillAppear(animated: Bool) {
+	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
         configureWithTheme(themeConfiguration)
 		tableView.configureWithTheme(themeConfiguration)
 	}
 
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if case .SequenceSettings = segueIdentifierForSegue(segue) {
-			if let viewController = segue.destinationViewController as? SequenceSettingsViewController {
+			if let viewController = segue.destination as? SequenceSettingsViewController {
 				viewController.brewMethod = BrewMethod(rawValue: sender as! String)!
 			}
 		}
@@ -47,7 +51,7 @@ extension MethodPickerViewController: TabBarConfigurable {
     
     func setupTabBar() {
         guard let navigationController = navigationController else { return }
-        navigationController.tabBarItem = UITabBarItem(title: tr(.MethodPickItemTitle),
+        navigationController.tabBarItem = UITabBarItem(title: tr(.methodPickItemTitle),
                                                        image: UIImage(asset: .Ic_tab_start)?.alwaysOriginal(),
                                                        selectedImage: UIImage(asset: .Ic_tab_start_pressed)?.alwaysOriginal())
         guard let themeConfiguration = themeConfiguration else { return }
@@ -57,19 +61,19 @@ extension MethodPickerViewController: TabBarConfigurable {
 
 extension MethodPickerViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.cellForRowAtIndexPath(indexPath)?.highlighted = true
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = true
     }
     
-    func tableView(tableView: UITableView, didUnhighlightRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.cellForRowAtIndexPath(indexPath)?.highlighted = false
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = false
     }
     
-	func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         (cell as? MethodPickerCell)?.configureWithTheme(themeConfiguration)
 	}
     
-	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		didSelectBrewMethodSubject.onNext(viewModel.methodForIndexPath(indexPath))
 	}
 }

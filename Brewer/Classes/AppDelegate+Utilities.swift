@@ -21,12 +21,12 @@ extension AppDelegate {
                 let revealLibExtension = "dylib"
                 var error: String?
                 
-                if let dylibPath = NSBundle.mainBundle().pathForResource(revealLibName, ofType: revealLibExtension) {
+                if let dylibPath = Bundle.main.path(forResource: revealLibName, ofType: revealLibExtension) {
                     print("Loading dynamic library \(dylibPath)")
                     
                     let revealLib = dlopen(dylibPath, RTLD_NOW)
                     if revealLib == nil {
-                        error = String(UTF8String: dlerror())
+                        error = String(describing: dlerror())
                     }
                 } else {
                     error = "File not found."
@@ -35,9 +35,9 @@ extension AppDelegate {
                 if error != nil {
                     let alert = UIAlertController(title: "Reveal library could not be loaded",
                                                   message: "\(revealLibName).\(revealLibExtension) failed to load with error: \(error!)",
-                                                  preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-                    UIApplication.sharedApplication().windows.first?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+                                                  preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: nil)
                 }
             }
         #endif
@@ -81,7 +81,7 @@ extension AppDelegate {
         #endif
     }
     
-    private func newBrew(method: BrewMethod, coffee: Coffee?, machine: CoffeeMachine?, attributes: [Double]) -> Observable<Brew> {
+    fileprivate func newBrew(_ method: BrewMethod, coffee: Coffee?, machine: CoffeeMachine?, attributes: [Double]) -> Observable<Brew> {
         let brewModelController = assembler.resolver.resolve(BrewModelControllerType.self)!
         return brewModelController
             .createNewBrew(withMethod: method, coffee: coffee, coffeeMachine: machine)
@@ -96,18 +96,18 @@ extension AppDelegate {
                 ) {
                     coffeeWeight, waterWeight, waterTemperature, grindSize, time in
                     let attributesArray: [BrewAttribute] = [coffeeWeight, waterWeight, waterTemperature, grindSize, time]
-                    attributesArray.enumerate().forEach { $1.value = attributes[$0] }
+                    attributesArray.enumerated().forEach { $1.value = attributes[$0] }
                     brew.brewAttributes = NSSet(array: attributesArray)
                     return brew
                 }
             }
-            .doOnNext {
+            .do(onNext: {
                 brew in
                 brew.isFinished = true
                 brew.score = 5.0 + Double(arc4random_uniform(5000)) / 1000.0
                 brew.cuppingAttributes?.map { $0 as! Cupping }.forEach {
                     $0.value = 5.0 + Double(arc4random_uniform(5000)) / 1000.0
                 }
-            }
+            })
     }
 }

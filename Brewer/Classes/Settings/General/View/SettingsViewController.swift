@@ -17,45 +17,49 @@ final class SettingsViewController: UIViewController {
 
     var themeConfiguration: ThemeConfiguration?
 	var viewModel: TableViewConfigurable!
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        title = tr(.settingsItemTitle)
+    }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-        title = tr(.SettingsItemTitle)
         
 		tableView.tableFooterView = UIView()
 		tableView.delegate = self
 		viewModel.configureWithTableView(tableView)
 	}
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureWithTheme(themeConfiguration)
         tableView.configureWithTheme(themeConfiguration)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.settings)
     }
 
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if case .MethodPicker = segueIdentifierForSegue(segue) {
-            let methodPickerViewController = segue.destinationViewController as! MethodPickerViewController
+            let methodPickerViewController = segue.destination as! MethodPickerViewController
             methodPickerViewController.enableSwipeToBack()
             
             _ = methodPickerViewController
                 .didSelectBrewMethodSubject
                 .observeOn(MainScheduler.asyncInstance)
-                .subscribeNext {
+                .subscribe(onNext: {
                     brewMethod in
                     Analytics.sharedInstance.trackMethodPickEvent(onScreen: AppScreen.settings, method: brewMethod)
-                    methodPickerViewController.performSegue(.SequenceSettings, sender: brewMethod.rawValue)
-            }
+                    methodPickerViewController.performSegue(.SequenceSettings, sender: brewMethod.rawValue as AnyObject?)
+            })
         }
         if case .About = segueIdentifierForSegue(segue) {
-            let aboutViewController = segue.destinationViewController as! AboutViewController
+            let aboutViewController = segue.destination as! AboutViewController
             aboutViewController.enableSwipeToBack()
         }
 	}
     
-    private func performSegueForIndexPath(indexPath: NSIndexPath) {
-        switch indexPath.row {
+    fileprivate func performSegueForIndexPath(_ indexPath: IndexPath) {
+        switch (indexPath as NSIndexPath).row {
         case 0: performSegue(.MethodPicker); break
         case 1: performSegue(.Units); break
         case 2: performSegue(.About); break
@@ -64,15 +68,15 @@ final class SettingsViewController: UIViewController {
         }
     }
     
-    private func showEmailForm() {
+    fileprivate func showEmailForm() {
         if MFMailComposeViewController.canSendMail() {
-            presentViewController(configuredMailComposeViewController(), animated: true, completion: nil)
+            present(configuredMailComposeViewController(), animated: true, completion: nil)
         } else {
             showMailError()
         }
     }
     
-    private func configuredMailComposeViewController() -> MFMailComposeViewController {
+    fileprivate func configuredMailComposeViewController() -> MFMailComposeViewController {
         let mailComposerViewController = MFMailComposeViewController()
         mailComposerViewController.mailComposeDelegate = self
         
@@ -83,22 +87,22 @@ final class SettingsViewController: UIViewController {
         return mailComposerViewController
     }
     
-    private func showMailError() {
+    fileprivate func showMailError() {
         let alertController = UIAlertController(
             title: "Could Not Send Email",
             message: "Your device could not send e-mail. Please check e-mail configuration and try again.",
-            preferredStyle: .Alert)
+            preferredStyle: .alert)
         
-        alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
-        presentViewController(alertController, animated: true, completion: nil)
+        alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
 }
 
 extension SettingsViewController: MFMailComposeViewControllerDelegate {
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         print("Error when sending mail = \(error?.localizedDescription)")
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -106,7 +110,7 @@ extension SettingsViewController: TabBarConfigurable {
     
     func setupTabBar() {
         tabBarItem = nil
-        tabBarItem = UITabBarItem(title: tr(.SettingsItemTitle),
+        tabBarItem = UITabBarItem(title: tr(.settingsItemTitle),
                                   image: UIImage(asset: .Ic_tab_settings)?.alwaysOriginal(),
                                   selectedImage: UIImage(asset: .Ic_tab_settings_pressed)?.alwaysOriginal())
 
@@ -115,21 +119,21 @@ extension SettingsViewController: TabBarConfigurable {
 
 extension SettingsViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.cellForRowAtIndexPath(indexPath)?.highlighted = true
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = true
     }
     
-    func tableView(tableView: UITableView, didUnhighlightRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.cellForRowAtIndexPath(indexPath)?.highlighted = false
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = false
     }
 
-	func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.accessibilityLabel = "Select \(indexPath.row + 1)"
+	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
         cell.accessoryView = UIImageView(image: UIImage(asset: .Ic_arrow))
         (cell as? SettingsCell)?.configureWithTheme(themeConfiguration)
 	}
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegueForIndexPath(indexPath)
     }
 }

@@ -16,8 +16,8 @@ protocol ThemeConfiguration {
     var lightTintColor: UIColor { get }
     var darkTintColor: UIColor { get }
     
-    func defaultFontWithSize(size: CGFloat) -> UIFont
-    func mediumFontWithSize(size: CGFloat) -> UIFont
+    func defaultFontWithSize(_ size: CGFloat) -> UIFont
+    func mediumFontWithSize(_ size: CGFloat) -> UIFont
  
     var navigationBarConfiguration: NavigationBarThemeConfiguration { get }
     var tabBarItemConfigurations: [UIControlState: TabBarItemThemeConfiguration] { get }
@@ -51,7 +51,7 @@ protocol BarButtonItemThemeConfiguration {
 // MARK: Configurable
 
 protocol ThemeConfigurable {
-    func configureWithTheme(theme: ThemeConfiguration?)
+    func configureWithTheme(_ theme: ThemeConfiguration?)
 }
 
 protocol ThemeConfigurationContainer {

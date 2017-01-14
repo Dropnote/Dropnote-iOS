@@ -6,8 +6,8 @@
 import Foundation
 
 protocol KeyValueStoreType {
-    func objectForKey(key: String) -> AnyObject?
-    func setObject(value: AnyObject?, forKey key: String)
-    func removeObjectForKey(key: String)
+    func object(forKey defaultName: String) -> Any?
+    func set(_ value: Any?, forKey defaultName: String)
+    func removeObject(forKey defaultName: String)
     func synchronize() -> Bool
 }

@@ -27,11 +27,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.1</string>
+	<string>1.0.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>45</string>
+	<string>50</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -62,5 +62,45 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>UIApplicationShortcutItems</key>
+    <array>
+        
+        <dict>
+            <key>UIApplicationShortcutItemIconFile</key>
+            <string>ic_inverted_bw</string>
+            <key>UIApplicationShortcutItemTitle</key>
+            <string>Aeropress Inverted</string>
+            <key>UIApplicationShortcutItemType</key>
+            <string>pl.maciejoczko.Dropnote.inverted</string>
+        </dict>
+        
+        <dict>
+            <key>UIApplicationShortcutItemIconFile</key>
+            <string>ic_chemex_bw</string>
+            <key>UIApplicationShortcutItemTitle</key>
+            <string>Chemex</string>
+            <key>UIApplicationShortcutItemType</key>
+            <string>pl.maciejoczko.Dropnote.chemex</string>
+        </dict>
+        
+        <dict>
+            <key>UIApplicationShortcutItemIconFile</key>
+            <string>ic_drip_bw</string>
+            <key>UIApplicationShortcutItemTitle</key>
+            <string>Pour-over V60</string>
+            <key>UIApplicationShortcutItemType</key>
+            <string>pl.maciejoczko.Dropnote.v60</string>
+        </dict>
+        
+        <dict>
+            <key>UIApplicationShortcutItemIconFile</key>
+            <string>ic_coffee_machine_bw</string>
+            <key>UIApplicationShortcutItemTitle</key>
+            <string>Coffee machine</string>
+            <key>UIApplicationShortcutItemType</key>
+            <string>pl.maciejoczko.Dropnote.coffeemachine</string>
+        </dict>
+    
+    </array>
 </dict>
 </plist>

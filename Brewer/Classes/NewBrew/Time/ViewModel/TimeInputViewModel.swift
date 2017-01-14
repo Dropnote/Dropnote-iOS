@@ -9,18 +9,18 @@ import RxCocoa
 import XCGLogger
 
 enum TimeUnit: Int {
-    case Seconds
+    case seconds
 }
 
 final class TimeInputViewModel: NumericalInputViewModelType {
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
 
     var unit: String {
         return "m"
     }
     
     var informativeText: String {
-        return tr(.TimeInformativeText)
+        return tr(.timeInformativeText)
     }
     
     var currentValue: String? = nil
@@ -34,25 +34,25 @@ final class TimeInputViewModel: NumericalInputViewModelType {
         self.brewModelController = brewModelController
     }
 
-    func setInputValue(value: String) {
+    func setInputValue(_ value: String) {
         guard let brew = brewModelController.currentBrew() else { return }
 
-        let components = value.componentsSeparatedByString(":")
+        let components = value.components(separatedBy: ":")
         let minutes = Int(components.first!)!
         let seconds = Int(components.last!)!
-        let duration = NSTimeInterval(60 * minutes + seconds)
+        let duration = TimeInterval(60 * minutes + seconds)
 
         brewModelController
             .createNewBrewAttribute(forType: .Time)
-            .subscribeNext {
+            .subscribe(onNext: {
                 attribute in
                 
                 attribute.type = BrewAttributeType.Time.intValue
                 attribute.value = duration
-                attribute.unit = Int32(TimeUnit.Seconds.rawValue)
+                attribute.unit = Int32(TimeUnit.seconds.rawValue)
                 attribute.brew = brew
                 
-            }
+            })
             .addDisposableTo(disposeBag)
     }
 }

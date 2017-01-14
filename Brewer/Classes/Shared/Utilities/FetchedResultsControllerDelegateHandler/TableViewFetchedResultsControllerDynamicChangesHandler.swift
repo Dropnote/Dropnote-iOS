@@ -9,22 +9,22 @@ import CoreData
 import XCGLogger
 
 // swiftlint:disable type_name
-final class TableViewFetchedResultsControllerDynamicChangesHandler
+final class TableViewFetchedResultsControllerDynamicChangesHandler<ResultType: NSManagedObject>
 // swiftlint:enable type_name    
     : NSObject
     , NSFetchedResultsControllerDelegate {
     
-    private(set) unowned var tableView: UITableView
-    unowned private let fetchedResultsController: NSFetchedResultsController
-    var animationType: UITableViewRowAnimation = .None
+    fileprivate(set) unowned var tableView: UITableView
+    unowned fileprivate let fetchedResultsController: NSFetchedResultsController<ResultType>
+    var animationType: UITableViewRowAnimation = .none
 
     var results: [AnyObject] {
         return fetchedResultsController.fetchedObjects ?? []
     }
 
-    var updateCompletion: (() -> ())?
+    var updateCompletion: (() -> Void)?
 
-    init(tableView: UITableView, fetchedResultsController: NSFetchedResultsController, updateCompletion: (() -> ())? = nil) {
+    init(tableView: UITableView, fetchedResultsController: NSFetchedResultsController<ResultType>, updateCompletion: (() -> Void)? = nil) {
         self.fetchedResultsController = fetchedResultsController
         self.tableView = tableView
         self.updateCompletion = updateCompletion
@@ -32,7 +32,7 @@ final class TableViewFetchedResultsControllerDynamicChangesHandler
         setup()
     }
 
-    private func setup() {
+    fileprivate func setup() {
         fetchedResultsController.delegate = self
         refresh()
         if let updateCompletion = updateCompletion {
@@ -57,7 +57,7 @@ final class TableViewFetchedResultsControllerDynamicChangesHandler
 
     // MARK: NSFetchedResultsControllerDelegate
 
-    @objc func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    @objc func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         if let updateCompletion = updateCompletion {
             updateCompletion()
         }

@@ -118,6 +118,11 @@ platform :ios do
     increment_version_number(bump_type: "major")
   end
 
+  desc "Increments build number"
+  lane :build_number_up do
+    increment_build_number
+  end
+
   after_all do |lane|
   end
 

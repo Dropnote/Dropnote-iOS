@@ -17,34 +17,29 @@ final class BrewingsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var filterBarButtonItem: UIBarButtonItem!
     
-    private var searchBar: UISearchBar!
+    fileprivate var searchBar: UISearchBar!
     var themeConfiguration: ThemeConfiguration?
     var resolver: ResolverType?
     var viewModel: BrewingsViewModelType!
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        title = tr(.historyItemTitle)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = tr(.HistoryItemTitle)
         configureWithTheme(themeConfiguration)
-        
-        searchBar = UISearchBar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: view.frame.width, height: 44)))
-        searchBar.placeholder = tr(.HistoryFilterPlaceholder)
-        searchBar.showsCancelButton = true
-        searchBar.returnKeyType = .Done
-        searchBar.delegate = self
-        
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
-        tableView.backgroundView = UIView()
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 80
-        tableView.tableHeaderView = searchBar
-        tableView.emptyDataSetDelegate = self
-        tableView.emptyDataSetSource = self
+        setUpSearchBar()
+        configureTableView()
         viewModel.configureWithTableView(tableView)
+        
+        if (traitCollection.forceTouchCapability == .available) {
+            registerForPreviewing(with: self, sourceView: view)
+        }
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         searchBar.configureWithTheme(themeConfiguration)
         tableView.configureWithTheme(themeConfiguration)
@@ -59,28 +54,52 @@ final class BrewingsViewController: UIViewController {
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.brewings)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        tableView.hideSearchBar()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if case .BrewDetails = segueIdentifierForSegue(segue), let brew = sender as? Brew {
             guard let resolver = resolver else { return }
-            guard let brewDetailsViewController = segue.destinationViewController as? BrewDetailsViewController else { return }
+            guard let brewDetailsViewController = segue.destination as? BrewDetailsViewController else { return }
             brewDetailsViewController.viewModel = resolver.resolve(BrewDetailsViewModelType.self, argument: brew)
             brewDetailsViewController.viewModel.editable = true
         }
         if case .BrewingsSorting = segueIdentifierForSegue(segue) {
-            guard let navigationController = segue.destinationViewController as? UINavigationController else { return }
+            guard let navigationController = segue.destination as? UINavigationController else { return }
             guard let brewingsSortingViewController = navigationController.topViewController as? BrewingsSortingViewController else { return }
             brewingsSortingViewController.viewModel.sortingOption = viewModel.sortingOption
 
-            _ = brewingsSortingViewController.dismissViewControllerAnimatedSubject.subscribeNext {
+            _ = brewingsSortingViewController.dismissViewControllerAnimatedSubject.subscribe(onNext: {
                 animated in
-                self.dismissViewControllerAnimated(animated, completion: nil)
-            }
-            _ = brewingsSortingViewController.switchSortingOptionSubject.subscribeNext {
+                self.dismiss(animated: animated, completion: nil)
+            })
+            _ = brewingsSortingViewController.switchSortingOptionSubject.subscribe(onNext: {
                 sortingOption in
                 self.viewModel.sortingOption = sortingOption
                 self.tableView.reloadData()
-            }
+            })
         }
+    }
+    
+    private func setUpSearchBar() {
+        searchBar = UISearchBar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: view.frame.width, height: 44)))
+        searchBar.placeholder = tr(.historyFilterPlaceholder)
+        searchBar.showsCancelButton = true
+        searchBar.returnKeyType = .done
+        searchBar.delegate = self
+    }
+    
+    private func configureTableView() {
+        tableView.tableFooterView = UIView()
+        tableView.delegate = self
+        tableView.backgroundView = UIView()
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 80
+        tableView.tableHeaderView = searchBar
+        tableView.emptyDataSetDelegate = self
+        tableView.emptyDataSetSource = self
     }
 }
 
@@ -88,7 +107,7 @@ extension BrewingsViewController: TabBarConfigurable {
     
     func setupTabBar() {
         tabBarItem = nil
-        tabBarItem = UITabBarItem(title: tr(.HistoryItemTitle),
+        tabBarItem = UITabBarItem(title: tr(.historyItemTitle),
                                   image: UIImage(asset: .Ic_tab_history)?.alwaysOriginal(),
                                   selectedImage: UIImage(asset: .Ic_tab_history_pressed)?.alwaysOriginal())
     }
@@ -96,42 +115,42 @@ extension BrewingsViewController: TabBarConfigurable {
 
 extension BrewingsViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.cellForRowAtIndexPath(indexPath)?.highlighted = true
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = true
     }
     
-    func tableView(tableView: UITableView, didUnhighlightRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.cellForRowAtIndexPath(indexPath)?.highlighted = false
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.isHighlighted = false
     }
     
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.accessibilityLabel = "Select \(indexPath.row + 1)"
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
         (cell as? BrewCell)?.configureWithTheme(themeConfiguration)
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(.BrewDetails, sender: viewModel.brew(forIndexPath: indexPath))
     }
 
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if targetContentOffset.memory.y == 0 && scrollView.contentOffset.y > searchBar.frame.size.height {
-            targetContentOffset.memory.y = searchBar.frame.size.height
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if targetContentOffset.pointee.y == 0 && scrollView.contentOffset.y > searchBar.frame.size.height {
+            targetContentOffset.pointee.y = searchBar.frame.size.height
         }
     }
 }
 
 extension BrewingsViewController: UISearchBarDelegate {
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel.setSearchText(searchText)
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         tableView.hideSearchBar(animated: true)
     }
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         viewModel.resetFilters()
         searchBar.text = nil
         searchBar.resignFirstResponder()
@@ -141,18 +160,43 @@ extension BrewingsViewController: UISearchBarDelegate {
 
 extension BrewingsViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     
-    func descriptionForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let attributes = [
-            NSFontAttributeName: themeConfiguration?.defaultFontWithSize(17) ?? UIFont.systemFontOfSize(17)
+            NSFontAttributeName: themeConfiguration?.defaultFontWithSize(17) ?? UIFont.systemFont(ofSize: 17)
         ]
-        return NSAttributedString(string: tr(.HistoryEmptySetDescription), attributes: attributes)
+        return NSAttributedString(string: tr(.historyEmptySetDescription), attributes: attributes)
     }
     
-    func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! {
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
         return UIImage(asset: .Ic_empty_history)
     }
     
-    func spaceHeightForEmptyDataSet(scrollView: UIScrollView!) -> CGFloat {
+    func spaceHeight(forEmptyDataSet scrollView: UIScrollView!) -> CGFloat {
         return 60
+    }
+}
+
+extension BrewingsViewController: UIViewControllerPreviewingDelegate {
+
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let resolver = resolver else { return nil }
+        let locationInTableView = tableView.convert(location, from: view)
+        guard let indexPath = tableView.indexPathForRow(at: locationInTableView) else { return nil }
+        guard let cell = tableView.cellForRow(at: indexPath) else { return nil }
+        
+        let storyboard = UIStoryboard(name: SegueIdentifier.BrewDetails.rawValue, bundle: nil)
+        let brewDetailsViewController = storyboard.instantiateInitialViewController() as! BrewDetailsViewController
+
+        let brew = viewModel.brew(forIndexPath: indexPath)
+        brewDetailsViewController.viewModel = resolver.resolve(BrewDetailsViewModelType.self, argument: brew)
+        brewDetailsViewController.viewModel.editable = true
+
+        previewingContext.sourceRect = tableView.convert(cell.frame, to: view)
+        
+        return brewDetailsViewController
+    }
+
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
     }
 }

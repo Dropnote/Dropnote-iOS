@@ -6,8 +6,8 @@ protocol ListDataSource {
     associatedtype Cell
     associatedtype Object
     
-    func cellIdentifierForIndexPath(indexPath: NSIndexPath) -> String
-    func listView(listView: ListView, configureCell cell: Cell, withObject object: Object, atIndexPath indexPath: NSIndexPath)
+    func cellIdentifierForIndexPath(_ indexPath: IndexPath) -> String
+    func listView(_ listView: ListView, configureCell cell: Cell, withObject object: Object, atIndexPath indexPath: IndexPath)
 }
 
 // --
@@ -21,22 +21,22 @@ extension NonFetchedListDataSource {
         return listItems.count
     }
     
-    func numberOfRowsInSection(section: Int) -> Int {
+    func numberOfRowsInSection(_ section: Int) -> Int {
         return listItems[section].count
     }
     
-    func objectAtIndexPath(indexPath: NSIndexPath) -> Object? {
+    func objectAtIndexPath(_ indexPath: IndexPath) -> Object? {
         guard isValidIndexPath(indexPath) else {
             return nil
         }
-        return listItems[indexPath.section][indexPath.row]
+        return listItems[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
     }
     
-    func isValidIndexPath(indexPath: NSIndexPath) -> Bool {
-        guard indexPath.section >= 0 && indexPath.section < listItems.count else {
+    func isValidIndexPath(_ indexPath: IndexPath) -> Bool {
+        guard (indexPath as NSIndexPath).section >= 0 && (indexPath as NSIndexPath).section < listItems.count else {
             return false
         }
-        return indexPath.row >= 0 && indexPath.row < listItems[indexPath.section].count
+        return (indexPath as NSIndexPath).row >= 0 && (indexPath as NSIndexPath).row < listItems[(indexPath as NSIndexPath).section].count
     }
 }
 
@@ -46,9 +46,9 @@ protocol TableListDataSource: NonFetchedListDataSource { }
 
 extension TableListDataSource where ListView == UITableView {
     
-    func tableCellAtIndexPath(tableView: UITableView, indexPath: NSIndexPath) -> Cell {
+    func tableCellAtIndexPath(_ tableView: UITableView, indexPath: IndexPath) -> Cell {
         let identifier = cellIdentifierForIndexPath(indexPath)
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! Cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! Cell
         
         if let object = objectAtIndexPath(indexPath) {
             listView(tableView, configureCell: cell, withObject: object, atIndexPath: indexPath)
@@ -60,26 +60,26 @@ extension TableListDataSource where ListView == UITableView {
 
 // --
 
-final class TableViewSourceWrapper<T where T: AnyObject, T: TableListDataSource, T.ListView == UITableView>: NSObject, UITableViewDataSource {
+final class TableViewSourceWrapper<T>: NSObject, UITableViewDataSource where T: AnyObject, T: TableListDataSource, T.ListView == UITableView {
     unowned let tableDataSource: T
     
     init(tableDataSource: T) {
         self.tableDataSource = tableDataSource
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return tableDataSource.numberOfSections
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableDataSource.numberOfRowsInSection(section)
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableDataSource.tableCellAtIndexPath(tableView, indexPath: indexPath) as! UITableViewCell
     }
 }
 
 protocol TableViewConfigurable {
-    func configureWithTableView(tableView: UITableView)
+    func configureWithTableView(_ tableView: UITableView)
 }

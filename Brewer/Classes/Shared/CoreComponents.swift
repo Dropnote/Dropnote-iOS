@@ -9,16 +9,17 @@ import Swinject
 
 final class CoreComponentsAssembly: AssemblyType {
     func assemble(container: Container) {
+        
         container.register(StackType.self) {
-            r in CoreDataStack(storeType: isRunningTests() ? NSInMemoryStoreType : NSSQLiteStoreType)
-        }.inObjectScope(.Container)
+            _ in CoreDataStack(storeType: isRunningTests() ? NSInMemoryStoreType : NSSQLiteStoreType)
+        }.inObjectScope(.container)
 
         container.register(KeyValueStoreType.self) {
-            r in NSUserDefaults.standardUserDefaults()
+            _ in UserDefaults.standard
         }
         
         container.register(ThemeConfiguration.self) {
-            r in MainThemeConfiguration()
+            _ in MainThemeConfiguration()
         }
         
         container.registerForStoryboard(RootViewController.self) {

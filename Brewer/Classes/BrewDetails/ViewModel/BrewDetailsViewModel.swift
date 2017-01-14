@@ -12,21 +12,21 @@ import RxSwift
 import RxCocoa
 
 enum BrewDetailsTableViewSection: Int {
-	case Score = 0
-	case CoffeeInfo = 1
-	case Attributes = 2
-	case Notes = 3
-    case Remove = 4
+	case score = 0
+	case coffeeInfo = 1
+	case attributes = 2
+	case notes = 3
+    case remove = 4
 
 	var cellIdentifier: String {
 		switch self {
-		case .Score:
+		case .score:
 			return "FinalScoreCell"
-		case .CoffeeInfo, .Attributes:
+		case .coffeeInfo, .attributes:
 			return "BrewAttributeCell"
-		case .Notes:
+		case .notes:
 			return "BrewNotesCell"
-        case .Remove:
+        case .remove:
             return "BrewDetailsRemoveCell"
 		}
 	}
@@ -38,12 +38,12 @@ protocol BrewDetailsViewModelType: TableViewConfigurable {
 
 	func refreshData()
 	
-    func sectionType(forIndexPath indexPath: NSIndexPath) -> BrewDetailsTableViewSection
-    func brewAttributeType(forIndexPath indexPath: NSIndexPath) -> BrewAttributeType
-    func coffeeAttribute(forIndexPath indexPath: NSIndexPath) -> SelectableSearchIdentifier
+    func sectionType(forIndexPath indexPath: IndexPath) -> BrewDetailsTableViewSection
+    func brewAttributeType(forIndexPath indexPath: IndexPath) -> BrewAttributeType
+    func coffeeAttribute(forIndexPath indexPath: IndexPath) -> SelectableSearchIdentifier
     
 	func currentBrew() -> Brew
-    func removeCurrentBrew(completion: (Bool -> Void))
+    func removeCurrentBrew(_ completion: @escaping ((Bool) -> Void))
 	func saveBrewIfNeeded()
 }
 
@@ -79,17 +79,17 @@ struct BrewDetailsPresentable: TitleValuePresentable {
 }
 
 final class BrewDetailsViewModel: BrewDetailsViewModelType {
-	private let disposeBag = DisposeBag()
+	fileprivate let disposeBag = DisposeBag()
 	let brewModelController: BrewModelControllerType
 	var editable: Bool = false
     
-    private lazy var dataSource: TableViewSourceWrapper<BrewDetailsViewModel> = TableViewSourceWrapper(tableDataSource: self)
+    fileprivate lazy var dataSource: TableViewSourceWrapper<BrewDetailsViewModel> = TableViewSourceWrapper(tableDataSource: self)
 
 	init(brewModelController: BrewModelControllerType) {
 		self.brewModelController = brewModelController
 	}
 
-	func configureWithTableView(tableView: UITableView) {
+	func configureWithTableView(_ tableView: UITableView) {
 		refreshData()
 		tableView.dataSource = dataSource
 	}
@@ -100,9 +100,9 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 
 	func saveBrewIfNeeded() {
 		if editable {
-			brewModelController.saveBrew().subscribeError {
+            brewModelController.saveBrew().subscribe(onError: {
 				print(($0 as NSError).localizedDescription)
-			}.addDisposableTo(disposeBag)
+			}).addDisposableTo(disposeBag)
 		}
 	}
 
@@ -118,7 +118,7 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
         }
         
 		listItems.append([
-			BrewDetailsPresentable(title: tr(.BrewDetailScore), value: scoreValue)
+			BrewDetailsPresentable(title: tr(.brewDetailScore), value: scoreValue)
 		])
 
 		var coffeePresentables: [TitleValuePresentable] = [
@@ -140,49 +140,49 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 		listItems.append(presentables)
 		listItems.append([
 			BrewDetailsPresentable(
-				title: tr(.AttributeNotes),
+				title: tr(.attributeNotes),
 				value: currentBrew().notes ?? "",
 				identifier: .Notes)
 		])
         if editable {
-            listItems.append([BrewDetailsPresentable(title: tr(.BrewDetailsRemoveTitle), value: "")])
+            listItems.append([BrewDetailsPresentable(title: tr(.brewDetailsRemoveTitle), value: "")])
         }
 	}
 
-	func sectionType(forIndexPath indexPath: NSIndexPath) -> BrewDetailsTableViewSection {
-		if let sectionType = BrewDetailsTableViewSection(rawValue: indexPath.section) {
+	func sectionType(forIndexPath indexPath: IndexPath) -> BrewDetailsTableViewSection {
+		if let sectionType = BrewDetailsTableViewSection(rawValue: (indexPath as NSIndexPath).section) {
 			return sectionType
 		}
-		fatalError("No section type for \(indexPath.section)")
+		fatalError("No section type for \((indexPath as NSIndexPath).section)")
 	}
     
-    func brewAttributeType(forIndexPath indexPath: NSIndexPath) -> BrewAttributeType {
-        let item = listItems[indexPath.section].elements(ofType: BrewDetailsPresentable.self)[indexPath.row]
+    func brewAttributeType(forIndexPath indexPath: IndexPath) -> BrewAttributeType {
+        let item = listItems[(indexPath as NSIndexPath).section].elements(ofType: BrewDetailsPresentable.self)[(indexPath as NSIndexPath).row]
         return item.attribute!
     }
     
-    func coffeeAttribute(forIndexPath indexPath: NSIndexPath) -> SelectableSearchIdentifier {
-        let item = listItems[indexPath.section].elements(ofType: BrewDetailsPresentable.self)[indexPath.row]
+    func coffeeAttribute(forIndexPath indexPath: IndexPath) -> SelectableSearchIdentifier {
+        let item = listItems[(indexPath as NSIndexPath).section].elements(ofType: BrewDetailsPresentable.self)[(indexPath as NSIndexPath).row]
         return item.selectableSearchIdentifier!
     }
     
-    func removeCurrentBrew(completion: (Bool -> Void)) {
-        brewModelController.removeCurrentBrew().subscribeNext(completion).addDisposableTo(disposeBag)
+    func removeCurrentBrew(_ completion: @escaping ((Bool) -> Void)) {
+        brewModelController.removeCurrentBrew().subscribe(onNext: completion).addDisposableTo(disposeBag)
     }
 }
 
 extension BrewDetailsViewModel: TableListDataSource {
     
-    func cellIdentifierForIndexPath(indexPath: NSIndexPath) -> String {
+    func cellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
         return sectionType(forIndexPath: indexPath).cellIdentifier
     }
     
-    func listView(listView: UITableView, configureCell cell: UITableViewCell, withObject object: TitleValuePresentable, atIndexPath indexPath: NSIndexPath) {
+    func listView(_ listView: UITableView, configureCell cell: UITableViewCell, withObject object: TitleValuePresentable, atIndexPath indexPath: IndexPath) {
         let sectionType = self.sectionType(forIndexPath: indexPath)
-        if sectionType != .Score && sectionType != .Remove {
-            cell.accessoryType = editable ? .DisclosureIndicator : .None
+        if sectionType != .score && sectionType != .remove {
+            cell.accessoryType = editable ? .disclosureIndicator : .none
         }
-        let presentable = listItems[indexPath.section][indexPath.row]
+        let presentable = listItems[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
         (cell as? FinalScoreCell)?.configureWithPresentable(presentable)
         (cell as? BrewAttributeCell)?.configureWithPresentable(presentable)
         (cell as? BrewNotesCell)?.configureWithPresentable(presentable)

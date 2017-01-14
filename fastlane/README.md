@@ -82,6 +82,11 @@ Increments minor
 fastlane ios increment_version_major
 ```
 Increments major
+### ios increment_build_number
+```
+fastlane ios increment_build_number
+```
+Increments build number
 
 ----
 

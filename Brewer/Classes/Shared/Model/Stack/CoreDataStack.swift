@@ -12,21 +12,21 @@ protocol StackType {
 
     func createPrivateContext() -> NSManagedObjectContext
     
-    func asyncOperation(operation: (NSManagedObjectContext) -> ())
+    func asyncOperation(_ operation: @escaping (NSManagedObjectContext) -> Void)
 
-    func asyncBackgroundOperation(operation: (NSManagedObjectContext) -> ())
-    func backgroundOperation(operation: (NSManagedObjectContext) -> ()) -> Observable<Bool>
+    func asyncBackgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> Void)
+    func backgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> Void) -> Observable<Bool>
 
     func save() -> Observable<Bool>
 }
 
-class CoreDataStack: StackType {
-    private(set) var mainContext: NSManagedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
-    private var writingContext: NSManagedObjectContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+final class CoreDataStack: StackType {
+    fileprivate(set) var mainContext: NSManagedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+    fileprivate var writingContext: NSManagedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
 
     init(storeType: String = NSSQLiteStoreType) {
         writingContext.persistentStoreCoordinator = self.persistentStoreCoordinator
-        mainContext.parentContext = writingContext
+        mainContext.parent = writingContext
 
         initializeSQLite(storeType)
     }
@@ -45,75 +45,75 @@ class CoreDataStack: StackType {
     }
 
     func createPrivateContext() -> NSManagedObjectContext {
-        let context = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-        context.parentContext = self.mainContext
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        context.parent = self.mainContext
         return context
     }
 
-    func asyncBackgroundOperation(operation: (NSManagedObjectContext) -> ()) {
+    func asyncBackgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> Void) {
         let context = createPrivateContext()
-        context.performBlock {
+        context.perform {
             operation(context)
         }
     }
 
-    func backgroundOperation(operation: (NSManagedObjectContext) -> ()) -> Observable<Bool> {
+    func backgroundOperation(_ operation: @escaping (NSManagedObjectContext) -> Void) -> Observable<Bool> {
         return Observable.create {
             observer in
             let context = self.createPrivateContext()
-            context.performBlock {
+            context.perform {
                 operation(context)
                 observer.onNext(true)
                 observer.onCompleted()
             }
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
     
-    func asyncOperation(operation: (NSManagedObjectContext) -> ()) {
+    func asyncOperation(_ operation: @escaping (NSManagedObjectContext) -> Void) {
         let context = mainContext
-        context.performBlock {
+        context.perform {
             operation(context)
         }
     }
 
     // MARK: Private methods
 
-    private func saveContext(context: NSManagedObjectContext) -> Observable<Bool> {
+    fileprivate func saveContext(_ context: NSManagedObjectContext) -> Observable<Bool> {
         return Observable.create {
             observer in
 
-            context.performBlock() {
+            context.perform {
                 do {
                     try context.save()
                     observer.onNext(true)
                     observer.onCompleted()
                 } catch {
-                    observer.on(.Error(error))
+                    observer.on(.error(error))
                 }
             }
 
-            return NopDisposable.instance
+            return Disposables.create()
         }
     }
 
     // MARK: Stack setup
 
-    private func initializeSQLite(storeType: String) {
-        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        dispatch_async(dispatch_get_global_queue(priority, 0)) {
-            let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("Brewer.sqlite")
+    fileprivate func initializeSQLite(_ storeType: String) {
+        let queue = DispatchQueue.global(qos: DispatchQoS.QoSClass.default)
+        queue.async {
+            let url = self.applicationDocumentsDirectory.appendingPathComponent("Brewer.sqlite")
             let failureReason = "There was an error creating or loading the application's saved data."
             do {
                 let options = [
                         NSMigratePersistentStoresAutomaticallyOption: true,
                         NSInferMappingModelAutomaticallyOption: true
                 ]
-                try self.persistentStoreCoordinator.addPersistentStoreWithType(storeType, configuration: nil, URL: url, options: options)
+                try self.persistentStoreCoordinator.addPersistentStore(ofType: storeType, configurationName: nil, at: url, options: options)
             } catch {
                 var dict = [String: AnyObject]()
-                dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
-                dict[NSLocalizedFailureReasonErrorKey] = failureReason
+                dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject?
+                dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
                 dict[NSUnderlyingErrorKey] = error as NSError
                 let wrappedError = NSError(domain: "pl.maciejoczko.brewer", code: 9999, userInfo: dict)
                 NSLog("Unresolved error \(wrappedError), \(wrappedError.userInfo)")
@@ -122,17 +122,17 @@ class CoreDataStack: StackType {
         }
     }
 
-    private lazy var managedObjectModel: NSManagedObjectModel = {
-        let modelURL = NSBundle.mainBundle().URLForResource("Brewer", withExtension: "mom")!
-        return NSManagedObjectModel(contentsOfURL: modelURL)!
+    fileprivate lazy var managedObjectModel: NSManagedObjectModel = {
+        let modelURL = Bundle.main.url(forResource: "Brewer", withExtension: "mom")!
+        return NSManagedObjectModel(contentsOf: modelURL)!
     }()
 
-    private lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
+    fileprivate lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         return NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
     }()
 
-    private lazy var applicationDocumentsDirectory: NSURL = {
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+    fileprivate lazy var applicationDocumentsDirectory: URL = {
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return urls[urls.count - 1]
     }()
 }

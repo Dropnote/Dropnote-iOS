@@ -13,10 +13,10 @@ final class TemperatureUnitsDataSource: UnitsDataSourceType {
     }
 
     var title: String {
-        return tr(.UnitCategoryTemperature)
+        return tr(.unitCategoryTemperature)
     }
     
     var category: Int {
-        return UnitCategory.Temperature.rawValue
+        return UnitCategory.temperature.rawValue
     }
 }

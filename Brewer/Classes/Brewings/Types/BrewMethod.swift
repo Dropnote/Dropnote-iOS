@@ -20,10 +20,10 @@ extension BrewMethod: CustomStringConvertible {
 	var description: String {
 		switch self {
 		case .CoffeeMachine: return ""
-		case .PourOverV60: return tr(.MethodDetailV60)
-		case .PourOverChemex: return tr(.MethodDetailChemex)
-		case .AeropressTraditional: return tr(.MethodDetailTraditional)
-		case .AeropressInverted: return tr(.MethodDetailInverted)
+		case .PourOverV60: return tr(.methodDetailV60)
+		case .PourOverChemex: return tr(.methodDetailChemex)
+		case .AeropressTraditional: return tr(.methodDetailTraditional)
+		case .AeropressInverted: return tr(.methodDetailInverted)
 		}
 	}
 }
@@ -31,11 +31,11 @@ extension BrewMethod: CustomStringConvertible {
 extension BrewMethod {
     var categoryDescription: String {
         switch self {
-        case .CoffeeMachine: return tr(.MethodEsspressoMachine)
-        case .PourOverV60: return tr(.MethodPourOver)
-        case .PourOverChemex: return tr(.MethodPourOver)
-        case .AeropressTraditional: return tr(.MethodAeropress)
-        case .AeropressInverted: return tr(.MethodAeropress)
+        case .CoffeeMachine: return tr(.methodEsspressoMachine)
+        case .PourOverV60: return tr(.methodPourOver)
+        case .PourOverChemex: return tr(.methodPourOver)
+        case .AeropressTraditional: return tr(.methodAeropress)
+        case .AeropressInverted: return tr(.methodAeropress)
         }
     }
 }
@@ -77,15 +77,15 @@ extension BrewMethod {
 extension BrewMethod {
 	var intValue: Int32 {
 		switch self {
-		case CoffeeMachine: return 0
-		case PourOverV60: return 1
-		case PourOverChemex: return 2
-		case AeropressTraditional: return 3
-		case AeropressInverted: return 4
+		case .CoffeeMachine: return 0
+		case .PourOverV60: return 1
+		case .PourOverChemex: return 2
+		case .AeropressTraditional: return 3
+		case .AeropressInverted: return 4
 		}
 	}
 
-	static func fromIntValue(intValue: Int32) -> BrewMethod {
+	static func fromIntValue(_ intValue: Int32) -> BrewMethod {
 		switch intValue {
 		case 0: return CoffeeMachine
 		case 1: return PourOverV60
@@ -95,6 +95,20 @@ extension BrewMethod {
 		default: fatalError("Wrong brew method int value!")
 		}
 	}
+}
+
+extension BrewMethod {
+    
+    static func fromQuickType(string: String) -> BrewMethod {
+        switch string {
+        case "pl.maciejoczko.Dropnote.traditional": return .AeropressTraditional
+        case "pl.maciejoczko.Dropnote.inverted": return .AeropressInverted
+        case "pl.maciejoczko.Dropnote.v60": return .PourOverV60
+        case "pl.maciejoczko.Dropnote.chemex": return .PourOverChemex
+        case "pl.maciejoczko.Dropnote.coffeemachine": return .CoffeeMachine
+        default: fatalError("Wrong brew method quick type value!")
+        }
+    }
 }
 
 extension BrewMethod: TitleImagePresentable {

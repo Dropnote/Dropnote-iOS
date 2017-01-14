@@ -13,10 +13,10 @@ struct SettingsItem: TitlePresentable {
 final class SettingsViewModel {
     
     var listItems = [[
-            SettingsItem(title: tr(.SettingsBrewingSequenceMenuItemTitle)),
-            SettingsItem(title: tr(.SettingsUnitsMenuItemTitle)),
-            SettingsItem(title: tr(.SettingsAboutMenuItemTitle)),
-            SettingsItem(title: tr(.SettingsFeedbackMenuItemTitle)),
+            SettingsItem(title: tr(.settingsBrewingSequenceMenuItemTitle)),
+            SettingsItem(title: tr(.settingsUnitsMenuItemTitle)),
+            SettingsItem(title: tr(.settingsAboutMenuItemTitle)),
+            SettingsItem(title: tr(.settingsFeedbackMenuItemTitle))
     ]]
     
     lazy var dataSource: TableViewSourceWrapper<SettingsViewModel> = TableViewSourceWrapper(tableDataSource: self)
@@ -24,18 +24,18 @@ final class SettingsViewModel {
 
 extension SettingsViewModel: TableViewConfigurable {
     
-    func configureWithTableView(tableView: UITableView) {
+    func configureWithTableView(_ tableView: UITableView) {
         tableView.dataSource = dataSource
     }
 }
 
 extension SettingsViewModel: TableListDataSource {
     
-    func cellIdentifierForIndexPath(indexPath: NSIndexPath) -> String {
+    func cellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
         return "SettingsCell"
     }
     
-    func listView(listView: UITableView, configureCell cell: SettingsCell, withObject object: SettingsItem, atIndexPath indexPath: NSIndexPath) {
+    func listView(_ listView: UITableView, configureCell cell: SettingsCell, withObject object: SettingsItem, atIndexPath indexPath: IndexPath) {
         cell.configureWithPresentable(object)
     }
 }

@@ -14,7 +14,7 @@ final class NumericalInputViewController: UIViewController {
         didSet {
             inputTextField.accessibilityLabel = "Type"
             inputTextField.delegate = self
-            inputTextField.tintColor = .clearColor()
+            inputTextField.tintColor = UIColor.clear
         }
     }
     @IBOutlet weak var informativeLabel: InformativeLabel!
@@ -40,7 +40,7 @@ final class NumericalInputViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.configureWithTheme(themeConfiguration)
         inputTextField.configureWithTheme(themeConfiguration)
@@ -50,7 +50,7 @@ final class NumericalInputViewController: UIViewController {
 
 extension NumericalInputViewController: UITextFieldDelegate {
 
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard string.characters.count <= 1 else {
             return false
         }

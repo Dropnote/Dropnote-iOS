@@ -18,8 +18,8 @@ class Brew: NSManagedObject {
 		return attributes.allObjects as! [BrewAttribute]
 	}
 
-	func brewAttributeForType(type: BrewAttributeType) -> BrewAttribute? {
-		guard let attributes = brewAttributes where !attributes.isEmpty else {
+	func brewAttributeForType(_ type: BrewAttributeType) -> BrewAttribute? {
+		guard let attributes = brewAttributes , !attributes.isEmpty else {
 			return nil
 		}
 		return attributes
@@ -27,8 +27,8 @@ class Brew: NSManagedObject {
 			.last as? BrewAttribute
 	}
 
-	func cuppingAttributeForType(type: CuppingAttribute) -> Cupping? {
-		guard let attributes = cuppingAttributes where !attributes.isEmpty else {
+	func cuppingAttributeForType(_ type: CuppingAttribute) -> Cupping? {
+		guard let attributes = cuppingAttributes , !attributes.isEmpty else {
 			return nil
 		}
 		return attributes

@@ -92,6 +92,9 @@
 		81086F4A2CB7045BDEC42DC8 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810861B5C45A176F0E7A29FD /* SettingsViewModel.swift */; };
 		81086F708D46900AE61F0107 /* MethodPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086EED1833527712835891 /* MethodPickerCell.swift */; };
 		81086FFB2E84332D9CF9CD70 /* WaterUnitsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810864B3240D552C9E5111AE /* WaterUnitsDataSource.swift */; };
+		A10B1F6A1DF4AC8D0085A9C0 /* MutableBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10B1F671DF4AC8D0085A9C0 /* MutableBox.swift */; };
+		A10B1F6B1DF4AC8D0085A9C0 /* BoxType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10B1F681DF4AC8D0085A9C0 /* BoxType.swift */; };
+		A10B1F6C1DF4AC8D0085A9C0 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10B1F691DF4AC8D0085A9C0 /* Box.swift */; };
 		A10C03941CC389630013C585 /* BrewDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10C03931CC389630013C585 /* BrewDetailsViewModel.swift */; };
 		A10C03961CC395300013C585 /* PresentableProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10C03951CC395300013C585 /* PresentableProtocols.swift */; };
 		A10F29B21CDDFD0600593284 /* ThemeConfigurable+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10F29B11CDDFD0600593284 /* ThemeConfigurable+UILabel.swift */; };
@@ -135,8 +138,6 @@
 		A1BF50BF1C57D03400C4D775 /* SequenceSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1BF50BE1C57D03400C4D775 /* SequenceSettings.storyboard */; };
 		A1C811411D05E30E0064CF8A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1C811431D05E30E0064CF8A /* Localizable.strings */; };
 		A1C811461D06139B0064CF8A /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C811451D06139B0064CF8A /* Localizable.swift */; };
-		A1CC2CB21D1087210016AADA /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1CC2CB01D1087210016AADA /* Fabric.framework */; };
-		A1CC2CB31D1087210016AADA /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1CC2CB11D1087210016AADA /* Crashlytics.framework */; };
 		A1CD27061C5CCB8900387B9B /* Notes.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1CD27051C5CCB8900387B9B /* Notes.storyboard */; };
 		A1CD27081C5CCCA500387B9B /* Tamping.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1CD27071C5CCCA500387B9B /* Tamping.storyboard */; };
 		A1CD270A1C5CD0D900387B9B /* GrindSize.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1CD27091C5CD0D900387B9B /* GrindSize.storyboard */; };
@@ -281,6 +282,9 @@
 		81086F84DEE057A98F40AF7B /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		81086FB974AE2734A47A34A4 /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		81086FC4186D6A63CEC193E5 /* BrewingsModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewingsModelController.swift; sourceTree = "<group>"; };
+		A10B1F671DF4AC8D0085A9C0 /* MutableBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MutableBox.swift; path = External/Box/MutableBox.swift; sourceTree = SOURCE_ROOT; };
+		A10B1F681DF4AC8D0085A9C0 /* BoxType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BoxType.swift; path = External/Box/BoxType.swift; sourceTree = SOURCE_ROOT; };
+		A10B1F691DF4AC8D0085A9C0 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Box.swift; path = External/Box/Box.swift; sourceTree = SOURCE_ROOT; };
 		A10C03931CC389630013C585 /* BrewDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewDetailsViewModel.swift; sourceTree = "<group>"; };
 		A10C03951CC395300013C585 /* PresentableProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentableProtocols.swift; sourceTree = "<group>"; };
 		A10F29B11CDDFD0600593284 /* ThemeConfigurable+UILabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ThemeConfigurable+UILabel.swift"; sourceTree = "<group>"; };
@@ -306,6 +310,7 @@
 		A1528D5E1D23017800852522 /* Highlightable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Highlightable.swift; sourceTree = "<group>"; };
 		A156209E1CE76313003F40D0 /* KeyboardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		A15620A01CE763B5003F40D0 /* NewBrewNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBrewNavigationBar.swift; sourceTree = "<group>"; };
+		A157DB351D9ECB2400860626 /* Box.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Box.framework; path = "../../Library/Developer/Xcode/DerivedData/Brewer-gayynftwtesnvufarvwdiqdpwzbh/Build/Products/Debug-iphonesimulator/Box.framework"; sourceTree = "<group>"; };
 		A15DFCD91C9EFBF000319CB2 /* BrewsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BrewsViewModel.swift; path = ViewModel/BrewsViewModel.swift; sourceTree = "<group>"; };
 		A1609A921CFCC99200D06DAC /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		A1669B5A1D511C2F00614B35 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -325,6 +330,7 @@
 		A17E9BCD1C4AE83B0004F57A /* Coffee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coffee.swift; sourceTree = "<group>"; };
 		A18F3D7A1CEC44930022A096 /* NewBrewUnwindSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBrewUnwindSegue.swift; sourceTree = "<group>"; };
 		A1999EB91D4BDF920003A42E /* AboutViewThanksCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewThanksCell.swift; sourceTree = "<group>"; };
+		A1A8F4C21DFB0FFD00ED8FE7 /* Dropnote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dropnote.entitlements; sourceTree = "<group>"; };
 		A1A9D2631D19CD740017E8C3 /* InformativeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformativeLabel.swift; sourceTree = "<group>"; };
 		A1A9F6FC1D15761500E6D512 /* BrewDetailsRemoveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewDetailsRemoveCell.swift; sourceTree = "<group>"; };
 		A1A9F6FE1D16A7E700E6D512 /* BrewingsSorting.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BrewingsSorting.storyboard; sourceTree = "<group>"; };
@@ -332,8 +338,6 @@
 		A1C811421D05E30E0064CF8A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A1C811441D05E3110064CF8A /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A1C811451D06139B0064CF8A /* Localizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
-		A1CC2CB01D1087210016AADA /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
-		A1CC2CB11D1087210016AADA /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		A1CD27051C5CCB8900387B9B /* Notes.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Notes.storyboard; sourceTree = "<group>"; };
 		A1CD27071C5CCCA500387B9B /* Tamping.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Tamping.storyboard; sourceTree = "<group>"; };
 		A1CD27091C5CD0D900387B9B /* GrindSize.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = GrindSize.storyboard; sourceTree = "<group>"; };
@@ -390,8 +394,6 @@
 				A1D2E99F1C5EA4EB009D9029 /* QuartzCore.framework in Frameworks */,
 				A1D2E99D1C5EA4E3009D9029 /* CFNetwork.framework in Frameworks */,
 				28190AE386635CA2B1095D8E /* Pods_Brewer.framework in Frameworks */,
-				A1CC2CB21D1087210016AADA /* Fabric.framework in Frameworks */,
-				A1CC2CB31D1087210016AADA /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,13 +418,12 @@
 		1DC1AA9162D4971B1CA8060B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A157DB351D9ECB2400860626 /* Box.framework */,
 				A1D2E9A21C5EA4FA009D9029 /* libz.tbd */,
 				A1D2E9A01C5EA4F2009D9029 /* CoreGraphics.framework */,
 				A1D2E99E1C5EA4EB009D9029 /* QuartzCore.framework */,
 				A1D2E99C1C5EA4E3009D9029 /* CFNetwork.framework */,
 				A1D2E99A1C5EA451009D9029 /* libReveal.dylib */,
-				A1CC2CB01D1087210016AADA /* Fabric.framework */,
-				A1CC2CB11D1087210016AADA /* Crashlytics.framework */,
 				C4A0E9E5BCD72C19ABAF1143 /* Pods.framework */,
 				A9FF3BD47AF36F470B4AB758 /* Pods_Brewer.framework */,
 				0BED7496622E8970BB565B32 /* Pods_BrewerTests.framework */,
@@ -1178,6 +1179,25 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		A10B1F5F1DF4AC090085A9C0 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				A10B1F601DF4AC110085A9C0 /* Box */,
+			);
+			name = External;
+			path = ../External;
+			sourceTree = "<group>";
+		};
+		A10B1F601DF4AC110085A9C0 /* Box */ = {
+			isa = PBXGroup;
+			children = (
+				A10B1F671DF4AC8D0085A9C0 /* MutableBox.swift */,
+				A10B1F681DF4AC8D0085A9C0 /* BoxType.swift */,
+				A10B1F691DF4AC8D0085A9C0 /* Box.swift */,
+			);
+			path = Box;
+			sourceTree = "<group>";
+		};
 		A10C03921CC3893C0013C585 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1244,9 +1264,11 @@
 		A17D8C411C039E5900A4C564 /* Brewer */ = {
 			isa = PBXGroup;
 			children = (
+				A1A8F4C21DFB0FFD00ED8FE7 /* Dropnote.entitlements */,
 				A17D8C511C039E5900A4C564 /* Info.plist */,
 				81086CFA45682C788A044E18 /* GoogleService-Info.plist */,
 				A1D933ED1D4504120057C7BB /* Brewer-Bridging-Header.h */,
+				A10B1F5F1DF4AC090085A9C0 /* External */,
 				8108664725887CA46E8A220E /* Resources */,
 				8108603E6272F6438160DD2F /* Classes */,
 			);
@@ -1323,15 +1345,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A17D8C5F1C039E5900A4C564 /* Build configuration list for PBXNativeTarget "Brewer" */;
 			buildPhases = (
-				5BBA15FA58BC580785CD6C9F /* [CP] Check Pods Manifest.lock */,
+				35B61EBD4A3D9EDD474114EB /* [CP] Check Pods Manifest.lock */,
 				A17D8C3B1C039E5900A4C564 /* Sources */,
 				A17D8C3C1C039E5900A4C564 /* Frameworks */,
 				A17D8C3D1C039E5900A4C564 /* Resources */,
 				A1D2E9A41C5EA521009D9029 /* Reveal */,
-				1CF391ABDCEC4CBF458A11B6 /* [CP] Embed Pods Frameworks */,
-				897B56F25A7DB7E4E52FB792 /* [CP] Copy Pods Resources */,
 				A1F92A2F1D043EEC00623FE3 /* Swiftlint */,
 				A1CC2CAF1D106C1E0016AADA /* Fabric */,
+				EE8F6EBC9A94015CB7F7E2BB /* [CP] Embed Pods Frameworks */,
+				70ABC9E3E6F02A70B3266030 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1388,12 +1410,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Maciej Oczko";
 				TargetAttributes = {
 					A17D8C3E1C039E5900A4C564 = {
 						CreatedOnToolsVersion = 7.1.1;
 						DevelopmentTeam = N7LF5KBDPY;
+						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1402,10 +1426,12 @@
 					};
 					A17D8C551C039E5900A4C564 = {
 						CreatedOnToolsVersion = 7.1.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = A17D8C3E1C039E5900A4C564;
 					};
 					A1F4F90F1D4E3DA2006D6F0E = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = A17D8C3E1C039E5900A4C564;
 					};
 				};
@@ -1489,22 +1515,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		1CF391ABDCEC4CBF458A11B6 /* [CP] Embed Pods Frameworks */ = {
+		35B61EBD4A3D9EDD474114EB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Brewer/Pods-Brewer-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		35BC1CC74A5B432D92BBCCA3 /* [CP] Copy Pods Resources */ = {
@@ -1522,19 +1548,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Brewer-BrewerTests/Pods-Brewer-BrewerTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5BBA15FA58BC580785CD6C9F /* [CP] Check Pods Manifest.lock */ = {
+		70ABC9E3E6F02A70B3266030 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Brewer/Pods-Brewer-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7A4D5F1660ED82302A21AA76 /* [CP] Embed Pods Frameworks */ = {
@@ -1552,21 +1578,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Brewer-BrewerTests/Pods-Brewer-BrewerTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		897B56F25A7DB7E4E52FB792 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Brewer/Pods-Brewer-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		A1CC2CAF1D106C1E0016AADA /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1579,7 +1590,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 85bc0c0783eebf89989b1f497116c05b40df64cb eb57a4937b74f266c690936cbec9f62b8c8805f2450b7fbd18a54b23d845c8d2";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 85bc0c0783eebf89989b1f497116c05b40df64cb eb57a4937b74f266c690936cbec9f62b8c8805f2450b7fbd18a54b23d845c8d2";
 		};
 		A1D2E9A41C5EA521009D9029 /* Reveal */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1608,6 +1619,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		EE8F6EBC9A94015CB7F7E2BB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Brewer/Pods-Brewer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1667,6 +1693,7 @@
 				A18F3D7B1CEC44930022A096 /* NewBrewUnwindSegue.swift in Sources */,
 				810867A3AE217178A10D1358 /* SelectableSearchViewController.swift in Sources */,
 				A1FF0BAC1CD28D50009F3494 /* BrewNotesCell.swift in Sources */,
+				A10B1F6B1DF4AC8D0085A9C0 /* BoxType.swift in Sources */,
 				A1C811461D06139B0064CF8A /* Localizable.swift in Sources */,
 				A15620A11CE763B5003F40D0 /* NewBrewNavigationBar.swift in Sources */,
 				8108674FDFFD4796F774A38C /* NumericalInputViewController.swift in Sources */,
@@ -1738,10 +1765,12 @@
 				81086E620DBDE44C23A2CB74 /* BrewingsSortingViewController.swift in Sources */,
 				810863F8FA6A35A9F84A2F6E /* BrewingsSortingViewModel.swift in Sources */,
 				8108630C5325F32DA06AC3EF /* BrewingsSortingAssembly.swift in Sources */,
+				A10B1F6A1DF4AC8D0085A9C0 /* MutableBox.swift in Sources */,
 				8108682CCEFFBC69C6937BD0 /* BrewingsSortingOptionCell.swift in Sources */,
 				81086BEB75F5A78C5314459D /* BrewingSortingOption.swift in Sources */,
 				8108684E0FBA7D627F9861F6 /* Analytics.swift in Sources */,
 				8108658A01256023E395C461 /* TabBarConfigurable.swift in Sources */,
+				A10B1F6C1DF4AC8D0085A9C0 /* Box.swift in Sources */,
 				810864E7ADEDF6525038799F /* AboutViewController.swift in Sources */,
 				810866FBC9334439DDACF15E /* KeyValueStoreType.swift in Sources */,
 				81086E114A7379178DD9AB78 /* SettingsViewController.swift in Sources */,
@@ -1804,6 +1833,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1813,8 +1843,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1848,6 +1880,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1857,8 +1890,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1885,11 +1920,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C8FB4E698611B9CA22ECC43 /* Pods-Brewer.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: maciejoczko@gmail.com (S3H5C4ZRHL)";
-				CURRENT_PROJECT_VERSION = 45;
+				CODE_SIGN_ENTITLEMENTS = Brewer/Dropnote.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 50;
+				DEVELOPMENT_TEAM = N7LF5KBDPY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1903,8 +1942,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = pl.maciejoczko.Dropnote;
 				PRODUCT_NAME = Dropnote;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Brewer/Brewer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1913,11 +1954,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5A337DAD482F3FE24F51A719 /* Pods-Brewer.appstore.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 45;
+				CODE_SIGN_ENTITLEMENTS = Brewer/Dropnote.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Maciej Oczko (N7LF5KBDPY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 50;
+				DEVELOPMENT_TEAM = N7LF5KBDPY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1931,8 +1976,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = pl.maciejoczko.Dropnote;
 				PRODUCT_NAME = Dropnote;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Brewer/Brewer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = AppStore;
@@ -1941,6 +1988,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E8A43DFB97FE32882A652792 /* Pods-Brewer-BrewerTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_PEDANTIC = YES;
@@ -1948,6 +1996,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = pl.maciejoczko.BrewerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dropnote.app/Dropnote";
 			};
 			name = Debug;
@@ -1956,6 +2005,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1F07717A9C8DB7A2B3496F8F /* Pods-Brewer-BrewerTests.appstore.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_PEDANTIC = YES;
@@ -1963,6 +2013,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = pl.maciejoczko.BrewerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dropnote.app/Dropnote";
 			};
 			name = AppStore;
@@ -1971,6 +2022,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1980,8 +2032,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2008,11 +2062,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CEE32F7E01557848D39CD93A /* Pods-Brewer.testflight.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 45;
+				CODE_SIGN_ENTITLEMENTS = Brewer/Dropnote.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Maciej Oczko (N7LF5KBDPY)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 50;
+				DEVELOPMENT_TEAM = N7LF5KBDPY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2028,8 +2086,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = pl.maciejoczko.Dropnote;
 				PRODUCT_NAME = Dropnote;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Brewer/Brewer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = TestFlight;
@@ -2038,6 +2098,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B7AF4B6BEA29BF65255DBD77 /* Pods-Brewer-BrewerTests.testflight.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_PEDANTIC = YES;
@@ -2045,6 +2106,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = pl.maciejoczko.BrewerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dropnote.app/Dropnote";
 			};
 			name = TestFlight;
@@ -2058,6 +2120,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = pl.maciejoczko.BrewerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Brewer;
 			};
 			name = Debug;
@@ -2071,6 +2134,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = pl.maciejoczko.BrewerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Brewer;
 			};
 			name = AppStore;
@@ -2084,6 +2148,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = pl.maciejoczko.BrewerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = Brewer;
 			};
 			name = TestFlight;

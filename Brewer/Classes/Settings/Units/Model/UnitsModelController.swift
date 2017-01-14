@@ -8,7 +8,7 @@ import XCGLogger
 
 protocol UnitsModelControllerType {
     func rawUnit(forCategory rawCategory: Int) -> Int
-    func setRawUnit(rawUnit: Int, forCategory rawCategory: Int)
+    func setRawUnit(_ rawUnit: Int, forCategory rawCategory: Int)
 }
 
 final class UnitsModelController: UnitsModelControllerType {
@@ -16,8 +16,8 @@ final class UnitsModelController: UnitsModelControllerType {
         static let units = "UnitsSettingsKey"
     }
     
-    private let store: KeyValueStoreType
-    private(set) var unitsSettings = [String: Int]()
+    fileprivate let store: KeyValueStoreType
+    fileprivate(set) var unitsSettings = [String: Int]()
 
     init(store: KeyValueStoreType) {
         self.store = store
@@ -29,16 +29,16 @@ final class UnitsModelController: UnitsModelControllerType {
         return unitsSettings[String(rawCategory)]!
     }
 
-    func setRawUnit(rawUnit: Int, forCategory rawCategory: Int) {
+    func setRawUnit(_ rawUnit: Int, forCategory rawCategory: Int) {
         unitsSettings[String(rawCategory)] = rawUnit
-        store.setObject(unitsSettings, forKey: Keys.units)
-        store.synchronize()
+        store.set(unitsSettings, forKey: Keys.units)
+        _ = store.synchronize()
     }
 
     // MARK: Settings loading
 
-    private func loadSettings() {
-        guard let rawUnitsSettings = store.objectForKey(Keys.units) as? Dictionary<String, Int> else {
+    fileprivate func loadSettings() {
+        guard let rawUnitsSettings = store.object(forKey: Keys.units) as? [String: Int] else {
             XCGLogger.error("Can't load settings!")
             return
         }
@@ -47,15 +47,15 @@ final class UnitsModelController: UnitsModelControllerType {
 
     // MARK: Default settings
 
-    private func presetDefaultSettings() {
-        if store.objectForKey(Keys.units) == nil {
+    fileprivate func presetDefaultSettings() {
+        if store.object(forKey: Keys.units) == nil {
             let defaultSettings = [
-                String(UnitCategory.Water.rawValue) : UnitCategory.Water.defaultSetting(),
-                String(UnitCategory.Weight.rawValue) : UnitCategory.Weight.defaultSetting(),
-                String(UnitCategory.Temperature.rawValue) : UnitCategory.Temperature.defaultSetting(),
+                String(UnitCategory.water.rawValue): UnitCategory.water.defaultSetting(),
+                String(UnitCategory.weight.rawValue): UnitCategory.weight.defaultSetting(),
+                String(UnitCategory.temperature.rawValue): UnitCategory.temperature.defaultSetting()
             ]
-            store.setObject(defaultSettings, forKey: Keys.units)
-            store.synchronize()
+            store.set(defaultSettings, forKey: Keys.units)
+            _ = store.synchronize()
         }
     }
 }
