@@ -6,6 +6,7 @@
 import Foundation
 import CoreData
 import Swinject
+import CoreSpotlight
 
 final class CoreComponentsAssembly: AssemblyType {
     func assemble(container: Container) {
@@ -26,6 +27,10 @@ final class CoreComponentsAssembly: AssemblyType {
             r, c in
             c.resolver = r
             c.themeConfiguration = r.resolve(ThemeConfiguration.self)
+        }
+
+        container.register(SpotlightSearchService.self) {
+            _ in SpotlightSearchService(searchableIndex: CSSearchableIndex.default())
         }
     }
 }

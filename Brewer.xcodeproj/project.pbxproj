@@ -88,6 +88,7 @@
 		81086E855B340AF9451EF471 /* ActivableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086558579BE4C268DF2E7F /* ActivableProtocol.swift */; };
 		81086EA49BCAEC9FED53A0E4 /* BrewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8108612FD4AFB101E80F7C8C /* BrewCell.swift */; };
 		81086EE0FB27218CB424AB69 /* BrewScoreDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810864C853C4716593AF877D /* BrewScoreDetailsViewModel.swift */; };
+		81086F28F28F7A81CBBBC782 /* SpotlightSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086D61A42C6D6687720FC6 /* SpotlightSearchService.swift */; };
 		81086F2E1A4DC588D5EE6E22 /* CoffeeSelectableSearchModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810863FD83B81941F5359E84 /* CoffeeSelectableSearchModelController.swift */; };
 		81086F4A2CB7045BDEC42DC8 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810861B5C45A176F0E7A29FD /* SettingsViewModel.swift */; };
 		81086F708D46900AE61F0107 /* MethodPickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086EED1833527712835891 /* MethodPickerCell.swift */; };
@@ -265,6 +266,7 @@
 		81086CBB0A27B65DD1ED1091 /* TemperatureUnitsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureUnitsDataSource.swift; sourceTree = "<group>"; };
 		81086CFA45682C788A044E18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.info; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		81086D1276A0E76239091BEA /* Coffee+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Coffee+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		81086D61A42C6D6687720FC6 /* SpotlightSearchService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotlightSearchService.swift; sourceTree = "<group>"; };
 		81086D6958553D7D68CC459B /* BrewingsSortingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewingsSortingViewController.swift; sourceTree = "<group>"; };
 		81086D7CCC8A20A5AEC88EFB /* SequenceSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceSettingsViewController.swift; sourceTree = "<group>"; };
 		81086D9451F1E94FD1C68265 /* AboutViewPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewPhotoCell.swift; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 				81086BC56852B41587E2F940 /* Utilities */,
 				81086E817955509369915FAA /* Model */,
 				8108632ECDF0439476B68286 /* Segue */,
+				81086D91AC3D08FCE6E8809B /* SpotlightSearch */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1084,6 +1087,14 @@
 				81086C61816B703B4BED6B08 /* TimeInputViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		81086D91AC3D08FCE6E8809B /* SpotlightSearch */ = {
+			isa = PBXGroup;
+			children = (
+				81086D61A42C6D6687720FC6 /* SpotlightSearchService.swift */,
+			);
+			path = SpotlightSearch;
 			sourceTree = "<group>";
 		};
 		81086D9CDF9B64C1A47ACA83 /* View */ = {
@@ -1779,6 +1790,7 @@
 				81086062C8E8B6207FECE0DA /* AboutViewPhotoCell.swift in Sources */,
 				A1999EBA1D4BDF920003A42E /* AboutViewThanksCell.swift in Sources */,
 				810868050E829E758B3AA4B9 /* NewBrewDataSource.swift in Sources */,
+				81086F28F28F7A81CBBBC782 /* SpotlightSearchService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
