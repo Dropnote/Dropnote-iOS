@@ -68,6 +68,7 @@
 "AttributeWaterWeight" = "Wasssermenge oder Gewicht";
 "AttributeTime" = "Zeit";
 "AttributeNotes" = "Notizen";
+"AttributePreInfusionTime" = "Vorbrühzeit";
 
 // Units category items
 

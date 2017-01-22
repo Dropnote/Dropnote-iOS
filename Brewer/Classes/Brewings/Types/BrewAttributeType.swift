@@ -64,7 +64,7 @@ extension BrewAttributeType {
 extension BrewAttributeType: CustomStringConvertible {
 	var description: String {
 		switch self {
-			case .PreInfusionTime: return "preinfusion" //TODO localication
+			case .PreInfusionTime: return tr(.attributePreInfusionTime)
 			case .Time: return tr(.attributeTime)
 			case .GrindSize: return tr(.attributeGrindSize)
 			case .CoffeeWeight: return tr(.attributeCoffeeWeight)
