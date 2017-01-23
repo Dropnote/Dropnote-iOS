@@ -2,23 +2,37 @@
 
 import Foundation
 
+// swiftlint:disable file_length
+// swiftlint:disable line_length
+
+// swiftlint:disable type_body_length
 enum L10n {
-  /// Edit
-  case navigationEdit
-  /// Done
-  case navigationDone
-  /// Start brewing
-  case startBrewingItemTitle
-  /// History
-  case historyItemTitle
-  /// Settings
-  case settingsItemTitle
-  /// Search
-  case historyFilterPlaceholder
-  /// Here you'll see the history of your brewings
-  case historyEmptySetDescription
-  /// Sort
-  case brewingsSortingSortTitle
+  /// Coffee weight
+  case attributeCoffeeWeight
+  /// Grind size
+  case attributeGrindSize
+  /// Notes
+  case attributeNotes
+  /// Tamp strength
+  case attributeTampStrength
+  /// Temperature
+  case attributeTemperature
+  /// Time
+  case attributeTime
+  /// Water weight or volume
+  case attributeWaterWeight
+  /// No
+  case brewDetailsConfirmationNo
+  /// Are you sure you want to remove this brew?
+  case brewDetailsConfirmationTitle
+  /// Yes
+  case brewDetailsConfirmationYes
+  /// Score
+  case brewDetailScore
+  /// Brew details
+  case brewDetailsItemTitle
+  /// Remove brew
+  case brewDetailsRemoveTitle
   /// From the oldest
   case brewingsSortingDateAscending
   /// From the newest
@@ -27,269 +41,268 @@ enum L10n {
   case brewingsSortingScoreAscending
   /// From the best
   case brewingsSortingScoreDescending
-  /// Brewing sequence
-  case settingsBrewingSequenceMenuItemTitle
-  /// Default
-  case settingsBrewingSequenceMenuDefaultSubtitle
-  /// Units
-  case settingsUnitsMenuItemTitle
-  /// About
-  case settingsAboutMenuItemTitle
-  /// Feedback
-  case settingsFeedbackMenuItemTitle
-  /// Thanks for translation
-  case settingsAboutThanksForTransaltion
-  /// Pick method
-  case methodPickItemTitle
-  /// Espresso machine
-  case methodEsspressoMachine
-  /// Pour-Over
-  case methodPourOver
-  /// Aeropress
-  case methodAeropress
-  /// V60
-  case methodDetailV60
-  /// Chemex
-  case methodDetailChemex
-  /// Traditional
-  case methodDetailTraditional
-  /// Inverted
-  case methodDetailInverted
-  /// Sequence
-  case sequenceItemTitle
-  /// Units
-  case unitsItemTitle
-  /// Coffee weight
-  case attributeCoffeeWeight
-  /// Grind size
-  case attributeGrindSize
-  /// Tamp strength
-  case attributeTampStrength
-  /// Temperature
-  case attributeTemperature
-  /// Water weight or volume
-  case attributeWaterWeight
-  /// Time
-  case attributeTime
-  /// Notes
-  case attributeNotes
-  /// Water
-  case unitCategoryWater
-  /// Coffee
-  case unitCategoryCoffee
-  /// Temperature
-  case unitCategoryTemperature
-  /// New brew
-  case newBrewItemTitle
-  /// Type your coffee...
-  case newBrewCoffeeInputPlaceholder
-  /// Type your espresso machine...
-  case newBrewCoffeeMachinePlaceholder
-  /// Coffee
-  case selectableSearchCoffeeItemTitle
-  /// Espresso machine
-  case selectableSearchCoffeeMachineItemTitle
-  /// Tap here to use slider
-  case grindSizeSliderButtonTitle
-  /// Tap here to provide numerical value
-  case grindSizeNumericButtonTitle
+  /// Sort
+  case brewingsSortingSortTitle
+  /// Score details
+  case brewScoreDetailsItemTitle
+  /// Acidity
+  case cuppingAttributeAcidity
+  /// Aftertaste
+  case cuppingAttributeAftertaste
+  /// Aroma
+  case cuppingAttributeAroma
+  /// Balance
+  case cuppingAttributeBalance
+  /// Body
+  case cuppingAttributeBody
+  /// Overall
+  case cuppingAttributeOverall
+  /// Sweetness
+  case cuppingAttributeSweetness
+  /// Type or select grind size
+  case grindSizeInformativeText
+  /// Coarse
+  case grindSizeLevelCoarse
   /// Extra fine
   case grindSizeLevelExtraFine
   /// Fine
   case grindSizeLevelFine
   /// Medium
   case grindSizeLevelMedium
-  /// Coarse
-  case grindSizeLevelCoarse
-  /// Type duration of brewing process
-  case timeInformativeText
-  /// Type or select grind size
-  case grindSizeInformativeText
-  /// Type weight or volume of water.\nUnit can be changed in settings
-  case waterInformativeText
-  /// Type water temperature.\nUnit can be changed in settings
-  case temperatureInformativeText
-  /// Type coffee weight.\nUnit can be changed in settings
-  case weightInformativeText
+  /// Tap here to provide numerical value
+  case grindSizeNumericButtonTitle
+  /// Tap here to use slider
+  case grindSizeSliderButtonTitle
+  /// Here you'll see the history of your brewings
+  case historyEmptySetDescription
+  /// Search
+  case historyFilterPlaceholder
+  /// History
+  case historyItemTitle
+  /// Aeropress
+  case methodAeropress
+  /// Chemex
+  case methodDetailChemex
+  /// Inverted
+  case methodDetailInverted
+  /// Traditional
+  case methodDetailTraditional
+  /// V60
+  case methodDetailV60
+  /// Espresso machine
+  case methodEsspressoMachine
+  /// Kalita
+  case methodKalita
+  /// Kone
+  case methodKone
+  /// Pick method
+  case methodPickItemTitle
+  /// Pour-Over
+  case methodPourOver
+  /// Done
+  case navigationDone
+  /// Edit
+  case navigationEdit
+  /// Type your coffee...
+  case newBrewCoffeeInputPlaceholder
+  /// Type your espresso machine...
+  case newBrewCoffeeMachinePlaceholder
+  /// New brew
+  case newBrewItemTitle
+  /// Coffee
+  case selectableSearchCoffeeItemTitle
+  /// Espresso machine
+  case selectableSearchCoffeeMachineItemTitle
+  /// Sequence
+  case sequenceItemTitle
+  /// About
+  case settingsAboutMenuItemTitle
+  /// Thanks for translation
+  case settingsAboutThanksForTransaltion
+  /// Default
+  case settingsBrewingSequenceMenuDefaultSubtitle
+  /// Brewing sequence
+  case settingsBrewingSequenceMenuItemTitle
+  /// Feedback
+  case settingsFeedbackMenuItemTitle
+  /// Settings
+  case settingsItemTitle
+  /// Units
+  case settingsUnitsMenuItemTitle
+  /// Start brewing
+  case startBrewingItemTitle
   /// Select tamping strength
   case tampingInformativeText
-  /// Brew details
-  case brewDetailsItemTitle
-  /// Score
-  case brewDetailScore
-  /// Score details
-  case brewScoreDetailsItemTitle
-  /// Remove brew
-  case brewDetailsRemoveTitle
-  /// Are you sure you want to remove this brew?
-  case brewDetailsConfirmationTitle
-  /// Yes
-  case brewDetailsConfirmationYes
-  /// No
-  case brewDetailsConfirmationNo
-  /// Aroma
-  case cuppingAttributeAroma
-  /// Acidity
-  case cuppingAttributeAcidity
-  /// Aftertaste
-  case cuppingAttributeAftertaste
-  /// Balance
-  case cuppingAttributeBalance
-  /// Body
-  case cuppingAttributeBody
-  /// Sweetness
-  case cuppingAttributeSweetness
-  /// Overall
-  case cuppingAttributeOverall
+  /// Type water temperature\nUnit can be changed in settings
+  case temperatureInformativeText
+  /// Type duration of brewing process
+  case timeInformativeText
+  /// Coffee
+  case unitCategoryCoffee
+  /// Temperature
+  case unitCategoryTemperature
+  /// Water
+  case unitCategoryWater
+  /// Units
+  case unitsItemTitle
+  /// Type weight or volume of water\nUnit can be changed in settings
+  case waterInformativeText
+  /// Type coffee weight\nUnit can be changed in settings
+  case weightInformativeText
 }
+// swiftlint:enable type_body_length
 
 extension L10n: CustomStringConvertible {
   var description: String { return self.string }
 
   var string: String {
     switch self {
-      case .navigationEdit:
-        return L10n.tr("NavigationEdit")
-      case .navigationDone:
-        return L10n.tr("NavigationDone")
-      case .startBrewingItemTitle:
-        return L10n.tr("StartBrewingItemTitle")
-      case .historyItemTitle:
-        return L10n.tr("HistoryItemTitle")
-      case .settingsItemTitle:
-        return L10n.tr("SettingsItemTitle")
-      case .historyFilterPlaceholder:
-        return L10n.tr("HistoryFilterPlaceholder")
-      case .historyEmptySetDescription:
-        return L10n.tr("HistoryEmptySetDescription")
-      case .brewingsSortingSortTitle:
-        return L10n.tr("BrewingsSortingSortTitle")
-      case .brewingsSortingDateAscending:
-        return L10n.tr("BrewingsSortingDateAscending")
-      case .brewingsSortingDateDescending:
-        return L10n.tr("BrewingsSortingDateDescending")
-      case .brewingsSortingScoreAscending:
-        return L10n.tr("BrewingsSortingScoreAscending")
-      case .brewingsSortingScoreDescending:
-        return L10n.tr("BrewingsSortingScoreDescending")
-      case .settingsBrewingSequenceMenuItemTitle:
-        return L10n.tr("SettingsBrewingSequenceMenuItemTitle")
-      case .settingsBrewingSequenceMenuDefaultSubtitle:
-        return L10n.tr("SettingsBrewingSequenceMenuDefaultSubtitle")
-      case .settingsUnitsMenuItemTitle:
-        return L10n.tr("SettingsUnitsMenuItemTitle")
-      case .settingsAboutMenuItemTitle:
-        return L10n.tr("SettingsAboutMenuItemTitle")
-      case .settingsFeedbackMenuItemTitle:
-        return L10n.tr("SettingsFeedbackMenuItemTitle")
-      case .settingsAboutThanksForTransaltion:
-        return L10n.tr("SettingsAboutThanksForTransaltion")
-      case .methodPickItemTitle:
-        return L10n.tr("MethodPickItemTitle")
-      case .methodEsspressoMachine:
-        return L10n.tr("MethodEsspressoMachine")
-      case .methodPourOver:
-        return L10n.tr("MethodPourOver")
-      case .methodAeropress:
-        return L10n.tr("MethodAeropress")
-      case .methodDetailV60:
-        return L10n.tr("MethodDetailV60")
-      case .methodDetailChemex:
-        return L10n.tr("MethodDetailChemex")
-      case .methodDetailTraditional:
-        return L10n.tr("MethodDetailTraditional")
-      case .methodDetailInverted:
-        return L10n.tr("MethodDetailInverted")
-      case .sequenceItemTitle:
-        return L10n.tr("SequenceItemTitle")
-      case .unitsItemTitle:
-        return L10n.tr("UnitsItemTitle")
       case .attributeCoffeeWeight:
-        return L10n.tr("AttributeCoffeeWeight")
+        return L10n.tr(key: "AttributeCoffeeWeight")
       case .attributeGrindSize:
-        return L10n.tr("AttributeGrindSize")
-      case .attributeTampStrength:
-        return L10n.tr("AttributeTampStrength")
-      case .attributeTemperature:
-        return L10n.tr("AttributeTemperature")
-      case .attributeWaterWeight:
-        return L10n.tr("AttributeWaterWeight")
-      case .attributeTime:
-        return L10n.tr("AttributeTime")
+        return L10n.tr(key: "AttributeGrindSize")
       case .attributeNotes:
-        return L10n.tr("AttributeNotes")
-      case .unitCategoryWater:
-        return L10n.tr("UnitCategoryWater")
-      case .unitCategoryCoffee:
-        return L10n.tr("UnitCategoryCoffee")
-      case .unitCategoryTemperature:
-        return L10n.tr("UnitCategoryTemperature")
-      case .newBrewItemTitle:
-        return L10n.tr("NewBrewItemTitle")
-      case .newBrewCoffeeInputPlaceholder:
-        return L10n.tr("NewBrewCoffeeInputPlaceholder")
-      case .newBrewCoffeeMachinePlaceholder:
-        return L10n.tr("NewBrewCoffeeMachinePlaceholder")
-      case .selectableSearchCoffeeItemTitle:
-        return L10n.tr("SelectableSearchCoffeeItemTitle")
-      case .selectableSearchCoffeeMachineItemTitle:
-        return L10n.tr("SelectableSearchCoffeeMachineItemTitle")
-      case .grindSizeSliderButtonTitle:
-        return L10n.tr("GrindSizeSliderButtonTitle")
-      case .grindSizeNumericButtonTitle:
-        return L10n.tr("GrindSizeNumericButtonTitle")
-      case .grindSizeLevelExtraFine:
-        return L10n.tr("GrindSizeLevelExtraFine")
-      case .grindSizeLevelFine:
-        return L10n.tr("GrindSizeLevelFine")
-      case .grindSizeLevelMedium:
-        return L10n.tr("GrindSizeLevelMedium")
-      case .grindSizeLevelCoarse:
-        return L10n.tr("GrindSizeLevelCoarse")
-      case .timeInformativeText:
-        return L10n.tr("TimeInformativeText")
-      case .grindSizeInformativeText:
-        return L10n.tr("GrindSizeInformativeText")
-      case .waterInformativeText:
-        return L10n.tr("WaterInformativeText")
-      case .temperatureInformativeText:
-        return L10n.tr("TemperatureInformativeText")
-      case .weightInformativeText:
-        return L10n.tr("WeightInformativeText")
-      case .tampingInformativeText:
-        return L10n.tr("TampingInformativeText")
-      case .brewDetailsItemTitle:
-        return L10n.tr("BrewDetailsItemTitle")
-      case .brewDetailScore:
-        return L10n.tr("BrewDetailScore")
-      case .brewScoreDetailsItemTitle:
-        return L10n.tr("BrewScoreDetailsItemTitle")
-      case .brewDetailsRemoveTitle:
-        return L10n.tr("BrewDetailsRemoveTitle")
-      case .brewDetailsConfirmationTitle:
-        return L10n.tr("BrewDetailsConfirmationTitle")
-      case .brewDetailsConfirmationYes:
-        return L10n.tr("BrewDetailsConfirmationYes")
+        return L10n.tr(key: "AttributeNotes")
+      case .attributeTampStrength:
+        return L10n.tr(key: "AttributeTampStrength")
+      case .attributeTemperature:
+        return L10n.tr(key: "AttributeTemperature")
+      case .attributeTime:
+        return L10n.tr(key: "AttributeTime")
+      case .attributeWaterWeight:
+        return L10n.tr(key: "AttributeWaterWeight")
       case .brewDetailsConfirmationNo:
-        return L10n.tr("BrewDetailsConfirmationNo")
-      case .cuppingAttributeAroma:
-        return L10n.tr("CuppingAttributeAroma")
+        return L10n.tr(key: "BrewDetailsConfirmationNo")
+      case .brewDetailsConfirmationTitle:
+        return L10n.tr(key: "BrewDetailsConfirmationTitle")
+      case .brewDetailsConfirmationYes:
+        return L10n.tr(key: "BrewDetailsConfirmationYes")
+      case .brewDetailScore:
+        return L10n.tr(key: "BrewDetailScore")
+      case .brewDetailsItemTitle:
+        return L10n.tr(key: "BrewDetailsItemTitle")
+      case .brewDetailsRemoveTitle:
+        return L10n.tr(key: "BrewDetailsRemoveTitle")
+      case .brewingsSortingDateAscending:
+        return L10n.tr(key: "BrewingsSortingDateAscending")
+      case .brewingsSortingDateDescending:
+        return L10n.tr(key: "BrewingsSortingDateDescending")
+      case .brewingsSortingScoreAscending:
+        return L10n.tr(key: "BrewingsSortingScoreAscending")
+      case .brewingsSortingScoreDescending:
+        return L10n.tr(key: "BrewingsSortingScoreDescending")
+      case .brewingsSortingSortTitle:
+        return L10n.tr(key: "BrewingsSortingSortTitle")
+      case .brewScoreDetailsItemTitle:
+        return L10n.tr(key: "BrewScoreDetailsItemTitle")
       case .cuppingAttributeAcidity:
-        return L10n.tr("CuppingAttributeAcidity")
+        return L10n.tr(key: "CuppingAttributeAcidity")
       case .cuppingAttributeAftertaste:
-        return L10n.tr("CuppingAttributeAftertaste")
+        return L10n.tr(key: "CuppingAttributeAftertaste")
+      case .cuppingAttributeAroma:
+        return L10n.tr(key: "CuppingAttributeAroma")
       case .cuppingAttributeBalance:
-        return L10n.tr("CuppingAttributeBalance")
+        return L10n.tr(key: "CuppingAttributeBalance")
       case .cuppingAttributeBody:
-        return L10n.tr("CuppingAttributeBody")
-      case .cuppingAttributeSweetness:
-        return L10n.tr("CuppingAttributeSweetness")
+        return L10n.tr(key: "CuppingAttributeBody")
       case .cuppingAttributeOverall:
-        return L10n.tr("CuppingAttributeOverall")
+        return L10n.tr(key: "CuppingAttributeOverall")
+      case .cuppingAttributeSweetness:
+        return L10n.tr(key: "CuppingAttributeSweetness")
+      case .grindSizeInformativeText:
+        return L10n.tr(key: "GrindSizeInformativeText")
+      case .grindSizeLevelCoarse:
+        return L10n.tr(key: "GrindSizeLevelCoarse")
+      case .grindSizeLevelExtraFine:
+        return L10n.tr(key: "GrindSizeLevelExtraFine")
+      case .grindSizeLevelFine:
+        return L10n.tr(key: "GrindSizeLevelFine")
+      case .grindSizeLevelMedium:
+        return L10n.tr(key: "GrindSizeLevelMedium")
+      case .grindSizeNumericButtonTitle:
+        return L10n.tr(key: "GrindSizeNumericButtonTitle")
+      case .grindSizeSliderButtonTitle:
+        return L10n.tr(key: "GrindSizeSliderButtonTitle")
+      case .historyEmptySetDescription:
+        return L10n.tr(key: "HistoryEmptySetDescription")
+      case .historyFilterPlaceholder:
+        return L10n.tr(key: "HistoryFilterPlaceholder")
+      case .historyItemTitle:
+        return L10n.tr(key: "HistoryItemTitle")
+      case .methodAeropress:
+        return L10n.tr(key: "MethodAeropress")
+      case .methodDetailChemex:
+        return L10n.tr(key: "MethodDetailChemex")
+      case .methodDetailInverted:
+        return L10n.tr(key: "MethodDetailInverted")
+      case .methodDetailTraditional:
+        return L10n.tr(key: "MethodDetailTraditional")
+      case .methodDetailV60:
+        return L10n.tr(key: "MethodDetailV60")
+      case .methodEsspressoMachine:
+        return L10n.tr(key: "MethodEsspressoMachine")
+      case .methodKalita:
+        return L10n.tr(key: "MethodKalita")
+      case .methodKone:
+        return L10n.tr(key: "MethodKone")
+      case .methodPickItemTitle:
+        return L10n.tr(key: "MethodPickItemTitle")
+      case .methodPourOver:
+        return L10n.tr(key: "MethodPourOver")
+      case .navigationDone:
+        return L10n.tr(key: "NavigationDone")
+      case .navigationEdit:
+        return L10n.tr(key: "NavigationEdit")
+      case .newBrewCoffeeInputPlaceholder:
+        return L10n.tr(key: "NewBrewCoffeeInputPlaceholder")
+      case .newBrewCoffeeMachinePlaceholder:
+        return L10n.tr(key: "NewBrewCoffeeMachinePlaceholder")
+      case .newBrewItemTitle:
+        return L10n.tr(key: "NewBrewItemTitle")
+      case .selectableSearchCoffeeItemTitle:
+        return L10n.tr(key: "SelectableSearchCoffeeItemTitle")
+      case .selectableSearchCoffeeMachineItemTitle:
+        return L10n.tr(key: "SelectableSearchCoffeeMachineItemTitle")
+      case .sequenceItemTitle:
+        return L10n.tr(key: "SequenceItemTitle")
+      case .settingsAboutMenuItemTitle:
+        return L10n.tr(key: "SettingsAboutMenuItemTitle")
+      case .settingsAboutThanksForTransaltion:
+        return L10n.tr(key: "SettingsAboutThanksForTransaltion")
+      case .settingsBrewingSequenceMenuDefaultSubtitle:
+        return L10n.tr(key: "SettingsBrewingSequenceMenuDefaultSubtitle")
+      case .settingsBrewingSequenceMenuItemTitle:
+        return L10n.tr(key: "SettingsBrewingSequenceMenuItemTitle")
+      case .settingsFeedbackMenuItemTitle:
+        return L10n.tr(key: "SettingsFeedbackMenuItemTitle")
+      case .settingsItemTitle:
+        return L10n.tr(key: "SettingsItemTitle")
+      case .settingsUnitsMenuItemTitle:
+        return L10n.tr(key: "SettingsUnitsMenuItemTitle")
+      case .startBrewingItemTitle:
+        return L10n.tr(key: "StartBrewingItemTitle")
+      case .tampingInformativeText:
+        return L10n.tr(key: "TampingInformativeText")
+      case .temperatureInformativeText:
+        return L10n.tr(key: "TemperatureInformativeText")
+      case .timeInformativeText:
+        return L10n.tr(key: "TimeInformativeText")
+      case .unitCategoryCoffee:
+        return L10n.tr(key: "UnitCategoryCoffee")
+      case .unitCategoryTemperature:
+        return L10n.tr(key: "UnitCategoryTemperature")
+      case .unitCategoryWater:
+        return L10n.tr(key: "UnitCategoryWater")
+      case .unitsItemTitle:
+        return L10n.tr(key: "UnitsItemTitle")
+      case .waterInformativeText:
+        return L10n.tr(key: "WaterInformativeText")
+      case .weightInformativeText:
+        return L10n.tr(key: "WeightInformativeText")
     }
   }
 
-  fileprivate static func tr(_ key: String, _ args: CVarArg...) -> String {
+  private static func tr(key: String, _ args: CVarArg...) -> String {
     let format = NSLocalizedString(key, comment: "")
     return String(format: format, locale: Locale.current, arguments: args)
   }

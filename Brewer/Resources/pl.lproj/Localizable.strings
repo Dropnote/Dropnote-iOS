@@ -45,6 +45,8 @@
 "MethodEsspressoMachine" = "Ekspres";
 "MethodPourOver" = "Pour-Over";
 "MethodAeropress" = "Aeropress";
+"MethodKone" = "Kone";
+"MethodKalita" = "Kalita";
 
 "MethodDetailV60" = "V60";
 "MethodDetailChemex" = "Chemex";
