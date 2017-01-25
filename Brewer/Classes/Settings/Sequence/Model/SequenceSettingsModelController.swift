@@ -7,7 +7,7 @@ import Foundation
 import XCGLogger
 import ObjectMapper
 
-fileprivate func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
+private func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
     return l < r
@@ -33,14 +33,16 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
         static let brewingSequence = "BrewingSequenceSettingsKey"
     }
     
-    fileprivate let store: KeyValueStoreType
-    fileprivate let brewingSequenceMapper = Mapper<BrewingSequenceStep>()
-    fileprivate(set) var brewingSequenceSettings: [BrewMethod: [BrewingSequenceStep]] = [:]
+    private let store: KeyValueStoreType
+    private let brewingSequenceMapper = Mapper<BrewingSequenceStep>()
+    private(set) var brewingSequenceSettings: [BrewMethod: [BrewingSequenceStep]] = [:]
 
     init(store: KeyValueStoreType) {
         self.store = store
         presetDefaultSettings()
         loadSettings()
+        loadMissingPresetDefaults(for: .Kalita)
+        loadMissingPresetDefaults(for: .Kone)
     }
 
     func sequenceStepsForBrewMethod(_ brewMethod: BrewMethod, filter: SequenceStepFilter) -> [BrewingSequenceStep] {
@@ -56,19 +58,19 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
 
     // MARK: Settings saving
 
-    fileprivate func saveSettings() {
-        var rawSeqenceSettings: [String: String] = [:]
+    private func saveSettings() {
+        var rawSequenceSettings: [String: String] = [:]
         brewingSequenceSettings.forEach {
             method, steps in
-            rawSeqenceSettings[method.rawValue] = brewingSequenceMapper.toJSONString(steps)
+            rawSequenceSettings[method.rawValue] = brewingSequenceMapper.toJSONString(steps)
         }
-        store.set(rawSeqenceSettings, forKey: Keys.brewingSequence)
+        store.set(rawSequenceSettings, forKey: Keys.brewingSequence)
         _ = store.synchronize()
     }
 
     // MARK: Settings loading
 
-    fileprivate func loadSettings() {
+    private func loadSettings() {
         guard let rawSequenceSettings = store.object(forKey: Keys.brewingSequence) as? [String: String] else {
             XCGLogger.error("Can't load settings!")
             return
@@ -80,21 +82,31 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
 
     // MARK: Default settings
 
-    fileprivate func presetDefaultSettings() {
+    private func presetDefaultSettings() {
         if store.object(forKey: Keys.brewingSequence) == nil {
 
-            var defaultSeqenceSettings: [String: String] = [:]
+            var defaultSequenceSettings: [String: String] = [:]
             for method in BrewMethod.allValues {
-                let sequenceSteps = BrewAttributeType.allValues.map {
-                    BrewingSequenceStep(
-                        type: $0,
-                        position: $0.defaultPosition(forMethod: method),
-                        enabled: $0.defaultEnabled(forMethod: method)
-                    )
-                }
-                defaultSeqenceSettings[method.rawValue] = brewingSequenceMapper.toJSONString(sequenceSteps)
+                let sequenceSteps = defaultSequenceSteps(for: method)
+                defaultSequenceSettings[method.rawValue] = brewingSequenceMapper.toJSONString(sequenceSteps)
             }
-            store.set(defaultSeqenceSettings, forKey: Keys.brewingSequence)
+            store.set(defaultSequenceSettings, forKey: Keys.brewingSequence)
+        }
+    }
+
+    private func defaultSequenceSteps(for method: BrewMethod) -> [BrewingSequenceStep] {
+        return BrewAttributeType.allValues.map {
+            BrewingSequenceStep(
+                    type: $0,
+                    position: $0.defaultPosition(forMethod: method),
+                    enabled: $0.defaultEnabled(forMethod: method)
+            )
+        }
+    }
+
+    private func loadMissingPresetDefaults(for method: BrewMethod) {
+        if brewingSequenceSettings[method] == nil {
+            saveSequenceStepsForBrewMethod(method, sequenceSteps: defaultSequenceSteps(for: method))
         }
     }
 }
