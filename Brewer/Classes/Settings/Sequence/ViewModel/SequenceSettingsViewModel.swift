@@ -19,7 +19,7 @@ protocol SequenceSettingsViewModelType: UITableViewDataSource, TableViewConfigur
 
 final class SequenceSettingsViewModel: NSObject, SequenceSettingsViewModelType {
     fileprivate let disposeBag = DisposeBag()
-    var dispatchHandler = Dispatcher.delay
+    private var dispatchHandler = Dispatcher.delay
 
     let modelController: SequenceSettingsModelControllerType
     var brewMethod: BrewMethod! {
@@ -43,7 +43,7 @@ final class SequenceSettingsViewModel: NSObject, SequenceSettingsViewModelType {
     }
 
     fileprivate func populateSections() {
-        self.items = modelController.sequenceStepsForBrewMethod(brewMethod, filter: .all)
+        self.items = modelController.sequenceSteps(for: brewMethod, filter: .all)
     }
 
     func configureWithTableView(_ tableView: UITableView) {
@@ -57,7 +57,7 @@ final class SequenceSettingsViewModel: NSObject, SequenceSettingsViewModelType {
             completion(self.editing)
         }
         if !editing {
-            modelController.saveSequenceStepsForBrewMethod(brewMethod, sequenceSteps: items)
+            modelController.saveSequenceSteps(for: brewMethod, sequenceSteps: items)
         }
     }
 

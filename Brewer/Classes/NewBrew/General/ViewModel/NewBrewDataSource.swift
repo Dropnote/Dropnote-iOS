@@ -53,7 +53,7 @@ final class NewBrewDataSource {
 
     fileprivate func loadAttributesViewControllers(_ brewContext: StartBrewContext) -> [UIViewController] {
         let sequence = settingsModelController
-            .sequenceStepsForBrewMethod(brewContext.method, filter: .active)
+            .sequenceSteps(for: brewContext.method, filter: .active)
             .map { $0.type! }
         print(sequence)
         return sequence.map {

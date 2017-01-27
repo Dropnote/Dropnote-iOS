@@ -68,6 +68,7 @@
 "AttributeWaterWeight" = "Water weight or volume";
 "AttributeTime" = "Time";
 "AttributeNotes" = "Notes";
+"AttributePreInfusionTime" = "Pre-infusion time";
 
 // Units category items
 
