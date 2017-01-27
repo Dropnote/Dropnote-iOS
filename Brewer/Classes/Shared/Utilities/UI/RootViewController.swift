@@ -19,7 +19,7 @@ final class RootViewController: UITabBarController {
     var resolver: ResolverType?
 	var themeConfiguration: ThemeConfiguration?
 
-    fileprivate var contentViewControllers: [UIViewController]?
+    fileprivate(set) var contentViewControllers: [UIViewController]?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()

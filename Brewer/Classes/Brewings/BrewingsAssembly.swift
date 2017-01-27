@@ -17,7 +17,8 @@ final class BrewingsAssembly: AssemblyType {
         }
 
         container.register(BrewingsViewModelType.self) {
-            r in BrewingsViewModel(brewsModelController: r.resolve(BrewingsModelControllerType.self)!)
+            r in BrewingsViewModel(brewsModelController: r.resolve(BrewingsModelControllerType.self)!,
+                                 spotlightSearchService: r.resolve(SpotlightSearchService.self)!)
         }
 
         container.register(BrewingsModelControllerType.self) {
