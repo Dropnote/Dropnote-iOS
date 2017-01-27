@@ -93,6 +93,10 @@ enum L10n {
   case methodDetailV60
   /// Espresso machine
   case methodEsspressoMachine
+  /// Kalita
+  case methodKalita
+  /// Kone
+  case methodKone
   /// Pick method
   case methodPickItemTitle
   /// Pour-Over
@@ -241,6 +245,10 @@ extension L10n: CustomStringConvertible {
         return L10n.tr(key: "MethodDetailV60")
       case .methodEsspressoMachine:
         return L10n.tr(key: "MethodEsspressoMachine")
+      case .methodKalita:
+        return L10n.tr(key: "MethodKalita")
+      case .methodKone:
+        return L10n.tr(key: "MethodKone")
       case .methodPickItemTitle:
         return L10n.tr(key: "MethodPickItemTitle")
       case .methodPourOver:

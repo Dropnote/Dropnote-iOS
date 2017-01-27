@@ -56,11 +56,11 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
 		return dataSource
 	}()
 
-    init(brewContext: StartBrewContext,
-            settingsModelController: SequenceSettingsModelControllerType,
-            newBrewModelController: BrewModelControllerType) {
-        self.brewContext = brewContext
-        self.settingsModelController = settingsModelController
+	init(brewContext: StartBrewContext,
+		 settingsModelController: SequenceSettingsModelControllerType,
+		 newBrewModelController: BrewModelControllerType) {
+		self.brewContext = brewContext
+		self.settingsModelController = settingsModelController
 		self.brewModelController = newBrewModelController
 		super.init()
 	}

@@ -19,7 +19,7 @@ final class PreInfusionTimeInputViewModel: NumericalInputViewModelType {
         return tr(.timeInformativeText) // TODO check if needed to change
     }
 
-    var currentValue: String? = nil
+    var currentValue: String?
     lazy var inputTransformer: NumericalInputTransformerType = InputTransformer.timeTransformer()
 
     let unitModelController: UnitsModelControllerType

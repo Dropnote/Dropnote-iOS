@@ -7,7 +7,7 @@ import Foundation
 import XCGLogger
 import ObjectMapper
 
-fileprivate func <<T:Comparable>(lhs: T?, rhs: T?) -> Bool {
+fileprivate func <<T: Comparable>(lhs: T?, rhs: T?) -> Bool {
 	switch (lhs, rhs) {
 		case let (l?, r?):
 			return l < r
@@ -29,18 +29,20 @@ protocol SequenceSettingsModelControllerType {
 }
 
 final class SequenceSettingsModelController: SequenceSettingsModelControllerType {
-	struct Keys {
-		static let brewingSequence = "BrewingSequenceSettingsKey"
-	}
-
-	fileprivate let store: KeyValueStoreType
-	fileprivate let brewingSequenceMapper = Mapper<BrewingSequenceStep>()
-	fileprivate(set) var brewingSequenceSettings: [BrewMethod: [BrewingSequenceStep]] = [:]
+    struct Keys {
+        static let brewingSequence = "BrewingSequenceSettingsKey"
+    }
+    
+    private let store: KeyValueStoreType
+    private let brewingSequenceMapper = Mapper<BrewingSequenceStep>()
+    private(set) var brewingSequenceSettings: [BrewMethod: [BrewingSequenceStep]] = [:]
 
 	init(store: KeyValueStoreType) {
 		self.store = store
 		presetDefaultSettings()
 		loadSettings()
+		loadMissingPresetDefaults(for: .Kalita)
+		loadMissingPresetDefaults(for: .Kone)
 		addToDefaultPreset(brewAttributeType: BrewAttributeType.PreInfusionTime)
 	}
 
@@ -61,47 +63,57 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
 
 	// MARK: Settings saving
 
-	fileprivate func saveSettings() {
-		var rawSequenceSettings: [String: String] = [:]
-		brewingSequenceSettings.forEach {
-			method, steps in
-			rawSequenceSettings[method.rawValue] = brewingSequenceMapper.toJSONString(steps)
-		}
-		store.set(rawSequenceSettings, forKey: Keys.brewingSequence)
-		_ = store.synchronize()
-	}
+    private func saveSettings() {
+        var rawSequenceSettings: [String: String] = [:]
+        brewingSequenceSettings.forEach {
+            method, steps in
+            rawSequenceSettings[method.rawValue] = brewingSequenceMapper.toJSONString(steps)
+        }
+        store.set(rawSequenceSettings, forKey: Keys.brewingSequence)
+        _ = store.synchronize()
+    }
 
 	// MARK: Settings loading
 
-	fileprivate func loadSettings() {
-		guard let rawSequenceSettings = store.object(forKey: Keys.brewingSequence) as? [String: String] else {
-			XCGLogger.error("Can't load settings!")
-			return
-		}
-		rawSequenceSettings.forEach {
-			brewingSequenceSettings[BrewMethod(rawValue: $0)!] = brewingSequenceMapper.mapArray(JSONString: $1) ?? []
-		}
-	}
+    private func loadSettings() {
+        guard let rawSequenceSettings = store.object(forKey: Keys.brewingSequence) as? [String: String] else {
+            XCGLogger.error("Can't load settings!")
+            return
+        }
+        rawSequenceSettings.forEach {
+            brewingSequenceSettings[BrewMethod(rawValue: $0)!] = brewingSequenceMapper.mapArray(JSONString: $1) ?? []
+        }
+    }
 
 	// MARK: Default settings
 
-	fileprivate func presetDefaultSettings() {
-		if store.object(forKey: Keys.brewingSequence) == nil {
+    private func presetDefaultSettings() {
+        if store.object(forKey: Keys.brewingSequence) == nil {
 
-			var defaultSequenceSettings: [String: String] = [:]
-			for method in BrewMethod.allValues {
-				let sequenceSteps = BrewAttributeType.allValues.map {
-					BrewingSequenceStep(
-							type: $0,
-							position: $0.defaultPosition(forMethod: method),
-							enabled: $0.defaultEnabled(forMethod: method)
-					)
-				}
-				defaultSequenceSettings[method.rawValue] = brewingSequenceMapper.toJSONString(sequenceSteps)
-			}
-			store.set(defaultSequenceSettings, forKey: Keys.brewingSequence)
-		}
-	}
+            var defaultSequenceSettings: [String: String] = [:]
+            for method in BrewMethod.allValues {
+                let sequenceSteps = defaultSequenceSteps(for: method)
+                defaultSequenceSettings[method.rawValue] = brewingSequenceMapper.toJSONString(sequenceSteps)
+            }
+            store.set(defaultSequenceSettings, forKey: Keys.brewingSequence)
+        }
+    }
+
+    private func defaultSequenceSteps(for method: BrewMethod) -> [BrewingSequenceStep] {
+        return BrewAttributeType.allValues.map {
+            BrewingSequenceStep(
+                    type: $0,
+                    position: $0.defaultPosition(forMethod: method),
+                    enabled: $0.defaultEnabled(forMethod: method)
+            )
+        }
+    }
+
+    private func loadMissingPresetDefaults(for method: BrewMethod) {
+        if brewingSequenceSettings[method] == nil {
+            saveSequenceSteps(for: method, sequenceSteps: defaultSequenceSteps(for: method))
+        }
+    }
 
 	private func addToDefaultPreset(brewAttributeType: BrewAttributeType) {
 		for method in BrewMethod.allValues {

@@ -23,7 +23,7 @@ final class TimeInputViewModel: NumericalInputViewModelType {
         return tr(.timeInformativeText)
     }
     
-    var currentValue: String? = nil
+    var currentValue: String?
     lazy var inputTransformer: NumericalInputTransformerType = InputTransformer.timeTransformer()
 
     let unitModelController: UnitsModelControllerType
