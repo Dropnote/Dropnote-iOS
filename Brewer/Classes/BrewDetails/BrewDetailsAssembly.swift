@@ -17,9 +17,11 @@ final class BrewDetailsAssembly: AssemblyType {
             c.themeConfiguration = r.resolve(ThemeConfiguration.self)
             c.resolver = r
         }
-        
-        container.register(BrewDetailsViewModelType.self) {
-            (r, brew: Brew) in BrewDetailsViewModel(brewModelController: r.resolve(BrewModelControllerType.self, argument: brew)!)
-        }
+
+		container.register(BrewDetailsViewModelType.self) {
+			(r, brew: Brew) in
+			BrewDetailsViewModel(brewModelController: r.resolve(BrewModelControllerType.self, argument: brew)!,
+								 spotlightSearchService: r.resolve(SpotlightSearchService.self)!)
+		}
 	}
 }

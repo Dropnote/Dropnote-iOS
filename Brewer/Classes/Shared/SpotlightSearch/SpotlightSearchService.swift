@@ -18,7 +18,7 @@ final class SpotlightSearchService {
 
 	func updateSearchableIndex(with brews: [Brew]) {
 		let searchableItems: [CSSearchableItem] = brews.map {
-			return CSSearchableItem(uniqueIdentifier: uniqueIdentifier(for: $0),
+			return CSSearchableItem(uniqueIdentifier: uniqueSearchableIndexIdentifier(for: $0),
 									domainIdentifier: nil, attributeSet:
 									searchableItemAttributeSet(for: $0))
 		}
@@ -32,15 +32,26 @@ final class SpotlightSearchService {
 		}
 	}
 
+	func deleteFromSearchableIndex(using identifier: String) {
+		searchableIndex.deleteSearchableItems(withIdentifiers: [identifier]) {
+			error in
+			if let error = error {
+				XCGLogger.error("Error deleting coffee brews = \(error)")
+			} else {
+				XCGLogger.info("Coffee brews deleted for spotlight search.")
+			}
+		}
+	}
+
 	func selectedBrew(for activity: NSUserActivity, from brews: [Brew]) -> Brew? {
 		guard activity.activityType == CSSearchableItemActionType,
 			  let identifier = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String else {
 			return nil
 		}
-		return brews.filter { uniqueIdentifier(for: $0) == identifier }.first
+		return brews.filter { uniqueSearchableIndexIdentifier(for: $0) == identifier }.first
 	}
 
-	private func uniqueIdentifier(for brew: Brew) -> String {
+	func uniqueSearchableIndexIdentifier(for brew: Brew) -> String {
 		return brew.objectID.uriRepresentation().absoluteString
 	}
 
