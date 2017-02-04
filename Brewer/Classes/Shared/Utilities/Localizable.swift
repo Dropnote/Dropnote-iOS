@@ -129,6 +129,8 @@ enum L10n {
   case settingsFeedbackMenuItemTitle
   /// Settings
   case settingsItemTitle
+  /// Please rate Dropnote
+  case settingsRateMenuItemTitle
   /// Units
   case settingsUnitsMenuItemTitle
   /// Start brewing
@@ -281,6 +283,8 @@ extension L10n: CustomStringConvertible {
         return L10n.tr(key: "SettingsFeedbackMenuItemTitle")
       case .settingsItemTitle:
         return L10n.tr(key: "SettingsItemTitle")
+      case .settingsRateMenuItemTitle:
+        return L10n.tr(key: "SettingsRateMenuItemTitle")
       case .settingsUnitsMenuItemTitle:
         return L10n.tr(key: "SettingsUnitsMenuItemTitle")
       case .startBrewingItemTitle:

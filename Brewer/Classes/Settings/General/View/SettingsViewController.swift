@@ -58,17 +58,18 @@ final class SettingsViewController: UIViewController {
         }
 	}
     
-    fileprivate func performSegueForIndexPath(_ indexPath: IndexPath) {
+    fileprivate func performSegue(for indexPath: IndexPath) {
         switch (indexPath as NSIndexPath).row {
-        case 0: performSegue(.MethodPicker); break
-        case 1: performSegue(.Units); break
-        case 2: performSegue(.About); break
-        case 3: showEmailForm(); break
-        default: break
+            case 0: performSegue(.MethodPicker); break
+            case 1: performSegue(.Units); break
+            case 2: performSegue(.About); break
+            case 3: showEmailForm(); break
+            case 4: showAppStore(); break;
+            default: break
         }
     }
     
-    fileprivate func showEmailForm() {
+    private func showEmailForm() {
         if MFMailComposeViewController.canSendMail() {
             present(configuredMailComposeViewController(), animated: true, completion: nil)
         } else {
@@ -76,7 +77,7 @@ final class SettingsViewController: UIViewController {
         }
     }
     
-    fileprivate func configuredMailComposeViewController() -> MFMailComposeViewController {
+    private func configuredMailComposeViewController() -> MFMailComposeViewController {
         let mailComposerViewController = MFMailComposeViewController()
         mailComposerViewController.mailComposeDelegate = self
         
@@ -87,7 +88,7 @@ final class SettingsViewController: UIViewController {
         return mailComposerViewController
     }
     
-    fileprivate func showMailError() {
+    private func showMailError() {
         let alertController = UIAlertController(
             title: "Could Not Send Email",
             message: "Your device could not send e-mail. Please check e-mail configuration and try again.",
@@ -95,6 +96,13 @@ final class SettingsViewController: UIViewController {
         
         alertController.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
+    }
+
+    private func showAppStore() {
+        let dropnoteAppStoreID = "1112293581"
+        let dropnoteLinkString = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=\(dropnoteAppStoreID)"
+        guard let dropnoteURL = URL(string: dropnoteLinkString) else { return }
+        UIApplication.shared.openURL(dropnoteURL)
     }
 }
 
@@ -134,6 +142,6 @@ extension SettingsViewController: UITableViewDelegate {
 	}
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegueForIndexPath(indexPath)
+        performSegue(for: indexPath)
     }
 }
