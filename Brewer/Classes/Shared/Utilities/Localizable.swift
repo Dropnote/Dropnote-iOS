@@ -23,11 +23,11 @@ enum L10n {
   case attributeTime
   /// Water weight or volume
   case attributeWaterWeight
-  /// No
+  /// Cancel
   case brewDetailsConfirmationNo
   /// Are you sure you want to remove this brew?
   case brewDetailsConfirmationTitle
-  /// Yes
+  /// Remove
   case brewDetailsConfirmationYes
   /// Score
   case brewDetailScore

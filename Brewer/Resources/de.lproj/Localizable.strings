@@ -114,8 +114,8 @@
 "BrewDetailsRemoveTitle" = "Gebräu entfernen";
 
 "BrewDetailsConfirmationTitle" = "Gebräu permanent entfernen?";
-"BrewDetailsConfirmationYes" = "Ja";
-"BrewDetailsConfirmationNo" = "Nein";
+"BrewDetailsConfirmationYes" = "Entfernen";
+"BrewDetailsConfirmationNo" = "Stornieren";
 
 // Cupping attributes
 

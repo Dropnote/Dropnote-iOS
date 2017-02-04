@@ -113,8 +113,8 @@
 "BrewDetailsRemoveTitle" = "Supprimer la préparation"; //
 
 "BrewDetailsConfirmationTitle" = "Est-tu sûrs de vouloir supprimer la préparation?"; //
-"BrewDetailsConfirmationYes" = "Oui"; //
-"BrewDetailsConfirmationNo" = "Non"; //
+"BrewDetailsConfirmationYes" = "Retirer"; //
+"BrewDetailsConfirmationNo" = "Annuler"; //
 
 // Cupping attributes
 

@@ -114,8 +114,8 @@
 "BrewDetailsRemoveTitle" = "Borrar preparación";
 
 "BrewDetailsConfirmationTitle" = "Estás seguro de que quieres borrar esta preparación?";
-"BrewDetailsConfirmationYes" = "Si";
-"BrewDetailsConfirmationNo" = "No";
+"BrewDetailsConfirmationYes" = "Borrar";
+"BrewDetailsConfirmationNo" = "Cancelar";
 
 // Cupping attributes
 

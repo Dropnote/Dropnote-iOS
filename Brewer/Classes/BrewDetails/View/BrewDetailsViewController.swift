@@ -123,7 +123,7 @@ final class BrewDetailsViewController: UIViewController {
     }
 
     fileprivate func removeCurrentBrewIfNeeded() {
-        let alertController = UIAlertController(title: tr(.brewScoreDetailsItemTitle), message: tr(.brewDetailsConfirmationTitle), preferredStyle: .alert)
+        let alertController = UIAlertController(title: tr(.brewDetailsConfirmationTitle), message: nil, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: tr(.brewDetailsConfirmationYes), style: .destructive) {
             _ in
             self.viewModel.removeCurrentBrew {

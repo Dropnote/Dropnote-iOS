@@ -114,8 +114,8 @@
 "BrewDetailsRemoveTitle" = "Usuń parzenie";
 
 "BrewDetailsConfirmationTitle" = "Czy na pewnie chcesz usunąć to parzenie?";
-"BrewDetailsConfirmationYes" = "Tak";
-"BrewDetailsConfirmationNo" = "Nie";
+"BrewDetailsConfirmationYes" = "Usuń";
+"BrewDetailsConfirmationNo" = "Anuluj";
 
 // Cupping attributes
 

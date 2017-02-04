@@ -113,8 +113,8 @@
 "BrewDetailsRemoveTitle" = "Remove brew";
 
 "BrewDetailsConfirmationTitle" = "Are you sure you want to remove this brew?";
-"BrewDetailsConfirmationYes" = "Yes";
-"BrewDetailsConfirmationNo" = "No";
+"BrewDetailsConfirmationYes" = "Remove";
+"BrewDetailsConfirmationNo" = "Cancel";
 
 // Cupping attributes
 
