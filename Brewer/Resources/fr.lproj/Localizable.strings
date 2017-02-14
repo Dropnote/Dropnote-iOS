@@ -35,6 +35,7 @@
 "SettingsUnitsMenuItemTitle" = "Unités"; //
 "SettingsAboutMenuItemTitle" = "A propos"; //
 "SettingsFeedbackMenuItemTitle" = "Votre avis"; //
+"SettingsRateMenuItemTitle" = "Donnes nous ton avis sur Dropnote";
 
 "SettingsAboutThanksForTransaltion" = "Merci pour la traduction"; //
 
@@ -45,6 +46,8 @@
 "MethodEsspressoMachine" = "Machine à expresso"; //
 "MethodPourOver" = "Pour-Over";
 "MethodAeropress" = "Aeropress";
+"MethodKone" = "Kone";
+"MethodKalita" = "Kalita";
 
 "MethodDetailV60" = "V60";
 "MethodDetailChemex" = "Chemex";
@@ -68,6 +71,7 @@
 "AttributeWaterWeight" = "Poids ou volume de l’eau"; //
 "AttributeTime" = "Temps"; //
 "AttributeNotes" = "Notes"; //
+"AttributePreInfusionTime" = "Le temps de pré-infusion";
 
 // Units category items
 
@@ -110,8 +114,8 @@
 "BrewDetailsRemoveTitle" = "Supprimer la préparation"; //
 
 "BrewDetailsConfirmationTitle" = "Est-tu sûrs de vouloir supprimer la préparation?"; //
-"BrewDetailsConfirmationYes" = "Oui"; //
-"BrewDetailsConfirmationNo" = "Non"; //
+"BrewDetailsConfirmationYes" = "Retirer"; //
+"BrewDetailsConfirmationNo" = "Annuler"; //
 
 // Cupping attributes
 

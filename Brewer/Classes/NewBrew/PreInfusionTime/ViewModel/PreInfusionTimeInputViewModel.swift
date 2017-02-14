@@ -1,6 +1,6 @@
 //
-// Created by Maciej Oczko on 18.03.2016.
-// Copyright (c) 2016 Maciej Oczko. All rights reserved.
+// Created by Maciej Oczko on 14.01.2017.
+// Copyright (c) 2017 Maciej Oczko. All rights reserved.
 //
 
 import Foundation
@@ -8,21 +8,17 @@ import RxSwift
 import RxCocoa
 import XCGLogger
 
-enum TimeUnit: Int {
-    case seconds
-}
-
-final class TimeInputViewModel: NumericalInputViewModelType {
+final class PreInfusionTimeInputViewModel: NumericalInputViewModelType {
     fileprivate let disposeBag = DisposeBag()
 
     var unit: String {
         return "m"
     }
-    
+
     var informativeText: String {
-        return tr(.timeInformativeText)
+        return tr(.timeInformativeText) // TODO check if needed to change
     }
-    
+
     var currentValue: String?
     lazy var inputTransformer: NumericalInputTransformerType = InputTransformer.timeTransformer()
 
@@ -43,15 +39,15 @@ final class TimeInputViewModel: NumericalInputViewModelType {
         let duration = TimeInterval(60 * minutes + seconds)
 
         brewModelController
-            .createNewBrewAttribute(forType: .Time)
+            .createNewBrewAttribute(forType: .PreInfusionTime)
             .subscribe(onNext: {
                 attribute in
-                
-                attribute.type = BrewAttributeType.Time.intValue
+
+                attribute.type = BrewAttributeType.PreInfusionTime.intValue
                 attribute.value = duration
                 attribute.unit = Int32(TimeUnit.seconds.rawValue)
                 attribute.brew = brew
-                
+
             })
             .addDisposableTo(disposeBag)
     }

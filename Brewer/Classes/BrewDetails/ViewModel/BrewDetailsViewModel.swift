@@ -79,14 +79,16 @@ struct BrewDetailsPresentable: TitleValuePresentable {
 }
 
 final class BrewDetailsViewModel: BrewDetailsViewModelType {
-	fileprivate let disposeBag = DisposeBag()
+	private let disposeBag = DisposeBag()
 	let brewModelController: BrewModelControllerType
 	var editable: Bool = false
-    
-    fileprivate lazy var dataSource: TableViewSourceWrapper<BrewDetailsViewModel> = TableViewSourceWrapper(tableDataSource: self)
 
-	init(brewModelController: BrewModelControllerType) {
+	private let spotlightSearchService: SpotlightSearchService
+    private lazy var dataSource: TableViewSourceWrapper<BrewDetailsViewModel> = TableViewSourceWrapper(tableDataSource: self)
+
+	init(brewModelController: BrewModelControllerType, spotlightSearchService: SpotlightSearchService) {
 		self.brewModelController = brewModelController
+		self.spotlightSearchService = spotlightSearchService
 	}
 
 	func configureWithTableView(_ tableView: UITableView) {
@@ -167,7 +169,17 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
     }
     
     func removeCurrentBrew(_ completion: @escaping ((Bool) -> Void)) {
-        brewModelController.removeCurrentBrew().subscribe(onNext: completion).addDisposableTo(disposeBag)
+		let uniqueSearchableBrewIdentifier = spotlightSearchService.uniqueSearchableIndexIdentifier(for: currentBrew())
+        brewModelController
+				.removeCurrentBrew()
+				.do(onNext: {
+					[weak self] deleted in
+					if deleted {
+						self?.spotlightSearchService.deleteFromSearchableIndex(using: uniqueSearchableBrewIdentifier)
+					}
+				})
+				.subscribe(onNext: completion)
+				.addDisposableTo(disposeBag)
     }
 }
 

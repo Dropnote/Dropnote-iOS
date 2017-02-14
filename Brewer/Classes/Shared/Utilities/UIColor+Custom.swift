@@ -46,12 +46,12 @@ extension UIColor {
 	static func scandal() -> UIColor {
 		return UIColor(red: 0.67, green: 0.86, blue: 0.79, alpha: 1.00)
 	}
-    
-    // MARK: Aeropress Inverted
-    
-    static func sail() -> UIColor {
-        return UIColor(red:0.69, green:0.89, blue:0.98, alpha:1.00)
-    }
+
+	// MARK: Aeropress Inverted
+
+	static func sail() -> UIColor {
+		return UIColor(red: 0.69, green: 0.89, blue: 0.98, alpha: 1.00)
+	}
 
 	// MARK: Coffee machine
 
@@ -71,5 +71,34 @@ extension UIColor {
 
 	static func gold() -> UIColor {
 		return UIColor(red: 0.93, green: 0.78, blue: 0.59, alpha: 1.00)
+	}
+
+	// MARK: Kalita
+
+	static func feijoa() -> UIColor {
+		return UIColor(hex: 0xB1DB83, alpha: 1.0)
+	}
+
+	static func sprout() -> UIColor {
+		return UIColor(hex: 0xB1DB83, alpha: 0.4)
+	}
+
+	// MARK: Kone
+
+	static func geraldine() -> UIColor {
+		return UIColor(hex: 0xFF8585, alpha: 1.0)
+	}
+
+	static func sundown() -> UIColor {
+		return UIColor(hex: 0xFF8585, alpha: 0.4)
+	}
+}
+
+extension UIColor {
+	convenience init(hex: Int, alpha: Double = 1.0) {
+		self.init(red: CGFloat((hex >> 16) & 0xFF) / 255.0,
+				  green: CGFloat((hex >> 8) & 0xFF) / 255.0,
+				  blue: CGFloat((hex) & 0xFF) / 255.0,
+				  alpha: CGFloat(255 * alpha) / 255)
 	}
 }

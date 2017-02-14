@@ -56,6 +56,15 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         rootViewController.showNewBrewVieController(for: brewMethod)
         completionHandler(true)
     }
+
+	func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+		let rootViewController = window?.rootViewController as? RootViewController
+		guard let brewingsViewController = rootViewController?.contentViewControllers?.elements(ofType: BrewingsViewController.self).first
+				else { return false }
+		brewingsViewController.restoreUserActivityState(userActivity)
+		return true
+	}
+
 }
 
 extension AppDelegate: ThemeConfigurationContainer { }
