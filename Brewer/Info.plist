@@ -48,6 +48,41 @@
 	</dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>ic_inverted_bw</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Aeropress Inverted</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>pl.maciejoczko.Dropnote.inverted</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>ic_chemex_bw</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Chemex</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>pl.maciejoczko.Dropnote.chemex</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>ic_drip_bw</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Pour-over V60</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>pl.maciejoczko.Dropnote.v60</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>ic_coffee_machine_bw</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Coffee machine</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>pl.maciejoczko.Dropnote.coffeemachine</string>
+		</dict>
+	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -59,48 +94,11 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-    <key>UIApplicationShortcutItems</key>
-    <array>
-        
-        <dict>
-            <key>UIApplicationShortcutItemIconFile</key>
-            <string>ic_inverted_bw</string>
-            <key>UIApplicationShortcutItemTitle</key>
-            <string>Aeropress Inverted</string>
-            <key>UIApplicationShortcutItemType</key>
-            <string>pl.maciejoczko.Dropnote.inverted</string>
-        </dict>
-        
-        <dict>
-            <key>UIApplicationShortcutItemIconFile</key>
-            <string>ic_chemex_bw</string>
-            <key>UIApplicationShortcutItemTitle</key>
-            <string>Chemex</string>
-            <key>UIApplicationShortcutItemType</key>
-            <string>pl.maciejoczko.Dropnote.chemex</string>
-        </dict>
-        
-        <dict>
-            <key>UIApplicationShortcutItemIconFile</key>
-            <string>ic_drip_bw</string>
-            <key>UIApplicationShortcutItemTitle</key>
-            <string>Pour-over V60</string>
-            <key>UIApplicationShortcutItemType</key>
-            <string>pl.maciejoczko.Dropnote.v60</string>
-        </dict>
-        
-        <dict>
-            <key>UIApplicationShortcutItemIconFile</key>
-            <string>ic_coffee_machine_bw</string>
-            <key>UIApplicationShortcutItemTitle</key>
-            <string>Coffee machine</string>
-            <key>UIApplicationShortcutItemType</key>
-            <string>pl.maciejoczko.Dropnote.coffeemachine</string>
-        </dict>
-    
-    </array>
 </dict>
 </plist>
