@@ -16,7 +16,7 @@ protocol BrewingsModelControllerType {
 final class BrewingsModelController: BrewingsModelControllerType {
 	let stack: StackType
     fileprivate let isFinishedPredicate = NSPredicate(format: "isFinished == %@", true as CVarArg)
-    
+
     var sortingOption: BrewingSortingOption = .dateDescending {
         didSet {
             fetchedResultsController.fetchRequest.sortDescriptors = [sortingOption.sortDescriptor]
@@ -43,7 +43,7 @@ final class BrewingsModelController: BrewingsModelControllerType {
         } catch {
             XCGLogger.error("Error when fetching brews = \(error)")
         }
-		
+
 		return fetchedResultsController
 	}()
 
@@ -53,20 +53,36 @@ final class BrewingsModelController: BrewingsModelControllerType {
 
 	func setSearchText(_ search: String?) {
 		var searchPredicate: NSPredicate?
-		if let search = search , !search.isEmpty {
-            searchPredicate = NSPredicate(format: "coffee.name CONTAINS[c] %@", search)
+		if let search = search, !search.isEmpty {
+			var subpredicates = [
+					NSPredicate(format: "coffee.name CONTAINS[c] %@", search),
+					NSPredicate(format: "coffeeMachine.name CONTAINS[c] %@", search),
+					NSPredicate(format: "notes CONTAINS[c] %@", search)
+			]
+
+			if let score = Double(search) {
+				let lowerScoreBoundary = floor(score);
+				let isScoreNotPrecise = score == lowerScoreBoundary
+				if isScoreNotPrecise {
+					let upperScoreBoundary = floor(score + 1);
+					subpredicates.append(NSPredicate(format: "score >= %lf AND score <= %lf", lowerScoreBoundary, upperScoreBoundary))
+				} else {
+					subpredicates.append(NSPredicate(format: "score == %lf", score))
+				}
+			}
+			searchPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: subpredicates)
 		}
 
 		fetchedResultsController.fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
 			isFinishedPredicate,
 			searchPredicate ?? NSPredicate.truePredicate()
 		])
-        
+
 		do {
 			try fetchedResultsController.performFetch()
             if let didChangeContent = fetchedResultsController.delegate?.controllerDidChangeContent {
                 didChangeContent(fetchedResultsController as! NSFetchedResultsController<NSFetchRequestResult>)
-            }            
+            }
 		} catch {
 			XCGLogger.error("Error when filtering brews = \(error)")
 		}
