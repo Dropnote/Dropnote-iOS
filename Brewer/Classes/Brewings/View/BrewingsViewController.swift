@@ -111,7 +111,6 @@ final class BrewingsViewController: UIViewController {
 extension BrewingsViewController: TabBarConfigurable {
 
     func setupTabBar() {
-        tabBarItem = nil
         tabBarItem = UITabBarItem(title: tr(.historyItemTitle),
                                   image: UIImage(asset: .Ic_tab_history)?.alwaysOriginal(),
                                   selectedImage: UIImage(asset: .Ic_tab_history_pressed)?.alwaysOriginal())
@@ -170,6 +169,10 @@ extension BrewingsViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource
             NSFontAttributeName: themeConfiguration?.defaultFontWithSize(17) ?? UIFont.systemFont(ofSize: 17)
         ]
         return NSAttributedString(string: tr(.historyEmptySetDescription), attributes: attributes)
+    }
+
+    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView!) -> Bool {
+        return searchBar.text?.isEmpty ?? true
     }
 
     func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
