@@ -128,6 +128,7 @@
 		A16C08F11CB90194000C41A4 /* FinalScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16C08F01CB90194000C41A4 /* FinalScoreCell.swift */; };
 		A16C08F31CB901C9000C41A4 /* BrewAttributeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16C08F21CB901C9000C41A4 /* BrewAttributeCell.swift */; };
 		A17049691C5167A200C5EC57 /* Brewings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A17049681C5167A200C5EC57 /* Brewings.storyboard */; };
+		A17734641E5CD4A600605429 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A17734631E5CD4A600605429 /* Launch.storyboard */; };
 		A17E9BCF1C4AE83B0004F57A /* BrewAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17E9BC71C4AE83B0004F57A /* BrewAttribute.swift */; };
 		A17E9BD11C4AE83B0004F57A /* Cupping.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17E9BC91C4AE83B0004F57A /* Cupping.swift */; };
 		A17E9BD31C4AE83B0004F57A /* Brew.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17E9BCB1C4AE83B0004F57A /* Brew.swift */; };
@@ -324,6 +325,7 @@
 		A16C08F01CB90194000C41A4 /* FinalScoreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinalScoreCell.swift; sourceTree = "<group>"; };
 		A16C08F21CB901C9000C41A4 /* BrewAttributeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewAttributeCell.swift; sourceTree = "<group>"; };
 		A17049681C5167A200C5EC57 /* Brewings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Brewings.storyboard; sourceTree = "<group>"; };
+		A17734631E5CD4A600605429 /* Launch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		A17D8C3F1C039E5900A4C564 /* Dropnote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dropnote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A17D8C511C039E5900A4C564 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A17D8C561C039E5900A4C564 /* BrewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BrewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -726,6 +728,7 @@
 			children = (
 				A11BDC8D1CF4D5BE0043E320 /* AppIcon60x60.png */,
 				A1185D941C502AB300A8A512 /* Main.storyboard */,
+				A17734631E5CD4A600605429 /* Launch.storyboard */,
 				8108632F4A143DB19E4C7087 /* Assets.xcassets */,
 				81086E7E68204862239BB819 /* Brewer.xcdatamodel */,
 				A1C811431D05E30E0064CF8A /* Localizable.strings */,
@@ -1505,6 +1508,7 @@
 				A13AA5601C6BC588001B0C58 /* Units.storyboard in Resources */,
 				8108657838D78541DBDF4A10 /* Assets.xcassets in Resources */,
 				A11BDC8E1CF4D5BE0043E320 /* AppIcon60x60.png in Resources */,
+				A17734641E5CD4A600605429 /* Launch.storyboard in Resources */,
 				A1C811411D05E30E0064CF8A /* Localizable.strings in Resources */,
 				810865FC575FC61E547823E9 /* NewBrew.storyboard in Resources */,
 				8108698E5043B8F182E0CF97 /* SelectableSearch.storyboard in Resources */,
@@ -1954,12 +1958,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Brewer/Dropnote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEVELOPMENT_TEAM = N7LF5KBDPY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1978,6 +1981,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Brewer/Brewer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1988,12 +1992,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Brewer/Dropnote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Maciej Oczko (N7LF5KBDPY)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEVELOPMENT_TEAM = N7LF5KBDPY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2012,6 +2015,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Brewer/Brewer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = AppStore;
@@ -2096,12 +2100,11 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Brewer/Dropnote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Maciej Oczko (N7LF5KBDPY)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEVELOPMENT_TEAM = N7LF5KBDPY;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2122,6 +2125,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Brewer/Brewer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = TestFlight;
