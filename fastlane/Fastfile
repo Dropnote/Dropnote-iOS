@@ -84,23 +84,28 @@ platform :ios do
   desc "Adds git tag for current version"
   lane :add_version_tag do
     version_number = get_version_number
-    add_git_tag(tag: "v#{version_number}")
+    add_git_tag(tag: "#{version_number}")
   end
 
   desc "Creates new screenshots"
   lane :screenshots do
-    snapshot
+    snapshot(skip_open_summary: true)
   end
 
-  desc "Creates new screenshots and uploads them to iTunes Connect"
-  lane :screens do
-    snapshot(skip_open_summary: true)
-    # frameit # This produces wrong, unsupported image size!
+  desc "Send screenshots for iTunes Connect"
+  lane :deliver_screenshots do
     deliver(
       skip_binary_upload: true,
       skip_metadata: true,
       force: true
     )
+  end
+
+  desc "Creates new screenshots and uploads them to iTunes Connect"
+  lane :screens do
+    screenshots
+    # frameit # This produces wrong, unsupported image size!
+    deliver_screenshots
   end
 
   desc "Increments patch"
