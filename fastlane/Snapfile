@@ -1,20 +1,21 @@
 devices([
-  "iPhone 6s",
-  "iPhone 6s Plus",
-  "iPhone 5s",
-  "iPhone 4s"
+  "iPhone 7 Plus",  
+  "iPhone 7",
+  "iPhone SE",
+  "iPad Pro (9.7 inch)",
+  "iPad Pro (12.9 inch)"
 ])
 
 languages([
   "en-US",
   "pl-PL",
   "de-DE",
-  "es-ES"
+  "es-ES",
+  "fr-FR"
 ])
 
 workspace "./Brewer.xcworkspace"
 scheme "UITests"
-
 
 reinstall_app
 stop_after_first_error true

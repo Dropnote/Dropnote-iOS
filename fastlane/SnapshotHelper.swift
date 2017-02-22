@@ -94,13 +94,22 @@ open class Snapshot: NSObject {
             waitForLoadingIndicatorToDisappear()
         }
 
-        print("snapshot: \(name)") // more information about this, check out https://github.com/fastlane/fastlane/tree/master/snapshot
+        print("snapshot: \(name)") // more information about this, check out https://github.com/fastlane/fastlane/tree/master/snapshot#how-does-it-work
 
         sleep(1) // Waiting for the animation to be finished (kind of)
-        XCUIDevice.shared().orientation = .unknown
+
+        #if os(tvOS)
+            XCUIApplication().childrenMatchingType(.Browser).count
+        #else
+            XCUIDevice.shared().orientation = .unknown
+        #endif
     }
 
     class func waitForLoadingIndicatorToDisappear() {
+        #if os(tvOS)
+            return
+        #endif
+
         let query = XCUIApplication().statusBars.children(matching: .other).element(boundBy: 1).children(matching: .other)
 
         while (0..<query.count).map({ query.element(boundBy: $0) }).contains(where: { $0.isLoadingIndicator }) {
@@ -120,6 +129,10 @@ open class Snapshot: NSObject {
 
 extension XCUIElement {
     var isLoadingIndicator: Bool {
+        let whiteListedLoaders = ["GeofenceLocationTrackingOn", "StandardLocationTrackingOn"]
+        if whiteListedLoaders.contains(self.identifier) {
+            return false
+        }
         return self.frame.size == CGSize(width: 10, height: 20)
     }
 }

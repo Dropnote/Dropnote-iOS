@@ -85,6 +85,11 @@ Adds git tag for current version
 fastlane ios screenshots
 ```
 Creates new screenshots
+### ios deliver_screenshots
+```
+fastlane ios deliver_screenshots
+```
+Send screenshots for iTunes Connect
 ### ios screens
 ```
 fastlane ios screens
