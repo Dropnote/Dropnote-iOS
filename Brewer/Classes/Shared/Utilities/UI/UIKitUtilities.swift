@@ -29,9 +29,9 @@ extension UIImage {
 		return withRenderingMode(.alwaysOriginal)
 	}
     
-    func scaled(to scale: CGFloat) -> UIImage? {
+    func scaled(by scale: CGFloat) -> UIImage? {
         guard let cgImage = self.cgImage else { return nil }
-        return UIImage(cgImage: cgImage, scale: scale, orientation: self.imageOrientation)
+        return UIImage(cgImage: cgImage, scale: self.scale * scale, orientation: self.imageOrientation)
     }
 }
 

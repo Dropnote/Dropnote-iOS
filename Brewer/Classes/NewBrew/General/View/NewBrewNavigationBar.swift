@@ -12,12 +12,16 @@ import UIKit
 final class NewBrewNavigationBar: UIView {
     @IBOutlet weak var previousButton: UIButton! {
         didSet {
-            previousButton.layer.cornerRadius = 26
+            previousButton.imageView?.contentMode = .center
+            previousButton.imageView?.clipsToBounds = false
+            previousButton.layer.cornerRadius = 22
         }
     }
     @IBOutlet weak var nextButton: UIButton! {
         didSet {
-            nextButton.layer.cornerRadius = 26
+            nextButton.imageView?.contentMode = .center
+            nextButton.imageView?.clipsToBounds = false
+            nextButton.layer.cornerRadius = 22
         }
     }
     

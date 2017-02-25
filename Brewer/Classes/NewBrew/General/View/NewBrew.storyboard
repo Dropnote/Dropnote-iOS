@@ -56,22 +56,22 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eQX-o3-wUQ" customClass="NewBrewNavigationBar" customModule="Dropnote" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="606" width="375" height="53"/>
+                                <rect key="frame" x="0.0" y="615" width="375" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QVM-Hw-SlO">
-                                        <rect key="frame" x="10" y="0.0" width="53" height="53"/>
+                                        <rect key="frame" x="10" y="0.0" width="44" height="44"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="53" id="9Dx-Qf-xYk"/>
-                                            <constraint firstAttribute="height" constant="53" id="tCF-f5-gUs"/>
+                                            <constraint firstAttribute="width" constant="44" id="9Dx-Qf-xYk"/>
+                                            <constraint firstAttribute="height" constant="44" id="tCF-f5-gUs"/>
                                         </constraints>
                                         <inset key="contentEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
                                         <state key="normal" image="ic_previous"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lLA-ON-sAn">
-                                        <rect key="frame" x="312" y="0.0" width="53" height="53"/>
+                                        <rect key="frame" x="321" y="0.0" width="44" height="44"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="53" id="ALH-vK-Wft"/>
-                                            <constraint firstAttribute="width" constant="53" id="evz-qo-0cd"/>
+                                            <constraint firstAttribute="height" constant="44" id="ALH-vK-Wft"/>
+                                            <constraint firstAttribute="width" constant="44" id="evz-qo-0cd"/>
                                         </constraints>
                                         <inset key="contentEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
                                         <state key="normal" image="ic_next"/>
@@ -80,7 +80,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="QVM-Hw-SlO" firstAttribute="centerY" secondItem="eQX-o3-wUQ" secondAttribute="centerY" id="1Va-V9-3Yf"/>
-                                    <constraint firstAttribute="height" constant="53" id="SFg-aY-h0v"/>
+                                    <constraint firstAttribute="height" constant="44" id="SFg-aY-h0v"/>
                                     <constraint firstItem="QVM-Hw-SlO" firstAttribute="leading" secondItem="eQX-o3-wUQ" secondAttribute="leading" constant="10" id="h4b-6V-8hn"/>
                                     <constraint firstItem="lLA-ON-sAn" firstAttribute="centerY" secondItem="eQX-o3-wUQ" secondAttribute="centerY" id="mPL-rX-jWu"/>
                                     <constraint firstAttribute="trailing" secondItem="lLA-ON-sAn" secondAttribute="trailing" constant="10" id="tEd-GE-1g8"/>

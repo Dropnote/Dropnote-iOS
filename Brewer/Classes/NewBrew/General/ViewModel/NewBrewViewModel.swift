@@ -61,7 +61,7 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
     }()
     
     lazy var methodImage: UIImage? = {
-       return self.brewContext.image().scaled(to: 3.0)?.alwaysOriginal()
+       return self.brewContext.image().scaled(by: 1.6)?.alwaysOriginal()
     }()
 
 	fileprivate lazy var dataSource: NewBrewDataSource = {

@@ -175,6 +175,7 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 		} else {
             let barButtonItem = UIBarButtonItem(image: viewModel.methodImage, style: .plain, target: nil, action: nil)
             barButtonItem.isEnabled = false
+
 			navigationItem.setRightBarButton(barButtonItem, animated: false)
 		}
 	}
