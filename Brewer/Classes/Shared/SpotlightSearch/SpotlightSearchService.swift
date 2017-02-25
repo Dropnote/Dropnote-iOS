@@ -22,26 +22,34 @@ final class SpotlightSearchService {
 									domainIdentifier: nil, attributeSet:
 									searchableItemAttributeSet(for: $0))
 		}
-		searchableIndex.indexSearchableItems(searchableItems) {
-			error in
-			if let error = error {
-				XCGLogger.error("Error indexing coffee brews = \(error)")
-			} else {
-				XCGLogger.info("Coffee brews indexed in spotlight search.")
-			}
-		}
+        DispatchQueue.global().async {
+            [weak self] in
+            self?.searchableIndex.indexSearchableItems(searchableItems) {
+                error in
+                if let error = error {
+                    XCGLogger.error("Error indexing coffee brews = \(error)")
+                } else {
+                    XCGLogger.info("Coffee brews indexed in spotlight search.")
+                }
+            }
+        }
+		
 	}
 
 	func deleteFromSearchableIndex(using identifier: String) {
-		searchableIndex.deleteSearchableItems(withIdentifiers: [identifier]) {
-			error in
-			if let error = error {
-				XCGLogger.error("Error deleting coffee brews = \(error)")
-			} else {
-				XCGLogger.info("Coffee brews deleted for spotlight search.")
-			}
-		}
-	}
+        DispatchQueue.global().async {
+            [weak self] in
+            self?.searchableIndex.deleteSearchableItems(withIdentifiers: [identifier]) {
+                error in
+                if let error = error {
+                    XCGLogger.error("Error deleting coffee brews = \(error)")
+                } else {
+                    XCGLogger.info("Coffee brews deleted for spotlight search.")
+                }
+            }
+            
+        }
+    }
 
 	func selectedBrew(for activity: NSUserActivity, from brews: [Brew]) -> Brew? {
 		guard activity.activityType == CSSearchableItemActionType,

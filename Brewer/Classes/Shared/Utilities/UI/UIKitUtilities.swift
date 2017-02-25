@@ -28,6 +28,11 @@ extension UIImage {
 	func alwaysOriginal() -> UIImage {
 		return withRenderingMode(.alwaysOriginal)
 	}
+    
+    func scaled(by scale: CGFloat) -> UIImage? {
+        guard let cgImage = self.cgImage else { return nil }
+        return UIImage(cgImage: cgImage, scale: self.scale * scale, orientation: self.imageOrientation)
+    }
 }
 
 // MARK: UITableView

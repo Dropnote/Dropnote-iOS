@@ -109,6 +109,10 @@ final class NewBrewAssembly: AssemblyType {
 		container.register(TimeInputViewModel.self) {
 			r, brewModelController in TimeInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelController)
 		}
+        
+        container.register(PreInfusionTimeInputViewModel.self) {
+            r, brewModelController in PreInfusionTimeInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelController)
+        }
 
 		// MARK: Notes
 

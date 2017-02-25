@@ -10,8 +10,20 @@ import Foundation
 import UIKit
 
 final class NewBrewNavigationBar: UIView {
-    @IBOutlet weak var previousButton: UIButton!
-    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var previousButton: UIButton! {
+        didSet {
+            previousButton.imageView?.contentMode = .center
+            previousButton.imageView?.clipsToBounds = false
+            previousButton.layer.cornerRadius = 22
+        }
+    }
+    @IBOutlet weak var nextButton: UIButton! {
+        didSet {
+            nextButton.imageView?.contentMode = .center
+            nextButton.imageView?.clipsToBounds = false
+            nextButton.layer.cornerRadius = 22
+        }
+    }
     
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
@@ -55,6 +67,12 @@ final class NewBrewNavigationBar: UIView {
 extension NewBrewNavigationBar {
     
     func configureWithTheme(_ theme: ThemeConfiguration?) {
-        backgroundColor = theme?.lightColor
+        backgroundColor = UIColor.clear
+        nextButton.backgroundColor = theme?.lightColor
+        nextButton.layer.borderColor = theme?.lightTintColor.cgColor
+        nextButton.layer.borderWidth = 0.5
+        previousButton.backgroundColor = theme?.lightColor
+        previousButton.layer.borderColor = theme?.lightTintColor.cgColor
+        previousButton.layer.borderWidth = 0.5
     }
 }
