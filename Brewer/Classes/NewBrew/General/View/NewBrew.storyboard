@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0QN-Rx-RNg">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0QN-Rx-RNg">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--New Brew View Controller-->
@@ -14,12 +18,12 @@
                         <viewControllerLayoutGuide type="bottom" id="z4o-1m-eri"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8uo-Rm-lim">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9fT-La-4A8">
-                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="0.0" y="108" width="375" height="559"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="iQn-Kx-nKI">
                                     <size key="itemSize" width="282" height="215"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -28,23 +32,22 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NewBrewCollectionViewCell" id="o3N-GT-0DD" customClass="NewBrewCollectionViewCell" customModule="Dropnote" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="170.5" width="282" height="215"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="282" height="215"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="282" height="215"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gRQ-97-sw0">
-                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jc1-4W-DdG" customClass="NewBrewProgressView" customModule="Dropnote" customModuleProvider="target">
-                                <rect key="frame" x="20" y="64" width="560" height="44"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="16" y="64" width="343" height="44"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Gr2-q2-hFp"/>
                                 </constraints>
@@ -53,26 +56,34 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eQX-o3-wUQ" customClass="NewBrewNavigationBar" customModule="Dropnote" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="606" width="375" height="53"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QVM-Hw-SlO">
-                                        <rect key="frame" x="0.0" y="1" width="53" height="42"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QVM-Hw-SlO">
+                                        <rect key="frame" x="10" y="0.0" width="53" height="53"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="53" id="9Dx-Qf-xYk"/>
+                                            <constraint firstAttribute="height" constant="53" id="tCF-f5-gUs"/>
+                                        </constraints>
                                         <inset key="contentEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
                                         <state key="normal" image="ic_previous"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lLA-ON-sAn">
-                                        <rect key="frame" x="547" y="1" width="53" height="42"/>
+                                        <rect key="frame" x="312" y="0.0" width="53" height="53"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="53" id="ALH-vK-Wft"/>
+                                            <constraint firstAttribute="width" constant="53" id="evz-qo-0cd"/>
+                                        </constraints>
                                         <inset key="contentEdgeInsets" minX="20" minY="10" maxX="20" maxY="10"/>
                                         <state key="normal" image="ic_next"/>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="QVM-Hw-SlO" firstAttribute="centerY" secondItem="eQX-o3-wUQ" secondAttribute="centerY" id="1Va-V9-3Yf"/>
-                                    <constraint firstAttribute="height" constant="44" id="SFg-aY-h0v"/>
-                                    <constraint firstItem="QVM-Hw-SlO" firstAttribute="leading" secondItem="eQX-o3-wUQ" secondAttribute="leading" id="h4b-6V-8hn"/>
+                                    <constraint firstAttribute="height" constant="53" id="SFg-aY-h0v"/>
+                                    <constraint firstItem="QVM-Hw-SlO" firstAttribute="leading" secondItem="eQX-o3-wUQ" secondAttribute="leading" constant="10" id="h4b-6V-8hn"/>
                                     <constraint firstItem="lLA-ON-sAn" firstAttribute="centerY" secondItem="eQX-o3-wUQ" secondAttribute="centerY" id="mPL-rX-jWu"/>
-                                    <constraint firstAttribute="trailing" secondItem="lLA-ON-sAn" secondAttribute="trailing" id="tEd-GE-1g8"/>
+                                    <constraint firstAttribute="trailing" secondItem="lLA-ON-sAn" secondAttribute="trailing" constant="10" id="tEd-GE-1g8"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="bottomConstraint" destination="TpB-R2-eyG" id="rCC-zK-v5V"/>
@@ -81,7 +92,7 @@
                                 </connections>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="gRQ-97-sw0" firstAttribute="height" secondItem="jc1-4W-DdG" secondAttribute="height" id="2z8-Iw-Qne"/>
                             <constraint firstItem="9fT-La-4A8" firstAttribute="bottom" secondItem="z4o-1m-eri" secondAttribute="top" id="5JX-EW-fZ9"/>
@@ -92,7 +103,7 @@
                             <constraint firstItem="9fT-La-4A8" firstAttribute="top" secondItem="jc1-4W-DdG" secondAttribute="bottom" id="Gxv-un-hIA"/>
                             <constraint firstItem="gRQ-97-sw0" firstAttribute="centerY" secondItem="jc1-4W-DdG" secondAttribute="centerY" id="GyN-1q-9Wf"/>
                             <constraint firstAttribute="trailing" secondItem="gRQ-97-sw0" secondAttribute="trailing" id="JnB-Y6-zlH"/>
-                            <constraint firstItem="z4o-1m-eri" firstAttribute="top" secondItem="eQX-o3-wUQ" secondAttribute="bottom" id="TpB-R2-eyG"/>
+                            <constraint firstItem="z4o-1m-eri" firstAttribute="top" secondItem="eQX-o3-wUQ" secondAttribute="bottom" constant="8" symbolic="YES" id="TpB-R2-eyG"/>
                             <constraint firstItem="9fT-La-4A8" firstAttribute="leading" secondItem="8uo-Rm-lim" secondAttribute="leading" id="Ub0-L8-Rel"/>
                             <constraint firstItem="9fT-La-4A8" firstAttribute="top" secondItem="wlc-B5-whQ" secondAttribute="bottom" id="c9W-xt-SE8"/>
                             <constraint firstItem="jc1-4W-DdG" firstAttribute="top" secondItem="wlc-B5-whQ" secondAttribute="bottom" id="cNF-fi-e60"/>

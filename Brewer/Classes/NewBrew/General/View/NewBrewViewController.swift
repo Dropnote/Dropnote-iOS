@@ -193,9 +193,9 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 
 	fileprivate func handleKeyboardStateChange(_ info: KeyboardInfo) {
 		if info.state == .willShow || info.state == .visible {
-			navigationBar.bottomConstraint.constant = info.endFrame.size.height
+			navigationBar.bottomConstraint.constant = info.endFrame.size.height + 10
 		} else {
-			navigationBar.bottomConstraint.constant = 0.0
+			navigationBar.bottomConstraint.constant = 10.0
 		}
 
 		UIView.animate(withDuration: info.animationDuration, delay: 0.0, options: info.animationOptions, animations: {
