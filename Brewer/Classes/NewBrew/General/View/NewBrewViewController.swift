@@ -65,12 +65,13 @@ final class NewBrewViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewWillAppear(animated)        
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.newBrew)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        setDoneBarButtonItemIfNeeded(collectionView)
         setCurrentViewController(collectionView)
     }
 
@@ -92,7 +93,7 @@ final class NewBrewViewController: UIViewController {
         perform(viewModel.finishBrew(), isSuccessfullyFinished: true)
     }
     
-    fileprivate func perform(_ observable: Observable<Void>, isSuccessfullyFinished: Bool) {
+    private func perform(_ observable: Observable<Void>, isSuccessfullyFinished: Bool) {
         observable
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onCompleted: {
@@ -102,7 +103,7 @@ final class NewBrewViewController: UIViewController {
             .addDisposableTo(disposeBag)
     }
 
-	fileprivate func configureNavigationBar() {
+	private func configureNavigationBar() {
 		navigationBar.configureWithTheme(themeConfiguration)
 		navigationBar.alpha = 0
         navigationBar.previousButton.accessibilityLabel = "Previous Step"
@@ -111,14 +112,14 @@ final class NewBrewViewController: UIViewController {
 		navigationBar.nextButton.addTarget(self, action: #selector(NewBrewViewController.nextStep), for: .touchUpInside)
 	}
     
-    fileprivate func configureProgressView() {
+    private func configureProgressView() {
         progressView.configureWithTheme(themeConfiguration)        
         progressView.axis = .horizontal
         progressView.distribution = .equalSpacing
         progressView.alignment = .center
     }
     
-    fileprivate func reloadData(_ animated: Bool) {
+    private func reloadData(_ animated: Bool) {
         collectionView.reloadData()
         progressView.configureWithIcons(viewModel.progressIcons)
         progressView.selectIconAtIndex(0)
@@ -172,11 +173,13 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 			let barButtonItem = UIBarButtonItem(image: UIImage(asset: .Ic_done), style: .plain, target: self, action: #selector(NewBrewViewController.done))
 			navigationItem.setRightBarButton(barButtonItem, animated: true)
 		} else {
-			navigationItem.setRightBarButton(nil, animated: true)
+            let barButtonItem = UIBarButtonItem(image: viewModel.methodImage, style: .plain, target: nil, action: nil)
+            barButtonItem.isEnabled = false
+			navigationItem.setRightBarButton(barButtonItem, animated: false)
 		}
 	}
     
-    fileprivate func disableProgressViewIfNeeded(_ scrollView: UIScrollView) {
+    private func disableProgressViewIfNeeded(_ scrollView: UIScrollView) {
         if metrics.isLastPageOfScrollView(scrollView) {
             progressView.disable()
         }
@@ -185,9 +188,9 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 	fileprivate func setCurrentViewController(_ scrollView: UIScrollView) {
 		let currentIndex = metrics.currentPageIndexForScrollView(scrollView)
 		if let activeViewController = viewModel.setActiveViewControllerAtIndex(currentIndex) {
-			title = activeViewController.title ?? tr(.newBrewItemTitle)
+			title = activeViewController.title ?? viewModel.methodTitle
 		} else {
-			title = tr(.newBrewItemTitle)
+			title = viewModel.methodTitle
 		}
 	}
 
@@ -200,7 +203,7 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 
 		UIView.animate(withDuration: info.animationDuration, delay: 0.0, options: info.animationOptions, animations: {
 			self.view.layoutIfNeeded()
-			}, completion: nil)
+        }, completion: nil)
 	}
 }
 

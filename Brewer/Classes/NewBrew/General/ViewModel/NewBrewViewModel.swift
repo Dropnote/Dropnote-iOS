@@ -16,6 +16,9 @@ protocol NewBrewViewModelType {
 
 	var brewContext: StartBrewContext { get }
     var progressIcons: [Asset] { get }
+    
+    var methodTitle: String { get }
+    var methodImage: UIImage? { get }
 
 	func configureWithCollectionView(_ collectionView: UICollectionView)
 	func setActiveViewControllerAtIndex(_ index: Int) -> UIViewController?
@@ -26,6 +29,14 @@ protocol NewBrewViewModelType {
 
 struct StartBrewContext {
     var method: BrewMethod
+    
+    func title() -> String {
+        return method.categoryDescription + " " + method.description
+    }
+    
+    func image() -> UIImage {
+        return method.image.alwaysOriginal()
+    }
 }
 
 extension NewBrewViewModel: ResolvableContainer { }
@@ -44,6 +55,14 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
     var progressIcons: [Asset] {
         return dataSource.progressIcons
     }
+    
+    lazy var methodTitle: String = {
+        return self.brewContext.title()
+    }()
+    
+    lazy var methodImage: UIImage? = {
+       return self.brewContext.image().scaled(to: 3.0)?.alwaysOriginal()
+    }()
 
 	fileprivate lazy var dataSource: NewBrewDataSource = {
 		guard let resolver = self.resolver else { fatalError("Resolver is missing!") }
