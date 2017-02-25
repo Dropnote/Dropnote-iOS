@@ -37,11 +37,7 @@ _Brewer_ is the initial name (current code name) of the project. _Dropnote_ was 
 
 ## Planned features
 
-List of features to be implemented in near future.
-
-- data synchronization between devices
-- Interactive timer in _time_ step
-- Better UX in score details
+Look [here](https://github.com/Dropnote/Dropnote-iOS/issues/2).
 
 ## Contributing
 
