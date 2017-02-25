@@ -49,6 +49,7 @@ final class NewBrewViewController: UIViewController {
 		super.viewDidLoad()
 		title = tr(.newBrewItemTitle)
 		configureWithTheme(themeConfiguration)
+        collectionView.configureWithTheme(themeConfiguration)
 		collectionView.delegate = self
 		collectionView.isScrollEnabled = true
         collectionView.delaysContentTouches = false
