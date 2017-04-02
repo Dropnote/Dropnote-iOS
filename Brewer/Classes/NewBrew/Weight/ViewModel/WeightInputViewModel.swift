@@ -21,8 +21,8 @@ final class WeightInputViewModel: NumericalInputViewModelType {
     
     var currentValue: String? {
         guard let brew = brewModelController.currentBrew() else { return nil }
-        guard let attribute = brew.brewAttributeForType(BrewAttributeType.CoffeeWeight) else { return nil }
-        let value = BrewAttributeType.CoffeeWeight.format(attribute.value, withUnitType: attribute.unit)
+        guard let attribute = brew.brewAttributeForType(BrewAttributeType.coffeeWeight) else { return nil }
+        let value = BrewAttributeType.coffeeWeight.format(attribute.value, withUnitType: attribute.unit)
         return value.replacingOccurrences(of: " ", with: "")
     }
 
@@ -45,7 +45,7 @@ final class WeightInputViewModel: NumericalInputViewModelType {
 
         let unit = Int32(unitModelController.rawUnit(forCategory: UnitCategory.weight.rawValue))
         brewModelController
-            .createNewBrewAttribute(forType: .CoffeeWeight)
+            .createNewBrewAttribute(forType: .coffeeWeight)
             .subscribe(onNext: configureAttibute(withBrew: brew, unit: unit, coffeeWeight: coffeeWeight))
             .addDisposableTo(disposeBag)
     }
@@ -53,7 +53,7 @@ final class WeightInputViewModel: NumericalInputViewModelType {
     fileprivate func configureAttibute(withBrew brew: Brew, unit: Int32, coffeeWeight: Double) -> (BrewAttribute) -> Void {
         return {
             attribute in
-            attribute.type = BrewAttributeType.CoffeeWeight.intValue
+            attribute.type = BrewAttributeType.coffeeWeight.intValue
             attribute.value = coffeeWeight
             attribute.unit = unit
             attribute.brew = brew

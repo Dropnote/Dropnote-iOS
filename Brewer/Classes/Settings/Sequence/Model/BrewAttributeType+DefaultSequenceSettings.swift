@@ -8,26 +8,26 @@ import Foundation
 extension BrewAttributeType {
 	func defaultPosition(forMethod method: BrewMethod) -> Int {
 		switch self {
-			case .CoffeeWeight: return 0
-			case .GrindSize: return 1
-			case .TampStrength: return 2
-			case .WaterTemperature: return 3
-			case .WaterWeight: return 4
-			case .PreInfusionTime: return 5
-			case .Time: return 6
-			case .Notes: return 7
+			case .coffeeWeight: return 0
+			case .grindSize: return 1
+			case .tampStrength: return 2
+			case .waterTemperature: return 3
+			case .waterWeight: return 4
+			case .preInfusionTime: return 5
+			case .time: return 6
+			case .notes: return 7
 		}
 	}
 
 	func defaultEnabled(forMethod method: BrewMethod) -> Bool {
 		switch self {
-			case .CoffeeWeight, .GrindSize, .WaterTemperature, .WaterWeight, .Time, .Notes:
+			case .coffeeWeight, .grindSize, .waterTemperature, .waterWeight, .time, .notes:
 				return true
-			case .PreInfusionTime:
+			case .preInfusionTime:
 				return false
-			case .TampStrength:
+			case .tampStrength:
 				switch method {
-					case .CoffeeMachine: return true
+					case .coffeeMachine: return true
 					default: return false
 				}
 		}

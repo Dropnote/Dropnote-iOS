@@ -64,7 +64,7 @@ final class SettingsViewController: UIViewController {
             case 1: performSegue(.Units); break
             case 2: performSegue(.About); break
             case 3: showEmailForm(); break
-            case 4: showAppStore(); break;
+            case 4: showAppStore(); break
             default: break
         }
     }
@@ -109,7 +109,7 @@ final class SettingsViewController: UIViewController {
 extension SettingsViewController: MFMailComposeViewControllerDelegate {
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        print("Error when sending mail = \(error?.localizedDescription)")
+        print("Error when sending mail = \(String(describing: error?.localizedDescription))")
         controller.dismiss(animated: true, completion: nil)
     }
 }

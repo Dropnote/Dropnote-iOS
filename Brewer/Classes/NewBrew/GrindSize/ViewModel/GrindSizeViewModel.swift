@@ -33,7 +33,7 @@ extension GrindSizeSliderValue: CustomStringConvertible {
 	}
 }
 
-protocol GringSizeViewModelType {
+protocol GrindSizeViewModelType {
 	var sliderMinimumValue: Float { get }
 	var sliderMaximumValue: Float { get }
 	var sliderValue: Variable<Float> { get }
@@ -43,11 +43,11 @@ protocol GringSizeViewModelType {
     var informativeText: String { get }
 }
 
-final class GringSizeViewModel: GringSizeViewModelType {
+final class GrindSizeViewModel: GrindSizeViewModelType {
 	fileprivate let disposeBag = DisposeBag()
     
     enum Keys: String {
-        case GrindSizeSliderVisibility = "GrindSizeSliderVisibilitySetting"
+        case grindSizeSliderVisibility = "GrindSizeSliderVisibilitySetting"
     }
 
     let inputTransformer = InputTransformer.numberTransformer()
@@ -63,10 +63,10 @@ final class GringSizeViewModel: GringSizeViewModelType {
     
     var isSliderVisible: Bool {
         set {
-            keyValueStore.set(NSNumber(value: newValue as Bool), forKey: Keys.GrindSizeSliderVisibility.rawValue)
+            keyValueStore.set(NSNumber(value: newValue as Bool), forKey: Keys.grindSizeSliderVisibility.rawValue)
         }
         get {
-            if let visibilitySetting = keyValueStore.object(forKey: Keys.GrindSizeSliderVisibility.rawValue) as? NSNumber {
+            if let visibilitySetting = keyValueStore.object(forKey: Keys.grindSizeSliderVisibility.rawValue) as? NSNumber {
                 return visibilitySetting.boolValue
             }
             return true
@@ -99,7 +99,7 @@ final class GringSizeViewModel: GringSizeViewModelType {
         
         updateAttribute(valueUnits) {
             (valueUnitPair, attribute) in
-            attribute.type = BrewAttributeType.GrindSize.intValue
+            attribute.type = BrewAttributeType.grindSize.intValue
             attribute.value = valueUnitPair.0
             attribute.unit = valueUnitPair.1
             return attribute
@@ -108,10 +108,10 @@ final class GringSizeViewModel: GringSizeViewModelType {
 
 	fileprivate func updateAttribute<O: ObservableType>(_ source: O, resultSelector: @escaping (O.E, BrewAttribute) throws -> (BrewAttribute)) {
 		let attributeObservable: Observable<BrewAttribute> = {
-			if let attribute = brewModelController.currentBrew()?.brewAttributeForType(.GrindSize) {
+			if let attribute = brewModelController.currentBrew()?.brewAttributeForType(.grindSize) {
 				return Observable.just(attribute)
 			} else {
-				return brewModelController.createNewBrewAttribute(forType: .GrindSize)
+				return brewModelController.createNewBrewAttribute(forType: .grindSize)
 			}
 		}()
 

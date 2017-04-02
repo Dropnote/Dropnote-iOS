@@ -9,15 +9,15 @@
 import Foundation
 
 enum SelectableSearchIdentifier: String {
-    case Coffee
-    case CoffeeMachine
+    case coffee
+    case coffeeMachine
 }
 
 extension SelectableSearchIdentifier: CustomStringConvertible {
     var description: String {
         switch self {
-        case .Coffee: return tr(.selectableSearchCoffeeItemTitle)
-        case .CoffeeMachine: return tr(.selectableSearchCoffeeMachineItemTitle)
+        case .coffee: return tr(.selectableSearchCoffeeItemTitle)
+        case .coffeeMachine: return tr(.selectableSearchCoffeeMachineItemTitle)
         }
     }
 }

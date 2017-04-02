@@ -56,8 +56,8 @@ final class NewBrewAssembly: AssemblyType {
 			(r, identifier: SelectableSearchIdentifier, brewModelController: BrewModelControllerType) in
 
 			switch identifier {
-			case .Coffee: return r.resolve(CoffeeSelectableSearchModelController.self, argument: brewModelController)!
-			case .CoffeeMachine: return r.resolve(CoffeeMachineSelectableSearchModelController.self, argument: brewModelController)!
+			case .coffee: return r.resolve(CoffeeSelectableSearchModelController.self, argument: brewModelController)!
+			case .coffeeMachine: return r.resolve(CoffeeMachineSelectableSearchModelController.self, argument: brewModelController)!
 			}
 		}
 
@@ -80,11 +80,11 @@ final class NewBrewAssembly: AssemblyType {
 		container.register(NumericalInputViewModelType.self) {
 			(r, attribute: BrewAttributeType, brewModelController: BrewModelControllerType) in
 			switch attribute {
-			case .PreInfusionTime: return r.resolve(PreInfusionTimeInputViewModel.self, argument: brewModelController)!
-			case .Time: return r.resolve(TimeInputViewModel.self, argument: brewModelController)!
-			case .CoffeeWeight: return r.resolve(WeightInputViewModel.self, argument: brewModelController)!
-			case .WaterWeight: return r.resolve(WaterInputViewModel.self, argument: brewModelController)!
-			case .WaterTemperature: return r.resolve(TemperatureInputViewModel.self, argument: brewModelController)!
+			case .preInfusionTime: return r.resolve(PreInfusionTimeInputViewModel.self, argument: brewModelController)!
+			case .time: return r.resolve(TimeInputViewModel.self, argument: brewModelController)!
+			case .coffeeWeight: return r.resolve(WeightInputViewModel.self, argument: brewModelController)!
+			case .waterWeight: return r.resolve(WaterInputViewModel.self, argument: brewModelController)!
+			case .waterTemperature: return r.resolve(TemperatureInputViewModel.self, argument: brewModelController)!
 			default: fatalError("Wrong type selected for numeric input!")
 			}
 		}
@@ -130,8 +130,8 @@ final class NewBrewAssembly: AssemblyType {
 			r, c in c.themeConfiguration = r.resolve(ThemeConfiguration.self)
 		}
 
-		container.register(GringSizeViewModelType.self) {
-			r, brewModelController in GringSizeViewModel(brewModelController: brewModelController,
+		container.register(GrindSizeViewModelType.self) {
+			r, brewModelController in GrindSizeViewModel(brewModelController: brewModelController,
 														 keyValueStore: r.resolve(KeyValueStoreType.self)!)
 		}
 

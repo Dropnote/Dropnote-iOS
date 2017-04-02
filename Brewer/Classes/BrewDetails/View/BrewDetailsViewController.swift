@@ -68,7 +68,7 @@ final class BrewDetailsViewController: UIViewController {
 			break
 		case .GrindSize:
 			let viewController = segue.destination as! GrindSizeViewController
-			viewController.viewModel = resolver.resolve(GringSizeViewModelType.self,
+			viewController.viewModel = resolver.resolve(GrindSizeViewModelType.self,
 														argument: viewModel.brewModelController)!
 			break
 		case .NumericalInput:
@@ -177,7 +177,7 @@ extension BrewDetailsViewController: UITableViewDelegate {
 			performSegue(brewAttributeType.segueIdentifier, sender: Box(brewAttributeType))
 			break
 		case .notes:
-			performSegue(.Notes, sender: Box<BrewAttributeType>(.Notes))
+			performSegue(.Notes, sender: Box<BrewAttributeType>(.notes))
 			break
         case .remove:
             removeCurrentBrewIfNeeded()

@@ -66,12 +66,12 @@ extension AppDelegate {
             let machine2 = machineOperations.create(); machine2.name = "Nuova Simonelli Talento"
             
             _ = Observable.of(
-                newBrew(.CoffeeMachine, coffee: coffee5, machine: machine1, attributes: [20, 25, 96, 34, 26]),
-                newBrew(.CoffeeMachine, coffee: coffee5, machine: machine2, attributes: [20, 23, 97, 34, 26]),
-                newBrew(.PourOverV60, coffee: coffee1, machine: nil, attributes: [36, 600, 91, 14, 121]),
-                newBrew(.AeropressTraditional, coffee: coffee2, machine: nil, attributes: [18, 250, 90, 10, 90]),
-                newBrew(.PourOverChemex, coffee: coffee3, machine: nil, attributes: [48, 800, 87, 18, 300]),
-                newBrew(.AeropressInverted, coffee: coffee4, machine: nil, attributes: [18, 104, 88, 12, 120])
+                newBrew(.coffeeMachine, coffee: coffee5, machine: machine1, attributes: [20, 25, 96, 34, 26]),
+                newBrew(.coffeeMachine, coffee: coffee5, machine: machine2, attributes: [20, 23, 97, 34, 26]),
+                newBrew(.pourOverV60, coffee: coffee1, machine: nil, attributes: [36, 600, 91, 14, 121]),
+                newBrew(.aeropressTraditional, coffee: coffee2, machine: nil, attributes: [18, 250, 90, 10, 90]),
+                newBrew(.pourOverChemex, coffee: coffee3, machine: nil, attributes: [48, 800, 87, 18, 300]),
+                newBrew(.aeropressInverted, coffee: coffee4, machine: nil, attributes: [18, 104, 88, 12, 120])
                 )
                 .merge()
                 .flatMap {
@@ -88,11 +88,11 @@ extension AppDelegate {
             .flatMap {
                 brew in
                 return Observable<Brew>.zip(
-                    brewModelController.createNewBrewAttribute(forType: .CoffeeWeight),
-                    brewModelController.createNewBrewAttribute(forType: .WaterWeight),
-                    brewModelController.createNewBrewAttribute(forType: .WaterTemperature),
-                    brewModelController.createNewBrewAttribute(forType: .GrindSize),
-                    brewModelController.createNewBrewAttribute(forType: .Time)
+                    brewModelController.createNewBrewAttribute(forType: .coffeeWeight),
+                    brewModelController.createNewBrewAttribute(forType: .waterWeight),
+                    brewModelController.createNewBrewAttribute(forType: .waterTemperature),
+                    brewModelController.createNewBrewAttribute(forType: .grindSize),
+                    brewModelController.createNewBrewAttribute(forType: .time)
                 ) {
                     coffeeWeight, waterWeight, waterTemperature, grindSize, time in
                     let attributesArray: [BrewAttribute] = [coffeeWeight, waterWeight, waterTemperature, grindSize, time]

@@ -21,8 +21,8 @@ final class WaterInputViewModel: NumericalInputViewModelType {
     
     var currentValue: String? {
         guard let brew = brewModelController.currentBrew() else { return nil }
-        guard let attribute = brew.brewAttributeForType(BrewAttributeType.WaterWeight) else { return nil }
-        let value = BrewAttributeType.WaterWeight.format(attribute.value, withUnitType: attribute.unit)
+        guard let attribute = brew.brewAttributeForType(BrewAttributeType.waterWeight) else { return nil }
+        let value = BrewAttributeType.waterWeight.format(attribute.value, withUnitType: attribute.unit)
         return value.replacingOccurrences(of: " ", with: "")
     }
     
@@ -45,7 +45,7 @@ final class WaterInputViewModel: NumericalInputViewModelType {
 
         let unit = Int32(unitModelController.rawUnit(forCategory: UnitCategory.water.rawValue))
         brewModelController
-            .createNewBrewAttribute(forType: .WaterWeight)
+            .createNewBrewAttribute(forType: .waterWeight)
             .subscribe(onNext: configureAttibute(withBrew: brew, unit: unit, waterWeight: waterWeight))
             .addDisposableTo(disposeBag)
     }
@@ -53,7 +53,7 @@ final class WaterInputViewModel: NumericalInputViewModelType {
     fileprivate func configureAttibute(withBrew brew: Brew, unit: Int32, waterWeight: Double) -> (BrewAttribute) -> Void {
         return {
             attribute in
-            attribute.type = BrewAttributeType.WaterWeight.intValue
+            attribute.type = BrewAttributeType.waterWeight.intValue
             attribute.value = waterWeight
             attribute.unit = unit
             attribute.brew = brew

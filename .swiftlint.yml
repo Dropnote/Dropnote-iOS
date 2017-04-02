@@ -15,6 +15,8 @@ included: # paths to include during linting. `--path` is ignored if present.
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Carthage
   - Pods
+  - Brewer/Classes/Shared/Utilities/Assets.swift
+  - Brewer/Classes/Shared/Seque/SegueIdentifier.swift
 
 # configurable rules can be customized from this configuration file
 # binary rules can set their severity level

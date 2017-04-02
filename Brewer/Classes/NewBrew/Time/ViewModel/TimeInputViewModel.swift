@@ -43,11 +43,11 @@ final class TimeInputViewModel: NumericalInputViewModelType {
         let duration = TimeInterval(60 * minutes + seconds)
 
         brewModelController
-            .createNewBrewAttribute(forType: .Time)
+            .createNewBrewAttribute(forType: .time)
             .subscribe(onNext: {
                 attribute in
                 
-                attribute.type = BrewAttributeType.Time.intValue
+                attribute.type = BrewAttributeType.time.intValue
                 attribute.value = duration
                 attribute.unit = Int32(TimeUnit.seconds.rawValue)
                 attribute.brew = brew

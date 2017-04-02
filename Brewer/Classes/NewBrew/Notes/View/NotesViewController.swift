@@ -28,7 +28,7 @@ final class NotesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = BrewAttributeType.Notes.description
+        title = BrewAttributeType.notes.description
         notesTextView.text = viewModel.notes.value
         
         notesTextView.rx.text.bindTo(viewModel.notes).addDisposableTo(disposeBag)

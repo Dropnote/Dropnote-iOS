@@ -34,7 +34,7 @@ final class TampingViewModel: TampingViewModelType {
         
         updateAttribute(tampingValue.asObservable()) {
             value, attribute in
-            attribute.type = BrewAttributeType.TampStrength.intValue
+            attribute.type = BrewAttributeType.tampStrength.intValue
             attribute.unit = TampingUnit.continuous.rawValue
             attribute.value = Double(value)
             return attribute
@@ -43,10 +43,10 @@ final class TampingViewModel: TampingViewModelType {
     
     fileprivate func updateAttribute<O: ObservableType>(_ source: O, resultSelector: @escaping (O.E, BrewAttribute) throws -> (BrewAttribute)) {
         let attributeObservable: Observable<BrewAttribute> = {
-            if let attribute = brewModelController.currentBrew()?.brewAttributeForType(.TampStrength) {
+            if let attribute = brewModelController.currentBrew()?.brewAttributeForType(.tampStrength) {
                 return Observable.just(attribute)
             } else {
-                return brewModelController.createNewBrewAttribute(forType: .TampStrength)
+                return brewModelController.createNewBrewAttribute(forType: .tampStrength)
             }
         }()
         

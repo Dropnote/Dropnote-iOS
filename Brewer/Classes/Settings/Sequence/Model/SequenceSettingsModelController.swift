@@ -41,9 +41,9 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
 		self.store = store
 		presetDefaultSettings()
 		loadSettings()
-		loadMissingPresetDefaults(for: .Kalita)
-		loadMissingPresetDefaults(for: .Kone)
-		addToDefaultPreset(brewAttributeType: BrewAttributeType.PreInfusionTime)
+		loadMissingPresetDefaults(for: .kalita)
+		loadMissingPresetDefaults(for: .kone)
+		addToDefaultPreset(brewAttributeType: BrewAttributeType.preInfusionTime)
 	}
 
 	func sequenceSteps(for brewMethod: BrewMethod, filter: SequenceStepFilter) -> [BrewingSequenceStep] {

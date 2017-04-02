@@ -16,27 +16,27 @@ class BrewAttribute: NSManagedObject {
 extension BrewAttributeType {
 	var intValue: Int32 {
 		switch self {
-			case .Time: return 1
-			case .GrindSize: return 2
-			case .CoffeeWeight: return 3
-			case .WaterWeight: return 4
-			case .WaterTemperature: return 5
-			case .TampStrength: return 6
-			case .Notes: return 7
-			case .PreInfusionTime: return 8
+			case .time: return 1
+			case .grindSize: return 2
+			case .coffeeWeight: return 3
+			case .waterWeight: return 4
+			case .waterTemperature: return 5
+			case .tampStrength: return 6
+			case .notes: return 7
+			case .preInfusionTime: return 8
 		}
 	}
 
 	static func fromIntValue(_ intValue: Int32) -> BrewAttributeType {
 		switch intValue {
-			case 1: return .Time
-			case 2: return .GrindSize
-			case 3: return .CoffeeWeight
-			case 4: return .WaterWeight
-			case 5: return .WaterTemperature
-			case 6: return .TampStrength
-			case 7: return .Notes
-			case 8: return .PreInfusionTime
+			case 1: return .time
+			case 2: return .grindSize
+			case 3: return .coffeeWeight
+			case 4: return .waterWeight
+			case 5: return .waterTemperature
+			case 6: return .tampStrength
+			case 7: return .notes
+			case 8: return .preInfusionTime
 			default: fatalError("Wrong brew attribute int code.")
 		}
 	}

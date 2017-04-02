@@ -38,11 +38,11 @@ final class GrindSizeViewController: UIViewController {
     }
     
     var themeConfiguration: ThemeConfiguration?    
-    var viewModel: GringSizeViewModelType!
+    var viewModel: GrindSizeViewModelType!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = BrewAttributeType.GrindSize.description
+        title = BrewAttributeType.grindSize.description
         informativeLabel.text = viewModel.informativeText
         
         sliderContainerView.slider.isContinuous = false

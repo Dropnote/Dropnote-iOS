@@ -49,7 +49,7 @@ extension UITableView {
 	}
     
     func showSearchBar(animated: Bool = false) {
-        if let _ = self.tableHeaderView as? UISearchBar {
+        if self.tableHeaderView != nil && self.tableHeaderView is UISearchBar {
             if contentOffset.y != 0 {
                 setContentOffset(CGPoint.zero, animated: animated)
             }

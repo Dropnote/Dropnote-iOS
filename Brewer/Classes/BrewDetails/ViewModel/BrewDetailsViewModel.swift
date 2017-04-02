@@ -125,16 +125,16 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 
 		var coffeePresentables: [TitleValuePresentable] = [
 			BrewDetailsPresentable(
-				title: SelectableSearchIdentifier.Coffee.description,
+				title: SelectableSearchIdentifier.coffee.description,
 				value: currentBrew().coffee?.name ?? "",
-				identifier: .Coffee)
+				identifier: .coffee)
 		]
 		if let coffeeMachine = currentBrew().coffeeMachine {
 			coffeePresentables.append(
 				BrewDetailsPresentable(
-					title: SelectableSearchIdentifier.CoffeeMachine.description,
+					title: SelectableSearchIdentifier.coffeeMachine.description,
 					value: coffeeMachine.name ?? "",
-					identifier: .CoffeeMachine
+					identifier: .coffeeMachine
                 )
 			)
 		}
@@ -144,7 +144,7 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 			BrewDetailsPresentable(
 				title: tr(.attributeNotes),
 				value: currentBrew().notes ?? "",
-				identifier: .Notes)
+				identifier: .notes)
 		])
         if editable {
             listItems.append([BrewDetailsPresentable(title: tr(.brewDetailsRemoveTitle), value: "")])

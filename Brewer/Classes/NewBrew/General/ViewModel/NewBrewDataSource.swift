@@ -42,11 +42,11 @@ final class NewBrewDataSource {
         }
 
         var viewControllers = [UIViewController]()
-        if brewContext.method == .CoffeeMachine {
-            viewControllers.append(instantiateViewController(withIdentifier: .CoffeeMachine, model: brewModelController))
+        if brewContext.method == .coffeeMachine {
+            viewControllers.append(instantiateViewController(withIdentifier: .coffeeMachine, model: brewModelController))
             progressIcons.append(.Ic_machine)
         }
-        viewControllers.append(instantiateViewController(withIdentifier: .Coffee, model: brewModelController))
+        viewControllers.append(instantiateViewController(withIdentifier: .coffee, model: brewModelController))
         progressIcons.append(.Ic_coffee)
         return viewControllers
     }
@@ -73,7 +73,7 @@ final class NewBrewDataSource {
             }
 
             if viewController is GrindSizeViewController {
-                let grindSizeViewModel = resolver.resolve(GringSizeViewModelType.self, argument: brewModelController)!
+                let grindSizeViewModel = resolver.resolve(GrindSizeViewModelType.self, argument: brewModelController)!
                 (viewController as! GrindSizeViewController).viewModel = grindSizeViewModel
             }
 

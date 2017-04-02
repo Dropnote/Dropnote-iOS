@@ -6,6 +6,7 @@
 import Foundation
 
 // swiftlint:disable type_name
+// swiftlint:disable identifier_name
 enum UnitCategory: Int {
     case water = 1
     case weight = 2
@@ -46,6 +47,7 @@ enum UnitCategory: Int {
     }
 }
 // swiftlint:enable type_name
+// swiftlint:enable identifier_name
 
 // MARK: CustomStringConvertible
 

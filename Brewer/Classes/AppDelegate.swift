@@ -33,6 +33,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 loadMockData()
             }
         #endif
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = RootViewController()
+        window?.makeKeyAndVisible()
 		return true
 	}
 
