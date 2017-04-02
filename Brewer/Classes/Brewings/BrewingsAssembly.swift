@@ -9,11 +9,12 @@ import Swinject
 final class BrewingsAssembly: AssemblyType {
     func assemble(container: Container) {
 
-        container.registerForStoryboard(BrewingsViewController.self) {
-            r, c in
-            c.viewModel = r.resolve(BrewingsViewModelType.self)!
-            c.themeConfiguration = r.resolve(ThemeConfiguration.self)
-            c.resolver = r
+        container.register(BrewingsViewController.self) {
+            r in
+            let viewController = BrewingsViewController(viewModel: r.resolve(BrewingsViewModelType.self)!)
+            viewController.themeConfiguration = r.resolve(ThemeConfiguration.self)
+            viewController.resolver = r
+            return viewController
         }
 
         container.register(BrewingsViewModelType.self) {

@@ -27,6 +27,7 @@ final class MethodPickerViewModel: MethodPickerViewModelType {
 extension MethodPickerViewModel: TableViewConfigurable {
     
     func configureWithTableView(_ tableView: UITableView) {
+        tableView.register(MethodPickerCell.self, forCellReuseIdentifier: String(describing: MethodPickerCell.self))
         tableView.dataSource = dataSource
     }
 }
@@ -34,7 +35,7 @@ extension MethodPickerViewModel: TableViewConfigurable {
 extension MethodPickerViewModel: TableListDataSource {
 
     func cellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
-        return "MethodPickerCell"
+        return String(describing: MethodPickerCell.self)
     }
     
     func listView(_ listView: UITableView, configureCell cell: MethodPickerCell, withObject object: TitleImagePresentable, atIndexPath indexPath: IndexPath) {

@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol SequenceSettingsViewModelType: UITableViewDataSource, TableViewConfigurable {
-    var brewMethod: BrewMethod! { get set }
+    var brewMethod: BrewMethod { get }
 
     func prepareEditForTableView(_ tableView: UITableView, completion: @escaping (_ editing: Bool) -> Void)
 
@@ -22,11 +22,7 @@ final class SequenceSettingsViewModel: NSObject, SequenceSettingsViewModelType {
     private var dispatchHandler = Dispatcher.delay
 
     let modelController: SequenceSettingsModelControllerType
-    var brewMethod: BrewMethod! {
-        didSet {
-            populateSections()
-        }
-    }
+    let brewMethod: BrewMethod
 
     fileprivate(set) var items: [BrewingSequenceStep] = []
     fileprivate(set) var editing = false
@@ -37,9 +33,11 @@ final class SequenceSettingsViewModel: NSObject, SequenceSettingsViewModelType {
         }
     }
 
-    init(modelController: SequenceSettingsModelControllerType) {
+    init(brewMethod: BrewMethod, modelController: SequenceSettingsModelControllerType) {
+        self.brewMethod = brewMethod
         self.modelController = modelController
         super.init()
+        populateSections()
     }
 
     fileprivate func populateSections() {
@@ -47,6 +45,7 @@ final class SequenceSettingsViewModel: NSObject, SequenceSettingsViewModelType {
     }
 
     func configureWithTableView(_ tableView: UITableView) {
+        tableView.register(SequenceSettingsCell.self, forCellReuseIdentifier: String(describing: SequenceSettingsCell.self))
         tableView.dataSource = self
     }
 
@@ -80,7 +79,7 @@ extension SequenceSettingsViewModel: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = activeItems[(indexPath as NSIndexPath).row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SequenceSettingsCell", for: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SequenceSettingsCell.self), for: indexPath) as UITableViewCell
         cell.accessibilityHint = "Represents \(item.type!.description)"
         cell.textLabel?.text = item.type!.description
         cell.isSelected = item.enabled!

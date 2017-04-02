@@ -23,10 +23,16 @@ final class CoreComponentsAssembly: AssemblyType {
             _ in MainThemeConfiguration()
         }
         
-        container.registerForStoryboard(RootViewController.self) {
-            r, c in
-            c.resolver = r
-            c.themeConfiguration = r.resolve(ThemeConfiguration.self)
+        container.register(RootViewController.self) {
+            r in            
+            let viewController = RootViewController(viewControllers: [
+                r.resolve(MethodPickerViewController.self)!,
+                r.resolve(BrewingsViewController.self)!,
+                r.resolve(SettingsViewController.self)!
+            ])
+            viewController.resolver = r
+            viewController.themeConfiguration = r.resolve(ThemeConfiguration.self)
+            return viewController
         }
 
         container.register(SpotlightSearchService.self) {

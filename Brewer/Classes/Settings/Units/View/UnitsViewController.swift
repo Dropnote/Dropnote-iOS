@@ -16,17 +16,31 @@ extension UnitsViewController: ThemeConfigurationContainer { }
 
 final class UnitsViewController: UIViewController {
     fileprivate let disposeBag = DisposeBag()
-    @IBOutlet weak var unitsSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var tableView: UITableView!
+    weak var unitsSegmentedControl: UISegmentedControl!
+    weak var tableView: UITableView!
 
     var themeConfiguration: ThemeConfiguration?
-    var viewModel: UnitsViewModelType!
+    let viewModel: UnitsViewModelType
+
+    init(viewModel: UnitsViewModelType) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        title = tr(.unitsItemTitle)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+        super.loadView()
+        //TODO
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = tr(.unitsItemTitle)
-        
-        setUpSegementedControlTitles()
+
+        setUpSegmentedControlTitles()
         setDataSourceAtIndex(0)
         setUpSwitchingDataSources()
         
@@ -47,7 +61,7 @@ final class UnitsViewController: UIViewController {
 
     // MARK: Configuration
 
-    fileprivate func setUpSegementedControlTitles() {
+    fileprivate func setUpSegmentedControlTitles() {
         viewModel.titles.enumerated().map {
             index, title in (title, index)
         }.forEach(unitsSegmentedControl.setTitle(_:forSegmentAt:))

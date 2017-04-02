@@ -14,18 +14,29 @@ extension BrewingsViewController: ThemeConfigurationContainer { }
 extension BrewingsViewController: ResolvableContainer { }
 
 final class BrewingsViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
+    weak var tableView: UITableView!
     @IBOutlet weak var filterBarButtonItem: UIBarButtonItem!
 
     fileprivate var searchBar: UISearchBar!
     var themeConfiguration: ThemeConfiguration?
     var resolver: ResolverType?
-    var viewModel: BrewingsViewModelType!
+    private(set) var viewModel: BrewingsViewModelType
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    init(viewModel: BrewingsViewModelType) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
         title = tr(.historyItemTitle)
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+   		let tableView = UITableView(frame: .zero, style: .plain)
+   		view = tableView
+   		self.tableView = tableView
+   	}
 
     override func viewDidLoad() {
         super.viewDidLoad()

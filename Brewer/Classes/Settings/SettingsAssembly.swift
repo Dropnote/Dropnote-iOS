@@ -11,10 +11,12 @@ final class SettingsAssembly: AssemblyType {
 
         // MARK: Main
 
-        container.registerForStoryboard(SettingsViewController.self) {
-            r, c in
-            c.viewModel = r.resolve(SettingsViewModel.self)!
-            c.themeConfiguration = r.resolve(ThemeConfiguration.self)
+        container.register(SettingsViewController.self) {
+            r in
+            let viewController = SettingsViewController(viewModel: r.resolve(SettingsViewModel.self)!)
+            viewController.themeConfiguration = r.resolve(ThemeConfiguration.self)
+            viewController.resolver = r
+            return viewController
         }
 
         container.register(SettingsViewModel.self) {
@@ -23,10 +25,11 @@ final class SettingsAssembly: AssemblyType {
 
         // MARK: Method picker
 
-        container.registerForStoryboard(MethodPickerViewController.self) {
-            r, c in
-            c.viewModel = r.resolve(MethodPickerViewModelType.self)!
-            c.themeConfiguration = r.resolve(ThemeConfiguration.self)
+        container.register(MethodPickerViewController.self) {
+            r in
+            let viewController = MethodPickerViewController(viewModel: r.resolve(MethodPickerViewModelType.self)!)
+            viewController.themeConfiguration = r.resolve(ThemeConfiguration.self)
+            return viewController
         }
 
         container.register(MethodPickerViewModelType.self) {
@@ -35,14 +38,18 @@ final class SettingsAssembly: AssemblyType {
 
         // MARK: Sequence
 
-        container.registerForStoryboard(SequenceSettingsViewController.self) {
-            r, c in
-            c.viewModel = r.resolve(SequenceSettingsViewModelType.self)!
-            c.themeConfiguration = r.resolve(ThemeConfiguration.self)
+        container.register(SequenceSettingsViewController.self) {
+            (r, brewMethod: BrewMethod) in
+            let viewController = SequenceSettingsViewController(viewModel: r.resolve(SequenceSettingsViewModelType.self, argument: brewMethod)!)
+            viewController.themeConfiguration = r.resolve(ThemeConfiguration.self)
+            return viewController
         }
 
         container.register(SequenceSettingsViewModelType.self) {
-            r in SequenceSettingsViewModel(modelController: r.resolve(SequenceSettingsModelControllerType.self)!)
+            r, brewMethod in SequenceSettingsViewModel(
+                    brewMethod: brewMethod,
+                    modelController: r.resolve(SequenceSettingsModelControllerType.self)!
+            )
         }
 
         container.register(SequenceSettingsModelControllerType.self) {
@@ -51,10 +58,11 @@ final class SettingsAssembly: AssemblyType {
 
         // MARK: Units
 
-        container.registerForStoryboard(UnitsViewController.self) {
-            r, c in
-            c.viewModel = r.resolve(UnitsViewModelType.self)!
-            c.themeConfiguration = r.resolve(ThemeConfiguration.self)
+        container.register(UnitsViewController.self) {
+            r in
+            let viewController = UnitsViewController(viewModel: r.resolve(UnitsViewModelType.self)!)
+            viewController.themeConfiguration = r.resolve(ThemeConfiguration.self)
+            return viewController
         }
 
         container.register(UnitsViewModelType.self) {

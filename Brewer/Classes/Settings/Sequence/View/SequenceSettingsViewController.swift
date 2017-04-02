@@ -11,16 +11,25 @@ extension SequenceSettingsViewController: ThemeConfigurable { }
 extension SequenceSettingsViewController: ThemeConfigurationContainer { }
 
 final class SequenceSettingsViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var editBarButtonItem: UIBarButtonItem!
+    weak var tableView: UITableView!
+    weak var editBarButtonItem: UIBarButtonItem! // TODO
 
     var themeConfiguration: ThemeConfiguration?
-    var viewModel: SequenceSettingsViewModelType!
+    let viewModel: SequenceSettingsViewModelType
 
-    var brewMethod: BrewMethod! {
-        didSet {
-            viewModel.brewMethod = brewMethod
-        }
+    init(viewModel: SequenceSettingsViewModelType) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        view = tableView
+        self.tableView = tableView
     }
 
     override func viewDidLoad() {

@@ -10,17 +10,27 @@ import RxSwift
 extension MethodPickerViewController: ThemeConfigurationContainer { }
 
 final class MethodPickerViewController: UIViewController, ThemeConfigurable {
-    
-	@IBOutlet weak var tableView: UITableView!
+	weak var tableView: UITableView!
 
 	var themeConfiguration: ThemeConfiguration?
-	var viewModel: MethodPickerViewModelType!
+	let viewModel: MethodPickerViewModelType
 	let didSelectBrewMethodSubject = PublishSubject<BrewMethod>()
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+
+	init(viewModel: MethodPickerViewModelType) {
+		self.viewModel = viewModel
+		super.init(nibName: nil, bundle: nil)
         title = tr(.methodPickItemTitle)
+	}
+
+    required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
     }
+
+	override func loadView() {
+		let tableView = UITableView(frame: .zero, style: .plain)
+		view = tableView
+		self.tableView = tableView
+	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -36,14 +46,6 @@ final class MethodPickerViewController: UIViewController, ThemeConfigurable {
 		super.viewWillAppear(animated)
         configureWithTheme(themeConfiguration)
 		tableView.configureWithTheme(themeConfiguration)
-	}
-
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if case .SequenceSettings = segueIdentifierForSegue(segue) {
-			if let viewController = segue.destination as? SequenceSettingsViewController {
-				viewController.brewMethod = BrewMethod(rawValue: sender as! String)!
-			}
-		}
 	}
 }
 

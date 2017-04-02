@@ -52,6 +52,7 @@ final class BrewingsViewModel: BrewingsViewModelType {
 	}
 
 	func configureWithTableView(_ tableView: UITableView) {
+		tableView.register(BrewCell.self, forCellReuseIdentifier: String(describing: BrewCell.self))
 		fetchedResultsControllerDelegate = TableViewFetchedResultsControllerDynamicChangesHandler(
 			tableView: tableView,
 			fetchedResultsController: brewsModelController.fetchedResultsController
@@ -83,7 +84,7 @@ final class BrewingsViewModel: BrewingsViewModelType {
 extension BrewingsViewModel: TableListDataSource {
     
     func cellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
-        return "BrewCell"
+        return String(describing: BrewCell.self)
     }
     
     func listView(_ listView: UITableView, configureCell cell: BrewCell, withObject object: BrewCellViewModel, atIndexPath indexPath: IndexPath) {

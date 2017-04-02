@@ -5,6 +5,7 @@
 
 import Foundation
 import UIKit
+import Swinject
 import RxSwift
 import RxCocoa
 import MessageUI
@@ -13,17 +14,29 @@ extension SettingsViewController: ThemeConfigurable { }
 extension SettingsViewController: ThemeConfigurationContainer { }
 
 final class SettingsViewController: UIViewController {
-	@IBOutlet weak var tableView: UITableView!
+	weak var tableView: UITableView!
 
     var themeConfiguration: ThemeConfiguration?
-	var viewModel: TableViewConfigurable!
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    var resolver: ResolverType!
+	let viewModel: TableViewConfigurable!
+
+    init(viewModel: TableViewConfigurable) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
         title = tr(.settingsItemTitle)
     }
 
-	override func viewDidLoad() {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+   		let tableView = UITableView(frame: .zero, style: .plain)
+   		view = tableView
+   		self.tableView = tableView
+   	}
+
+    override func viewDidLoad() {
 		super.viewDidLoad()
         
 		tableView.tableFooterView = UIView()
@@ -37,32 +50,33 @@ final class SettingsViewController: UIViewController {
         tableView.configureWithTheme(themeConfiguration)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.settings)
     }
-
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if case .MethodPicker = segueIdentifierForSegue(segue) {
-            let methodPickerViewController = segue.destination as! MethodPickerViewController
-            methodPickerViewController.enableSwipeToBack()
-            
-            _ = methodPickerViewController
-                .didSelectBrewMethodSubject
-                .observeOn(MainScheduler.asyncInstance)
-                .subscribe(onNext: {
-                    brewMethod in
-                    Analytics.sharedInstance.trackMethodPickEvent(onScreen: AppScreen.settings, method: brewMethod)
-                    methodPickerViewController.performSegue(.SequenceSettings, sender: brewMethod.rawValue as AnyObject?)
-            })
-        }
-        if case .About = segueIdentifierForSegue(segue) {
-            let aboutViewController = segue.destination as! AboutViewController
-            aboutViewController.enableSwipeToBack()
-        }
-	}
     
-    fileprivate func performSegue(for indexPath: IndexPath) {
+    fileprivate func showViewController(for indexPath: IndexPath) {
         switch (indexPath as NSIndexPath).row {
-            case 0: performSegue(.MethodPicker); break
-            case 1: performSegue(.Units); break
-            case 2: performSegue(.About); break
+            case 0:
+                let methodPickerViewController = resolver.resolve(MethodPickerViewController.self)!
+                methodPickerViewController.enableSwipeToBack()
+                _ = methodPickerViewController
+                    .didSelectBrewMethodSubject
+                    .observeOn(MainScheduler.asyncInstance)
+                    .subscribe(onNext: {
+                        brewMethod in
+                        Analytics.sharedInstance.trackMethodPickEvent(onScreen: AppScreen.settings, method: brewMethod)
+                        let sequenceSettingsViewController = self.resolver.resolve(SequenceSettingsViewController.self, argument: brewMethod)!
+                        self.navigationController?.pushViewController(sequenceSettingsViewController, animated: true)
+                })
+                navigationController?.pushViewController(methodPickerViewController, animated: true)
+                break
+            case 1:
+                let unitsViewController = resolver.resolve(UnitsViewController.self)!
+                self.navigationController?.pushViewController(unitsViewController, animated: true)
+                break
+            case 2:
+                let storyboard = UIStoryboard(name: "About", bundle: nil)
+                let aboutViewController = storyboard.instantiateInitialViewController()!
+                aboutViewController.enableSwipeToBack()
+                self.navigationController?.pushViewController(aboutViewController, animated: true)
+                break
             case 3: showEmailForm(); break
             case 4: showAppStore(); break
             default: break
@@ -117,7 +131,6 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate {
 extension SettingsViewController: TabBarConfigurable {
     
     func setupTabBar() {
-        tabBarItem = nil
         tabBarItem = UITabBarItem(title: tr(.settingsItemTitle),
                                   image: UIImage(asset: .Ic_tab_settings)?.alwaysOriginal(),
                                   selectedImage: UIImage(asset: .Ic_tab_settings_pressed)?.alwaysOriginal())
@@ -142,6 +155,6 @@ extension SettingsViewController: UITableViewDelegate {
 	}
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(for: indexPath)
+        showViewController(for: indexPath)
     }
 }
