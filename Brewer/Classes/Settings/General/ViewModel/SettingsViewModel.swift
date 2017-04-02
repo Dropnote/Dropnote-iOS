@@ -17,7 +17,7 @@ final class SettingsViewModel {
             SettingsItem(title: tr(.settingsUnitsMenuItemTitle)),
             SettingsItem(title: tr(.settingsAboutMenuItemTitle)),
             SettingsItem(title: tr(.settingsFeedbackMenuItemTitle)),
-            SettingsItem(title: tr(.settingsRateMenuItemTitle)),
+            SettingsItem(title: tr(.settingsRateMenuItemTitle))
     ]]
     
     lazy var dataSource: TableViewSourceWrapper<SettingsViewModel> = TableViewSourceWrapper(tableDataSource: self)

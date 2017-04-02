@@ -61,10 +61,10 @@ final class BrewingsModelController: BrewingsModelControllerType {
 			]
 
 			if let score = Double(search) {
-				let lowerScoreBoundary = floor(score);
+				let lowerScoreBoundary = floor(score)
 				let isScoreNotPrecise = score == lowerScoreBoundary
 				if isScoreNotPrecise {
-					let upperScoreBoundary = floor(score + 1);
+					let upperScoreBoundary = floor(score + 1)
 					subpredicates.append(NSPredicate(format: "score >= %lf AND score <= %lf", lowerScoreBoundary, upperScoreBoundary))
 				} else {
 					subpredicates.append(NSPredicate(format: "score == %lf", score))
