@@ -29,9 +29,8 @@ final class CoreComponentsAssembly: AssemblyType {
                 r.resolve(MethodPickerViewController.self)!,
                 r.resolve(BrewingsViewController.self)!,
                 r.resolve(SettingsViewController.self)!
-            ])
+            ], themeConfiguration: r.resolve(ThemeConfiguration.self))
             viewController.resolver = r
-            viewController.themeConfiguration = r.resolve(ThemeConfiguration.self)
             return viewController
         }
 

@@ -25,10 +25,10 @@ final class RootViewController: UITabBarController {
         return contentViewControllers.elements(ofType: BrewingsViewController.self).first
     }
     
-    init(viewControllers: [UIViewController]) {
+    init(viewControllers: [UIViewController], themeConfiguration: ThemeConfiguration?) {
         self.contentViewControllers = viewControllers
+        self.themeConfiguration = themeConfiguration
         super.init(nibName: nil, bundle: nil)
-        self.viewControllers = viewControllers.map { UINavigationController(rootViewController: $0) }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -37,6 +37,8 @@ final class RootViewController: UITabBarController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        
+        viewControllers = contentViewControllers.map { UINavigationController(rootViewController: $0) }
 
         let methodPickerViewController = contentViewControllers
             .elements(ofType: MethodPickerViewController.self)
