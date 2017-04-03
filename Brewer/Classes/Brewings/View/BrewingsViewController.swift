@@ -14,8 +14,10 @@ extension BrewingsViewController: ThemeConfigurationContainer { }
 extension BrewingsViewController: ResolvableContainer { }
 
 final class BrewingsViewController: UIViewController {
-    weak var tableView: UITableView!
-    @IBOutlet weak var filterBarButtonItem: UIBarButtonItem!
+    fileprivate var tableView: UITableView {
+        return view as! UITableView
+    }
+    fileprivate lazy var filterBarButtonItem = UIBarButtonItem()
 
     fileprivate var searchBar: UISearchBar!
     var themeConfiguration: ThemeConfiguration?
@@ -33,9 +35,7 @@ final class BrewingsViewController: UIViewController {
     }
 
     override func loadView() {
-   		let tableView = UITableView(frame: .zero, style: .plain)
-   		view = tableView
-   		self.tableView = tableView
+   		view = UITableView(frame: .zero, style: .plain)
    	}
 
     override func viewDidLoad() {
@@ -44,6 +44,7 @@ final class BrewingsViewController: UIViewController {
         setUpSearchBar()
         configureTableView()
         viewModel.configureWithTableView(tableView)
+        navigationItem.rightBarButtonItem = filterBarButtonItem
 
         if (traitCollection.forceTouchCapability == .available) {
             registerForPreviewing(with: self, sourceView: view)
@@ -55,6 +56,7 @@ final class BrewingsViewController: UIViewController {
         searchBar.configureWithTheme(themeConfiguration)
         tableView.configureWithTheme(themeConfiguration)
         tableView.hideSearchBar()
+
         filterBarButtonItem.title = nil
         filterBarButtonItem.image = viewModel.sortingOption.image
 
@@ -111,8 +113,7 @@ final class BrewingsViewController: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.backgroundView = UIView()
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 80
+        tableView.rowHeight = 80
         tableView.tableHeaderView = searchBar
         tableView.emptyDataSetDelegate = self
         tableView.emptyDataSetSource = self

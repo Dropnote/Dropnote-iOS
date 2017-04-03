@@ -8,11 +8,12 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 final class BrewCellScoreView: UIView {
-    @IBOutlet weak var scoreLabel: UILabel!
-    
-    fileprivate let fillingView = UIView()
+    fileprivate(set) lazy var scoreLabel = UILabel()
+    fileprivate lazy var fillingView = UIView()
+
     var fillingFactor: Double = 0
     var borderColor: UIColor = .white {
         didSet {
@@ -25,14 +26,27 @@ final class BrewCellScoreView: UIView {
             fillingView.backgroundColor = fillingColor
         }
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubview(fillingView)
+        addSubview(scoreLabel)
         clipsToBounds = true
         layer.borderWidth = 3
-        insertSubview(fillingView, at: 0)
+        configureConstraints()
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func configureConstraints() {
+        scoreLabel.snp.makeConstraints {
+            make in
+            make.center.equalToSuperview()
+        }
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = frame.width * 0.5
