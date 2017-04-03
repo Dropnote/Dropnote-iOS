@@ -65,6 +65,7 @@ PODS:
   - RxSwift (3.0.1)
   - RxTest (3.0.1):
     - RxSwift (~> 3.0)
+  - SnapKit (3.2.0)
   - Swinject (2.0.0-beta.2)
   - SwinjectStoryboard (1.0.0-beta.2):
     - Swinject (= 2.0.0-beta.2)
@@ -85,6 +86,7 @@ DEPENDENCIES:
   - RxCocoa (~> 3.0.1)
   - RxSwift (~> 3.0.1)
   - RxTest (~> 3.0.1)
+  - SnapKit (~> 3.2.0)
   - Swinject (~> 2.0.0-beta.2)
   - SwinjectStoryboard (~> 1.0.0-beta.2)
   - XCGLogger (~> 4.0.0)
@@ -109,10 +111,11 @@ SPEC CHECKSUMS:
   RxCocoa: 15a52fc590dcc700cb4a690a633b5c5184ce3a78
   RxSwift: af5680055c4ad04480189c52d28385b1029493a6
   RxTest: 9867e6f3c435af30fbdb44b6d8ec30b78c40b515
+  SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
   Swinject: 69a893192efa9f2cc44be79ef423d04d571b6af9
   SwinjectStoryboard: b52b45821a50386ef604c3cd098f8029a50a268d
   XCGLogger: 38063ea89b4c8b23232d18efd2e12eb0005f3ea4
 
-PODFILE CHECKSUM: 9e6468f8d6a2b5d1f69738faf712cac15076c350
+PODFILE CHECKSUM: 6eeffbe499837763e592918e22e6a7eaa6a45547
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.0.1
