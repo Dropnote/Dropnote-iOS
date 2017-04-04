@@ -8,24 +8,44 @@ import UIKit
 import Swinject
 import DZNEmptyDataSet
 import RxSwift
+import RxCocoa
 
 extension BrewingsViewController: ThemeConfigurable { }
 extension BrewingsViewController: ThemeConfigurationContainer { }
 extension BrewingsViewController: ResolvableContainer { }
 
 final class BrewingsViewController: UIViewController {
-    fileprivate var tableView: UITableView {
-        return view as! UITableView
-    }
     fileprivate lazy var filterBarButtonItem = UIBarButtonItem()
 
-    fileprivate var searchBar: UISearchBar!
-    var themeConfiguration: ThemeConfiguration?
-    var resolver: ResolverType?
-    private(set) var viewModel: BrewingsViewModelType
+    fileprivate lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.tableFooterView = UIView()
+        tableView.backgroundView = UIView()
+        tableView.rowHeight = 80
+        tableView.delegate = self
+        tableView.emptyDataSetDelegate = self
+        tableView.emptyDataSetSource = self
+        return tableView
+    }()
 
-    init(viewModel: BrewingsViewModelType) {
+    fileprivate lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: self.view.frame.width, height: 44)))
+        searchBar.placeholder = tr(.historyFilterPlaceholder)
+        searchBar.showsCancelButton = true
+        searchBar.returnKeyType = .done
+        searchBar.delegate = self
+        return searchBar
+    }()
+
+    var themeConfiguration: ThemeConfiguration?
+    let resolver: ResolverType
+    private(set) var viewModel: BrewingsViewModelType
+    fileprivate let isBrewDetailsEditable = true
+
+    init(viewModel: BrewingsViewModelType, themeConfiguration: ThemeConfiguration? = nil, resolver: ResolverType = Assembler.sharedResolver) {
         self.viewModel = viewModel
+        self.themeConfiguration = themeConfiguration
+        self.resolver = resolver
         super.init(nibName: nil, bundle: nil)
         title = tr(.historyItemTitle)
     }
@@ -35,16 +55,14 @@ final class BrewingsViewController: UIViewController {
     }
 
     override func loadView() {
-   		view = UITableView(frame: .zero, style: .plain)
+   		view = tableView
    	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableHeaderView = searchBar
         configureWithTheme(themeConfiguration)
-        setUpSearchBar()
-        configureTableView()
         viewModel.configureWithTableView(tableView)
-        navigationItem.rightBarButtonItem = filterBarButtonItem
 
         if (traitCollection.forceTouchCapability == .available) {
             registerForPreviewing(with: self, sourceView: view)
@@ -59,6 +77,11 @@ final class BrewingsViewController: UIViewController {
 
         filterBarButtonItem.title = nil
         filterBarButtonItem.image = viewModel.sortingOption.image
+        navigationItem.rightBarButtonItem = filterBarButtonItem
+        _ = filterBarButtonItem.rx.tap.bindNext {
+            let sortingViewController = self.createSortingViewController()
+            self.present(sortingViewController, animated: true)
+        }
 
         tableView.setNeedsLayout()
         tableView.layoutIfNeeded()
@@ -74,49 +97,22 @@ final class BrewingsViewController: UIViewController {
 
     override func restoreUserActivityState(_ activity: NSUserActivity) {
 		guard let brew = viewModel.brew(for: activity) else { return }
-		performSegue(.BrewDetails, sender: brew)
+        let brewDetailsViewController = resolver.resolve(BrewDetailsViewController.self, arguments: brew, isBrewDetailsEditable)!
+        navigationController?.pushViewController(brewDetailsViewController, animated: true)
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if case .BrewDetails = segueIdentifierForSegue(segue), let brew = sender as? Brew {
-            guard let resolver = resolver else { return }
-            guard let brewDetailsViewController = segue.destination as? BrewDetailsViewController else { return }
-            brewDetailsViewController.viewModel = resolver.resolve(BrewDetailsViewModelType.self, argument: brew)
-            brewDetailsViewController.viewModel.editable = true
-        }
-        if case .BrewingsSorting = segueIdentifierForSegue(segue) {
-            guard let navigationController = segue.destination as? UINavigationController else { return }
-            guard let brewingsSortingViewController = navigationController.topViewController as? BrewingsSortingViewController else { return }
-            brewingsSortingViewController.viewModel.sortingOption = viewModel.sortingOption
-
-            _ = brewingsSortingViewController.dismissViewControllerAnimatedSubject.subscribe(onNext: {
-                animated in
-                self.dismiss(animated: animated, completion: nil)
-            })
-            _ = brewingsSortingViewController.switchSortingOptionSubject.subscribe(onNext: {
-                sortingOption in
-                self.viewModel.sortingOption = sortingOption
-                self.tableView.reloadData()
-            })
-        }
-    }
-
-    private func setUpSearchBar() {
-        searchBar = UISearchBar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: view.frame.width, height: 44)))
-        searchBar.placeholder = tr(.historyFilterPlaceholder)
-        searchBar.showsCancelButton = true
-        searchBar.returnKeyType = .done
-        searchBar.delegate = self
-    }
-
-    private func configureTableView() {
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
-        tableView.backgroundView = UIView()
-        tableView.rowHeight = 80
-        tableView.tableHeaderView = searchBar
-        tableView.emptyDataSetDelegate = self
-        tableView.emptyDataSetSource = self
+    private func createSortingViewController() -> UIViewController {
+        let sortingViewController = resolver.resolve(BrewingsSortingViewController.self, argument: viewModel.sortingOption)!
+        _ = sortingViewController.dismissViewControllerAnimatedSubject.subscribe(onNext: {
+            animated in
+            self.dismiss(animated: animated, completion: nil)
+        })
+        _ = sortingViewController.switchSortingOptionSubject.subscribe(onNext: {
+            sortingOption in
+            self.viewModel.sortingOption = sortingOption
+            self.tableView.reloadData()
+        })
+        return UINavigationController(rootViewController: sortingViewController)
     }
 }
 
@@ -145,7 +141,9 @@ extension BrewingsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(.BrewDetails, sender: viewModel.brew(forIndexPath: indexPath))
+        let brew = viewModel.brew(forIndexPath: indexPath)
+        let brewDetailsViewController = resolver.resolve(BrewDetailsViewController.self, arguments: brew, isBrewDetailsEditable)!
+        navigationController?.pushViewController(brewDetailsViewController, animated: true)
     }
 
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -199,21 +197,15 @@ extension BrewingsViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource
 extension BrewingsViewController: UIViewControllerPreviewingDelegate {
 
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        guard let resolver = resolver else { return nil }
+
         let locationInTableView = tableView.convert(location, from: view)
         guard let indexPath = tableView.indexPathForRow(at: locationInTableView) else { return nil }
         guard let cell = tableView.cellForRow(at: indexPath) else { return nil }
 
-        let storyboard = UIStoryboard(name: SegueIdentifier.BrewDetails.rawValue, bundle: nil)
-        let brewDetailsViewController = storyboard.instantiateInitialViewController() as! BrewDetailsViewController
-
-        let brew = viewModel.brew(forIndexPath: indexPath)
-        brewDetailsViewController.viewModel = resolver.resolve(BrewDetailsViewModelType.self, argument: brew)
-        brewDetailsViewController.viewModel.editable = true
-
         previewingContext.sourceRect = tableView.convert(cell.frame, to: view)
 
-        return brewDetailsViewController
+        let brew = viewModel.brew(forIndexPath: indexPath)
+        return resolver.resolve(BrewDetailsViewController.self, arguments: brew, isBrewDetailsEditable)!
     }
 
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {

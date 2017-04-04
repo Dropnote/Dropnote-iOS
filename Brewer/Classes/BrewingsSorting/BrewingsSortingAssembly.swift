@@ -8,14 +8,14 @@ import Swinject
 
 final class BrewingsSortingAssembly: AssemblyType {
     func assemble(container: Container) {
-        container.registerForStoryboard(BrewingsSortingViewController.self) {
-            r, c in
-            c.themeConfiguration = r.resolve(ThemeConfiguration.self)
-            c.viewModel = r.resolve(BrewingsSortingViewModelType.self)!
+        container.register(BrewingsSortingViewController.self) {
+            (r, sortingOption: BrewingSortingOption) in
+            BrewingsSortingViewController(viewModel: r.resolve(BrewingsSortingViewModelType.self, argument: sortingOption)!,
+                                          themeConfiguration: r.resolve(ThemeConfiguration.self))
         }
 
         container.register(BrewingsSortingViewModelType.self) {
-            _ in return BrewingsSortingViewModel()
+            _, sortingOption in return BrewingsSortingViewModel(sortingOption: sortingOption)
         }
     }
 }

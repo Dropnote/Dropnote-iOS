@@ -33,7 +33,7 @@ enum BrewDetailsTableViewSection: Int {
 }
 
 protocol BrewDetailsViewModelType: TableViewConfigurable {
-	var editable: Bool { get set }
+	var editable: Bool { get }
 	var brewModelController: BrewModelControllerType { get }
 
 	func refreshData()
@@ -81,14 +81,15 @@ struct BrewDetailsPresentable: TitleValuePresentable {
 final class BrewDetailsViewModel: BrewDetailsViewModelType {
 	private let disposeBag = DisposeBag()
 	let brewModelController: BrewModelControllerType
-	var editable: Bool = false
+	let editable: Bool
 
 	private let spotlightSearchService: SpotlightSearchService
     private lazy var dataSource: TableViewSourceWrapper<BrewDetailsViewModel> = TableViewSourceWrapper(tableDataSource: self)
 
-	init(brewModelController: BrewModelControllerType, spotlightSearchService: SpotlightSearchService) {
+	init(editable: Bool = false, brewModelController: BrewModelControllerType, spotlightSearchService: SpotlightSearchService) {
 		self.brewModelController = brewModelController
 		self.spotlightSearchService = spotlightSearchService
+        self.editable = editable
 	}
 
 	func configureWithTableView(_ tableView: UITableView) {
@@ -152,25 +153,25 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 	}
 
 	func sectionType(forIndexPath indexPath: IndexPath) -> BrewDetailsTableViewSection {
-		if let sectionType = BrewDetailsTableViewSection(rawValue: (indexPath as NSIndexPath).section) {
+		if let sectionType = BrewDetailsTableViewSection(rawValue: indexPath.section) {
 			return sectionType
 		}
-		fatalError("No section type for \((indexPath as NSIndexPath).section)")
+		fatalError("No section type for \(indexPath.section)")
 	}
     
     func brewAttributeType(forIndexPath indexPath: IndexPath) -> BrewAttributeType {
-        let item = listItems[(indexPath as NSIndexPath).section].elements(ofType: BrewDetailsPresentable.self)[(indexPath as NSIndexPath).row]
+        let item = listItems[indexPath.section].elements(ofType: BrewDetailsPresentable.self)[indexPath.row]
         return item.attribute!
     }
     
     func coffeeAttribute(forIndexPath indexPath: IndexPath) -> SelectableSearchIdentifier {
-        let item = listItems[(indexPath as NSIndexPath).section].elements(ofType: BrewDetailsPresentable.self)[(indexPath as NSIndexPath).row]
+        let item = listItems[indexPath.section].elements(ofType: BrewDetailsPresentable.self)[indexPath.row]
         return item.selectableSearchIdentifier!
     }
     
     func removeCurrentBrew(_ completion: @escaping ((Bool) -> Void)) {
 		let uniqueSearchableBrewIdentifier = spotlightSearchService.uniqueSearchableIndexIdentifier(for: currentBrew())
-        brewModelController
+		brewModelController
 				.removeCurrentBrew()
 				.do(onNext: {
 					[weak self] deleted in
@@ -180,7 +181,7 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 				})
 				.subscribe(onNext: completion)
 				.addDisposableTo(disposeBag)
-    }
+	}
 }
 
 extension BrewDetailsViewModel: TableListDataSource {

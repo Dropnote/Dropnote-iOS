@@ -12,20 +12,36 @@ extension BrewingsSortingViewController: ThemeConfigurable { }
 extension BrewingsSortingViewController: ThemeConfigurationContainer { }
 
 final class BrewingsSortingViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.delegate = self
+        tableView.tableFooterView = UIView()
+        return tableView
+    }()
 
     var themeConfiguration: ThemeConfiguration?
-    var viewModel: BrewingsSortingViewModelType!
+    let viewModel: BrewingsSortingViewModelType
 
     let dismissViewControllerAnimatedSubject = PublishSubject<Bool>()
     let switchSortingOptionSubject = PublishSubject<BrewingSortingOption>()
 
+    init(viewModel: BrewingsSortingViewModelType, themeConfiguration: ThemeConfiguration? = nil) {
+        self.viewModel = viewModel
+        self.themeConfiguration = themeConfiguration
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+        view = tableView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = tr(.brewingsSortingSortTitle)
-        
-        tableView.delegate = self
-        tableView.tableFooterView = UIView()
         viewModel.configureWithTableView(tableView)
     }
     

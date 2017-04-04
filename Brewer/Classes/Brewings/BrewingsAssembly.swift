@@ -11,10 +11,8 @@ final class BrewingsAssembly: AssemblyType {
 
         container.register(BrewingsViewController.self) {
             r in
-            let viewController = BrewingsViewController(viewModel: r.resolve(BrewingsViewModelType.self)!)
-            viewController.themeConfiguration = r.resolve(ThemeConfiguration.self)
-            viewController.resolver = r
-            return viewController
+            return BrewingsViewController(viewModel: r.resolve(BrewingsViewModelType.self)!,
+                                          themeConfiguration: r.resolve(ThemeConfiguration.self))
         }
 
         container.register(BrewingsViewModelType.self) {

@@ -24,14 +24,12 @@ final class CoreComponentsAssembly: AssemblyType {
         }
         
         container.register(RootViewController.self) {
-            r in            
-            let viewController = RootViewController(viewControllers: [
-                r.resolve(MethodPickerViewController.self)!,
-                r.resolve(BrewingsViewController.self)!,
-                r.resolve(SettingsViewController.self)!
+            r in
+            return RootViewController(viewControllers: [
+                    r.resolve(MethodPickerViewController.self)!,
+                    r.resolve(BrewingsViewController.self)!,
+                    r.resolve(SettingsViewController.self)!
             ], themeConfiguration: r.resolve(ThemeConfiguration.self))
-            viewController.resolver = r
-            return viewController
         }
 
         container.register(SpotlightSearchService.self) {

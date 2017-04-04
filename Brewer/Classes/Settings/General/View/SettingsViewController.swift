@@ -14,14 +14,21 @@ extension SettingsViewController: ThemeConfigurable { }
 extension SettingsViewController: ThemeConfigurationContainer { }
 
 final class SettingsViewController: UIViewController {
-	weak var tableView: UITableView!
+	private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.tableFooterView = UIView()
+        tableView.delegate = self
+        return tableView
+    }()
 
     var themeConfiguration: ThemeConfiguration?
-    var resolver: ResolverType!
+    let resolver: ResolverType
 	let viewModel: TableViewConfigurable!
 
-    init(viewModel: TableViewConfigurable) {
+    init(viewModel: TableViewConfigurable, themeConfiguration: ThemeConfiguration? = nil, resolver: ResolverType = Assembler.sharedResolver) {
         self.viewModel = viewModel
+        self.themeConfiguration = themeConfiguration
+        self.resolver = resolver
         super.init(nibName: nil, bundle: nil)
         title = tr(.settingsItemTitle)
     }
@@ -31,16 +38,11 @@ final class SettingsViewController: UIViewController {
     }
 
     override func loadView() {
-   		let tableView = UITableView(frame: .zero, style: .plain)
    		view = tableView
-   		self.tableView = tableView
    	}
 
     override func viewDidLoad() {
 		super.viewDidLoad()
-        
-		tableView.tableFooterView = UIView()
-		tableView.delegate = self
 		viewModel.configureWithTableView(tableView)
 	}
     

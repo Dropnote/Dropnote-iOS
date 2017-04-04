@@ -7,7 +7,7 @@ import Foundation
 import UIKit
 
 protocol BrewingsSortingViewModelType: TableViewConfigurable {
-    var sortingOption: BrewingSortingOption { get set }
+    var sortingOption: BrewingSortingOption { get }
     func selectSortingOptionAtIndexPath(_ indexPath: IndexPath)
 }
 
@@ -32,14 +32,19 @@ extension BrewingSortingOption: TitleImagePresentable {
 }
 
 final class BrewingsSortingViewModel: BrewingsSortingViewModelType {
-    var sortingOption: BrewingSortingOption = .dateDescending
+    private(set) var sortingOption: BrewingSortingOption
     lazy var dataSource: TableViewSourceWrapper<BrewingsSortingViewModel> = TableViewSourceWrapper(tableDataSource: self)
+
+    init(sortingOption: BrewingSortingOption = .dateDescending) {
+        self.sortingOption = sortingOption
+    }
     
     var listItems: [[BrewingSortingOption]] {
         return [BrewingSortingOption.allValues]
     }
 
     func configureWithTableView(_ tableView: UITableView) {
+        tableView.register(BrewingsSortingOptionCell.self, forCellReuseIdentifier: String(describing: BrewingsSortingOptionCell.self))
         tableView.dataSource = dataSource
     }
     
@@ -51,13 +56,13 @@ final class BrewingsSortingViewModel: BrewingsSortingViewModelType {
 extension BrewingsSortingViewModel: TableListDataSource {
     
     func cellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
-        return "BrewingsSortingOptionCell"
+        return String(describing: BrewingsSortingOptionCell.self)
     }
     
     func listView(_ listView: UITableView, configureCell cell: BrewingsSortingOptionCell,
                   withObject object: BrewingSortingOption, atIndexPath indexPath: IndexPath) {
         cell.configureWithPresentable(object)
-        if object == self.sortingOption {
+        if object == sortingOption {
             cell.accessoryType = .checkmark
         }
     }

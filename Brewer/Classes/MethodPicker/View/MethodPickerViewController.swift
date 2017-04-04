@@ -18,8 +18,9 @@ final class MethodPickerViewController: UIViewController, ThemeConfigurable {
 	let viewModel: MethodPickerViewModelType
 	let didSelectBrewMethodSubject = PublishSubject<BrewMethod>()
 
-	init(viewModel: MethodPickerViewModelType) {
+	init(viewModel: MethodPickerViewModelType, themeConfiguration: ThemeConfiguration? = nil) {
 		self.viewModel = viewModel
+		self.themeConfiguration = themeConfiguration
 		super.init(nibName: nil, bundle: nil)
         title = tr(.methodPickItemTitle)
 	}

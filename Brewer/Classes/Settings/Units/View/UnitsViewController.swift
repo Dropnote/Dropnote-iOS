@@ -16,14 +16,22 @@ extension UnitsViewController: ThemeConfigurationContainer { }
 
 final class UnitsViewController: UIViewController {
     fileprivate let disposeBag = DisposeBag()
-    weak var unitsSegmentedControl: UISegmentedControl!
-    weak var tableView: UITableView!
+
+    private lazy var unitsSegmentedControl = UISegmentedControl(items: nil)
+
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.tableFooterView = UIView()
+        tableView.delegate = self
+        return tableView
+    }()
 
     var themeConfiguration: ThemeConfiguration?
     let viewModel: UnitsViewModelType
 
-    init(viewModel: UnitsViewModelType) {
+    init(viewModel: UnitsViewModelType, themeConfiguration: ThemeConfiguration? = nil) {
         self.viewModel = viewModel
+        self.themeConfiguration = themeConfiguration
         super.init(nibName: nil, bundle: nil)
         title = tr(.unitsItemTitle)
     }
@@ -33,8 +41,7 @@ final class UnitsViewController: UIViewController {
     }
 
     override func loadView() {
-        super.loadView()
-        //TODO
+        view = tableView
     }
 
     override func viewDidLoad() {
@@ -44,10 +51,7 @@ final class UnitsViewController: UIViewController {
         setDataSourceAtIndex(0)
         setUpSwitchingDataSources()
         
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
         viewModel.configureWithTableView(tableView)
-        
         enableSwipeToBack()
     }
     
@@ -63,8 +67,8 @@ final class UnitsViewController: UIViewController {
 
     fileprivate func setUpSegmentedControlTitles() {
         viewModel.titles.enumerated().map {
-            index, title in (title, index)
-        }.forEach(unitsSegmentedControl.setTitle(_:forSegmentAt:))
+            index, title in (title, index, false)
+        }.forEach(unitsSegmentedControl.insertSegment(withTitle:at:animated:))
         
         unitsSegmentedControl.accessibilityHint = "Chooses between units categories " + viewModel.titles.joined(separator: ",")
     }

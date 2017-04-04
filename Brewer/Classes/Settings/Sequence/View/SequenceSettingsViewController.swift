@@ -11,14 +11,23 @@ extension SequenceSettingsViewController: ThemeConfigurable { }
 extension SequenceSettingsViewController: ThemeConfigurationContainer { }
 
 final class SequenceSettingsViewController: UIViewController {
-    weak var tableView: UITableView!
-    weak var editBarButtonItem: UIBarButtonItem! // TODO
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.tableFooterView = UIView()
+        tableView.delegate = self
+        return tableView
+    }()
+    private lazy var editBarButtonItem = UIBarButtonItem(title: tr(.navigationEdit),
+                                                         style: .plain,
+                                                         target: self,
+                                                         action: #selector(editAction))
 
     var themeConfiguration: ThemeConfiguration?
     let viewModel: SequenceSettingsViewModelType
 
-    init(viewModel: SequenceSettingsViewModelType) {
+    init(viewModel: SequenceSettingsViewModelType, themeConfiguration: ThemeConfiguration? = nil) {
         self.viewModel = viewModel
+        self.themeConfiguration = themeConfiguration
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -27,19 +36,13 @@ final class SequenceSettingsViewController: UIViewController {
     }
 
     override func loadView() {
-        let tableView = UITableView(frame: .zero, style: .plain)
         view = tableView
-        self.tableView = tableView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = tr(.sequenceItemTitle)
-        
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
         viewModel.configureWithTableView(tableView)
-        
         enableSwipeToBack()
     }
     
@@ -51,7 +54,7 @@ final class SequenceSettingsViewController: UIViewController {
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.settingsSequence)
     }
     
-    @IBAction func editAction(_ barButtonItem: UIBarButtonItem) {
+    func editAction(_ barButtonItem: UIBarButtonItem) {
         if barButtonItem.title == tr(.navigationDone) {
             Dispatcher.delay(0.6) {
                 _ = self.navigationController?.popViewController(animated: true)

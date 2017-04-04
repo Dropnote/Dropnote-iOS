@@ -15,24 +15,36 @@ extension BrewDetailsViewController: ThemeConfigurationContainer { }
 extension BrewDetailsViewController: ResolvableContainer { }
 
 final class BrewDetailsViewController: UIViewController {
-	@IBOutlet weak var tableView: UITableView!
+	private lazy var tableView: UITableView = {
+		let tableView = UITableView(frame: .zero, style: .plain)
+		tableView.tableFooterView = UIView()
+		tableView.estimatedRowHeight = 50
+		tableView.rowHeight = UITableViewAutomaticDimension
+		tableView.delegate = self
+		return tableView
+	}()
 
-	var resolver: ResolverType?
+	let resolver: ResolverType
 	var themeConfiguration: ThemeConfiguration?
-	var viewModel: BrewDetailsViewModelType!
+	let viewModel: BrewDetailsViewModelType
 
     fileprivate weak var pushedViewController: UIViewController?
 
+	init(viewModel: BrewDetailsViewModelType, themeConfiguration: ThemeConfiguration? = nil, resolver: ResolverType = Assembler.sharedResolver) {
+		self.viewModel = viewModel
+		self.themeConfiguration = themeConfiguration
+		self.resolver = resolver
+		super.init(nibName: nil, bundle: nil)
+		title = tr(.brewDetailsItemTitle)
+	}
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		title = tr(.brewDetailsItemTitle)
-		
-		tableView.tableFooterView = UIView()
-        tableView.estimatedRowHeight = 50
-        tableView.rowHeight = UITableViewAutomaticDimension
-		tableView.delegate = self
 		viewModel.configureWithTableView(tableView)
-
         enableSwipeToBack()
         navigationController?.delegate = self
 	}
@@ -58,8 +70,7 @@ final class BrewDetailsViewController: UIViewController {
     }
 
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		guard let resolver = resolver else { return }
-
+        
 		switch segueIdentifierForSegue(segue) {
 		case .BrewScoreDetails:
 			let viewController = segue.destination as! BrewScoreDetailsViewController

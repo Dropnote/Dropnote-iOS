@@ -78,3 +78,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: ThemeConfigurationContainer { }
 
+extension Assembler {
+	static var sharedResolver: ResolverType {
+		return (UIApplication.shared.delegate as! AppDelegate).assembler.resolver
+	}
+}

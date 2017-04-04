@@ -16,7 +16,7 @@ extension RootViewController: ThemeConfigurationContainer { }
 extension RootViewController: ResolvableContainer { }
 
 final class RootViewController: UITabBarController {
-    var resolver: ResolverType?
+    let resolver: ResolverType
 	var themeConfiguration: ThemeConfiguration?
 
     fileprivate let contentViewControllers: [UIViewController]
@@ -25,9 +25,10 @@ final class RootViewController: UITabBarController {
         return contentViewControllers.elements(ofType: BrewingsViewController.self).first
     }
     
-    init(viewControllers: [UIViewController], themeConfiguration: ThemeConfiguration?) {
+    init(viewControllers: [UIViewController], themeConfiguration: ThemeConfiguration? = nil, resolver: ResolverType = Assembler.sharedResolver) {
         self.contentViewControllers = viewControllers
         self.themeConfiguration = themeConfiguration
+        self.resolver = resolver
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -61,8 +62,6 @@ final class RootViewController: UITabBarController {
 	}
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let resolver = resolver else { fatalError("Dependency resolver is missing.") }
-
         if case .StartNewBrew = segueIdentifierForSegue(segue) , sender is Box<StartBrewContext> {
             let boxedBrewContext = sender as! Box<StartBrewContext>
             let nc = segue.destination as! UINavigationController
