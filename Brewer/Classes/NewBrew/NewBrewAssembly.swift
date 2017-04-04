@@ -12,19 +12,18 @@ final class NewBrewAssembly: AssemblyType {
 
 		// MARK: New Brew container
 
-		container.registerForStoryboard(NewBrewViewController.self) {
-			r, c in
-			c.metrics = r.resolve(ScrollViewPageMetricsType.self)!
-			c.themeConfiguration = r.resolve(ThemeConfiguration.self)
+		container.register(NewBrewViewController.self) {
+			(r, context: StartBrewContext) in
+			return NewBrewViewController(viewModel: r.resolve(NewBrewViewModelType.self, argument: context)!,
+										 metrics: r.resolve(ScrollViewPageMetricsType.self)!,
+										 themeConfiguration: r.resolve(ThemeConfiguration.self))
 		}
 
 		container.register(NewBrewViewModelType.self) {
 			(r, context: StartBrewContext) in
-			let viewModel = NewBrewViewModel(brewContext: context,
-											 settingsModelController: r.resolve(SequenceSettingsModelControllerType.self)!,
-											 newBrewModelController: r.resolve(BrewModelControllerType.self)!)
-			viewModel.resolver = r
-			return viewModel
+			return NewBrewViewModel(brewContext: context,
+									settingsModelController: r.resolve(SequenceSettingsModelControllerType.self)!,
+									newBrewModelController: r.resolve(BrewModelControllerType.self)!)
 		}
 
 		container.register(BrewModelControllerType.self) {
@@ -56,8 +55,8 @@ final class NewBrewAssembly: AssemblyType {
 			(r, identifier: SelectableSearchIdentifier, brewModelController: BrewModelControllerType) in
 
 			switch identifier {
-			case .coffee: return r.resolve(CoffeeSelectableSearchModelController.self, argument: brewModelController)!
-			case .coffeeMachine: return r.resolve(CoffeeMachineSelectableSearchModelController.self, argument: brewModelController)!
+				case .coffee: return r.resolve(CoffeeSelectableSearchModelController.self, argument: brewModelController)!
+				case .coffeeMachine: return r.resolve(CoffeeMachineSelectableSearchModelController.self, argument: brewModelController)!
 			}
 		}
 

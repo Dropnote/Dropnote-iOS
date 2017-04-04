@@ -44,7 +44,7 @@ extension NewBrewViewModel: ResolvableContainer { }
 final class NewBrewViewModel: NSObject, NewBrewViewModelType {
 	fileprivate let disposeBag = DisposeBag()
 
-    var resolver: ResolverType?
+    let resolver: ResolverType
 	let brewContext: StartBrewContext
 	let settingsModelController: SequenceSettingsModelControllerType
 	let brewModelController: BrewModelControllerType
@@ -64,27 +64,25 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
        return self.brewContext.image().scaled(by: 1.6)?.alwaysOriginal()
     }()
 
-	fileprivate lazy var dataSource: NewBrewDataSource = {
-		guard let resolver = self.resolver else { fatalError("Resolver is missing!") }
-		let dataSource = NewBrewDataSource(
-				brewContext: self.brewContext,
-				brewModelController: self.brewModelController,
-				settingsModelController: self.settingsModelController
-				)
-		dataSource.resolver = resolver
-		return dataSource
-	}()
-
+    fileprivate lazy var dataSource: NewBrewDataSource = {
+        return NewBrewDataSource(brewContext: self.brewContext,
+                                 brewModelController: self.brewModelController,
+                                 settingsModelController: self.settingsModelController)
+    }()
+    
 	init(brewContext: StartBrewContext,
 		 settingsModelController: SequenceSettingsModelControllerType,
-		 newBrewModelController: BrewModelControllerType) {
+		 newBrewModelController: BrewModelControllerType,
+		 resolver: ResolverType = Assembler.sharedResolver) {
 		self.brewContext = brewContext
 		self.settingsModelController = settingsModelController
 		self.brewModelController = newBrewModelController
+		self.resolver = resolver
 		super.init()
 	}
 
 	func configureWithCollectionView(_ collectionView: UICollectionView) {
+		collectionView.register(NewBrewCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: NewBrewCollectionViewCell.self))
 		collectionView.dataSource = self
 		reloadStepViewControllersWithBrewContext(brewContext, animated: false)
 	}
@@ -152,7 +150,7 @@ extension NewBrewViewModel: UICollectionViewDataSource {
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewBrewCollectionViewCell", for: indexPath) as! NewBrewCollectionViewCell
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: NewBrewCollectionViewCell.self), for: indexPath) as! NewBrewCollectionViewCell
 		let viewController = stepViewController(forIndexPath: indexPath)
 		cell.stepView = viewController.view
 		return cell

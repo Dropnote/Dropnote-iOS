@@ -14,6 +14,7 @@ extension NewBrewViewController: ThemeConfigurationContainer { }
 final class NewBrewViewController: UIViewController {
 	fileprivate let disposeBag = DisposeBag()
 	fileprivate let keyboardManager = KeyboardManager()
+
 	@IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var doneBarButtonItem: UIBarButtonItem! {
         didSet {
@@ -24,26 +25,34 @@ final class NewBrewViewController: UIViewController {
 	@IBOutlet weak var navigationBar: NewBrewNavigationBar!
 	@IBOutlet weak var progressView: NewBrewProgressView!
 
-	var themeConfiguration: ThemeConfiguration?
-
     fileprivate(set) var currentPageIndex = 0 {
         didSet {
             guard let progressView = progressView else { return }
             progressView.selectIconAtIndex(currentPageIndex)
         }
     }
-    
-	var metrics: ScrollViewPageMetricsType!
-	var viewModel: NewBrewViewModelType! {
-		didSet {
-            _ = viewModel.failedToCreateNewBrewSubject.subscribe(onNext: {
-                XCGLogger.error("Failed to create new brew = \($0)")
-            })
-            _ = viewModel.reloadDataAnimatedSubject.subscribe(onNext: reloadData)
-		}
-	}
+
+	let metrics: ScrollViewPageMetricsType
+	var themeConfiguration: ThemeConfiguration?
+	let viewModel: NewBrewViewModelType
 
 	let hideViewControllerSwitchingToHistorySubject = PublishSubject<Bool>()
+
+	init(viewModel: NewBrewViewModelType, metrics: ScrollViewPageMetricsType, themeConfiguration: ThemeConfiguration? = nil) {
+		self.viewModel = viewModel
+		self.metrics = metrics
+		self.themeConfiguration = themeConfiguration
+        super.init(nibName: nil, bundle: nil)
+
+		_ = viewModel.failedToCreateNewBrewSubject.subscribe(onNext: {
+			XCGLogger.error("Failed to create new brew = \($0)")
+		})
+		_ = viewModel.reloadDataAnimatedSubject.subscribe(onNext: reloadData)
+	}
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()

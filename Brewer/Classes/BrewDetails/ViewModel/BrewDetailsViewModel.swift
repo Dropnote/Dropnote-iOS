@@ -19,17 +19,19 @@ enum BrewDetailsTableViewSection: Int {
     case remove = 4
 
 	var cellIdentifier: String {
+		return String(describing: cellClass)
+	}
+
+	var cellClass: AnyClass {
 		switch self {
-		case .score:
-			return "FinalScoreCell"
-		case .coffeeInfo, .attributes:
-			return "BrewAttributeCell"
-		case .notes:
-			return "BrewNotesCell"
-        case .remove:
-            return "BrewDetailsRemoveCell"
+			case .score: return FinalScoreCell.self
+			case .coffeeInfo, .attributes: return BrewAttributeCell.self
+			case .notes: return BrewNotesCell.self
+			case .remove: return BrewDetailsRemoveCell.self
 		}
 	}
+
+	static let cellCases: [BrewDetailsTableViewSection] = [.score, .coffeeInfo, .notes, .remove]
 }
 
 protocol BrewDetailsViewModelType: TableViewConfigurable {
@@ -47,7 +49,7 @@ protocol BrewDetailsViewModelType: TableViewConfigurable {
 	func saveBrewIfNeeded()
 }
 
-struct BrewDetailsPresentable: TitleValuePresentable {
+fileprivate struct BrewDetailsPresentable: TitleValuePresentable {
 	var title: String
 	var value: String
 	var attribute: BrewAttributeType?
@@ -93,6 +95,9 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 	}
 
 	func configureWithTableView(_ tableView: UITableView) {
+		BrewDetailsTableViewSection.cellCases.forEach {
+			tableView.register($0.cellClass, forCellReuseIdentifier: $0.cellIdentifier)
+		}
 		refreshData()
 		tableView.dataSource = dataSource
 	}

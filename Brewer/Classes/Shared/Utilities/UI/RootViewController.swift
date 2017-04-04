@@ -60,26 +60,6 @@ final class RootViewController: UITabBarController {
 
         configureWithTheme(themeConfiguration)
 	}
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if case .StartNewBrew = segueIdentifierForSegue(segue) , sender is Box<StartBrewContext> {
-            let boxedBrewContext = sender as! Box<StartBrewContext>
-            let nc = segue.destination as! UINavigationController
-            let newBrewViewController = nc.topViewController as! NewBrewViewController
-            newBrewViewController.viewModel = resolver.resolve(NewBrewViewModelType.self, argument: boxedBrewContext.value)!
-            _ = newBrewViewController
-                .hideViewControllerSwitchingToHistorySubject
-                .subscribe(onNext: dismissNewBrewViewController)
-        }
-
-        if let unwindSegue = segue as? NewBrewUnwindSegue , unwindSegue.shouldSwitchToHistory == true {
-            if let historyViewControllerIndex = contentViewControllers.index(where: { $0 is BrewingsViewController }) {
-                DispatchQueue.main.async {
-                    self.selectedIndex = historyViewControllerIndex
-                }
-            }
-        }
-    }
     
     private func dismissNewBrewViewController(_ switchToHistory: Bool) {
         if let historyViewControllerIndex = contentViewControllers.index(where: { $0 is BrewingsViewController }) , switchToHistory == true {
@@ -89,8 +69,11 @@ final class RootViewController: UITabBarController {
     }
     
     func showNewBrewVieController(for brewMethod: BrewMethod) {
-        let context = StartBrewContext(method: brewMethod)
-        performSegue(.StartNewBrew, sender: Box(context))
+        let brewContext = StartBrewContext(method: brewMethod)
+        let newBrewViewController = resolver.resolve(NewBrewViewController.self, argument: brewContext)!
+        _ = newBrewViewController
+                .hideViewControllerSwitchingToHistorySubject
+                .subscribe(onNext: dismissNewBrewViewController)
     }
 }
 

@@ -14,12 +14,16 @@ final class NewBrewDataSource {
     let brewContext: StartBrewContext
     let brewModelController: BrewModelControllerType
     let settingsModelController: SequenceSettingsModelControllerType
-    var resolver: ResolverType!
+    let resolver: ResolverType
 
-    init(brewContext: StartBrewContext, brewModelController: BrewModelControllerType, settingsModelController: SequenceSettingsModelControllerType) {
+    init(brewContext: StartBrewContext,
+         brewModelController: BrewModelControllerType,
+         settingsModelController: SequenceSettingsModelControllerType,
+         resolver: ResolverType = Assembler.sharedResolver) {
         self.brewContext = brewContext
         self.brewModelController = brewModelController
         self.settingsModelController = settingsModelController
+        self.resolver = resolver
     }
 
     func reloadData() {
@@ -87,8 +91,9 @@ final class NewBrewDataSource {
     }
 
     fileprivate func loadSummaryViewControllers() -> [UIViewController] {
-        let viewController: BrewDetailsViewController = resolver.viewControllerForIdentifier("BrewDetails")
-        viewController.viewModel = resolver.resolve(BrewDetailsViewModelType.self, argument: brewModelController.currentBrew()!)
-        return [viewController]
+        guard let brew = brewModelController.currentBrew() else { fatalError("No current brew available") }
+        let editable = false
+        let brewDetailsViewController = resolver.resolve(BrewDetailsViewController.self, arguments: brew, editable)!
+        return [brewDetailsViewController]
     }
 }
