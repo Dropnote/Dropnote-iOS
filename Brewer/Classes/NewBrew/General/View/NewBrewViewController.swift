@@ -6,6 +6,7 @@
 import Foundation
 import UIKit
 import RxSwift
+import RxCocoa
 import XCGLogger
 
 extension NewBrewViewController: ThemeConfigurable { }
@@ -15,26 +16,29 @@ final class NewBrewViewController: UIViewController {
 	fileprivate let disposeBag = DisposeBag()
 	fileprivate let keyboardManager = KeyboardManager()
 
-	@IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var doneBarButtonItem: UIBarButtonItem! {
-        didSet {
-            doneBarButtonItem.accessibilityLabel = "Done"
-            doneBarButtonItem.accessibilityHint = "Finishes brew session"
-        }
-    }
-	@IBOutlet weak var navigationBar: NewBrewNavigationBar!
-	@IBOutlet weak var progressView: NewBrewProgressView!
+	fileprivate lazy var closeBarButtonItem = UIBarButtonItem(image: UIImage(asset: .Ic_close)!, style: .plain, target: self, action: #selector(close))
+	fileprivate lazy var newBrewView = NewBrewView(frame: .zero)
 
-    fileprivate(set) var currentPageIndex = 0 {
-        didSet {
-            guard let progressView = progressView else { return }
-            progressView.selectIconAtIndex(currentPageIndex)
-        }
-    }
+	fileprivate var navigationBar: NewBrewNavigationBar {
+		return newBrewView.navigationBar
+	}
+	fileprivate var progressView: NewBrewProgressView {
+		return newBrewView.progressView
+	}
+	fileprivate var collectionView: UICollectionView {
+		return newBrewView.collectionView
+	}
 
+	fileprivate(set) var currentPageIndex = 0 {
+		didSet {
+			guard isViewLoaded else { return }
+			progressView.selectIconAtIndex(currentPageIndex)
+		}
+	}
+
+	let viewModel: NewBrewViewModelType
 	let metrics: ScrollViewPageMetricsType
 	var themeConfiguration: ThemeConfiguration?
-	let viewModel: NewBrewViewModelType
 
 	let hideViewControllerSwitchingToHistorySubject = PublishSubject<Bool>()
 
@@ -43,34 +47,37 @@ final class NewBrewViewController: UIViewController {
 		self.metrics = metrics
 		self.themeConfiguration = themeConfiguration
         super.init(nibName: nil, bundle: nil)
-
-		_ = viewModel.failedToCreateNewBrewSubject.subscribe(onNext: {
-			XCGLogger.error("Failed to create new brew = \($0)")
-		})
-		_ = viewModel.reloadDataAnimatedSubject.subscribe(onNext: reloadData)
 	}
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+	override func loadView() {
+		view = newBrewView
+	}
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = tr(.newBrewItemTitle)
 		configureWithTheme(themeConfiguration)
-        collectionView.configureWithTheme(themeConfiguration)
 		collectionView.delegate = self
-		collectionView.isScrollEnabled = true
-        collectionView.delaysContentTouches = false
 		viewModel.configureWithCollectionView(collectionView)
 
-        configureProgressView()
-		configureNavigationBar()
+		navigationBar.alpha = 0
+
+		_ = viewModel.failedToCreateNewBrewSubject.subscribe(onNext: {
+			XCGLogger.error("Failed to create new brew = \($0)")
+		})
+		_ = viewModel.reloadDataAnimatedSubject.subscribe(onNext: reloadData)
+
+		_ = navigationBar.previousButton.rx.tap.bindNext(previousStep)
+		_ = navigationBar.nextButton.rx.tap.bindNext(nextStep)
 
 		keyboardManager
 			.keyboardInfoChange
 			.debounce(0.01, scheduler: MainScheduler.instance)
-			.subscribe(onNext: handleKeyboardStateChange)
+			.subscribe(onNext: newBrewView.handleKeyboardStateChange)
 			.addDisposableTo(disposeBag)
     }
     
@@ -94,16 +101,8 @@ final class NewBrewViewController: UIViewController {
 			.first?
 			.deactivate()
 	}
-
-	@IBAction func close(_ sender: AnyObject) {
-        perform(viewModel.cleanUp(), isSuccessfullyFinished: false)		
-	}
-
-	func done() {
-        perform(viewModel.finishBrew(), isSuccessfullyFinished: true)
-    }
     
-    private func perform(_ observable: Observable<Void>, isSuccessfullyFinished: Bool) {
+    fileprivate func perform(_ observable: Observable<Void>, isSuccessfullyFinished: Bool) {
         observable
             .observeOn(MainScheduler.asyncInstance)
             .subscribe(onCompleted: {
@@ -113,22 +112,6 @@ final class NewBrewViewController: UIViewController {
             .addDisposableTo(disposeBag)
     }
 
-	private func configureNavigationBar() {
-		navigationBar.configureWithTheme(themeConfiguration)
-		navigationBar.alpha = 0
-        navigationBar.previousButton.accessibilityLabel = "Previous Step"
-        navigationBar.nextButton.accessibilityLabel = "Next Step"
-		navigationBar.previousButton.addTarget(self, action: #selector(NewBrewViewController.previousStep), for: .touchUpInside)
-		navigationBar.nextButton.addTarget(self, action: #selector(NewBrewViewController.nextStep), for: .touchUpInside)
-	}
-    
-    private func configureProgressView() {
-        progressView.configureWithTheme(themeConfiguration)        
-        progressView.axis = .horizontal
-        progressView.distribution = .equalSpacing
-        progressView.alignment = .center
-    }
-    
     private func reloadData(_ animated: Bool) {
         collectionView.reloadData()
         progressView.configureWithIcons(viewModel.progressIcons)
@@ -145,7 +128,6 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 		let childViewController = viewModel.stepViewController(forIndexPath: indexPath)
 		addChildViewController(childViewController)
 		childViewController.didMove(toParentViewController: self)
-        
         cell.configureWithTheme(themeConfiguration)
     }
     
@@ -180,12 +162,11 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 
 	fileprivate func setDoneBarButtonItemIfNeeded(_ scrollView: UIScrollView) {
 		if metrics.isLastPageOfScrollView(scrollView) {
-			let barButtonItem = UIBarButtonItem(image: UIImage(asset: .Ic_done), style: .plain, target: self, action: #selector(NewBrewViewController.done))
+			let barButtonItem = UIBarButtonItem(image: UIImage(asset: .Ic_done), style: .plain, target: self, action: #selector(done))
 			navigationItem.setRightBarButton(barButtonItem, animated: true)
 		} else {
             let barButtonItem = UIBarButtonItem(image: viewModel.methodImage, style: .plain, target: nil, action: nil)
             barButtonItem.isEnabled = false
-
 			navigationItem.setRightBarButton(barButtonItem, animated: false)
 		}
 	}
@@ -204,23 +185,18 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 			title = viewModel.methodTitle
 		}
 	}
-
-	fileprivate func handleKeyboardStateChange(_ info: KeyboardInfo) {
-		if info.state == .willShow || info.state == .visible {
-			navigationBar.bottomConstraint.constant = info.endFrame.size.height + 10
-		} else {
-			navigationBar.bottomConstraint.constant = 10.0
-		}
-
-		UIView.animate(withDuration: info.animationDuration, delay: 0.0, options: info.animationOptions, animations: {
-			self.view.layoutIfNeeded()
-        }, completion: nil)
-	}
 }
 
 // MARK: Navigation
 
 extension NewBrewViewController {
+	func close() {
+        perform(viewModel.cleanUp(), isSuccessfullyFinished: false)
+	}
+
+	func done() {
+        perform(viewModel.finishBrew(), isSuccessfullyFinished: true)
+    }
     
     func updateNavigationArrows() {
         if metrics.isFirstPageOfScrollView(collectionView) {

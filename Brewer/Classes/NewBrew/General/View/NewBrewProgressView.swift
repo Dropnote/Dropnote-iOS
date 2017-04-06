@@ -12,7 +12,14 @@ import UIKit
 final class NewBrewProgressView: UIStackView {
     fileprivate var selectedIconColor = UIColor.white
     
-    @IBOutlet weak var backgroundView: UIView!
+    weak var backgroundView: UIView?
+
+    convenience init() {
+        self.init(frame: .zero)
+        axis = .horizontal
+        distribution = .equalSpacing
+        alignment = .center
+    }
     
     func selectIconAtIndex(_ index: Int) {
         guard arrangedSubviews.count > index else { return }
@@ -39,14 +46,14 @@ final class NewBrewProgressView: UIStackView {
     func show(animated: Bool = true) {
         UIView.animate(withDuration: animated ? 0.3 : 0, animations: {
             self.alpha = 1
-            self.backgroundView.alpha = 1
+            self.backgroundView?.alpha = 1
         }) 
     }
     
     func hide(animated: Bool = true) {
         UIView.animate(withDuration: animated ? 0.3 : 0, animations: {
             self.alpha = 0
-            self.backgroundView.alpha = 0
+            self.backgroundView?.alpha = 0
         }) 
     }
     
@@ -77,7 +84,7 @@ extension NewBrewProgressView {
     
     func configureWithTheme(_ theme: ThemeConfiguration?) {
         guard let theme = theme else { return }
-        backgroundView.backgroundColor = theme.lightColor
+        backgroundView?.backgroundColor = theme.lightColor
         tintColor = UIColor.lightGray
         selectedIconColor = theme.darkTintColor
     }

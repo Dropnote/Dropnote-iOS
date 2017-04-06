@@ -23,6 +23,7 @@
 		810863044441AD0DBFF7A8DD /* BrewAttributeType+DefaultSequenceSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810860B714592F36EF755AF4 /* BrewAttributeType+DefaultSequenceSettings.swift */; };
 		8108630C5325F32DA06AC3EF /* BrewingsSortingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810869A78B904F5F7323DEC2 /* BrewingsSortingAssembly.swift */; };
 		8108634FB2B884FC4753132A /* WeightInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086E1D7427285AD41057AE /* WeightInputViewModel.swift */; };
+		81086357341471142A2A167F /* NewBrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086F83BAA233A0F49AF8E1 /* NewBrewView.swift */; };
 		810863612FD3A1619997A8C7 /* CoffeeMachineSelectableSearchModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810868A001E96640A15DED2A /* CoffeeMachineSelectableSearchModelController.swift */; };
 		810863F8FA6A35A9F84A2F6E /* BrewingsSortingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810860E72816E86A4834CBAC /* BrewingsSortingViewModel.swift */; };
 		810864305A0F63D6AB7D1231 /* NewBrewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810862469EE67B2B22C57FBF /* NewBrewViewController.swift */; };
@@ -284,6 +285,7 @@
 		81086F05B3B633DF8425DDF2 /* CoreDataExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataExtensions.swift; sourceTree = "<group>"; };
 		81086F0CD67472FD98100C61 /* SegueIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueIdentifier.swift; sourceTree = "<group>"; };
 		81086F1EF924EB78E220DE47 /* GrindSizeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrindSizeViewController.swift; sourceTree = "<group>"; };
+		81086F83BAA233A0F49AF8E1 /* NewBrewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBrewView.swift; sourceTree = "<group>"; };
 		81086F84DEE057A98F40AF7B /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		81086FB974AE2734A47A34A4 /* Analytics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Analytics.swift; sourceTree = "<group>"; };
 		81086FC4186D6A63CEC193E5 /* BrewingsModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewingsModelController.swift; sourceTree = "<group>"; };
@@ -606,6 +608,7 @@
 				A18F3D7A1CEC44930022A096 /* NewBrewUnwindSegue.swift */,
 				A1D7412B1CF1C15100CAC348 /* NewBrewProgressView.swift */,
 				81086B31CDD2DB62007F91F5 /* NewBrew.storyboard */,
+				81086F83BAA233A0F49AF8E1 /* NewBrewView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1815,6 +1818,7 @@
 				810868050E829E758B3AA4B9 /* NewBrewDataSource.swift in Sources */,
 				81086F28F28F7A81CBBBC782 /* SpotlightSearchService.swift in Sources */,
 				810867DD57EC08CE78F686E9 /* PreInfusionTimeInputViewModel.swift in Sources */,
+				81086357341471142A2A167F /* NewBrewView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
