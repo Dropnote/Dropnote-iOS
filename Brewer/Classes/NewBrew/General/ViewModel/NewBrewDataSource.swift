@@ -66,14 +66,14 @@ final class NewBrewDataSource {
                 numericalInputViewController.title = $0.description
                 return numericalInputViewController
             }
+            if $0.storyboardIdentifier() == "Notes" {
+                let notesViewController = resolver.resolve(NotesViewController.self, argument: brewModelController)!
+                notesViewController.title = $0.description
+                return notesViewController
+            }
 
             let viewController = resolver.viewControllerForIdentifier($0.storyboardIdentifier())
             viewController.title = $0.description
-
-            if viewController is NotesViewController {
-                let notesViewModel = resolver.resolve(NotesViewModelType.self, argument: brewModelController)!
-                (viewController as! NotesViewController).viewModel = notesViewModel
-            }
 
             if viewController is GrindSizeViewController {
                 let grindSizeViewModel = resolver.resolve(GrindSizeViewModelType.self, argument: brewModelController)!

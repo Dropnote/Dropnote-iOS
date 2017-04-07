@@ -87,11 +87,6 @@ final class BrewDetailsViewController: UIViewController {
 			viewController.viewModel = resolver.resolve(TampingViewModelType.self,
 														argument: viewModel.brewModelController)!
 			break
-		case .Notes:
-			let viewController = segue.destination as! NotesViewController
-			viewController.viewModel = resolver.resolve(NotesViewModelType.self,
-														argument: viewModel.brewModelController)!
-			break
 		default:
 			fatalError("Unknown segue performed.")
 		}
@@ -193,7 +188,16 @@ extension BrewDetailsViewController: UITableViewDelegate {
 				navigationController?.pushViewController(numericalInputViewController, animated: true)
 				break
 			case .notes:
-				performSegue(.Notes, sender: Box<BrewAttributeType>(.notes))
+				let notesViewController = resolver.resolve(NotesViewController.self, argument: viewModel.brewModelController)!
+				notesViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(
+						image: UIImage(asset: .Ic_back),
+						style: .plain,
+						target: self,
+						action: #selector(pop)
+				)
+				pushedViewController = notesViewController
+				notesViewController.enableSwipeToBack()
+				navigationController?.pushViewController(notesViewController, animated: true)
 				break
 			case .remove:
 				removeCurrentBrewIfNeeded()

@@ -120,12 +120,14 @@ final class NewBrewAssembly: AssemblyType {
 
 		// MARK: Notes
 
-		container.registerForStoryboard(NotesViewController.self) {
-			r, c in c.themeConfiguration = r.resolve(ThemeConfiguration.self)
+		container.register(NotesViewController.self) {
+			(r, brewModelController: BrewModelControllerType) in
+			NotesViewController(viewModel: r.resolve(NotesViewModelType.self, argument: brewModelController)!,
+								themeConfiguration: r.resolve(ThemeConfiguration.self))
 		}
 
 		container.register(NotesViewModelType.self) {
-			_, brewModelController in NotesViewModel(brewModelController: brewModelController)
+			(_, brewModelController: BrewModelControllerType) in NotesViewModel(brewModelController: brewModelController)
 		}
 
 		// MARK: Grind Size
