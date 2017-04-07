@@ -59,13 +59,16 @@ final class NewBrewDataSource {
         return sequence.map {
             progressIcons.append($0.imageName)
 
+            // TODO refactor when all types are changed
+            if $0.storyboardIdentifier() == "NumericalInput" {
+                let numericalInputViewController = resolver.resolve(NumericalInputViewController.self,
+                                                                    arguments: $0, brewModelController)!
+                numericalInputViewController.title = $0.description
+                return numericalInputViewController
+            }
+
             let viewController = resolver.viewControllerForIdentifier($0.storyboardIdentifier())
             viewController.title = $0.description
-
-            if viewController is NumericalInputViewController {
-                let numericalInputViewModel = resolver.resolve(NumericalInputViewModelType.self, arguments: $0, brewModelController)!
-                (viewController as! NumericalInputViewController).viewModel = numericalInputViewModel
-            }
 
             if viewController is NotesViewController {
                 let notesViewModel = resolver.resolve(NotesViewModelType.self, argument: brewModelController)!

@@ -19,6 +19,7 @@
 		810861E48DB02480A5E91764 /* NumericalInputTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8108684D698CC106CCD860DF /* NumericalInputTransformer.swift */; };
 		810861FAA7BC2CD84BA8E3E8 /* UnitsDataSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810860A62D3493E6580DBA14 /* UnitsDataSourceType.swift */; };
 		81086211AC52354AC6351F81 /* MethodPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810861BB6CBE3A3525FFB51D /* MethodPickerViewModel.swift */; };
+		81086287CF034E31385D7E59 /* NumericalInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086A6F6D12A7FA25FD993B /* NumericalInputView.swift */; };
 		8108629AEBD7D8F4F2739321 /* NumericalInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810869A45D6881D581F93E67 /* NumericalInputViewModel.swift */; };
 		810863044441AD0DBFF7A8DD /* BrewAttributeType+DefaultSequenceSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810860B714592F36EF755AF4 /* BrewAttributeType+DefaultSequenceSettings.swift */; };
 		8108630C5325F32DA06AC3EF /* BrewingsSortingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810869A78B904F5F7323DEC2 /* BrewingsSortingAssembly.swift */; };
@@ -257,6 +258,7 @@
 		81086984E043BA1A7585C71C /* FoundationUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationUtilities.swift; sourceTree = "<group>"; };
 		810869A45D6881D581F93E67 /* NumericalInputViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumericalInputViewModel.swift; sourceTree = "<group>"; };
 		810869A78B904F5F7323DEC2 /* BrewingsSortingAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewingsSortingAssembly.swift; sourceTree = "<group>"; };
+		81086A6F6D12A7FA25FD993B /* NumericalInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumericalInputView.swift; sourceTree = "<group>"; };
 		81086A97C30234A123021EF5 /* CoreComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreComponents.swift; sourceTree = "<group>"; };
 		81086B05F427F0C190BA4116 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		81086B260C1BC52732D9D88D /* UnitCategory+DefaultSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UnitCategory+DefaultSettings.swift"; sourceTree = "<group>"; };
@@ -747,6 +749,7 @@
 				A1669B5D1D51203F00614B35 /* NumericalInputTextField.swift */,
 				81086866B857679706668A9E /* NumericalInputViewController.swift */,
 				810866A4EC9F381D6F7309AE /* NumericalInput.storyboard */,
+				81086A6F6D12A7FA25FD993B /* NumericalInputView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1823,6 +1826,7 @@
 				810867DD57EC08CE78F686E9 /* PreInfusionTimeInputViewModel.swift in Sources */,
 				81086357341471142A2A167F /* NewBrewView.swift in Sources */,
 				810866B5C33616314046ECF2 /* SelectableSearchView.swift in Sources */,
+				81086287CF034E31385D7E59 /* NumericalInputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

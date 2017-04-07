@@ -75,19 +75,21 @@ final class NewBrewAssembly: AssemblyType {
 
 		// MARK: Numerical input
 
-		container.registerForStoryboard(NumericalInputViewController.self) {
-			r, c in c.themeConfiguration = r.resolve(ThemeConfiguration.self)
+		container.register(NumericalInputViewController.self) {
+			(r, attribute: BrewAttributeType, brewModelController: BrewModelControllerType) in
+			return NumericalInputViewController(viewModel: r.resolve(NumericalInputViewModelType.self, arguments: attribute, brewModelController)!,
+												themeConfiguration: r.resolve(ThemeConfiguration.self))
 		}
 
 		container.register(NumericalInputViewModelType.self) {
 			(r, attribute: BrewAttributeType, brewModelController: BrewModelControllerType) in
 			switch attribute {
-			case .preInfusionTime: return r.resolve(PreInfusionTimeInputViewModel.self, argument: brewModelController)!
-			case .time: return r.resolve(TimeInputViewModel.self, argument: brewModelController)!
-			case .coffeeWeight: return r.resolve(WeightInputViewModel.self, argument: brewModelController)!
-			case .waterWeight: return r.resolve(WaterInputViewModel.self, argument: brewModelController)!
-			case .waterTemperature: return r.resolve(TemperatureInputViewModel.self, argument: brewModelController)!
-			default: fatalError("Wrong type selected for numeric input!")
+				case .preInfusionTime: return r.resolve(PreInfusionTimeInputViewModel.self, argument: brewModelController)!
+				case .time: return r.resolve(TimeInputViewModel.self, argument: brewModelController)!
+				case .coffeeWeight: return r.resolve(WeightInputViewModel.self, argument: brewModelController)!
+				case .waterWeight: return r.resolve(WaterInputViewModel.self, argument: brewModelController)!
+				case .waterTemperature: return r.resolve(TemperatureInputViewModel.self, argument: brewModelController)!
+				default: fatalError("Wrong type selected for numeric input!")
 			}
 		}
 

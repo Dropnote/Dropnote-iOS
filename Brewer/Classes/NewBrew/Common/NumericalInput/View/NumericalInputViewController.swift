@@ -10,29 +10,42 @@ extension NumericalInputViewController: ThemeConfigurationContainer { }
 extension NumericalInputViewController: Activable { }
 
 final class NumericalInputViewController: UIViewController {
-    @IBOutlet weak var inputTextField: NumericalInputTextField! {
-        didSet {
-            inputTextField.accessibilityLabel = "Type"
-            inputTextField.delegate = self
-            inputTextField.tintColor = UIColor.clear
-        }
-    }
-    @IBOutlet weak var informativeLabel: InformativeLabel!
-
-    var viewModel: NumericalInputViewModelType!
-
     var active: Bool = false {
         didSet {
-            if var responder = inputTextField {
-                responder.active = active
+            if isViewLoaded {
+                numericalInputView.inputTextField.active = active
             }
         }
     }
-    
+
+    fileprivate var inputTextField: NumericalInputTextField {
+        return numericalInputView.inputTextField
+    }
+    fileprivate var informativeLabel: InformativeLabel {
+        return numericalInputView.informativeLabel
+    }
+    fileprivate lazy var numericalInputView = NumericalInputView()
+
+    let viewModel: NumericalInputViewModelType
     var themeConfiguration: ThemeConfiguration?
+
+    init(viewModel: NumericalInputViewModelType, themeConfiguration: ThemeConfiguration? = nil) {
+        self.viewModel = viewModel
+        self.themeConfiguration = themeConfiguration
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+        view = numericalInputView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        inputTextField.delegate = self
         informativeLabel.text = viewModel.informativeText
         inputTextField.text = viewModel.inputTransformer.initialString() + viewModel.unit
         if let currentValue = viewModel.currentValue {
@@ -43,8 +56,6 @@ final class NumericalInputViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.configureWithTheme(themeConfiguration)
-        inputTextField.configureWithTheme(themeConfiguration)
-        informativeLabel.configureWithTheme(themeConfiguration)
     }
 }
 

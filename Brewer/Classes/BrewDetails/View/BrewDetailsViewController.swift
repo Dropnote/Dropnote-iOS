@@ -82,15 +82,6 @@ final class BrewDetailsViewController: UIViewController {
 			viewController.viewModel = resolver.resolve(GrindSizeViewModelType.self,
 														argument: viewModel.brewModelController)!
 			break
-		case .NumericalInput:
-			guard let box = sender as? Box<BrewAttributeType> else {
-				fatalError("Couldn't unbox necessary context.")
-			}
-			let viewController = segue.destination as! NumericalInputViewController
-			viewController.title = box.value.description
-			viewController.viewModel = resolver.resolve(NumericalInputViewModelType.self,
-														arguments: box.value, viewModel.brewModelController)!
-			break
 		case .Tamping:
 			let viewController = segue.destination as! TampingViewController
 			viewController.viewModel = resolver.resolve(TampingViewModelType.self,
@@ -164,29 +155,49 @@ extension BrewDetailsViewController: UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+		// TODO refactor when all controllers are changed
         switch viewModel.sectionType(forIndexPath: indexPath) {
-		case .score:
-			performSegue(.BrewScoreDetails)
-			break
-		case .coffeeInfo:
-			guard viewModel.editable else { return }
-            let identifier = viewModel.coffeeAttribute(forIndexPath: indexPath)
-			let selectableSearchViewController = resolver.resolve(SelectableSearchViewController.self,
-																  arguments: identifier, viewModel.brewModelController)!
-			selectableSearchViewController.title = identifier.description
-			navigationController?.pushViewController(selectableSearchViewController, animated: true)
-			break
-		case .attributes:
-			guard viewModel.editable else { return }
-			let brewAttributeType = viewModel.brewAttributeType(forIndexPath: indexPath)
-			performSegue(brewAttributeType.segueIdentifier, sender: Box(brewAttributeType))
-			break
-		case .notes:
-			performSegue(.Notes, sender: Box<BrewAttributeType>(.notes))
-			break
-        case .remove:
-            removeCurrentBrewIfNeeded()
-            break
+			case .score:
+				performSegue(.BrewScoreDetails)
+				break
+			case .coffeeInfo:
+				guard viewModel.editable else { return }
+				let identifier = viewModel.coffeeAttribute(forIndexPath: indexPath)
+				let selectableSearchViewController = resolver.resolve(SelectableSearchViewController.self,
+																	  arguments: identifier, viewModel.brewModelController)!
+				selectableSearchViewController.title = identifier.description
+				selectableSearchViewController.enableSwipeToBack()
+				selectableSearchViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(
+						image: UIImage(asset: .Ic_back),
+						style: .plain,
+						target: self,
+						action: #selector(pop)
+				)
+				pushedViewController = selectableSearchViewController
+				navigationController?.pushViewController(selectableSearchViewController, animated: true)
+				break
+			case .attributes:
+				guard viewModel.editable else { return }
+				let brewAttributeType = viewModel.brewAttributeType(forIndexPath: indexPath)
+				let numericalInputViewController = resolver.resolve(NumericalInputViewController.self,
+																	arguments: brewAttributeType, viewModel.brewModelController)!
+				numericalInputViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(
+						image: UIImage(asset: .Ic_back),
+						style: .plain,
+						target: self,
+						action: #selector(pop)
+				)
+				pushedViewController = numericalInputViewController
+				numericalInputViewController.enableSwipeToBack()
+				navigationController?.pushViewController(numericalInputViewController, animated: true)
+				break
+			case .notes:
+				performSegue(.Notes, sender: Box<BrewAttributeType>(.notes))
+				break
+			case .remove:
+				removeCurrentBrewIfNeeded()
+				break
 		}
 	}
 }
