@@ -40,20 +40,23 @@ final class NewBrewAssembly: AssemblyType {
 
 		// MARK: Selectable search
 
-		container.registerForStoryboard(SelectableSearchViewController.self) {
-			r, c in c.themeConfiguration = r.resolve(ThemeConfiguration.self)
+		container.register(SelectableSearchViewController.self) {
+			(r, identifier: SelectableSearchIdentifier, brewModelController: BrewModelControllerType) in
+			return SelectableSearchViewController(
+					viewModel: r.resolve(SelectableSearchViewModelType.self, arguments: identifier, brewModelController)!,
+					themeConfiguration: r.resolve(ThemeConfiguration.self)
+			)
 		}
 
 		container.register(SelectableSearchViewModelType.self) {
 			(r, identifier: SelectableSearchIdentifier, brewModelController: BrewModelControllerType) in
-			return SelectableSearchViewModel(modelController:
-					r.resolve(SelectableSearchModelControllerType.self, arguments: identifier, brewModelController)!
+			return SelectableSearchViewModel(
+					modelController: r.resolve(SelectableSearchModelControllerType.self, arguments: identifier, brewModelController)!
 			)
 		}
 
 		container.register(SelectableSearchModelControllerType.self) {
 			(r, identifier: SelectableSearchIdentifier, brewModelController: BrewModelControllerType) in
-
 			switch identifier {
 				case .coffee: return r.resolve(CoffeeSelectableSearchModelController.self, argument: brewModelController)!
 				case .coffeeMachine: return r.resolve(CoffeeMachineSelectableSearchModelController.self, argument: brewModelController)!

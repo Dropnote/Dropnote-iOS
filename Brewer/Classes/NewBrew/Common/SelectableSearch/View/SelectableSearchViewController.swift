@@ -14,32 +14,47 @@ extension SelectableSearchViewController: ThemeConfigurationContainer { }
 final class SelectableSearchViewController: UIViewController {
 	fileprivate let disposeBag = DisposeBag()
 
-	var themeConfiguration: ThemeConfiguration?
+	fileprivate lazy var selectableSearchView = SelectableSearchView()
 
-    @IBOutlet weak var inputTextField: UITextField! {
-        didSet {
-            inputTextField.accessibilityLabel = "Type"
-        }
-    }
-	@IBOutlet weak var tableView: UITableView!
-	var viewModel: SelectableSearchViewModelType!
+	fileprivate var inputTextField: UITextField {
+		return selectableSearchView.inputTextField
+	}
+	fileprivate var tableView: UITableView {
+		return selectableSearchView.tableView
+	}
 
 	var active: Bool = false {
 		didSet {
-			if var responder = inputTextField {
-				responder.active = active
+			if isViewLoaded {
+				selectableSearchView.inputTextField.active = active
+                if !active {
+                    self.viewModel.addNewSearchItemIfNeeded(self.inputTextField.text)
+                }
 			}
-            if let inputTextField = inputTextField , !active {
-                viewModel.addNewSearchItemIfNeeded(inputTextField.text)
-            }
 		}
+	}
+
+	let viewModel: SelectableSearchViewModelType
+	var themeConfiguration: ThemeConfiguration?
+
+	init(viewModel: SelectableSearchViewModelType, themeConfiguration: ThemeConfiguration? = nil) {
+		self.viewModel = viewModel
+		self.themeConfiguration = themeConfiguration
+		super.init(nibName: nil, bundle: nil)
+	}
+
+	required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+
+	override func loadView() {
+		view = selectableSearchView
 	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		inputTextField.placeholder = viewModel.placeholder
 		tableView.delegate = self
-		tableView.tableFooterView = UIView()
 		viewModel.configureWithTableView(tableView)
 		inputTextField
             .rx.text
@@ -53,8 +68,6 @@ final class SelectableSearchViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		view.configureWithTheme(themeConfiguration)
-		tableView.configureWithTheme(themeConfiguration)
-		inputTextField.configureWithTheme(themeConfiguration)
 	}
 }
 

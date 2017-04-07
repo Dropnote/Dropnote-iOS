@@ -35,12 +35,8 @@ final class NewBrewDataSource {
     }
 
     fileprivate func loadCoffeeSectionViewControllers(_ brewContext: StartBrewContext) -> [UIViewController] {
-        func instantiateViewController(
-                withIdentifier identifier: SelectableSearchIdentifier,
-                model: BrewModelControllerType
-            ) -> SelectableSearchViewController {
-            let viewController: SelectableSearchViewController = resolver.viewControllerForIdentifier("SelectableSearch")
-            viewController.viewModel = resolver.resolve(SelectableSearchViewModelType.self, arguments: identifier, model)
+        func instantiateViewController(withIdentifier identifier: SelectableSearchIdentifier, model: BrewModelControllerType) -> SelectableSearchViewController {
+            let viewController = resolver.resolve(SelectableSearchViewController.self, arguments: identifier, model)!
             viewController.title = identifier.description
             return viewController
         }

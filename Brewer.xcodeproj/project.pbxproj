@@ -42,6 +42,7 @@
 		810865FC575FC61E547823E9 /* NewBrew.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81086B31CDD2DB62007F91F5 /* NewBrew.storyboard */; };
 		8108666C66BD4B89AC62FAAD /* WeightUnitsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810862367196202226EC6AAF /* WeightUnitsDataSource.swift */; };
 		810866A2249AAAB40F84C6A4 /* UnitCategory+DefaultSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086B260C1BC52732D9D88D /* UnitCategory+DefaultSettings.swift */; };
+		810866B5C33616314046ECF2 /* SelectableSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086CA41C6F3B3CB7F57B32 /* SelectableSearchView.swift */; };
 		810866FBC9334439DDACF15E /* KeyValueStoreType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810866144D6AE66D3CD39FA3 /* KeyValueStoreType.swift */; };
 		8108671169061BC1304A2383 /* CoffeeMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086DAC60B71C1062E9A5AC /* CoffeeMachine.swift */; };
 		8108674FDFFD4796F774A38C /* NumericalInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086866B857679706668A9E /* NumericalInputViewController.swift */; };
@@ -267,6 +268,7 @@
 		81086C7DDAB97D107E0511FD /* UnitsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitsViewModel.swift; sourceTree = "<group>"; };
 		81086C7EC7A6F9DB23883D36 /* UnitsModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitsModelController.swift; sourceTree = "<group>"; };
 		81086C8899D08A68A22E1A9C /* NotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
+		81086CA41C6F3B3CB7F57B32 /* SelectableSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableSearchView.swift; sourceTree = "<group>"; };
 		81086CBB0A27B65DD1ED1091 /* TemperatureUnitsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureUnitsDataSource.swift; sourceTree = "<group>"; };
 		81086CFA45682C788A044E18 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.info; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		81086D1276A0E76239091BEA /* Coffee+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Coffee+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -844,6 +846,7 @@
 			children = (
 				8108652B71931910B7275F0E /* SelectableSearch.storyboard */,
 				81086B417F7735B9E48723C0 /* SelectableSearchViewController.swift */,
+				81086CA41C6F3B3CB7F57B32 /* SelectableSearchView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1819,6 +1822,7 @@
 				81086F28F28F7A81CBBBC782 /* SpotlightSearchService.swift in Sources */,
 				810867DD57EC08CE78F686E9 /* PreInfusionTimeInputViewModel.swift in Sources */,
 				81086357341471142A2A167F /* NewBrewView.swift in Sources */,
+				810866B5C33616314046ECF2 /* SelectableSearchView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

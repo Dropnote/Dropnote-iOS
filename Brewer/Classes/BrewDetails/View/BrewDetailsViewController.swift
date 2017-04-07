@@ -101,15 +101,6 @@ final class BrewDetailsViewController: UIViewController {
 			viewController.viewModel = resolver.resolve(NotesViewModelType.self,
 														argument: viewModel.brewModelController)!
 			break
-		case .SelectableSearch:
-			guard let box = sender as? Box<SelectableSearchIdentifier> else {
-				fatalError("Couldn't unbox necessary context.")
-			}
-			let viewController = segue.destination as! SelectableSearchViewController
-			viewController.viewModel = resolver.resolve(SelectableSearchViewModelType.self,
-														arguments: box.value, viewModel.brewModelController)!
-			viewController.title = box.value.description
-			break
 		default:
 			fatalError("Unknown segue performed.")
 		}
@@ -179,8 +170,11 @@ extension BrewDetailsViewController: UITableViewDelegate {
 			break
 		case .coffeeInfo:
 			guard viewModel.editable else { return }
-            let selectableSearchIdentifier = viewModel.coffeeAttribute(forIndexPath: indexPath)
-            performSegue(.SelectableSearch, sender: Box(selectableSearchIdentifier))
+            let identifier = viewModel.coffeeAttribute(forIndexPath: indexPath)
+			let selectableSearchViewController = resolver.resolve(SelectableSearchViewController.self,
+																  arguments: identifier, viewModel.brewModelController)!
+			selectableSearchViewController.title = identifier.description
+			navigationController?.pushViewController(selectableSearchViewController, animated: true)
 			break
 		case .attributes:
 			guard viewModel.editable else { return }
