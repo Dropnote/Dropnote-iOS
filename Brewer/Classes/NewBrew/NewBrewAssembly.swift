@@ -139,8 +139,10 @@ final class NewBrewAssembly: AssemblyType {
 
 		// MARK: Grind Size
 
-		container.registerForStoryboard(GrindSizeViewController.self) {
-			r, c in c.themeConfiguration = r.resolve(ThemeConfiguration.self)
+		container.register(GrindSizeViewController.self) {
+			(r, brewModelController: BrewModelControllerType) in
+			GrindSizeViewController(viewModel: r.resolve(GrindSizeViewModelType.self, argument: brewModelController)!,
+									themeConfiguration: r.resolve(ThemeConfiguration.self))
 		}
 
 		container.register(GrindSizeViewModelType.self) {

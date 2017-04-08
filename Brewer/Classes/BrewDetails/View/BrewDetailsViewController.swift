@@ -77,11 +77,6 @@ final class BrewDetailsViewController: UIViewController {
 			viewController.viewModel = resolver.resolve(BrewScoreDetailsViewModelType.self,
 														argument: viewModel.currentBrew())!
 			break
-		case .GrindSize:
-			let viewController = segue.destination as! GrindSizeViewController
-			viewController.viewModel = resolver.resolve(GrindSizeViewModelType.self,
-														argument: viewModel.brewModelController)!
-			break
 		default:
 			fatalError("Unknown segue performed.")
 		}
@@ -181,7 +176,8 @@ extension BrewDetailsViewController: UITableViewDelegate {
 														  argument: viewModel.brewModelController)!
 						break
 					case .GrindSize:
-						viewController = UIViewController()
+						viewController = resolver.resolve(GrindSizeViewController.self,
+														  argument: viewModel.brewModelController)!
 						break
 					default: fatalError()
 				}

@@ -11,17 +11,15 @@ import UIKit
 import SnapKit
 
 final class TampingView: UIView {
-    lazy var lightLabel = UILabel()
-    lazy var strongLabel = UILabel()
-    lazy var slider = UISlider()
+    lazy var sliderView: SliderView = SliderView()
     lazy var informativeLabel: InformativeLabel = InformativeLabel()
 
     init() {
         super.init(frame: .zero)
-        addSubview(lightLabel)
-        addSubview(strongLabel)
-        addSubview(slider)
+        addSubview(sliderView)
         addSubview(informativeLabel)
+        sliderView.leadingLabel.text = tr(.tampingStrengthLight)
+        sliderView.trailingLabel.text = tr(.tampingStrengthStrong)
         configureConstraints()
     }
     
@@ -30,26 +28,16 @@ final class TampingView: UIView {
     }
 
     private func configureConstraints() {
-        slider.snp.makeConstraints {
+        sliderView.snp.makeConstraints {
             make in
             make.leading.equalToSuperview().offset(15)
             make.trailing.equalToSuperview().offset(-15)
-            make.top.equalToSuperview().offset(60)
-        }
-        lightLabel.snp.makeConstraints {
-            make in
-            make.leading.equalTo(slider.snp.leading)
-            make.bottom.equalTo(slider.snp.top).offset(-10)
-        }
-        strongLabel.snp.makeConstraints {
-            make in
-            make.trailing.equalTo(slider.snp.trailing)
-            make.bottom.equalTo(slider.snp.top).offset(-10)
+            make.top.equalToSuperview().offset(45)
         }
         informativeLabel.snp.makeConstraints {
             make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(slider.snp.bottom).offset(60)
+            make.top.equalTo(sliderView.snp.bottom).offset(60)
         }
     }
 }
@@ -57,10 +45,7 @@ final class TampingView: UIView {
 extension TampingView {
     func configureWithTheme(_ theme: ThemeConfiguration?) {
         super.configureWithTheme(theme)
-        slider.configureWithTheme(theme)
-        [lightLabel, strongLabel].forEach {
-            $0.configureWithTheme(theme)
-        }
+        sliderView.configureWithTheme(theme)
         informativeLabel.configureWithTheme(theme)
     }
 }

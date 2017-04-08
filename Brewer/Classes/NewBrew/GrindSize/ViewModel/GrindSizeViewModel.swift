@@ -39,7 +39,7 @@ protocol GrindSizeViewModelType {
 	var sliderValue: Variable<Float> { get }
 	var numericValue: Variable<String> { get }
     var inputTransformer: NumericalInputTransformerType { get }
-    var isSliderVisible: Bool { get set }
+    var isSliderVisible: Variable<Bool> { get }
     var informativeText: String { get }
 }
 
@@ -56,21 +56,10 @@ final class GrindSizeViewModel: GrindSizeViewModelType {
 
 	fileprivate(set) var sliderValue = Variable<Float>(0.0)
 	fileprivate(set) var numericValue = Variable<String>("")
-    
+	let isSliderVisible = Variable(true)
+
     var informativeText: String {
         return tr(.grindSizeInformativeText)
-    }
-    
-    var isSliderVisible: Bool {
-        set {
-            keyValueStore.set(NSNumber(value: newValue as Bool), forKey: Keys.grindSizeSliderVisibility.rawValue)
-        }
-        get {
-            if let visibilitySetting = keyValueStore.object(forKey: Keys.grindSizeSliderVisibility.rawValue) as? NSNumber {
-                return visibilitySetting.boolValue
-            }
-            return true
-        }
     }
 
 	var sliderMinimumValue: Float { return Float(GrindSizeSliderValue.extraFine.rawValue) }
@@ -79,6 +68,13 @@ final class GrindSizeViewModel: GrindSizeViewModelType {
 	init(brewModelController: BrewModelControllerType, keyValueStore: KeyValueStoreType) {
 		self.brewModelController = brewModelController
         self.keyValueStore = keyValueStore
+
+		if let visibilitySetting = keyValueStore.object(forKey: Keys.grindSizeSliderVisibility.rawValue) as? NSNumber {
+			isSliderVisible.value = visibilitySetting.boolValue
+		}
+		isSliderVisible.asDriver().drive(onNext: {
+			self.keyValueStore.set(NSNumber(value: $0 as Bool), forKey: Keys.grindSizeSliderVisibility.rawValue)
+		}).addDisposableTo(disposeBag)
 
 		configureAttributeUpdates()
 	}

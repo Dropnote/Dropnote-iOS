@@ -76,16 +76,13 @@ final class NewBrewDataSource {
                 tampingViewController.title = $0.description
                 return tampingViewController
             }
-
-            let viewController = resolver.viewControllerForIdentifier($0.storyboardIdentifier())
-            viewController.title = $0.description
-
-            if viewController is GrindSizeViewController {
-                let grindSizeViewModel = resolver.resolve(GrindSizeViewModelType.self, argument: brewModelController)!
-                (viewController as! GrindSizeViewController).viewModel = grindSizeViewModel
+            if $0.storyboardIdentifier() == "GrindSize" {
+                let grindSizeViewController = resolver.resolve(GrindSizeViewController.self, argument: brewModelController)!
+                grindSizeViewController.title = $0.description
+                return grindSizeViewController
             }
 
-            return viewController
+            return UIViewController()
         }
     }
 
