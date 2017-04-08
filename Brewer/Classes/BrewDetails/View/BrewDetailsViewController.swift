@@ -120,83 +120,21 @@ extension BrewDetailsViewController: UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let factory = BrewDetailsViewControllersFactory(resolver: resolver, viewModel: viewModel)
+		let sectionType = viewModel.sectionType(forIndexPath: indexPath)
 
-		// TODO refactor when all controllers are changed
-        switch viewModel.sectionType(forIndexPath: indexPath) {
-			case .score:
-				let brewScoreDetailsViewController = resolver.resolve(BrewScoreDetailsViewController.self,
-																	  argument: viewModel.currentBrew())!
-				brewScoreDetailsViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(
-						image: UIImage(asset: .Ic_back),
-						style: .plain,
-						target: self,
-						action: #selector(pop)
-				)
-				pushedViewController = brewScoreDetailsViewController
-				brewScoreDetailsViewController.enableSwipeToBack()
-				navigationController?.pushViewController(brewScoreDetailsViewController, animated: true)
-				break
-			case .coffeeInfo:
-				guard viewModel.editable else { return }
-				let identifier = viewModel.coffeeAttribute(forIndexPath: indexPath)
-				let selectableSearchViewController = resolver.resolve(SelectableSearchViewController.self,
-																	  arguments: identifier, viewModel.brewModelController)!
-				selectableSearchViewController.title = identifier.description
-				selectableSearchViewController.enableSwipeToBack()
-				selectableSearchViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(
-						image: UIImage(asset: .Ic_back),
-						style: .plain,
-						target: self,
-						action: #selector(pop)
-				)
-				pushedViewController = selectableSearchViewController
-				navigationController?.pushViewController(selectableSearchViewController, animated: true)
-				break
-			case .attributes:
-				guard viewModel.editable else { return }
-				let brewAttributeType = viewModel.brewAttributeType(forIndexPath: indexPath)
-				let viewController: UIViewController
-				switch brewAttributeType.segueIdentifier {
-					case .NumericalInput:
-						viewController = resolver.resolve(NumericalInputViewController.self,
-														  arguments: brewAttributeType, viewModel.brewModelController)!
-						break
-					case .Tamping:
-						viewController = resolver.resolve(TampingViewController.self,
-														  argument: viewModel.brewModelController)!
-						break
-					case .GrindSize:
-						viewController = resolver.resolve(GrindSizeViewController.self,
-														  argument: viewModel.brewModelController)!
-						break
-					default: fatalError()
-				}
-				viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(
-						image: UIImage(asset: .Ic_back),
-						style: .plain,
-						target: self,
-						action: #selector(pop)
-				)
-				pushedViewController = viewController
-				viewController.enableSwipeToBack()
-				navigationController?.pushViewController(viewController, animated: true)
-				break
-			case .notes:
-				let notesViewController = resolver.resolve(NotesViewController.self, argument: viewModel.brewModelController)!
-				notesViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(
-						image: UIImage(asset: .Ic_back),
-						style: .plain,
-						target: self,
-						action: #selector(pop)
-				)
-				pushedViewController = notesViewController
-				notesViewController.enableSwipeToBack()
-				navigationController?.pushViewController(notesViewController, animated: true)
-				break
-			case .remove:
-				removeCurrentBrewIfNeeded()
-				break
+		if case .remove = sectionType {
+			removeCurrentBrewIfNeeded()
+			return
 		}
+
+        guard let viewController = factory.createViewController(for: sectionType, at: indexPath) else { return }
+		viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(
+				image: UIImage(asset: .Ic_back), style: .plain, target: self, action: #selector(pop)
+		)
+		viewController.enableSwipeToBack()
+        pushedViewController = viewController
+		navigationController?.pushViewController(viewController, animated: true)
 	}
 }
 
