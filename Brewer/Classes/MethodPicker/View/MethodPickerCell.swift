@@ -54,7 +54,7 @@ final class MethodPickerCell: UITableViewCell, Highlightable {
 
 extension MethodPickerCell: PresentableConfigurable {
     
-    func configureWithPresentable(_ presentable: TitleImagePresentable) {
+    func configure(with presentable: TitleImagePresentable) {
         accessibilityHint = "Selects \(presentable.title) method"
         titleLabel.text = presentable.title
         iconImageView.image = presentable.image

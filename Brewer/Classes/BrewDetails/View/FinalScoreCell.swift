@@ -25,7 +25,7 @@ final class FinalScoreCell: UITableViewCell, Highlightable {
 
 extension FinalScoreCell: PresentableConfigurable {
     
-    func configureWithPresentable(_ presentable: TitleValuePresentable) {
+    func configure(with presentable: TitleValuePresentable) {
         accessibilityHint = "Represents brew score that equals \(presentable.value)"
         titleLabel.text = presentable.title
         valueLabel.text = presentable.value

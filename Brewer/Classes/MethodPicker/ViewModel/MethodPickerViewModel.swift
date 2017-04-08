@@ -39,6 +39,6 @@ extension MethodPickerViewModel: TableListDataSource {
     }
     
     func listView(_ listView: UITableView, configureCell cell: MethodPickerCell, withObject object: TitleImagePresentable, atIndexPath indexPath: IndexPath) {
-        cell.configureWithPresentable(object)
+        cell.configure(with: object)
     }
 }

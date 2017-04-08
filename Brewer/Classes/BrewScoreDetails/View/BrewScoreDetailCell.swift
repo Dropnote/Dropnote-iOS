@@ -20,7 +20,7 @@ final class BrewScoreDetailCell: UITableViewCell {
 
 extension BrewScoreDetailCell: PresentableConfigurable {
     
-    func configureWithPresentable(_ presentable: ScoreCellPresentable) {
+    func configure(with presentable: ScoreCellPresentable) {
         accessibilityHint = "Slider for \(presentable.title) value, current is \(presentable.value)"
         titleLabel.text = presentable.title
         valueLabel.text = presentable.value

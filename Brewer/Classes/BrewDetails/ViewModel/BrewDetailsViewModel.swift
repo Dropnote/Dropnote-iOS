@@ -201,9 +201,9 @@ extension BrewDetailsViewModel: TableListDataSource {
             cell.accessoryType = editable ? .disclosureIndicator : .none
         }
         let presentable = listItems[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
-        (cell as? FinalScoreCell)?.configureWithPresentable(presentable)
-        (cell as? BrewAttributeCell)?.configureWithPresentable(presentable)
-        (cell as? BrewNotesCell)?.configureWithPresentable(presentable)
-        (cell as? BrewDetailsRemoveCell)?.configureWithPresentable(presentable)
+        (cell as? FinalScoreCell)?.configure(with: presentable)
+        (cell as? BrewAttributeCell)?.configure(with: presentable)
+        (cell as? BrewNotesCell)?.configure(with: presentable)
+        (cell as? BrewDetailsRemoveCell)?.configure(with: presentable)
     }
 }

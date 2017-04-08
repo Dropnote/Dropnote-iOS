@@ -22,7 +22,7 @@ final class SettingsCell: UITableViewCell, Highlightable {
 
 extension SettingsCell: PresentableConfigurable {
     
-    func configureWithPresentable(_ presentable: TitlePresentable) {
+    func configure(with presentable: TitlePresentable) {
         accessibilityHint = "Opens \(presentable.title)"
         textLabel?.text = presentable.title
     }

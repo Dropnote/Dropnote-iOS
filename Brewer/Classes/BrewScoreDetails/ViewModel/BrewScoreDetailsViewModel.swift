@@ -102,6 +102,6 @@ extension BrewScoreDetailsViewModel: TableListDataSource {
     
     func listView(_ listView: UITableView, configureCell cell: BrewScoreDetailCell,
                   withObject object: BrewScoreDetailViewModel, atIndexPath indexPath: IndexPath) {
-        cell.configureWithPresentable(listItems[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row])
+        cell.configure(with: listItems[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row])
     }
 }

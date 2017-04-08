@@ -27,7 +27,7 @@ final class BrewingsSortingOptionCell: UITableViewCell {
 
 extension BrewingsSortingOptionCell: PresentableConfigurable {
 
-    func configureWithPresentable(_ presentable: TitleImagePresentable) {
+    func configure(with presentable: TitleImagePresentable) {
         accessibilityHint = "Represents sorting \(presentable.title)"
         textLabel?.text = presentable.title
         imageView?.image = presentable.image.withRenderingMode(.alwaysTemplate)

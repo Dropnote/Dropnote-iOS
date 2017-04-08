@@ -55,7 +55,7 @@ final class BrewNotesCell: UITableViewCell, Highlightable {
 
 extension BrewNotesCell: PresentableConfigurable {
     
-    func configureWithPresentable(_ presentable: TitleValuePresentable) {
+    func configure(with presentable: TitleValuePresentable) {
         accessibilityHint = "Represents notes taken during brew session"
         titleLabel.text = presentable.title
         valueLabel.text = presentable.value

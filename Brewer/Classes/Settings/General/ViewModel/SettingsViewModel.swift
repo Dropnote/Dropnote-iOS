@@ -37,6 +37,6 @@ extension SettingsViewModel: TableListDataSource {
     }
     
     func listView(_ listView: UITableView, configureCell cell: SettingsCell, withObject object: SettingsItem, atIndexPath indexPath: IndexPath) {
-        cell.configureWithPresentable(object)
+        cell.configure(with: object)
     }
 }

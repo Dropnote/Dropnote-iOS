@@ -20,9 +20,9 @@ final class BrewDetailsRemoveCell: UITableViewCell, Highlightable {
     }
 }
 
-extension BrewDetailsRemoveCell {
+extension BrewDetailsRemoveCell: PresentableConfigurable {
     
-    func configureWithPresentable(_ presentable: TitleValuePresentable) {
+    func configure(with presentable: TitleValuePresentable) {
         accessibilityHint = "Removes current brew from history"
         textLabel?.text = presentable.title
     }

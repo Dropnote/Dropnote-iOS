@@ -55,7 +55,7 @@ final class BrewAttributeCell: UITableViewCell, Highlightable {
 
 extension BrewAttributeCell: PresentableConfigurable {
     
-    func configureWithPresentable(_ presentable: TitleValuePresentable) {
+    func configure(with presentable: TitleValuePresentable) {
         accessibilityHint = "Represents \(presentable.title) attribute with value \(presentable.value)"
         titleLabel.text = presentable.title
         valueLabel.text = presentable.value

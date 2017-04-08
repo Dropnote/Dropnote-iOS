@@ -61,7 +61,7 @@ extension BrewingsSortingViewModel: TableListDataSource {
     
     func listView(_ listView: UITableView, configureCell cell: BrewingsSortingOptionCell,
                   withObject object: BrewingSortingOption, atIndexPath indexPath: IndexPath) {
-        cell.configureWithPresentable(object)
+        cell.configure(with: object)
         if object == sortingOption {
             cell.accessoryType = .checkmark
         }

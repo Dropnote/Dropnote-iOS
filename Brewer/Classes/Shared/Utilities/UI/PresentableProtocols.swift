@@ -28,7 +28,7 @@ protocol ImagePresentable {
 
 protocol PresentableConfigurable {
     associatedtype Presentable
-    func configureWithPresentable(_ presentable: Presentable)
+    func configure(with presentable: Presentable)
 }
 
 // MARK: Title Value
