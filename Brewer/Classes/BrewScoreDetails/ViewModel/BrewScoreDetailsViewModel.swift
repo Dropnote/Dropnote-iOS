@@ -21,10 +21,10 @@ final class BrewScoreDetailViewModel: ScoreCellPresentable {
 	var value: String
 	var sliderValue: Variable<Float>
 
-	init(brew: Brew, cuppingAttriubute: CuppingAttribute) {
-		title = cuppingAttriubute.description
+	init(brew: Brew, cuppingAttribute: CuppingAttribute) {
+		title = cuppingAttribute.description
         
-		let cuppingValue = brew.cuppingAttributeForType(cuppingAttriubute)?.value ?? 0
+		let cuppingValue = brew.cuppingAttributeForType(cuppingAttribute)?.value ?? 0
 		value = String(cuppingValue)
 		sliderValue = Variable(Float(cuppingValue))
         
@@ -32,9 +32,9 @@ final class BrewScoreDetailViewModel: ScoreCellPresentable {
             .asDriver()
             .drive(onNext: {
                 value in
-                if let cupping = brew.cuppingAttributeForType(cuppingAttriubute) {
+                if let cupping = brew.cuppingAttributeForType(cuppingAttribute) {
                     cupping.brew = brew
-                    cupping.type = cuppingAttriubute.rawValue
+                    cupping.type = cuppingAttribute.rawValue
                     cupping.value = Double(value)
                 }
             })
@@ -47,7 +47,7 @@ final class BrewScoreDetailsViewModel: BrewScoreDetailsViewModelType {
     
     lazy var dataSource: TableViewSourceWrapper<BrewScoreDetailsViewModel> = TableViewSourceWrapper(tableDataSource: self)
     lazy var listItems: [[BrewScoreDetailViewModel]] = [
-        CuppingAttribute.allValues.map { BrewScoreDetailViewModel(brew: self.brew, cuppingAttriubute: $0) }
+        CuppingAttribute.allValues.map { BrewScoreDetailViewModel(brew: self.brew, cuppingAttribute: $0) }
     ]
     
 	let scoreValue = Variable<String>("0")
@@ -70,6 +70,7 @@ final class BrewScoreDetailsViewModel: BrewScoreDetailsViewModelType {
     }
 
 	func configureWithTableView(_ tableView: UITableView) {
+		tableView.register(BrewScoreDetailCell.self, forCellReuseIdentifier: String(describing: BrewScoreDetailCell.self))
 		tableView.dataSource = dataSource
 	}
 
@@ -87,9 +88,7 @@ final class BrewScoreDetailsViewModel: BrewScoreDetailsViewModelType {
 	}
 
 	fileprivate func totalScore(_ values: [Float]) -> Float {
-        guard !values.isEmpty else {
-            return 0
-        }
+        guard !values.isEmpty else { return 0 }
 		return values.reduce(0) { $0 + $1 / Float(values.count) }
 	}
 }
@@ -97,11 +96,11 @@ final class BrewScoreDetailsViewModel: BrewScoreDetailsViewModelType {
 extension BrewScoreDetailsViewModel: TableListDataSource {
     
     func cellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
-        return "BrewScoreDetailCell"
+        return String(describing: BrewScoreDetailCell.self)
     }
     
     func listView(_ listView: UITableView, configureCell cell: BrewScoreDetailCell,
                   withObject object: BrewScoreDetailViewModel, atIndexPath indexPath: IndexPath) {
-        cell.configure(with: listItems[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row])
+        cell.configure(with: listItems[indexPath.section][indexPath.row])
     }
 }

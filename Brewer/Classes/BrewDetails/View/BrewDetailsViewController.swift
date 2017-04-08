@@ -67,30 +67,8 @@ final class BrewDetailsViewController: UIViewController {
 	}
     
 	override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewModel.saveBrewIfNeeded()
-    }
-
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-		switch segueIdentifierForSegue(segue) {
-		case .BrewScoreDetails:
-			let viewController = segue.destination as! BrewScoreDetailsViewController
-			viewController.viewModel = resolver.resolve(BrewScoreDetailsViewModelType.self,
-														argument: viewModel.currentBrew())!
-			break
-		default:
-			fatalError("Unknown segue performed.")
-		}
-
-        segue.destination.navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(asset: .Ic_back),
-            style: .plain,
-            target: self,
-            action: #selector(pop)
-        )
-        segue.destination.enableSwipeToBack()
-        pushedViewController = segue.destination
+		super.viewWillDisappear(animated)
+		viewModel.saveBrewIfNeeded()
 	}
 
     fileprivate func deactivatePushedViewController() {
@@ -146,7 +124,17 @@ extension BrewDetailsViewController: UITableViewDelegate {
 		// TODO refactor when all controllers are changed
         switch viewModel.sectionType(forIndexPath: indexPath) {
 			case .score:
-				performSegue(.BrewScoreDetails)
+				let brewScoreDetailsViewController = resolver.resolve(BrewScoreDetailsViewController.self,
+																	  argument: viewModel.currentBrew())!
+				brewScoreDetailsViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(
+						image: UIImage(asset: .Ic_back),
+						style: .plain,
+						target: self,
+						action: #selector(pop)
+				)
+				pushedViewController = brewScoreDetailsViewController
+				brewScoreDetailsViewController.enableSwipeToBack()
+				navigationController?.pushViewController(brewScoreDetailsViewController, animated: true)
 				break
 			case .coffeeInfo:
 				guard viewModel.editable else { return }

@@ -12,7 +12,12 @@ final class SliderView: UIView {
 	lazy var trailingLabel = UILabel()
 	lazy var slider = UISlider()
 
-	init() {
+	let margin: CGFloat
+	let spacing: CGFloat
+
+	init(margin: CGFloat = 15, spacing: CGFloat = 10) {
+		self.margin = margin
+		self.spacing = spacing
 		super.init(frame: .zero)
 		addSubview(leadingLabel)
 		addSubview(trailingLabel)
@@ -27,21 +32,21 @@ final class SliderView: UIView {
 	private func configureConstraint() {
 		slider.snp.makeConstraints {
 			make in
-			make.leading.equalToSuperview().offset(15)
-			make.trailing.equalToSuperview().offset(-15)
-			make.top.equalTo(leadingLabel.snp.bottom).offset(-10)
+			make.leading.equalToSuperview().offset(margin)
+			make.trailing.equalToSuperview().offset(-margin)
+			make.top.equalTo(leadingLabel.snp.bottom).offset(-spacing)
 			make.bottom.equalToSuperview()
 		}
 		leadingLabel.snp.makeConstraints {
 			make in
 			make.leading.equalTo(slider.snp.leading)
-			make.bottom.equalTo(slider.snp.top).offset(10)
+			make.bottom.equalTo(slider.snp.top).offset(spacing)
 			make.top.equalToSuperview()
 		}
 		trailingLabel.snp.makeConstraints {
 			make in
 			make.trailing.equalTo(slider.snp.trailing)
-			make.bottom.equalTo(slider.snp.top).offset(10)
+			make.bottom.equalTo(slider.snp.top).offset(spacing)
 			make.top.equalToSuperview()
 		}
 	}

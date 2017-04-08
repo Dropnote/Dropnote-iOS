@@ -12,8 +12,15 @@ extension BrewScoreDetailsViewController: ThemeConfigurationContainer { }
 
 final class BrewScoreDetailsViewController: UIViewController {
 	fileprivate let disposeBag = DisposeBag()
-	@IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var headerView: BrewScoreDetailsHeaderView!
+	
+	lazy var brewScoreDetailsView = BrewScoreDetailsView()
+
+	fileprivate var tableView: UITableView {
+		return brewScoreDetailsView.tableView
+	}
+	fileprivate var headerView: BrewScoreDetailsHeaderView {
+		return brewScoreDetailsView.headerView
+	}
     
     fileprivate lazy var doneBarButtonItem: UIBarButtonItem = UIBarButtonItem(
         image: UIImage(named: "ic_done")!,
@@ -23,8 +30,18 @@ final class BrewScoreDetailsViewController: UIViewController {
     )
 	
     var themeConfiguration: ThemeConfiguration?
-    var viewModel: BrewScoreDetailsViewModelType!
+    let viewModel: BrewScoreDetailsViewModelType
     fileprivate var shouldSaveScore = false
+
+	init(viewModel: BrewScoreDetailsViewModelType, themeConfiguration: ThemeConfiguration? = nil) {
+		self.viewModel = viewModel
+		self.themeConfiguration = themeConfiguration
+		super.init(nibName: nil, bundle: nil)
+	}
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -38,9 +55,6 @@ final class BrewScoreDetailsViewController: UIViewController {
 			.addDisposableTo(disposeBag)
         
         tableView.delegate = self
-		tableView.tableFooterView = UIView()
-		tableView.estimatedRowHeight = 80
-		tableView.rowHeight = UITableViewAutomaticDimension
 		viewModel.configureWithTableView(tableView)
         
         enableSwipeToBack()
@@ -48,9 +62,8 @@ final class BrewScoreDetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        headerView.configure(with: themeConfiguration)
-        tableView.configure(with: themeConfiguration)
-        
+        brewScoreDetailsView.configure(with: themeConfiguration)
+
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.scoreDetails)
     }
     
@@ -72,7 +85,7 @@ final class BrewScoreDetailsViewController: UIViewController {
 extension BrewScoreDetailsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
-        (cell as? BrewScoreDetailCell)?.configureWithTheme(themeConfiguration)
+        cell.accessibilityLabel = "Select \(indexPath.row + 1)"
+        (cell as? BrewScoreDetailCell)?.configure(with: themeConfiguration)
     }
 }

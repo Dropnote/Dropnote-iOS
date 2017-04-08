@@ -29,6 +29,10 @@ final class FinalScoreCell: UITableViewCell, Highlightable {
         contentView.addSubview(valueLabel)
         configureConstraints()
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     private func configureConstraints() {
         titleLabel.snp.makeConstraints {
@@ -60,7 +64,7 @@ extension FinalScoreCell {
     func configure(with theme: ThemeConfiguration?) {
         super.configure(with: theme)
         [titleLabel, valueLabel].forEach {
-            $0!.configure(with: theme)
+            $0.configure(with: theme)
         }
         normalColor = theme?.lightColor
         highlightColor = highlightColor(for: theme)

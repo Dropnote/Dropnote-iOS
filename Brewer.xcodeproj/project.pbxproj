@@ -20,6 +20,7 @@
 		810861991090A48D1A4024E7 /* MethodPicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81086B4D3D6FBBAEDCDBD9B1 /* MethodPicker.storyboard */; };
 		810861E48DB02480A5E91764 /* NumericalInputTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8108684D698CC106CCD860DF /* NumericalInputTransformer.swift */; };
 		810861FAA7BC2CD84BA8E3E8 /* UnitsDataSourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810860A62D3493E6580DBA14 /* UnitsDataSourceType.swift */; };
+		81086210F1BF44EE46A05D1D /* BrewScoreDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810861BDB0EEC9CF1044A326 /* BrewScoreDetailsView.swift */; };
 		81086211AC52354AC6351F81 /* MethodPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810861BB6CBE3A3525FFB51D /* MethodPickerViewModel.swift */; };
 		81086287CF034E31385D7E59 /* NumericalInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086A6F6D12A7FA25FD993B /* NumericalInputView.swift */; };
 		8108629AEBD7D8F4F2739321 /* NumericalInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810869A45D6881D581F93E67 /* NumericalInputViewModel.swift */; };
@@ -221,6 +222,7 @@
 		810861B5C45A176F0E7A29FD /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		810861BB6CBE3A3525FFB51D /* MethodPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MethodPickerViewModel.swift; sourceTree = "<group>"; };
 		810861BD4A0F93C0B82CB8CD /* Cupping+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Cupping+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		810861BDB0EEC9CF1044A326 /* BrewScoreDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewScoreDetailsView.swift; sourceTree = "<group>"; };
 		810861FE62404C31FFF0B6F8 /* UnitsDataSourcesFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitsDataSourcesFactory.swift; sourceTree = "<group>"; };
 		81086218D5387AB0874FFFB0 /* CoffeeMachine+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoffeeMachine+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8108621E05AAF5317C8928DF /* ScrollViewPageMetrics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewPageMetrics.swift; sourceTree = "<group>"; };
@@ -1133,6 +1135,7 @@
 				A1FF0BCE1CD930DA009F3494 /* BrewScoreDetailsHeaderView.swift */,
 				A1FF0BB11CD5E75C009F3494 /* BrewScoreDetailCell.swift */,
 				A1FF0BAF1CD5E553009F3494 /* BrewScoreDetails.storyboard */,
+				810861BDB0EEC9CF1044A326 /* BrewScoreDetailsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1835,6 +1838,7 @@
 				810861370B0C9E1782C14B57 /* NotesView.swift in Sources */,
 				81086D1D6596E8CF670E7D33 /* GrindSizeView.swift in Sources */,
 				8108602FADBDD7434C492A97 /* SliderView.swift in Sources */,
+				81086210F1BF44EE46A05D1D /* BrewScoreDetailsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

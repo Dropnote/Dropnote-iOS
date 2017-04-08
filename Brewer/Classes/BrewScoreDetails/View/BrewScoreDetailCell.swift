@@ -8,35 +8,52 @@
 
 import Foundation
 import UIKit
+import SnapKit
 import RxSwift
 import RxCocoa
 
 final class BrewScoreDetailCell: UITableViewCell {
     fileprivate let disposeBag = DisposeBag()
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var valueLabel: UILabel!
-    @IBOutlet weak var slider: UISlider!
+    lazy var sliderView = SliderView(margin: 30, spacing: 20)
+
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(sliderView)
+        configureConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func configureConstraints() {
+        sliderView.snp.makeConstraints {
+            make in
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+    }
 }
 
 extension BrewScoreDetailCell: PresentableConfigurable {
+    typealias Presentable = ScoreCellPresentable
     
     func configure(with presentable: ScoreCellPresentable) {
         accessibilityHint = "Slider for \(presentable.title) value, current is \(presentable.value)"
-        titleLabel.text = presentable.title
-        valueLabel.text = presentable.value
-        slider.value = presentable.sliderValue.value
-        slider.rx.value.bindTo(presentable.sliderValue).addDisposableTo(disposeBag)
-        slider.rx.value.map { $0.format(".1") }.bindTo(valueLabel.rx.text).addDisposableTo(disposeBag)
+        sliderView.leadingLabel.text = presentable.title
+        sliderView.trailingLabel.text = presentable.value
+        sliderView.slider.value = presentable.sliderValue.value
+        sliderView.slider.rx.value.bindTo(presentable.sliderValue).addDisposableTo(disposeBag)
+        sliderView.slider.rx.value.map { $0.format(".1") }.bindTo(sliderView.trailingLabel.rx.text).addDisposableTo(disposeBag)
     }
 }
 
 extension BrewScoreDetailCell {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
+    func configure(with theme: ThemeConfiguration?) {
         backgroundColor = theme?.lightColor
-        slider.configure(with: theme)
-        [titleLabel, valueLabel].forEach {
-            $0!.configure(with: theme)
-        }
+        sliderView.configure(with: theme)
     }
 }
