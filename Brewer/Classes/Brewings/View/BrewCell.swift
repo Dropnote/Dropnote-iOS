@@ -56,7 +56,7 @@ final class BrewCell: UITableViewCell, Highlightable {
     
     override var isHighlighted: Bool {
         didSet {
-            highlightViews([self, self.createdAtLabel, self.coffeeLabel], highlighted: isHighlighted)            
+            highlight(views: [self, self.createdAtLabel, self.coffeeLabel], highlighted: isHighlighted)
         }
     }
 
@@ -92,6 +92,6 @@ extension BrewCell {
         }
         coffeeLabel.font = theme?.mediumFontWithSize(coffeeLabel.font.pointSize)
         normalColor = theme?.lightColor
-        highlightColor = highlightColorForTheme(theme)
+        highlightColor = highlightColor(for: theme)
     }
 }

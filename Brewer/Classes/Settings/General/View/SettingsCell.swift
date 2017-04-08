@@ -15,7 +15,7 @@ final class SettingsCell: UITableViewCell, Highlightable {
     
     override var isHighlighted: Bool {
         didSet {
-            highlightViews([self, textLabel!], highlighted: isHighlighted)
+            highlight(views: [self, textLabel!], highlighted: isHighlighted)
         }
     }
 }
@@ -36,6 +36,6 @@ extension SettingsCell {
             $0.configureWithTheme(theme)
         }
         normalColor = theme?.lightColor
-        highlightColor = highlightColorForTheme(theme)
+        highlightColor = highlightColor(for: theme)
     }
 }

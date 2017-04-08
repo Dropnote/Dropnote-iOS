@@ -15,7 +15,7 @@ final class BrewDetailsRemoveCell: UITableViewCell, Highlightable {
     
     override var isHighlighted: Bool {
         didSet {
-            highlightViews([self], highlighted: isHighlighted)
+            highlight(views: [self], highlighted: isHighlighted)
         }
     }
 }
@@ -35,6 +35,6 @@ extension BrewDetailsRemoveCell {
         textLabel?.font = theme?.defaultFontWithSize(17)
         textLabel?.textColor = UIColor.deepBlush()
         normalColor = theme?.lightColor
-        highlightColor = highlightColorForTheme(theme)
+        highlightColor = highlightColor(for: theme)
     }
 }

@@ -19,7 +19,7 @@ final class BrewAttributeCell: UITableViewCell, Highlightable {
     
     override var isHighlighted: Bool {
         didSet {
-            highlightViews([self, titleLabel, valueLabel], highlighted: isHighlighted)
+            highlight(views: [self, titleLabel, valueLabel], highlighted: isHighlighted)
         }
     }
 
@@ -70,6 +70,6 @@ extension BrewAttributeCell {
             $0.configureWithTheme(theme)
         }
         normalColor = theme?.lightColor
-        highlightColor = highlightColorForTheme(theme)
+        highlightColor = highlightColor(for: theme)
     }
 }

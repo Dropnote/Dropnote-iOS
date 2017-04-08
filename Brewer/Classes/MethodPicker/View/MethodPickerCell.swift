@@ -32,7 +32,7 @@ final class MethodPickerCell: UITableViewCell, Highlightable {
 
     override var isHighlighted: Bool {
         didSet {
-            highlightViews([self], highlighted: isHighlighted)
+            highlight(views: [self], highlighted: isHighlighted)
         }
     }
 
@@ -68,6 +68,6 @@ extension MethodPickerCell {
         titleLabel.configureWithTheme(theme)
         titleLabel.backgroundColor = UIColor.clear
         normalColor = theme?.lightColor
-        highlightColor = highlightColorForTheme(theme)
+        highlightColor = highlightColor(for: theme)
     }
 }
