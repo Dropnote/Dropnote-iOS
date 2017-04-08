@@ -129,9 +129,7 @@ extension BrewDetailsViewController: UITableViewDelegate {
 		}
 
         guard let viewController = factory.createViewController(for: sectionType, at: indexPath) else { return }
-		viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(
-				image: UIImage(asset: .Ic_back), style: .plain, target: self, action: #selector(pop)
-		)
+		viewController.navigationItem.leftBarButtonItem = createDefaultBackBarButtonItem()
 		viewController.enableSwipeToBack()
         pushedViewController = viewController
 		navigationController?.pushViewController(viewController, animated: true)

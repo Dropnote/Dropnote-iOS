@@ -9,7 +9,11 @@
 import Foundation
 import UIKit
 
-extension UIViewController {    
+extension UIViewController {
+    func createDefaultBackBarButtonItem() -> UIBarButtonItem {
+        return UIBarButtonItem(image: UIImage(asset: .Ic_back), style: .plain, target: self, action: #selector(pop))
+    }
+
     func pop() {
         _ = navigationController?.popViewController(animated: true)
     }
