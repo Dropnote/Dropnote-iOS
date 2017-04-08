@@ -34,7 +34,7 @@ final class NewBrewDataSource {
         stepViewControllers.append(loadSummaryViewControllers())
     }
 
-    fileprivate func loadCoffeeSectionViewControllers(_ brewContext: StartBrewContext) -> [UIViewController] {
+    private func loadCoffeeSectionViewControllers(_ brewContext: StartBrewContext) -> [UIViewController] {
         func instantiateViewController(withIdentifier identifier: SelectableSearchIdentifier, model: BrewModelControllerType) -> SelectableSearchViewController {
             let viewController = resolver.resolve(SelectableSearchViewController.self, arguments: identifier, model)!
             viewController.title = identifier.description
@@ -51,42 +51,17 @@ final class NewBrewDataSource {
         return viewControllers
     }
 
-    fileprivate func loadAttributesViewControllers(_ brewContext: StartBrewContext) -> [UIViewController] {
+    private func loadAttributesViewControllers(_ brewContext: StartBrewContext) -> [UIViewController] {
+        let factory = NewBrewViewControllersFactory(resolver: resolver, brewModelController: brewModelController)
         let sequence = settingsModelController
             .sequenceSteps(for: brewContext.method, filter: .active)
             .map { $0.type! }
         print(sequence)
-        return sequence.map {
-            progressIcons.append($0.imageName)
-
-            // TODO refactor when all types are changed
-            if $0.storyboardIdentifier() == "NumericalInput" {
-                let numericalInputViewController = resolver.resolve(NumericalInputViewController.self,
-                                                                    arguments: $0, brewModelController)!
-                numericalInputViewController.title = $0.description
-                return numericalInputViewController
-            }
-            if $0.storyboardIdentifier() == "Notes" {
-                let notesViewController = resolver.resolve(NotesViewController.self, argument: brewModelController)!
-                notesViewController.title = $0.description
-                return notesViewController
-            }
-            if $0.storyboardIdentifier() == "Tamping" {
-                let tampingViewController = resolver.resolve(TampingViewController.self, argument: brewModelController)!
-                tampingViewController.title = $0.description
-                return tampingViewController
-            }
-            if $0.storyboardIdentifier() == "GrindSize" {
-                let grindSizeViewController = resolver.resolve(GrindSizeViewController.self, argument: brewModelController)!
-                grindSizeViewController.title = $0.description
-                return grindSizeViewController
-            }
-
-            return UIViewController()
-        }
+        sequence.forEach { progressIcons.append($0.imageName) }
+        return sequence.map(factory.createViewController(for:))
     }
 
-    fileprivate func loadSummaryViewControllers() -> [UIViewController] {
+    private func loadSummaryViewControllers() -> [UIViewController] {
         guard let brew = brewModelController.currentBrew() else { fatalError("No current brew available") }
         let editable = false
         let brewDetailsViewController = resolver.resolve(BrewDetailsViewController.self, arguments: brew, editable)!

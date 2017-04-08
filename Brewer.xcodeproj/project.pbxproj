@@ -49,6 +49,7 @@
 		810866B5C33616314046ECF2 /* SelectableSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086CA41C6F3B3CB7F57B32 /* SelectableSearchView.swift */; };
 		810866FBC9334439DDACF15E /* KeyValueStoreType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810866144D6AE66D3CD39FA3 /* KeyValueStoreType.swift */; };
 		8108671169061BC1304A2383 /* CoffeeMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086DAC60B71C1062E9A5AC /* CoffeeMachine.swift */; };
+		8108673805A334297825FA88 /* NewBrewViewControllersFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810861A9E015D709F2AB1D80 /* NewBrewViewControllersFactory.swift */; };
 		8108674FDFFD4796F774A38C /* NumericalInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086866B857679706668A9E /* NumericalInputViewController.swift */; };
 		8108675D71CE3304AE221027 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086F84DEE057A98F40AF7B /* Functions.swift */; };
 		8108677E8BF6585F7230FEC7 /* TimeInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086C61816B703B4BED6B08 /* TimeInputViewModel.swift */; };
@@ -218,6 +219,7 @@
 		8108610CB8202244300CD0C3 /* NotesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		8108612FD4AFB101E80F7C8C /* BrewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewCell.swift; sourceTree = "<group>"; };
 		810861A3CD6B6580749EFF1D /* TampingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TampingViewController.swift; sourceTree = "<group>"; };
+		810861A9E015D709F2AB1D80 /* NewBrewViewControllersFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBrewViewControllersFactory.swift; sourceTree = "<group>"; };
 		810861AB311B6B1929A52147 /* BrewAttribute+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BrewAttribute+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		810861B5C45A176F0E7A29FD /* SettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		810861BB6CBE3A3525FFB51D /* MethodPickerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MethodPickerViewModel.swift; sourceTree = "<group>"; };
@@ -1017,6 +1019,7 @@
 			children = (
 				8108664F8ED052EFDF9EF5D6 /* NewBrewViewModel.swift */,
 				81086757BAD0F6928A939EFD /* NewBrewDataSource.swift */,
+				810861A9E015D709F2AB1D80 /* NewBrewViewControllersFactory.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1839,6 +1842,7 @@
 				81086D1D6596E8CF670E7D33 /* GrindSizeView.swift in Sources */,
 				8108602FADBDD7434C492A97 /* SliderView.swift in Sources */,
 				81086210F1BF44EE46A05D1D /* BrewScoreDetailsView.swift in Sources */,
+				8108673805A334297825FA88 /* NewBrewViewControllersFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
