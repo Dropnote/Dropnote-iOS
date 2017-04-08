@@ -8,17 +8,39 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 final class FinalScoreCell: UITableViewCell, Highlightable {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var valueLabel: UILabel!
-    
+    lazy var titleLabel: UILabel = UILabel()
+    lazy var valueLabel: UILabel = UILabel()
+
     var normalColor: UIColor?
     var highlightColor: UIColor?
     
     override var isHighlighted: Bool {
         didSet {
             highlight(views: [self, titleLabel, valueLabel], highlighted: isHighlighted)
+        }
+    }
+
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(valueLabel)
+        configureConstraints()
+    }
+
+    private func configureConstraints() {
+        titleLabel.snp.makeConstraints {
+            make in
+            make.leading.equalToSuperview().offset(30)
+            make.top.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-10)
+        }
+        valueLabel.snp.makeConstraints {
+            make in
+            make.trailing.equalToSuperview().offset(-60)
+            make.centerY.equalToSuperview()
         }
     }
 }
