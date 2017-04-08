@@ -8,10 +8,11 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 final class BrewAttributeCell: UITableViewCell, Highlightable {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var valueLabel: UILabel!
+    lazy var titleLabel: UILabel = UILabel()
+    lazy var valueLabel: UILabel = UILabel()
     
     var normalColor: UIColor?
     var highlightColor: UIColor?
@@ -19,6 +20,35 @@ final class BrewAttributeCell: UITableViewCell, Highlightable {
     override var isHighlighted: Bool {
         didSet {
             highlightViews([self, titleLabel, valueLabel], highlighted: isHighlighted)
+        }
+    }
+
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(valueLabel)
+        configureConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func configureConstraints() {
+        titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        titleLabel.snp.makeConstraints {
+            make in
+            make.leading.equalToSuperview().offset(30)
+            make.top.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-10)
+        }
+        valueLabel.snp.makeConstraints {
+            make in
+            make.leading.equalTo(titleLabel.snp.trailing).offset(20)
+            make.trailing.equalToSuperview().offset(-60)
+            make.width.greaterThanOrEqualTo(80)
+            make.top.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-10)
         }
     }
 }
@@ -37,7 +67,7 @@ extension BrewAttributeCell {
     func configureWithTheme(_ theme: ThemeConfiguration?) {
         super.configureWithTheme(theme)
         [titleLabel, valueLabel].forEach {
-            $0!.configureWithTheme(theme)
+            $0.configureWithTheme(theme)
         }
         normalColor = theme?.lightColor
         highlightColor = highlightColorForTheme(theme)
