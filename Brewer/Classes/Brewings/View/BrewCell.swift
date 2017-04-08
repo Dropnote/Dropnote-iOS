@@ -83,12 +83,11 @@ final class BrewCell: UITableViewCell, Highlightable {
 }
 
 extension BrewCell {
-    
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
+    func configure(with theme: ThemeConfiguration?) {
         backgroundColor = theme?.lightColor
-        scoreView.configureWithTheme(theme)
+        scoreView.configure(with: theme)
         [createdAtLabel, coffeeLabel].forEach {
-            $0.configureWithTheme(theme)
+            $0.configure(with: theme)
         }
         coffeeLabel.font = theme?.mediumFontWithSize(coffeeLabel.font.pointSize)
         normalColor = theme?.lightColor

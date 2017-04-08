@@ -24,6 +24,7 @@ final class FinalScoreCell: UITableViewCell, Highlightable {
 }
 
 extension FinalScoreCell: PresentableConfigurable {
+    typealias Presentable = TitleValuePresentable
     
     func configure(with presentable: TitleValuePresentable) {
         accessibilityHint = "Represents brew score that equals \(presentable.value)"
@@ -34,10 +35,10 @@ extension FinalScoreCell: PresentableConfigurable {
 
 extension FinalScoreCell {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
-        super.configureWithTheme(theme)
+    func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
         [titleLabel, valueLabel].forEach {
-            $0!.configureWithTheme(theme)
+            $0!.configure(with: theme)
         }
         normalColor = theme?.lightColor
         highlightColor = highlightColor(for: theme)

@@ -21,6 +21,7 @@ final class BrewDetailsRemoveCell: UITableViewCell, Highlightable {
 }
 
 extension BrewDetailsRemoveCell: PresentableConfigurable {
+    typealias Presentable = TitleValuePresentable
     
     func configure(with presentable: TitleValuePresentable) {
         accessibilityHint = "Removes current brew from history"
@@ -30,8 +31,8 @@ extension BrewDetailsRemoveCell: PresentableConfigurable {
 
 extension BrewDetailsRemoveCell {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
-        super.configureWithTheme(theme)
+    func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
         textLabel?.font = theme?.defaultFontWithSize(17)
         textLabel?.textColor = UIColor.deepBlush()
         normalColor = theme?.lightColor

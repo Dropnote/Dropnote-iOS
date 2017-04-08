@@ -60,7 +60,7 @@ final class NewBrewViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = tr(.newBrewItemTitle)
-		configureWithTheme(themeConfiguration)
+        newBrewView.configure(with: themeConfiguration)
 		collectionView.delegate = self
 		viewModel.configureWithCollectionView(collectionView)
 
@@ -128,7 +128,7 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 		let childViewController = viewModel.stepViewController(forIndexPath: indexPath)
 		addChildViewController(childViewController)
 		childViewController.didMove(toParentViewController: self)
-        cell.configureWithTheme(themeConfiguration)
+        cell.configure(with: themeConfiguration)
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

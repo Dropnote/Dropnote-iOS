@@ -54,6 +54,7 @@ final class BrewAttributeCell: UITableViewCell, Highlightable {
 }
 
 extension BrewAttributeCell: PresentableConfigurable {
+    typealias Presentable = TitleValuePresentable
     
     func configure(with presentable: TitleValuePresentable) {
         accessibilityHint = "Represents \(presentable.title) attribute with value \(presentable.value)"
@@ -64,10 +65,10 @@ extension BrewAttributeCell: PresentableConfigurable {
 
 extension BrewAttributeCell {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
-        super.configureWithTheme(theme)
+    func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
         [titleLabel, valueLabel].forEach {
-            $0.configureWithTheme(theme)
+            $0.configure(with: theme)
         }
         normalColor = theme?.lightColor
         highlightColor = highlightColor(for: theme)

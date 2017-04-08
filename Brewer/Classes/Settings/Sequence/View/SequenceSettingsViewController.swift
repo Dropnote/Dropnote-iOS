@@ -48,8 +48,7 @@ final class SequenceSettingsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureWithTheme(themeConfiguration)
-        tableView.configureWithTheme(themeConfiguration)
+        tableView.configure(with: themeConfiguration)
         editAction(editBarButtonItem)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.settingsSequence)
     }
@@ -93,6 +92,6 @@ extension SequenceSettingsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
-        (cell as? SequenceSettingsCell)?.configureWithTheme(themeConfiguration)
+        (cell as? SequenceSettingsCell)?.configure(with: themeConfiguration)
     }
 }

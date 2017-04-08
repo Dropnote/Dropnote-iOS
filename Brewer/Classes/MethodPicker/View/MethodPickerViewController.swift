@@ -44,8 +44,7 @@ final class MethodPickerViewController: UIViewController, ThemeConfigurable {
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-        configureWithTheme(themeConfiguration)
-		tableView.configureWithTheme(themeConfiguration)
+        tableView.configure(with: themeConfiguration)
 	}
 }
 
@@ -72,7 +71,7 @@ extension MethodPickerViewController: UITableViewDelegate {
     }
     
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        (cell as? MethodPickerCell)?.configureWithTheme(themeConfiguration)
+        (cell as? MethodPickerCell)?.configure(with: themeConfiguration)
 	}
     
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

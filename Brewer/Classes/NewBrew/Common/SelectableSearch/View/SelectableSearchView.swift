@@ -47,9 +47,10 @@ final class SelectableSearchView: UIStackView {
 }
 
 extension SelectableSearchView {
-	func configureWithTheme(_ theme: ThemeConfiguration?) {
-		super.configureWithTheme(theme)
-		tableView.configureWithTheme(theme)
-		inputTextField.configureWithTheme(theme)
+    
+	func configure(with theme: ThemeConfiguration?) {
+        super.configure(with:theme)
+        tableView.configure(with: theme)
+        inputTextField.configure(with: theme)
 	}
 }

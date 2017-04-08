@@ -65,9 +65,9 @@ extension BrewNotesCell: PresentableConfigurable {
 extension BrewNotesCell {
     
     func configureWithTheme(_ theme: ThemeConfiguration?) {
-        super.configureWithTheme(theme)
+        super.configure(with: theme)
         [titleLabel, valueLabel].forEach {
-            $0.configureWithTheme(theme)
+            $0.configure(with: theme)
         }
         normalColor = theme?.lightColor
         highlightColor = highlightColor(for: theme)

@@ -55,7 +55,7 @@ final class NumericalInputViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        view.configureWithTheme(themeConfiguration)
+        view.configure(with: themeConfiguration)
     }
 }
 

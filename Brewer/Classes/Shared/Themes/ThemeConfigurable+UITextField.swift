@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension ThemeConfigurable where Self: UITextField {
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
+    func configure(with theme: ThemeConfiguration?) {
         guard let theme = theme else { return }
         backgroundColor = theme.lightColor
         font = theme.defaultFontWithSize(font?.pointSize ?? 0)

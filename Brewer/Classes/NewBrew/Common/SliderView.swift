@@ -48,11 +48,11 @@ final class SliderView: UIView {
 }
 
 extension SliderView {
-	func configureWithTheme(_ theme: ThemeConfiguration?) {
-		super.configureWithTheme(theme)
-		leadingLabel.configureWithTheme(theme)
-		trailingLabel.configureWithTheme(theme)
-		slider.configureWithTheme(theme)
+	func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
+        leadingLabel.configure(with: theme)
+        trailingLabel.configure(with: theme)
+        slider.configure(with: theme)
 	}
 
 }

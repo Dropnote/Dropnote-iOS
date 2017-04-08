@@ -53,6 +53,7 @@ final class MethodPickerCell: UITableViewCell, Highlightable {
 }
 
 extension MethodPickerCell: PresentableConfigurable {
+    typealias Presentable = TitleImagePresentable
     
     func configure(with presentable: TitleImagePresentable) {
         accessibilityHint = "Selects \(presentable.title) method"
@@ -63,9 +64,9 @@ extension MethodPickerCell: PresentableConfigurable {
 
 extension MethodPickerCell {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
-        super.configureWithTheme(theme)
-        titleLabel.configureWithTheme(theme)
+    func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
+        titleLabel.configure(with: theme)
         titleLabel.backgroundColor = UIColor.clear
         normalColor = theme?.lightColor
         highlightColor = highlightColor(for: theme)

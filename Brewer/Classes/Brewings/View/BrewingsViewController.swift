@@ -61,7 +61,6 @@ final class BrewingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableHeaderView = searchBar
-        configureWithTheme(themeConfiguration)
         viewModel.configureWithTableView(tableView)
 
         if (traitCollection.forceTouchCapability == .available) {
@@ -71,8 +70,8 @@ final class BrewingsViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        searchBar.configureWithTheme(themeConfiguration)
-        tableView.configureWithTheme(themeConfiguration)
+        searchBar.configure(with: themeConfiguration)
+        tableView.configure(with: themeConfiguration)
         tableView.hideSearchBar()
 
         filterBarButtonItem.title = nil
@@ -137,7 +136,7 @@ extension BrewingsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
-        (cell as? BrewCell)?.configureWithTheme(themeConfiguration)
+        (cell as? BrewCell)?.configure(with: themeConfiguration)
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

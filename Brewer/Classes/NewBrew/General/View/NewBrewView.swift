@@ -82,10 +82,10 @@ final class NewBrewView: UIView {
 }
 
 extension NewBrewView {
-	func configureWithTheme(_ theme: ThemeConfiguration?) {
-		super.configureWithTheme(theme)
-		collectionView.configureWithTheme(theme)
-		progressView.configureWithTheme(theme)
-		navigationBar.configureWithTheme(theme)
+	func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
+        collectionView.configure(with: theme)
+        progressView.configure(with: theme)
+        navigationBar.configure(with: theme)
 	}
 }

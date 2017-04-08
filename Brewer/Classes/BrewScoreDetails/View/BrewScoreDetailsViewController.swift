@@ -48,9 +48,8 @@ final class BrewScoreDetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        view.configureWithTheme(themeConfiguration)
-        headerView.configureWithTheme(themeConfiguration)
-        tableView.configureWithTheme(themeConfiguration)
+        headerView.configure(with: themeConfiguration)
+        tableView.configure(with: themeConfiguration)
         
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.scoreDetails)
     }

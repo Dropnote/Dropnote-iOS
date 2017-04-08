@@ -79,7 +79,7 @@ final class GrindSizeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        grindSizeView.configureWithTheme(themeConfiguration)
+        grindSizeView.configure(with: themeConfiguration)
         showKeyboardIfNeeded()
     }
     

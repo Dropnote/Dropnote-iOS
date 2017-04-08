@@ -47,8 +47,7 @@ final class BrewingsSortingViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureWithTheme(themeConfiguration)
-        tableView.configureWithTheme(themeConfiguration)
+        tableView.configure(with: themeConfiguration)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.brewingSort)
     }
 
@@ -61,7 +60,7 @@ extension BrewingsSortingViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
-        (cell as? BrewingsSortingOptionCell)?.configureWithTheme(themeConfiguration)
+        (cell as? BrewingsSortingOptionCell)?.configure(with: themeConfiguration)
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

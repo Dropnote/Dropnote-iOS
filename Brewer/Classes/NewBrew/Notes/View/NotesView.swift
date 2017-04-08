@@ -32,8 +32,9 @@ final class NotesView: UIView {
 }
 
 extension NotesView {
-	func configureWithTheme(_ theme: ThemeConfiguration?) {
-		super.configureWithTheme(theme)
-		textView.configureWithTheme(theme)
+    
+	func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
+        textView.configure(with: theme)
 	}
 }

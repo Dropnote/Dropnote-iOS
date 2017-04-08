@@ -57,9 +57,8 @@ final class UnitsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureWithTheme(themeConfiguration)
-        unitsSegmentedControl.configureWithTheme(themeConfiguration)
-        tableView.configureWithTheme(themeConfiguration)
+        unitsSegmentedControl.configure(with: themeConfiguration)
+        tableView.configure(with: themeConfiguration)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.settingsUnits)
     }
 
@@ -98,8 +97,8 @@ extension UnitsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
-        cell.configureWithTheme(themeConfiguration)
-        cell.textLabel?.configureWithTheme(themeConfiguration)
-        cell.detailTextLabel?.configureWithTheme(themeConfiguration)        
+        cell.configure(with: themeConfiguration)
+        cell.textLabel?.configure(with: themeConfiguration)
+        cell.detailTextLabel?.configure(with: themeConfiguration)
     }
 }

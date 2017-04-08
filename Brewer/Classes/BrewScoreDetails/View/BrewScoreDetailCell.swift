@@ -34,9 +34,9 @@ extension BrewScoreDetailCell {
     
     func configureWithTheme(_ theme: ThemeConfiguration?) {
         backgroundColor = theme?.lightColor
-        slider.configureWithTheme(theme)
+        slider.configure(with: theme)
         [titleLabel, valueLabel].forEach {
-            $0!.configureWithTheme(theme)
+            $0!.configure(with: theme)
         }
     }
 }

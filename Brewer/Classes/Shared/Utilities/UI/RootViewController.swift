@@ -94,6 +94,6 @@ extension RootViewController: ThemeConfigurable {
 
 		contentViewControllers
             .elements(ofType: ThemeConfigurable.self)			
-			.forEach { $0.configureWithTheme(themeConfiguration) }
+            .forEach { $0.configure(with: themeConfiguration) }
 	}
 }

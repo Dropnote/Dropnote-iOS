@@ -48,8 +48,7 @@ final class SettingsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureWithTheme(themeConfiguration)
-        tableView.configureWithTheme(themeConfiguration)
+        tableView.configure(with: themeConfiguration)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.settings)
     }
     
@@ -153,7 +152,7 @@ extension SettingsViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
         cell.accessoryView = UIImageView(image: UIImage(asset: .Ic_arrow))
-        (cell as? SettingsCell)?.configureWithTheme(themeConfiguration)
+        (cell as? SettingsCell)?.configure(with: themeConfiguration)
 	}
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -62,8 +62,8 @@ final class BrewCellScoreView: UIView {
 extension BrewCellScoreView {
     
     func configureWithTheme(_ theme: ThemeConfiguration?) {
-        super.configureWithTheme(theme)
-        scoreLabel.configureWithTheme(theme)
+        super.configure(with: theme)
+        scoreLabel.configure(with: theme)
         scoreLabel.backgroundColor = UIColor.clear
     }
 }

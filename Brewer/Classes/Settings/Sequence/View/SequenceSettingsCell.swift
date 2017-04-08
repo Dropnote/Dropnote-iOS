@@ -30,9 +30,9 @@ final class SequenceSettingsCell: UITableViewCell {
 
 extension SequenceSettingsCell {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
+    func configure(with theme: ThemeConfiguration?) {
         themeBackgroundColor = theme?.lightColor
         themeSelectedBackgroundColor = theme?.lightTintColor.withAlphaComponent(0.3)
-        textLabel?.configureWithTheme(theme)
+        textLabel?.configure(with: theme)
     }
 }

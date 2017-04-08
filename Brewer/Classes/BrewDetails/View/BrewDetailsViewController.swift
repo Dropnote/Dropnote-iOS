@@ -41,6 +41,10 @@ final class BrewDetailsViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func loadView() {
+        view = tableView
+    }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -52,9 +56,7 @@ final class BrewDetailsViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
         deactivatePushedViewController()
-        
-        configureWithTheme(themeConfiguration)
-		tableView.configureWithTheme(themeConfiguration)
+        tableView.configure(with: themeConfiguration)
 		viewModel.refreshData()
 
         tableView.setNeedsLayout()
@@ -128,10 +130,10 @@ extension BrewDetailsViewController: UITableViewDelegate {
 
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
-		(cell as? FinalScoreCell)?.configureWithTheme(themeConfiguration)
-		(cell as? BrewAttributeCell)?.configureWithTheme(themeConfiguration)
-		(cell as? BrewNotesCell)?.configureWithTheme(themeConfiguration)
-		(cell as? BrewDetailsRemoveCell)?.configureWithTheme(themeConfiguration)
+        (cell as? FinalScoreCell)?.configure(with: themeConfiguration)
+        (cell as? BrewAttributeCell)?.configure(with: themeConfiguration)
+        (cell as? BrewNotesCell)?.configure(with: themeConfiguration)
+        (cell as? BrewDetailsRemoveCell)?.configure(with: themeConfiguration)
         if case .disclosureIndicator = cell.accessoryType {
             cell.accessoryView = UIImageView(image: UIImage(asset: .Ic_arrow))
         } else {

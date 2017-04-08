@@ -21,6 +21,7 @@ final class SettingsCell: UITableViewCell, Highlightable {
 }
 
 extension SettingsCell: PresentableConfigurable {
+    typealias Presentable = TitlePresentable
     
     func configure(with presentable: TitlePresentable) {
         accessibilityHint = "Opens \(presentable.title)"
@@ -30,10 +31,10 @@ extension SettingsCell: PresentableConfigurable {
 
 extension SettingsCell {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
-        super.configureWithTheme(theme)
+    func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
         [textLabel!, detailTextLabel!].forEach {
-            $0.configureWithTheme(theme)
+            $0.configure(with: theme)
         }
         normalColor = theme?.lightColor
         highlightColor = highlightColor(for: theme)

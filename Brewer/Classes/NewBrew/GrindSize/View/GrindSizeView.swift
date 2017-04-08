@@ -59,10 +59,10 @@ final class GrindSizeView: UIView {
 }
 
 extension GrindSizeView {
-	func configureWithTheme(_ theme: ThemeConfiguration?) {
-		super.configureWithTheme(theme)
-		sliderView.configureWithTheme(theme)
-		textField.configureWithTheme(theme)
-		informativeLabel.configureWithTheme(theme)
+	func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
+        sliderView.configure(with: theme)
+        textField.configure(with: theme)
+        informativeLabel.configure(with: theme)
 	}
 }

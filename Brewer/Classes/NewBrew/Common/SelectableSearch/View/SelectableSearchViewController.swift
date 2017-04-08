@@ -67,7 +67,7 @@ final class SelectableSearchViewController: UIViewController {
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		view.configureWithTheme(themeConfiguration)
+        view.configure(with: themeConfiguration)
 	}
 }
 
@@ -75,7 +75,7 @@ extension SelectableSearchViewController: UITableViewDelegate {
 
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
-		cell.configureWithTheme(themeConfiguration)
+        cell.configure(with: themeConfiguration)
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

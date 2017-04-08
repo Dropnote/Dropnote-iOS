@@ -44,9 +44,10 @@ final class NumericalInputView: UIView {
 }
 
 extension NumericalInputView {
-	func configureWithTheme(_ theme: ThemeConfiguration?) {
-		super.configureWithTheme(theme)
-		inputTextField.configureWithTheme(theme)
-		informativeLabel.configureWithTheme(theme)
+    
+	func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
+        inputTextField.configure(with: theme)
+        informativeLabel.configure(with: theme)
 	}
 }
