@@ -82,11 +82,6 @@ final class BrewDetailsViewController: UIViewController {
 			viewController.viewModel = resolver.resolve(GrindSizeViewModelType.self,
 														argument: viewModel.brewModelController)!
 			break
-		case .Tamping:
-			let viewController = segue.destination as! TampingViewController
-			viewController.viewModel = resolver.resolve(TampingViewModelType.self,
-														argument: viewModel.brewModelController)!
-			break
 		default:
 			fatalError("Unknown segue performed.")
 		}
@@ -175,17 +170,30 @@ extension BrewDetailsViewController: UITableViewDelegate {
 			case .attributes:
 				guard viewModel.editable else { return }
 				let brewAttributeType = viewModel.brewAttributeType(forIndexPath: indexPath)
-				let numericalInputViewController = resolver.resolve(NumericalInputViewController.self,
-																	arguments: brewAttributeType, viewModel.brewModelController)!
-				numericalInputViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(
+				let viewController: UIViewController
+				switch brewAttributeType.segueIdentifier {
+					case .NumericalInput:
+						viewController = resolver.resolve(NumericalInputViewController.self,
+														  arguments: brewAttributeType, viewModel.brewModelController)!
+						break
+					case .Tamping:
+						viewController = resolver.resolve(TampingViewController.self,
+														  argument: viewModel.brewModelController)!
+						break
+					case .GrindSize:
+						viewController = UIViewController()
+						break
+					default: fatalError()
+				}
+				viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(
 						image: UIImage(asset: .Ic_back),
 						style: .plain,
 						target: self,
 						action: #selector(pop)
 				)
-				pushedViewController = numericalInputViewController
-				numericalInputViewController.enableSwipeToBack()
-				navigationController?.pushViewController(numericalInputViewController, animated: true)
+				pushedViewController = viewController
+				viewController.enableSwipeToBack()
+				navigationController?.pushViewController(viewController, animated: true)
 				break
 			case .notes:
 				let notesViewController = resolver.resolve(NotesViewController.self, argument: viewModel.brewModelController)!

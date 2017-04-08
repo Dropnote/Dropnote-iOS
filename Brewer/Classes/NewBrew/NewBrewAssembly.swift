@@ -14,9 +14,9 @@ final class NewBrewAssembly: AssemblyType {
 
 		container.register(NewBrewViewController.self) {
 			(r, context: StartBrewContext) in
-			return NewBrewViewController(viewModel: r.resolve(NewBrewViewModelType.self, argument: context)!,
-										 metrics: r.resolve(ScrollViewPageMetricsType.self)!,
-										 themeConfiguration: r.resolve(ThemeConfiguration.self))
+			NewBrewViewController(viewModel: r.resolve(NewBrewViewModelType.self, argument: context)!,
+								  metrics: r.resolve(ScrollViewPageMetricsType.self)!,
+								  themeConfiguration: r.resolve(ThemeConfiguration.self))
 		}
 
 		container.register(NewBrewViewModelType.self) {
@@ -42,7 +42,7 @@ final class NewBrewAssembly: AssemblyType {
 
 		container.register(SelectableSearchViewController.self) {
 			(r, identifier: SelectableSearchIdentifier, brewModelController: BrewModelControllerType) in
-			return SelectableSearchViewController(
+			SelectableSearchViewController(
 					viewModel: r.resolve(SelectableSearchViewModelType.self, arguments: identifier, brewModelController)!,
 					themeConfiguration: r.resolve(ThemeConfiguration.self)
 			)
@@ -50,7 +50,7 @@ final class NewBrewAssembly: AssemblyType {
 
 		container.register(SelectableSearchViewModelType.self) {
 			(r, identifier: SelectableSearchIdentifier, brewModelController: BrewModelControllerType) in
-			return SelectableSearchViewModel(
+			SelectableSearchViewModel(
 					modelController: r.resolve(SelectableSearchModelControllerType.self, arguments: identifier, brewModelController)!
 			)
 		}
@@ -66,11 +66,13 @@ final class NewBrewAssembly: AssemblyType {
 		// MARK: Coffee & CoffeeMachine
 
 		container.register(CoffeeSelectableSearchModelController.self) {
-			r, brewModelController in CoffeeSelectableSearchModelController(stack: r.resolve(StackType.self)!, brewModelController: brewModelController)
+			(r, brewModelController: BrewModelControllerType) in
+			CoffeeSelectableSearchModelController(stack: r.resolve(StackType.self)!, brewModelController: brewModelController)
 		}
 
 		container.register(CoffeeMachineSelectableSearchModelController.self) {
-			r, brewModelController in CoffeeMachineSelectableSearchModelController(stack: r.resolve(StackType.self)!, brewModelController: brewModelController)
+			(r, brewModelController: BrewModelControllerType) in
+			CoffeeMachineSelectableSearchModelController(stack: r.resolve(StackType.self)!, brewModelController: brewModelController)
 		}
 
 		// MARK: Numerical input
@@ -96,26 +98,31 @@ final class NewBrewAssembly: AssemblyType {
 		// MARK: Attributes: Weight, Water, Temperature, Time
 
 		container.register(WeightInputViewModel.self) {
-			r, brewModelController in WeightInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelController)
+			(r, brewModelController: BrewModelControllerType) in
+			WeightInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelController)
 		}
 
 		container.register(WaterInputViewModel.self) {
-			r, brewModelController in WaterInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelController)
+			(r, brewModelController: BrewModelControllerType) in
+			WaterInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelController)
 		}
 
 		container.register(TemperatureInputViewModel.self) {
-			r, brewModelController in TemperatureInputViewModel(
+			(r, brewModelController: BrewModelControllerType) in
+			TemperatureInputViewModel(
                 unitModelController: r.resolve(UnitsModelControllerType.self)!,
                 brewModelController: brewModelController
             )
 		}
 
 		container.register(TimeInputViewModel.self) {
-			r, brewModelController in TimeInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelController)
+			(r, brewModelController: BrewModelControllerType) in
+			TimeInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelController)
 		}
         
         container.register(PreInfusionTimeInputViewModel.self) {
-            r, brewModelController in PreInfusionTimeInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelController)
+			(r, brewModelController: BrewModelControllerType) in
+			PreInfusionTimeInputViewModel(unitModelController: r.resolve(UnitsModelControllerType.self)!, brewModelController: brewModelController)
         }
 
 		// MARK: Notes
@@ -137,18 +144,20 @@ final class NewBrewAssembly: AssemblyType {
 		}
 
 		container.register(GrindSizeViewModelType.self) {
-			r, brewModelController in GrindSizeViewModel(brewModelController: brewModelController,
-														 keyValueStore: r.resolve(KeyValueStoreType.self)!)
+			(r, brewModelController: BrewModelControllerType) in
+			GrindSizeViewModel(brewModelController: brewModelController, keyValueStore: r.resolve(KeyValueStoreType.self)!)
 		}
 
 		// MARK: Tamping
 
-		container.registerForStoryboard(TampingViewController.self) {
-			r, c in c.themeConfiguration = r.resolve(ThemeConfiguration.self)
+		container.register(TampingViewController.self) {
+			(r, brewModelController: BrewModelControllerType) in
+			TampingViewController(viewModel: r.resolve(TampingViewModelType.self, argument: brewModelController)!,
+								  themeConfiguration: r.resolve(ThemeConfiguration.self))
 		}
 
 		container.register(TampingViewModelType.self) {
-			_, brewModelController in TampingViewModel(brewModelController: brewModelController)
+			(_, brewModelController: BrewModelControllerType) in TampingViewModel(brewModelController: brewModelController)
 		}
 	}
 }
