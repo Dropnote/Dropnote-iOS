@@ -43,15 +43,17 @@ final class BrewingsSortingViewController: UIViewController {
         super.viewDidLoad()
         title = tr(.brewingsSortingSortTitle)
         viewModel.configureWithTableView(tableView)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(asset: .Ic_close), style: .plain, target: self, action: #selector(close))
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        configure(with: themeConfiguration)
         tableView.configure(with: themeConfiguration)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.brewingSort)
     }
 
-    @IBAction func close(_ sender: AnyObject) {
+    func close() {
         dismissViewControllerAnimatedSubject.onNext(true)
     }
 }
