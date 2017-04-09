@@ -31,7 +31,7 @@ extension ThemeConfigurable where Self: UIViewController {
 		}
 	}
 
-	fileprivate func configureNavigationBar(_ theme: NavigationBarThemeConfiguration) {
+	private func configureNavigationBar(_ theme: NavigationBarThemeConfiguration) {
 		guard let navigationBar = navigationController?.navigationBar else {
 			return
 		}
@@ -48,7 +48,7 @@ extension ThemeConfigurable where Self: UIViewController {
         }
 	}
 
-	fileprivate func configureBarButtonItems(_ theme: ThemeConfiguration) {
+	private func configureBarButtonItems(_ theme: ThemeConfiguration) {
 		[navigationItem.rightBarButtonItems, navigationItem.leftBarButtonItems]
 			.flatMap { $0 }
 			.joined()

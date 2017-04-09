@@ -31,6 +31,7 @@
 		810863612FD3A1619997A8C7 /* CoffeeMachineSelectableSearchModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810868A001E96640A15DED2A /* CoffeeMachineSelectableSearchModelController.swift */; };
 		810863F8FA6A35A9F84A2F6E /* BrewingsSortingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810860E72816E86A4834CBAC /* BrewingsSortingViewModel.swift */; };
 		810864305A0F63D6AB7D1231 /* NewBrewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810862469EE67B2B22C57FBF /* NewBrewViewController.swift */; };
+		81086458B44D50A92D293B11 /* ThemeConfiguration+UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810864C8557EFC17045F32FE /* ThemeConfiguration+UITableViewCell.swift */; };
 		8108646ADA086EA5BAB39592 /* NewBrewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8108687E95558FAAEA0FA7CB /* NewBrewCollectionViewCell.swift */; };
 		8108649779E0F834591E605B /* CoffeeMachine+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086218D5387AB0874FFFB0 /* CoffeeMachine+CoreDataProperties.swift */; };
 		810864B152057ADC79CC0E22 /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086C8899D08A68A22E1A9C /* NotesViewController.swift */; };
@@ -224,6 +225,7 @@
 		81086426655882728288AA0B /* BrewScoreDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewScoreDetailsViewController.swift; sourceTree = "<group>"; };
 		810864B3240D552C9E5111AE /* WaterUnitsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterUnitsDataSource.swift; sourceTree = "<group>"; };
 		810864C853C4716593AF877D /* BrewScoreDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewScoreDetailsViewModel.swift; sourceTree = "<group>"; };
+		810864C8557EFC17045F32FE /* ThemeConfiguration+UITableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ThemeConfiguration+UITableViewCell.swift"; sourceTree = "<group>"; };
 		810864EA967566DB711A5F1C /* PreInfusionTimeInputViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreInfusionTimeInputViewModel.swift; sourceTree = "<group>"; };
 		8108652B71931910B7275F0E /* SelectableSearch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SelectableSearch.storyboard; sourceTree = "<group>"; };
 		8108652D10E894F410E7C05A /* BrewModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewModelController.swift; sourceTree = "<group>"; };
@@ -1358,6 +1360,7 @@
 				A10F29B11CDDFD0600593284 /* ThemeConfigurable+UILabel.swift */,
 				A10F29C31CDF2CD300593284 /* ThemeConfigurable+UITextView.swift */,
 				A1D90F011CDFD76600BF6DEA /* ThemeConfigurable+UISlider.swift */,
+				810864C8557EFC17045F32FE /* ThemeConfiguration+UITableViewCell.swift */,
 			);
 			path = Themes;
 			sourceTree = "<group>";
@@ -1817,6 +1820,7 @@
 				81086210F1BF44EE46A05D1D /* BrewScoreDetailsView.swift in Sources */,
 				8108673805A334297825FA88 /* NewBrewViewControllersFactory.swift in Sources */,
 				81086218224D0BE71F9B985C /* BrewDetailsViewControllersFactory.swift in Sources */,
+				81086458B44D50A92D293B11 /* ThemeConfiguration+UITableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,6 +17,7 @@ final class SettingsViewController: UIViewController {
 	private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.tableFooterView = UIView()
+        tableView.rowHeight = 50
         tableView.delegate = self
         return tableView
     }()
@@ -64,18 +65,23 @@ final class SettingsViewController: UIViewController {
                         brewMethod in
                         Analytics.sharedInstance.trackMethodPickEvent(onScreen: AppScreen.settings, method: brewMethod)
                         let sequenceSettingsViewController = self.resolver.resolve(SequenceSettingsViewController.self, argument: brewMethod)!
+                        sequenceSettingsViewController.enableSwipeToBack()
+                        sequenceSettingsViewController.navigationItem.leftBarButtonItem = self.createDefaultBackBarButtonItem()
                         self.navigationController?.pushViewController(sequenceSettingsViewController, animated: true)
                 })
+                methodPickerViewController.navigationItem.leftBarButtonItem = createDefaultBackBarButtonItem()
                 navigationController?.pushViewController(methodPickerViewController, animated: true)
                 break
             case 1:
                 let unitsViewController = resolver.resolve(UnitsViewController.self)!
+                unitsViewController.navigationItem.leftBarButtonItem = createDefaultBackBarButtonItem()
                 self.navigationController?.pushViewController(unitsViewController, animated: true)
                 break
             case 2:
                 let storyboard = UIStoryboard(name: "About", bundle: nil)
                 let aboutViewController = storyboard.instantiateInitialViewController()!
                 aboutViewController.enableSwipeToBack()
+                aboutViewController.navigationItem.leftBarButtonItem = createDefaultBackBarButtonItem()
                 self.navigationController?.pushViewController(aboutViewController, animated: true)
                 break
             case 3: showEmailForm(); break

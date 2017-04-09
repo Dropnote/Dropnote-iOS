@@ -41,9 +41,10 @@ extension SettingsCell {
     
     func configure(with theme: ThemeConfiguration?) {
         super.configure(with: theme)
-        [textLabel!, detailTextLabel!].forEach {
-            $0.configure(with: theme)
-        }
+        textLabel?.configure(with: theme)
+        textLabel?.font = theme?.defaultFontWithSize(16)
+        detailTextLabel?.configure(with: theme)
+        detailTextLabel?.font = theme?.defaultFontWithSize(11)
         normalColor = theme?.lightColor
         highlightColor = highlightColor(for: theme)
     }
