@@ -23,7 +23,7 @@ final class SettingsViewController: UIViewController {
 
     var themeConfiguration: ThemeConfiguration?
     let resolver: ResolverType
-	let viewModel: TableViewConfigurable!
+	let viewModel: TableViewConfigurable
 
     init(viewModel: TableViewConfigurable, themeConfiguration: ThemeConfiguration? = nil, resolver: ResolverType = Assembler.sharedResolver) {
         self.viewModel = viewModel

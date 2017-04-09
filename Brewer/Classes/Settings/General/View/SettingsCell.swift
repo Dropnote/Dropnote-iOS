@@ -18,6 +18,14 @@ final class SettingsCell: UITableViewCell, Highlightable {
             highlight(views: [self, textLabel!], highlighted: isHighlighted)
         }
     }
+
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 extension SettingsCell: PresentableConfigurable {
