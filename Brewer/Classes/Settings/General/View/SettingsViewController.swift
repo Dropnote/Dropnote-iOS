@@ -79,7 +79,8 @@ final class SettingsViewController: UIViewController {
                 break
             case 2:
                 let storyboard = UIStoryboard(name: "About", bundle: nil)
-                let aboutViewController = storyboard.instantiateInitialViewController()!
+                guard let aboutViewController = storyboard.instantiateInitialViewController() as? AboutViewController else { return }
+                aboutViewController.themeConfiguration = themeConfiguration
                 aboutViewController.enableSwipeToBack()
                 aboutViewController.navigationItem.leftBarButtonItem = createDefaultBackBarButtonItem()
                 self.navigationController?.pushViewController(aboutViewController, animated: true)

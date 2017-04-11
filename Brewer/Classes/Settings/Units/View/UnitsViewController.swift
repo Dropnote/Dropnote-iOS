@@ -17,14 +17,15 @@ extension UnitsViewController: ThemeConfigurationContainer { }
 final class UnitsViewController: UIViewController {
     fileprivate let disposeBag = DisposeBag()
 
-    private lazy var unitsSegmentedControl = UISegmentedControl(items: nil)
+    private lazy var unitsView = UnitsView()
 
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
-        return tableView
-    }()
+    private var unitsSegmentedControl: UISegmentedControl {
+        return unitsView.segmentedControl
+    }
+
+    private var tableView: UITableView {
+        return unitsView.tableView
+    }
 
     var themeConfiguration: ThemeConfiguration?
     let viewModel: UnitsViewModelType
@@ -41,24 +42,25 @@ final class UnitsViewController: UIViewController {
     }
 
     override func loadView() {
-        view = tableView
+        view = unitsView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setUpSegmentedControlTitles()
-        setDataSourceAtIndex(0)
         setUpSwitchingDataSources()
-        
+
+        tableView.delegate = self
         viewModel.configureWithTableView(tableView)
+
         enableSwipeToBack()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        unitsSegmentedControl.configure(with: themeConfiguration)
-        tableView.configure(with: themeConfiguration)
+        unitsSegmentedControl.selectedSegmentIndex = 0
+        unitsView.configure(with: themeConfiguration)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.settingsUnits)
     }
 
@@ -91,12 +93,12 @@ final class UnitsViewController: UIViewController {
 extension UnitsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.selectUnitAtIndex((indexPath as NSIndexPath).row)
+        viewModel.selectUnitAtIndex(indexPath.row)
         tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
+        cell.accessibilityLabel = "Select \(indexPath.row + 1)"
         cell.configure(with: themeConfiguration)
         cell.textLabel?.configure(with: themeConfiguration)
         cell.detailTextLabel?.configure(with: themeConfiguration)

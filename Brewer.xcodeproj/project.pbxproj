@@ -65,6 +65,7 @@
 		810869B9DBDCA9370254A461 /* SequenceSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086E363522438DADE63696 /* SequenceSettingsViewModel.swift */; };
 		810869C8BB8D9EB9E563153B /* BrewingsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086931657C30D4E72753D5 /* BrewingsAssembly.swift */; };
 		81086A0AB50B1E125F14F715 /* UnitTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810866A6C21B4D9165C62A2B /* UnitTypes.swift */; };
+		81086A3382BE8D68A69FCF4D /* UnitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086BF7FA5DDFC99E295D61 /* UnitsView.swift */; };
 		81086A56E59C7457BC529F38 /* ScrollViewPageMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8108621E05AAF5317C8928DF /* ScrollViewPageMetrics.swift */; };
 		81086ACED3F1B9C7997BE2D8 /* CoreComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086A97C30234A123021EF5 /* CoreComponents.swift */; };
 		81086B01DF43F744FD8EA002 /* NewBrewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086EB3171948A244B173A8 /* NewBrewAssembly.swift */; };
@@ -135,6 +136,7 @@
 		A17E9BD51C4AE83B0004F57A /* Coffee.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17E9BCD1C4AE83B0004F57A /* Coffee.swift */; };
 		A18F3D7B1CEC44930022A096 /* NewBrewUnwindSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18F3D7A1CEC44930022A096 /* NewBrewUnwindSegue.swift */; };
 		A1999EBA1D4BDF920003A42E /* AboutViewThanksCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1999EB91D4BDF920003A42E /* AboutViewThanksCell.swift */; };
+		A19CA93E1E9D6FF400AA5659 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A19CA93D1E9D6FF400AA5659 /* About.storyboard */; };
 		A1A9D2641D19CD740017E8C3 /* InformativeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A9D2631D19CD740017E8C3 /* InformativeLabel.swift */; };
 		A1A9F6FD1D15761500E6D512 /* BrewDetailsRemoveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A9F6FC1D15761500E6D512 /* BrewDetailsRemoveCell.swift */; };
 		A1C811411D05E30E0064CF8A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1C811431D05E30E0064CF8A /* Localizable.strings */; };
@@ -263,6 +265,7 @@
 		81086B417F7735B9E48723C0 /* SelectableSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableSearchViewController.swift; sourceTree = "<group>"; };
 		81086B4D3D6FBBAEDCDBD9B1 /* MethodPicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MethodPicker.storyboard; sourceTree = "<group>"; };
 		81086BDEEEFC0EB51C93D93F /* BrewingsSortingOptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewingsSortingOptionCell.swift; sourceTree = "<group>"; };
+		81086BF7FA5DDFC99E295D61 /* UnitsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitsView.swift; sourceTree = "<group>"; };
 		81086C61816B703B4BED6B08 /* TimeInputViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeInputViewModel.swift; sourceTree = "<group>"; };
 		81086C7DDAB97D107E0511FD /* UnitsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitsViewModel.swift; sourceTree = "<group>"; };
 		81086C7EC7A6F9DB23883D36 /* UnitsModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnitsModelController.swift; sourceTree = "<group>"; };
@@ -339,6 +342,7 @@
 		A17E9BCD1C4AE83B0004F57A /* Coffee.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coffee.swift; sourceTree = "<group>"; };
 		A18F3D7A1CEC44930022A096 /* NewBrewUnwindSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBrewUnwindSegue.swift; sourceTree = "<group>"; };
 		A1999EB91D4BDF920003A42E /* AboutViewThanksCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewThanksCell.swift; sourceTree = "<group>"; };
+		A19CA93D1E9D6FF400AA5659 /* About.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = About.storyboard; path = Brewer/Classes/Settings/About/View/About.storyboard; sourceTree = SOURCE_ROOT; };
 		A1A8F4C21DFB0FFD00ED8FE7 /* Dropnote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dropnote.entitlements; sourceTree = "<group>"; };
 		A1A9D2631D19CD740017E8C3 /* InformativeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformativeLabel.swift; sourceTree = "<group>"; };
 		A1A9F6FC1D15761500E6D512 /* BrewDetailsRemoveCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewDetailsRemoveCell.swift; sourceTree = "<group>"; };
@@ -490,6 +494,7 @@
 			children = (
 				A13AA55F1C6BC588001B0C58 /* Units.storyboard */,
 				A13AA5611C6BC5A9001B0C58 /* UnitsViewController.swift */,
+				81086BF7FA5DDFC99E295D61 /* UnitsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -786,6 +791,7 @@
 		810866F9B210C57081D371C0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A19CA93D1E9D6FF400AA5659 /* About.storyboard */,
 				8108632474BBD58C91525976 /* AboutViewController.swift */,
 				81086D9451F1E94FD1C68265 /* AboutViewPhotoCell.swift */,
 				A1999EB91D4BDF920003A42E /* AboutViewThanksCell.swift */,
@@ -1511,6 +1517,7 @@
 			files = (
 				8108657838D78541DBDF4A10 /* Assets.xcassets in Resources */,
 				A11BDC8E1CF4D5BE0043E320 /* AppIcon60x60.png in Resources */,
+				A19CA93E1E9D6FF400AA5659 /* About.storyboard in Resources */,
 				A17734641E5CD4A600605429 /* Launch.storyboard in Resources */,
 				A1C811411D05E30E0064CF8A /* Localizable.strings in Resources */,
 				8108693CFBED1822BABED871 /* GoogleService-Info.plist in Resources */,
@@ -1821,6 +1828,7 @@
 				8108673805A334297825FA88 /* NewBrewViewControllersFactory.swift in Sources */,
 				81086218224D0BE71F9B985C /* BrewDetailsViewControllersFactory.swift in Sources */,
 				81086458B44D50A92D293B11 /* ThemeConfiguration+UITableViewCell.swift in Sources */,
+				81086A3382BE8D68A69FCF4D /* UnitsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

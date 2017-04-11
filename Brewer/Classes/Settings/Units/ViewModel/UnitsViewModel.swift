@@ -41,6 +41,7 @@ final class UnitsViewModel: UnitsViewModelType {
 
     func setDataSourceAtIndex(_ index: Int) {
         precondition(index < dataSources.count, "Index too high!")
+        guard index >= 0 else { return }
         currentDataSource = dataSources[index]
     }
     
@@ -60,6 +61,7 @@ final class UnitsViewModel: UnitsViewModelType {
 extension UnitsViewModel: TableViewConfigurable {
     
     func configureWithTableView(_ tableView: UITableView) {
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UnitsViewCell")
         tableView.dataSource = dataSource
     }
 }
@@ -71,8 +73,8 @@ extension UnitsViewModel: TableListDataSource {
     }
     
     func listView(_ listView: UITableView, configureCell cell: UITableViewCell, withObject object: UnitsDataSourceItem, atIndexPath indexPath: IndexPath) {
-        cell.accessibilityHint = "Selects unit \(currentDataSource!.items[(indexPath as NSIndexPath).row].title)"
-        cell.textLabel?.text = currentDataSource!.items[(indexPath as NSIndexPath).row].title
-        cell.accessoryType = isSelectedUnitAtIndex((indexPath as NSIndexPath).row) ? .checkmark : .none
+        cell.accessibilityHint = "Selects unit \(currentDataSource!.items[indexPath.row].title)"
+        cell.textLabel?.text = currentDataSource!.items[(indexPath).row].title
+        cell.accessoryType = isSelectedUnitAtIndex(indexPath.row) ? .checkmark : .none
     }
 }

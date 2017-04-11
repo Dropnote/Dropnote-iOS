@@ -16,11 +16,13 @@ final class AboutViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = tr(.settingsAboutMenuItemTitle)
+        tableView.showsVerticalScrollIndicator = false
         configure(with: themeConfiguration)
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.configure(with: themeConfiguration)
+        cell.contentView.configure(with: themeConfiguration)
         (cell as? AboutViewPhotoCell)?.configure(with: themeConfiguration)
         
         cell.contentView.subviews.forEach {

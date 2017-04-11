@@ -14,6 +14,7 @@ final class SequenceSettingsViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.tableFooterView = UIView()
+        tableView.allowsMultipleSelectionDuringEditing = true
         tableView.delegate = self
         return tableView
     }()

@@ -11,5 +11,7 @@ extension ThemeConfigurable where Self: UITableViewCell {
 		selectionStyle = .none
 		separatorInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 0)
         guard let theme = theme else { return }
+        backgroundColor = theme.lightColor
+        tintColor = theme.lightTintColor
     }
 }
