@@ -55,7 +55,7 @@ final class SelectableSearchViewController: UIViewController {
 		super.viewDidLoad()
 		inputTextField.placeholder = viewModel.placeholder
 		tableView.delegate = self
-		viewModel.configureWithTableView(tableView)
+		viewModel.configure(with: tableView)
 		inputTextField
             .rx.text
             .asDriver()

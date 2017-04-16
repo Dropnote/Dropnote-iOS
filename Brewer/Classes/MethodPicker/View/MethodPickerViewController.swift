@@ -39,7 +39,7 @@ final class MethodPickerViewController: UIViewController, ThemeConfigurable {
 		tableView.tableFooterView = UIView()
 		tableView.delegate = self
         tableView.rowHeight = 90
-		viewModel.configureWithTableView(tableView)
+		viewModel.configure(with: tableView)
 	}
 
 	override func viewWillAppear(_ animated: Bool) {

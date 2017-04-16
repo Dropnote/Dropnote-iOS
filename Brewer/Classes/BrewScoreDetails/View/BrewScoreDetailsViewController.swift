@@ -55,7 +55,7 @@ final class BrewScoreDetailsViewController: UIViewController {
 			.addDisposableTo(disposeBag)
         
         tableView.delegate = self
-		viewModel.configureWithTableView(tableView)
+		viewModel.configure(with: tableView)
         
         enableSwipeToBack()
 	}

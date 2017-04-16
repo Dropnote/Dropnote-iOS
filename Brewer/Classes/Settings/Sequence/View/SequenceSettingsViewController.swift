@@ -43,7 +43,7 @@ final class SequenceSettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = tr(.sequenceItemTitle)
-        viewModel.configureWithTableView(tableView)
+        viewModel.configure(with: tableView)
         enableSwipeToBack()
     }
     

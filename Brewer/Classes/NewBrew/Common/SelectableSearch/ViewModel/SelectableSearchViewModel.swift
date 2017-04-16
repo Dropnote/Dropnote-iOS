@@ -47,7 +47,7 @@ final class SelectableSearchViewModel: NSObject, SelectableSearchViewModelType {
         return [items.map { $0 as! SelectableSearchModelItem }]
     }
 
-    func configureWithTableView(_ tableView: UITableView) {
+    func configure(with tableView: UITableView) {
         tableView.dataSource = dataSource
         fetchedResultsControllerDelegate =
             TableViewFetchedResultsControllerDynamicChangesHandler(

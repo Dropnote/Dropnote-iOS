@@ -94,7 +94,7 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
         self.editable = editable
 	}
 
-	func configureWithTableView(_ tableView: UITableView) {
+	func configure(with tableView: UITableView) {
 		BrewDetailsTableViewSection.cellCases.forEach {
 			tableView.register($0.cellClass, forCellReuseIdentifier: $0.cellIdentifier)
 		}

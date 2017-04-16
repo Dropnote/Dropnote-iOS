@@ -26,7 +26,7 @@ final class MethodPickerViewModel: MethodPickerViewModelType {
 
 extension MethodPickerViewModel: TableViewConfigurable {
     
-    func configureWithTableView(_ tableView: UITableView) {
+    func configure(with tableView: UITableView) {
         tableView.register(MethodPickerCell.self, forCellReuseIdentifier: String(describing: MethodPickerCell.self))
         tableView.dataSource = dataSource
     }

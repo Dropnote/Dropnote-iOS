@@ -43,7 +43,7 @@ final class BrewingsSortingViewModel: BrewingsSortingViewModelType {
         return [BrewingSortingOption.allValues]
     }
 
-    func configureWithTableView(_ tableView: UITableView) {
+    func configure(with tableView: UITableView) {
         tableView.register(BrewingsSortingOptionCell.self, forCellReuseIdentifier: String(describing: BrewingsSortingOptionCell.self))
         tableView.dataSource = dataSource
     }

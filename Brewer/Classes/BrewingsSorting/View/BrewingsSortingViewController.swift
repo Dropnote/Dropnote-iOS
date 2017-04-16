@@ -42,7 +42,7 @@ final class BrewingsSortingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = tr(.brewingsSortingSortTitle)
-        viewModel.configureWithTableView(tableView)
+        viewModel.configure(with: tableView)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(asset: .Ic_close), style: .plain, target: self, action: #selector(close))
     }
     

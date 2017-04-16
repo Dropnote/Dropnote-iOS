@@ -52,7 +52,7 @@ final class UnitsViewController: UIViewController {
         setUpSwitchingDataSources()
 
         tableView.delegate = self
-        viewModel.configureWithTableView(tableView)
+        viewModel.configure(with: tableView)
 
         enableSwipeToBack()
     }

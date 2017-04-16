@@ -60,7 +60,7 @@ final class UnitsViewModel: UnitsViewModelType {
 
 extension UnitsViewModel: TableViewConfigurable {
     
-    func configureWithTableView(_ tableView: UITableView) {
+    func configure(with tableView: UITableView) {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UnitsViewCell")
         tableView.dataSource = dataSource
     }

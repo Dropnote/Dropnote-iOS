@@ -44,7 +44,7 @@ final class SequenceSettingsViewModel: NSObject, SequenceSettingsViewModelType {
         self.items = modelController.sequenceSteps(for: brewMethod, filter: .all)
     }
 
-    func configureWithTableView(_ tableView: UITableView) {
+    func configure(with tableView: UITableView) {
         tableView.register(SequenceSettingsCell.self, forCellReuseIdentifier: String(describing: SequenceSettingsCell.self))
         tableView.dataSource = self
     }

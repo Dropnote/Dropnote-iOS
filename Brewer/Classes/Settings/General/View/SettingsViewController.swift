@@ -44,7 +44,7 @@ final class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
 		super.viewDidLoad()
-		viewModel.configureWithTableView(tableView)
+		viewModel.configure(with: tableView)
 	}
     
     override func viewWillAppear(_ animated: Bool) {

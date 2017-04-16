@@ -69,7 +69,7 @@ final class BrewScoreDetailsViewModel: BrewScoreDetailsViewModelType {
         catch { XCGLogger.error("Error when saving new brew score = \(error)") }
     }
 
-	func configureWithTableView(_ tableView: UITableView) {
+	func configure(with tableView: UITableView) {
 		tableView.register(BrewScoreDetailCell.self, forCellReuseIdentifier: String(describing: BrewScoreDetailCell.self))
 		tableView.dataSource = dataSource
 	}

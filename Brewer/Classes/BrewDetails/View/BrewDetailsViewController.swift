@@ -48,7 +48,7 @@ final class BrewDetailsViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		viewModel.configureWithTableView(tableView)
+		viewModel.configure(with: tableView)
         enableSwipeToBack()
         navigationController?.delegate = self
 	}

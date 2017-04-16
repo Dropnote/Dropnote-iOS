@@ -51,7 +51,7 @@ final class BrewingsViewModel: BrewingsViewModelType {
 		self.spotlightSearchService = spotlightSearchService
 	}
 
-	func configureWithTableView(_ tableView: UITableView) {
+	func configure(with tableView: UITableView) {
 		tableView.register(BrewCell.self, forCellReuseIdentifier: String(describing: BrewCell.self))
 		fetchedResultsControllerDelegate = TableViewFetchedResultsControllerDynamicChangesHandler(
 			tableView: tableView,

@@ -61,7 +61,7 @@ final class BrewingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableHeaderView = searchBar
-        viewModel.configureWithTableView(tableView)
+        viewModel.configure(with: tableView)
 
         if (traitCollection.forceTouchCapability == .available) {
             registerForPreviewing(with: self, sourceView: view)

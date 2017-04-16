@@ -24,7 +24,7 @@ final class SettingsViewModel {
 
 extension SettingsViewModel: TableViewConfigurable {
     
-    func configureWithTableView(_ tableView: UITableView) {
+    func configure(with tableView: UITableView) {
         tableView.register(SettingsCell.self, forCellReuseIdentifier: String(describing: SettingsCell.self))
         tableView.dataSource = dataSource
     }
