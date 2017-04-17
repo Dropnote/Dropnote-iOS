@@ -10,9 +10,13 @@ import RxSwift
 extension MethodPickerViewController: ThemeConfigurationContainer { }
 
 final class MethodPickerViewController: UIViewController, ThemeConfigurable {
-	fileprivate var tableView: UITableView {
-		return view as! UITableView
-	}
+	fileprivate lazy var tableView: UITableView = {
+		let tableView = UITableView(frame: .zero, style: .plain)
+		tableView.tableFooterView = UIView()
+		tableView.rowHeight = 88
+		tableView.delegate = self
+		return tableView
+	}()
 
 	var themeConfiguration: ThemeConfiguration?
 	let viewModel: MethodPickerViewModelType
@@ -30,15 +34,11 @@ final class MethodPickerViewController: UIViewController, ThemeConfigurable {
     }
 
 	override func loadView() {
-		view = UITableView(frame: .zero, style: .plain)
+		view = tableView
 	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-        		
-		tableView.tableFooterView = UIView()
-		tableView.delegate = self
-        tableView.rowHeight = 90
 		viewModel.configure(with: tableView)
 	}
 

@@ -48,6 +48,7 @@ final class SelectableSearchViewModel: NSObject, SelectableSearchViewModelType {
     }
 
     func configure(with tableView: UITableView) {
+        tableView.register(SelectableSearchResultViewCell.self, forCellReuseIdentifier: String(describing: SelectableSearchResultViewCell.self))
         tableView.dataSource = dataSource
         fetchedResultsControllerDelegate =
             TableViewFetchedResultsControllerDynamicChangesHandler(
@@ -85,15 +86,15 @@ final class SelectableSearchViewModel: NSObject, SelectableSearchViewModelType {
 extension SelectableSearchViewModel: TableListDataSource {
     
     func cellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
-        return "SelectableSearchResultViewCell"
+        return String(describing: SelectableSearchResultViewCell.self)
     }
 
     func listView(_ listView: UITableView, configureCell cell: UITableViewCell,
                   withObject object: SelectableSearchModelItem, atIndexPath indexPath: IndexPath) {
         
-        cell.textLabel?.text = listItems[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row].name
+        cell.textLabel?.text = listItems[indexPath.section][indexPath.row].name
         
-        if selectedItemIndex == (indexPath as NSIndexPath).row {
+        if selectedItemIndex == indexPath.row {
             cell.accessoryType = .checkmark
         } else {
             cell.accessoryType = .none

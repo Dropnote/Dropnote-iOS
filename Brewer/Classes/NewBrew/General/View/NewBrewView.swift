@@ -10,12 +10,15 @@ import SnapKit
 final class NewBrewView: UIView {
     lazy var collectionView: UICollectionView = {
 		let layout = UICollectionViewFlowLayout()
+		layout.minimumInteritemSpacing = 0
+		layout.minimumLineSpacing = 0
 		layout.scrollDirection = .horizontal
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         if #available(iOS 10.0, *) {
             collectionView.isPrefetchingEnabled = false
         }
 		collectionView.isScrollEnabled = true
+        collectionView.isPagingEnabled = true
 		collectionView.delaysContentTouches = false
 		return collectionView
 	}()
@@ -26,8 +29,8 @@ final class NewBrewView: UIView {
 
 	public override init(frame: CGRect) {
 		super.init(frame: frame)
+        addSubview(collectionView)
 		addSubview(progressView)
-		addSubview(collectionView)
 		addSubview(navigationBar)
 		configureConstraints()
 	}
@@ -41,8 +44,8 @@ final class NewBrewView: UIView {
 			make in
 			make.top.equalToSuperview()
 			make.height.equalTo(44)
-			make.leading.equalToSuperview()
-			make.trailing.equalToSuperview()
+			make.leading.equalToSuperview().offset(15)
+			make.trailing.equalToSuperview().offset(-15)
 		}
 		collectionView.snp.makeConstraints {
 			make in
@@ -63,16 +66,16 @@ final class NewBrewView: UIView {
 		                                                       toItem: self,
 		                                                       attribute: .bottom,
 		                                                       multiplier: 1,
-		                                                       constant: 0)
+		                                                       constant: -10.0)
         NSLayoutConstraint.activate([navigationBarBottomConstraint])
 		self.navigationBarBottomConstraint = navigationBarBottomConstraint
 	}
 
 	func handleKeyboardStateChange(_ info: KeyboardInfo) {
 		if info.state == .willShow || info.state == .visible {
-			navigationBarBottomConstraint?.constant = info.endFrame.size.height + 10
+			navigationBarBottomConstraint?.constant = -info.endFrame.size.height + -10
 		} else {
-			navigationBarBottomConstraint?.constant = 10.0
+			navigationBarBottomConstraint?.constant = -10.0
 		}
 
 		UIView.animate(withDuration: info.animationDuration, delay: 0.0, options: info.animationOptions, animations: {
@@ -85,7 +88,7 @@ extension NewBrewView {
 	func configure(with theme: ThemeConfiguration?) {
         super.configure(with: theme)
         collectionView.configure(with: theme)
-        progressView.configure(with: theme)
-        navigationBar.configure(with: theme)
+		progressView.configure(with: theme)
+		navigationBar.configure(with: theme)
 	}
 }

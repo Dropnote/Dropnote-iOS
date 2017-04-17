@@ -32,21 +32,21 @@ final class SliderView: UIView {
 	private func configureConstraint() {
 		slider.snp.makeConstraints {
 			make in
-			make.leading.equalToSuperview().offset(margin)
-			make.trailing.equalToSuperview().offset(-margin)
-			make.top.equalTo(leadingLabel.snp.bottom).offset(-spacing)
+			make.leading.equalToSuperview().offset(1.5 * margin)
+			make.trailing.equalToSuperview().offset(-1.5 * margin)
+			make.top.equalTo(leadingLabel.snp.bottom).offset(spacing)
 			make.bottom.equalToSuperview()
 		}
 		leadingLabel.snp.makeConstraints {
 			make in
 			make.leading.equalTo(slider.snp.leading)
-			make.bottom.equalTo(slider.snp.top).offset(spacing)
+			make.bottom.equalTo(slider.snp.top).offset(-spacing)
 			make.top.equalToSuperview()
 		}
 		trailingLabel.snp.makeConstraints {
 			make in
 			make.trailing.equalTo(slider.snp.trailing)
-			make.bottom.equalTo(slider.snp.top).offset(spacing)
+			make.bottom.equalTo(slider.snp.top).offset(-spacing)
 			make.top.equalToSuperview()
 		}
 	}

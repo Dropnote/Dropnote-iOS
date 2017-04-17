@@ -69,22 +69,25 @@ final class GrindSizeViewController: UIViewController {
         sliderView.isHidden = !viewModel.isSliderVisible.value
         sliderView.slider.rx.value.bindTo(viewModel.sliderValue).addDisposableTo(disposeBag)
 
-        switchButton.rx.tap.map { !self.viewModel.isSliderVisible.value }.bindTo(viewModel.isSliderVisible).addDisposableTo(disposeBag)
-        switchButton.rx.tap.bindNext(showKeyboardIfNeeded).addDisposableTo(disposeBag)
+        switchButton.rx.tap
+                .map { !self.viewModel.isSliderVisible.value }
+                .do(onNext: showKeyboardIfNeeded(isSliderVisible:))
+                .bindTo(viewModel.isSliderVisible)
+                .addDisposableTo(disposeBag)
         viewModel.isSliderVisible.asDriver().drive(sliderView.rx.isHidden).addDisposableTo(disposeBag)
-        viewModel.isSliderVisible.asDriver().map(!).drive(numericValueTextField.rx.isHidden).addDisposableTo(disposeBag)
         viewModel.isSliderVisible.asDriver().drive(onNext: setButtonTitle).addDisposableTo(disposeBag)
+        viewModel.isSliderVisible.asDriver().map(!).drive(numericValueTextField.rx.isHidden).addDisposableTo(disposeBag)
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         grindSizeView.configure(with: themeConfiguration)
-        showKeyboardIfNeeded()
+        showKeyboardIfNeeded(isSliderVisible: viewModel.isSliderVisible.value)
     }
     
-    private func showKeyboardIfNeeded() {
-        if viewModel.isSliderVisible.value {
+    private func showKeyboardIfNeeded(isSliderVisible: Bool) {
+        if !isSliderVisible {
             numericValueTextField.resignFirstResponder()
         } else {
             numericValueTextField.becomeFirstResponder()
@@ -92,7 +95,7 @@ final class GrindSizeViewController: UIViewController {
     }
 
     private func setButtonTitle(isVisible: Bool) {
-        let buttonTitle = !isVisible ? tr(.grindSizeSliderButtonTitle) : tr(.grindSizeNumericButtonTitle)
+        let buttonTitle = isVisible ? tr(.grindSizeSliderButtonTitle) : tr(.grindSizeNumericButtonTitle)
         switchButton.setTitle(buttonTitle, for: .normal)
     }
 }

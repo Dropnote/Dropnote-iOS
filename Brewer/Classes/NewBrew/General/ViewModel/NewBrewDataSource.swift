@@ -29,12 +29,12 @@ final class NewBrewDataSource {
     func reloadData() {
         progressIcons.removeAll()
         stepViewControllers.removeAll()
-        stepViewControllers.append(loadCoffeeSectionViewControllers(brewContext))
-        stepViewControllers.append(loadAttributesViewControllers(brewContext))
+        stepViewControllers.append(loadCoffeeSectionViewControllers(using: brewContext))
+        stepViewControllers.append(loadAttributesViewControllers(using: brewContext))
         stepViewControllers.append(loadSummaryViewControllers())
     }
 
-    private func loadCoffeeSectionViewControllers(_ brewContext: StartBrewContext) -> [UIViewController] {
+    private func loadCoffeeSectionViewControllers(using brewContext: StartBrewContext) -> [UIViewController] {
         func instantiateViewController(withIdentifier identifier: SelectableSearchIdentifier, model: BrewModelControllerType) -> SelectableSearchViewController {
             let viewController = resolver.resolve(SelectableSearchViewController.self, arguments: identifier, model)!
             viewController.title = identifier.description
@@ -51,7 +51,7 @@ final class NewBrewDataSource {
         return viewControllers
     }
 
-    private func loadAttributesViewControllers(_ brewContext: StartBrewContext) -> [UIViewController] {
+    private func loadAttributesViewControllers(using brewContext: StartBrewContext) -> [UIViewController] {
         let factory = NewBrewViewControllersFactory(resolver: resolver, brewModelController: brewModelController)
         let sequence = settingsModelController
             .sequenceSteps(for: brewContext.method, filter: .active)

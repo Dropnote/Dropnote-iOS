@@ -16,7 +16,11 @@ final class NewBrewViewController: UIViewController {
 	fileprivate let disposeBag = DisposeBag()
 	fileprivate let keyboardManager = KeyboardManager()
 
-	fileprivate lazy var closeBarButtonItem = UIBarButtonItem(image: UIImage(asset: .Ic_close)!, style: .plain, target: self, action: #selector(close))
+	fileprivate lazy var closeBarButtonItem: UIBarButtonItem = {
+		let buttonItem = UIBarButtonItem(image: UIImage(asset: .Ic_close)!, style: .plain, target: nil, action: nil)
+		buttonItem.rx.tap.subscribe(onNext: self.close).addDisposableTo(self.disposeBag)
+		return buttonItem
+	}()
 	fileprivate lazy var newBrewView = NewBrewView(frame: .zero)
 
 	fileprivate var navigationBar: NewBrewNavigationBar {
@@ -62,8 +66,9 @@ final class NewBrewViewController: UIViewController {
 		title = tr(.newBrewItemTitle)
         newBrewView.configure(with: themeConfiguration)
 		collectionView.delegate = self
-		viewModel.configureWithCollectionView(collectionView)
+        viewModel.configure(with: collectionView)
 
+		navigationItem.leftBarButtonItem = closeBarButtonItem
 		navigationBar.alpha = 0
 
 		_ = viewModel.failedToCreateNewBrewSubject.subscribe(onNext: {
@@ -82,7 +87,8 @@ final class NewBrewViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)        
+        super.viewWillAppear(animated)
+        configure(with: themeConfiguration)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.newBrew)
     }
     
@@ -125,14 +131,14 @@ final class NewBrewViewController: UIViewController {
 extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 
 	func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-		let childViewController = viewModel.stepViewController(forIndexPath: indexPath)
+		let childViewController = viewModel.stepViewController(for: indexPath)
 		addChildViewController(childViewController)
 		childViewController.didMove(toParentViewController: self)
-        cell.configure(with: themeConfiguration)
+		(cell as? NewBrewCollectionViewCell)?.configure(with: themeConfiguration)
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let childViewController = viewModel.stepViewController(forIndexPath: indexPath)
+        let childViewController = viewModel.stepViewController(for: indexPath)
         childViewController.removeFromParentViewController()
     }
     
@@ -143,7 +149,7 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        currentPageIndex = metrics.currentPageIndexForScrollView(scrollView)
+        currentPageIndex = metrics.currentPageIndex(for: scrollView)
         setCurrentViewController(scrollView)
         setDoneBarButtonItemIfNeeded(scrollView)
         disableProgressViewIfNeeded(scrollView)
@@ -151,7 +157,7 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 	}
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        currentPageIndex = metrics.currentPageIndexForScrollView(scrollView)
+        currentPageIndex = metrics.currentPageIndex(for: scrollView)
         setCurrentViewController(scrollView)
         setDoneBarButtonItemIfNeeded(scrollView)
         disableProgressViewIfNeeded(scrollView)
@@ -161,7 +167,7 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 	// MARK: Helpers
 
 	fileprivate func setDoneBarButtonItemIfNeeded(_ scrollView: UIScrollView) {
-		if metrics.isLastPageOfScrollView(scrollView) {
+		if metrics.isLastPage(of: scrollView) {
 			let barButtonItem = UIBarButtonItem(image: UIImage(asset: .Ic_done), style: .plain, target: self, action: #selector(done))
 			navigationItem.setRightBarButton(barButtonItem, animated: true)
 		} else {
@@ -172,14 +178,14 @@ extension NewBrewViewController: UICollectionViewDelegateFlowLayout {
 	}
     
     private func disableProgressViewIfNeeded(_ scrollView: UIScrollView) {
-        if metrics.isLastPageOfScrollView(scrollView) {
+        if metrics.isLastPage(of: scrollView) {
             progressView.disable()
         }
     }
 
 	fileprivate func setCurrentViewController(_ scrollView: UIScrollView) {
-		let currentIndex = metrics.currentPageIndexForScrollView(scrollView)
-		if let activeViewController = viewModel.setActiveViewControllerAtIndex(currentIndex) {
+		let currentIndex = metrics.currentPageIndex(for: scrollView)
+        if let activeViewController = viewModel.setActiveViewController(at: currentIndex) {
 			title = activeViewController.title ?? viewModel.methodTitle
 		} else {
 			title = viewModel.methodTitle
@@ -199,10 +205,10 @@ extension NewBrewViewController {
     }
     
     func updateNavigationArrows() {
-        if metrics.isFirstPageOfScrollView(collectionView) {
+        if metrics.isFirstPage(of: collectionView) {
             navigationBar.showNextArrow()
             navigationBar.hidePreviousArrow()
-        } else if metrics.isLastPageOfScrollView(collectionView) {
+        } else if metrics.isLastPage(of: collectionView) {
             navigationBar.showPreviousArrow()
             navigationBar.hideNextArrow()
         } else {

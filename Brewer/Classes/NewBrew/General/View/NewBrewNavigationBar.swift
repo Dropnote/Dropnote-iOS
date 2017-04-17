@@ -100,7 +100,7 @@ final class NewBrewNavigationBar: UIView {
 
 extension NewBrewNavigationBar {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
+    func configure(with theme: ThemeConfiguration?) {
         backgroundColor = UIColor.clear
         nextButton.backgroundColor = theme?.lightColor
         nextButton.layer.borderColor = theme?.lightTintColor.cgColor

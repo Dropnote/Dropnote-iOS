@@ -27,6 +27,7 @@ final class FinalScoreCell: UITableViewCell, Highlightable {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(titleLabel)
         contentView.addSubview(valueLabel)
+        valueLabel.textAlignment = .right
         configureConstraints()
     }
     

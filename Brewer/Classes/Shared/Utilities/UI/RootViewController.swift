@@ -74,6 +74,8 @@ final class RootViewController: UITabBarController {
         _ = newBrewViewController
                 .hideViewControllerSwitchingToHistorySubject
                 .subscribe(onNext: dismissNewBrewViewController)
+        let navigatationController = UINavigationController(rootViewController: newBrewViewController)
+        present(navigatationController, animated: true, completion: nil)
     }
 }
 

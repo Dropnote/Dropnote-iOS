@@ -70,6 +70,7 @@
 		81086ACED3F1B9C7997BE2D8 /* CoreComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086A97C30234A123021EF5 /* CoreComponents.swift */; };
 		81086B01DF43F744FD8EA002 /* NewBrewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086EB3171948A244B173A8 /* NewBrewAssembly.swift */; };
 		81086B044A7C17B02CC60B86 /* MethodPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810868E58735C1AE482D5231 /* MethodPickerViewController.swift */; };
+		81086B219A1FCFBC21A2C54A /* SelectableSearchResultViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810865A7E5CA1774B1E63214 /* SelectableSearchResultViewCell.swift */; };
 		81086B4B7D8A7604E7E02DB1 /* SelectableSearchModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810868F8FB9406C6BA0C06F2 /* SelectableSearchModelController.swift */; };
 		81086B74155C4C5337927A56 /* SwinjectUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086689BCA7AD410E278310 /* SwinjectUtilities.swift */; };
 		81086BAD17239F95201CF5DC /* WaterInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810860A2CA73F1AA990F784D /* WaterInputViewModel.swift */; };
@@ -77,6 +78,7 @@
 		81086BDC2D8095B2E3ED9030 /* SequenceSettingsModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086E69C92D8D48924F6B94 /* SequenceSettingsModelController.swift */; };
 		81086BE52D7C74E4EC4E82E2 /* SegueHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086636AD945FE209F789DF /* SegueHandler.swift */; };
 		81086BEB75F5A78C5314459D /* BrewingSortingOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810865716CE8D9169CDA2E2D /* BrewingSortingOption.swift */; };
+		81086C61F5E5A08AA2551FE2 /* ThemeConfigurable+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086EE2031DCADEC8E27FF6 /* ThemeConfigurable+UIButton.swift */; };
 		81086C7A01E97E1B4EDCD810 /* BrewAttribute+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810861AB311B6B1929A52147 /* BrewAttribute+CoreDataProperties.swift */; };
 		81086CA53FDE501DF6158603 /* ResolvableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810868EF18FB0CFDC2D44574 /* ResolvableContainer.swift */; };
 		81086CC3D57E570F00F05701 /* SequenceSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81086D7CCC8A20A5AEC88EFB /* SequenceSettingsViewController.swift */; };
@@ -233,6 +235,7 @@
 		8108652D10E894F410E7C05A /* BrewModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewModelController.swift; sourceTree = "<group>"; };
 		81086558579BE4C268DF2E7F /* ActivableProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivableProtocol.swift; sourceTree = "<group>"; };
 		810865716CE8D9169CDA2E2D /* BrewingSortingOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewingSortingOption.swift; sourceTree = "<group>"; };
+		810865A7E5CA1774B1E63214 /* SelectableSearchResultViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableSearchResultViewCell.swift; sourceTree = "<group>"; };
 		810865F808F02D71C25DCC39 /* SliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 		810866144D6AE66D3CD39FA3 /* KeyValueStoreType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueStoreType.swift; sourceTree = "<group>"; };
 		81086633FFC90C2559929AFC /* BrewDetailsViewControllersFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrewDetailsViewControllersFactory.swift; sourceTree = "<group>"; };
@@ -285,6 +288,7 @@
 		81086E69C92D8D48924F6B94 /* SequenceSettingsModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SequenceSettingsModelController.swift; sourceTree = "<group>"; };
 		81086E7E68204862239BB819 /* Brewer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Brewer.xcdatamodel; sourceTree = "<group>"; };
 		81086EB3171948A244B173A8 /* NewBrewAssembly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBrewAssembly.swift; sourceTree = "<group>"; };
+		81086EE2031DCADEC8E27FF6 /* ThemeConfigurable+UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ThemeConfigurable+UIButton.swift"; sourceTree = "<group>"; };
 		81086EED1833527712835891 /* MethodPickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MethodPickerCell.swift; sourceTree = "<group>"; };
 		81086F05B3B633DF8425DDF2 /* CoreDataExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataExtensions.swift; sourceTree = "<group>"; };
 		81086F0CD67472FD98100C61 /* SegueIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueIdentifier.swift; sourceTree = "<group>"; };
@@ -854,6 +858,7 @@
 				8108652B71931910B7275F0E /* SelectableSearch.storyboard */,
 				81086B417F7735B9E48723C0 /* SelectableSearchViewController.swift */,
 				81086CA41C6F3B3CB7F57B32 /* SelectableSearchView.swift */,
+				810865A7E5CA1774B1E63214 /* SelectableSearchResultViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1367,6 +1372,7 @@
 				A10F29C31CDF2CD300593284 /* ThemeConfigurable+UITextView.swift */,
 				A1D90F011CDFD76600BF6DEA /* ThemeConfigurable+UISlider.swift */,
 				810864C8557EFC17045F32FE /* ThemeConfiguration+UITableViewCell.swift */,
+				81086EE2031DCADEC8E27FF6 /* ThemeConfigurable+UIButton.swift */,
 			);
 			path = Themes;
 			sourceTree = "<group>";
@@ -1829,6 +1835,8 @@
 				81086218224D0BE71F9B985C /* BrewDetailsViewControllersFactory.swift in Sources */,
 				81086458B44D50A92D293B11 /* ThemeConfiguration+UITableViewCell.swift in Sources */,
 				81086A3382BE8D68A69FCF4D /* UnitsView.swift in Sources */,
+				81086C61F5E5A08AA2551FE2 /* ThemeConfigurable+UIButton.swift in Sources */,
+				81086B219A1FCFBC21A2C54A /* SelectableSearchResultViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

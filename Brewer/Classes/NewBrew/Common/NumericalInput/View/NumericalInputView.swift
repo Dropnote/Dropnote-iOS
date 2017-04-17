@@ -11,7 +11,9 @@ final class NumericalInputView: UIView {
 	lazy var inputTextField: NumericalInputTextField = {
 		let textField = NumericalInputTextField()
 		textField.accessibilityLabel = "Type"
-		textField.tintColor = UIColor.clear
+		textField.tintColor = .clear
+		textField.textAlignment = .center
+        textField.keyboardType = .numberPad
 		return textField
 	}()
     lazy var informativeLabel: InformativeLabel = InformativeLabel()
@@ -48,6 +50,8 @@ extension NumericalInputView {
 	func configure(with theme: ThemeConfiguration?) {
         super.configure(with: theme)
         inputTextField.configure(with: theme)
+		inputTextField.font = theme?.defaultFontWithSize(50)
         informativeLabel.configure(with: theme)
+		informativeLabel.font = theme?.defaultFontWithSize(14)
 	}
 }

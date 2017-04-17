@@ -27,6 +27,7 @@ final class BrewAttributeCell: UITableViewCell, Highlightable {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(titleLabel)
         contentView.addSubview(valueLabel)
+        valueLabel.textAlignment = .right
         configureConstraints()
     }
     
@@ -45,7 +46,7 @@ final class BrewAttributeCell: UITableViewCell, Highlightable {
         valueLabel.snp.makeConstraints {
             make in
             make.leading.equalTo(titleLabel.snp.trailing).offset(20)
-            make.trailing.equalToSuperview().offset(-60)
+            make.trailing.equalToSuperview().offset(-30)
             make.width.greaterThanOrEqualTo(80)
             make.top.equalToSuperview().offset(10)
             make.bottom.equalToSuperview().offset(-10)

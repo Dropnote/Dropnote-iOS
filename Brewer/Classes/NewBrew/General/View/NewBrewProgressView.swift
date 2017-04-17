@@ -82,7 +82,7 @@ final class NewBrewProgressView: UIStackView {
 
 extension NewBrewProgressView {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
+    func configure(with theme: ThemeConfiguration?) {
         guard let theme = theme else { return }
         backgroundView?.backgroundColor = theme.lightColor
         tintColor = UIColor.lightGray

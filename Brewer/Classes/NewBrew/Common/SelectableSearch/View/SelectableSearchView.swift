@@ -8,7 +8,7 @@ import UIKit
 import SnapKit
 
 final class SelectableSearchView: UIStackView {
-	lazy var inputTextField = UITextField()
+	lazy var inputTextField: UITextField = UITextField()
 	lazy var tableView: UITableView = {
 		let tableView = UITableView(frame: .zero, style: .plain)
 		tableView.tableFooterView = UIView()
@@ -52,5 +52,6 @@ extension SelectableSearchView {
         super.configure(with:theme)
         tableView.configure(with: theme)
         inputTextField.configure(with: theme)
+		inputTextField.font = theme?.defaultFontWithSize(14)
 	}
 }

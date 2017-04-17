@@ -67,14 +67,14 @@ final class SelectableSearchViewController: UIViewController {
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-        view.configure(with: themeConfiguration)
+		selectableSearchView.configure(with: themeConfiguration)
 	}
 }
 
 extension SelectableSearchViewController: UITableViewDelegate {
 
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
+        cell.accessibilityLabel = "Select \(indexPath.row + 1)"
         cell.configure(with: themeConfiguration)
 	}
 

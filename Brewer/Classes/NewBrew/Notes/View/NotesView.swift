@@ -25,7 +25,7 @@ final class NotesView: UIView {
 			make in
 			make.leading.equalToSuperview().offset(10)
 			make.trailing.equalToSuperview().offset(-10)
-			make.bottom.equalTo(self.snp.bottomMargin)
+			make.bottom.equalTo(snp.bottomMargin)
 			make.top.equalToSuperview().offset(10)
 		}
 	}

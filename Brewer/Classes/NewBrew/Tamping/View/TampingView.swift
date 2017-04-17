@@ -43,7 +43,8 @@ final class TampingView: UIView {
 }
 
 extension TampingView {
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
+
+    func configure(with theme: ThemeConfiguration?) {
         super.configure(with: theme)
         sliderView.configure(with: theme)
         informativeLabel.configure(with: theme)

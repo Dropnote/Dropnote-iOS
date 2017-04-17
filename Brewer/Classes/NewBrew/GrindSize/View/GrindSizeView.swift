@@ -10,7 +10,14 @@ import SnapKit
 final class GrindSizeView: UIView {
 	lazy var informativeLabel: InformativeLabel = InformativeLabel()
 	lazy var sliderView: SliderView = SliderView()
-	lazy var textField: NumericalInputTextField = NumericalInputTextField()
+	lazy var textField: NumericalInputTextField = {
+		let textField = NumericalInputTextField()
+		textField.accessibilityLabel = "Grind size"
+		textField.tintColor = .clear
+		textField.textAlignment = .center
+		textField.keyboardType = .numberPad
+		return textField
+	}()
 	lazy var switchButton: UIButton = UIButton(type: .custom)
 
 	init() {
@@ -33,9 +40,9 @@ final class GrindSizeView: UIView {
 	private func configureConstraints() {
 		sliderView.snp.makeConstraints {
 			make in
-			make.leading.equalToSuperview().offset(10)
-			make.trailing.equalToSuperview().offset(-10)
-			make.top.equalToSuperview().offset(-45)
+			make.leading.equalToSuperview()
+			make.trailing.equalToSuperview()
+			make.top.equalToSuperview().offset(45)
 		}
 		textField.snp.makeConstraints {
 			make in
@@ -46,9 +53,10 @@ final class GrindSizeView: UIView {
 		}
 		switchButton.snp.makeConstraints {
 			make in
-			make.top.equalTo(sliderView.snp.bottom).offset(40)
-			make.leading.greaterThanOrEqualTo(self.snp.leading).offset(20)
-			make.trailing.greaterThanOrEqualTo(self.snp.trailing).offset(-20)
+			make.top.equalTo(textField.snp.bottom).offset(40)
+			make.leading.greaterThanOrEqualTo(snp.leading).offset(20)
+			make.trailing.greaterThanOrEqualTo(snp.trailing).offset(-20)
+			make.centerX.equalToSuperview()
 		}
 		informativeLabel.snp.makeConstraints {
 			make in
@@ -63,6 +71,10 @@ extension GrindSizeView {
         super.configure(with: theme)
         sliderView.configure(with: theme)
         textField.configure(with: theme)
+		textField.font = theme?.defaultFontWithSize(50)
+		switchButton.configure(with: theme)
+		switchButton.titleLabel?.font = theme?.defaultFontWithSize(15)
+		switchButton.setTitleColor(theme?.lightTintColor, for: .normal)
         informativeLabel.configure(with: theme)
 	}
 }
