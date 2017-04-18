@@ -21,7 +21,7 @@ final class BrewingsViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.tableFooterView = UIView()
         tableView.backgroundView = UIView()
-        tableView.rowHeight = 80
+        tableView.rowHeight = 84
         tableView.delegate = self
         tableView.emptyDataSetDelegate = self
         tableView.emptyDataSetSource = self

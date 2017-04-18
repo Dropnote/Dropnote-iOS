@@ -28,6 +28,7 @@ final class FinalScoreCell: UITableViewCell, Highlightable {
         contentView.addSubview(titleLabel)
         contentView.addSubview(valueLabel)
         valueLabel.textAlignment = .right
+        accessoryType = .disclosureIndicator
         configureConstraints()
     }
     
@@ -44,7 +45,7 @@ final class FinalScoreCell: UITableViewCell, Highlightable {
         }
         valueLabel.snp.makeConstraints {
             make in
-            make.trailing.equalToSuperview().offset(-60)
+            make.trailing.equalToSuperview().offset(-30)
             make.centerY.equalToSuperview()
         }
     }

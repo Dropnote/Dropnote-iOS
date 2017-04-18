@@ -10,6 +10,12 @@ import Foundation
 import UIKit
 
 extension UIViewController {
+    func setupDefaultBackBarButtonItemIfNeeded() {
+        if let _ = navigationController {
+            navigationItem.setLeftBarButton(createDefaultBackBarButtonItem(), animated: false)
+        }
+    }
+
     func createDefaultBackBarButtonItem() -> UIBarButtonItem {
         return UIBarButtonItem(image: UIImage(asset: .Ic_back), style: .plain, target: self, action: #selector(pop))
     }

@@ -49,6 +49,8 @@ final class NotesViewController: UIViewController {
         title = BrewAttributeType.notes.description
         notesTextView.text = viewModel.notes.value
         notesTextView.rx.text.bindTo(viewModel.notes).addDisposableTo(disposeBag)
+        setupDefaultBackBarButtonItemIfNeeded()
+        enableSwipeToBack()
     }
     
     override func viewWillAppear(_ animated: Bool) {

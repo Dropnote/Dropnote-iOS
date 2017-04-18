@@ -14,7 +14,7 @@ import RxCocoa
 
 final class BrewScoreDetailCell: UITableViewCell {
     fileprivate let disposeBag = DisposeBag()
-    lazy var sliderView = SliderView(margin: 30, spacing: 20)
+    lazy var sliderView = SliderView(margin: 15, spacing: 5)
 
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,7 +32,7 @@ final class BrewScoreDetailCell: UITableViewCell {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-15)
         }
     }
 }
@@ -55,5 +55,7 @@ extension BrewScoreDetailCell {
     func configure(with theme: ThemeConfiguration?) {
         backgroundColor = theme?.lightColor
         sliderView.configure(with: theme)
+        sliderView.leadingLabel.font = theme?.defaultFontWithSize(15)
+        sliderView.trailingLabel.font = theme?.defaultFontWithSize(15)
     }
 }

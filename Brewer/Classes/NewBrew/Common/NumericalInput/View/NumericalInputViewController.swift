@@ -51,6 +51,8 @@ final class NumericalInputViewController: UIViewController {
         if let currentValue = viewModel.currentValue {
             inputTextField.text = currentValue
         }
+        setupDefaultBackBarButtonItemIfNeeded()
+        enableSwipeToBack()
     }
     
     override func viewWillAppear(_ animated: Bool) {

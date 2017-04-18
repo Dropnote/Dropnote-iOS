@@ -21,7 +21,7 @@ final class BrewDetailsViewControllersFactory {
 			case .score:
 				return resolver.resolve(BrewScoreDetailsViewController.self, argument: viewModel.currentBrew())!
 			case .attributes:
-				guard viewModel.editable else { return nil }
+				guard viewModel.isEditable else { return nil }
 				let brewAttributeType = viewModel.brewAttributeType(forIndexPath: indexPath)
 				let newBrewViewControllersFactory = NewBrewViewControllersFactory(resolver: resolver,
 																				  brewModelController: viewModel.brewModelController)
@@ -29,7 +29,7 @@ final class BrewDetailsViewControllersFactory {
 			case .notes:
 				return resolver.resolve(NotesViewController.self, argument: viewModel.brewModelController)!
 			case .coffeeInfo:
-				guard viewModel.editable else { return nil }
+				guard viewModel.isEditable else { return nil }
 				let searchIdentifier = viewModel.coffeeAttribute(forIndexPath: indexPath)
 				let viewController = resolver.resolve(SelectableSearchViewController.self,
 													  arguments: searchIdentifier, viewModel.brewModelController)!

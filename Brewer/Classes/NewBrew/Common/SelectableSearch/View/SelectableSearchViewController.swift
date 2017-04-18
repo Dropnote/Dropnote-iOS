@@ -63,6 +63,8 @@ final class SelectableSearchViewController: UIViewController {
             .skip(1)
             .drive(onNext: viewModel.setSearchString)
             .addDisposableTo(disposeBag)
+		setupDefaultBackBarButtonItemIfNeeded()
+		enableSwipeToBack()
 	}
 
 	override func viewWillAppear(_ animated: Bool) {

@@ -28,12 +28,12 @@ final class BrewScoreDetailsHeaderView: UIView {
     private func configureConstraints() {
         titleLabel.snp.makeConstraints {
             make in
-            make.leading.equalToSuperview().offset(30)
+            make.leading.equalToSuperview().offset(15)
             make.centerY.equalToSuperview()
         }
         valueLabel.snp.makeConstraints {
             make in
-            make.leading.equalToSuperview().offset(-30)
+            make.trailing.equalToSuperview().offset(-15)
             make.centerY.equalToSuperview()
         }
     }

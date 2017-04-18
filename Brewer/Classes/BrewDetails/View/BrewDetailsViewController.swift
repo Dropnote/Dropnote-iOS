@@ -50,6 +50,7 @@ final class BrewDetailsViewController: UIViewController {
 		super.viewDidLoad()
 		viewModel.configure(with: tableView)
         enableSwipeToBack()
+		setupDefaultBackBarButtonItemIfNeeded()
         navigationController?.delegate = self
 	}
 
@@ -107,7 +108,7 @@ extension BrewDetailsViewController: UITableViewDelegate {
     }
 
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
+        cell.accessibilityLabel = "Select \((indexPath).row + 1)"
         (cell as? FinalScoreCell)?.configure(with: themeConfiguration)
         (cell as? BrewAttributeCell)?.configure(with: themeConfiguration)
         (cell as? BrewNotesCell)?.configure(with: themeConfiguration)
@@ -129,8 +130,6 @@ extension BrewDetailsViewController: UITableViewDelegate {
 		}
 
         guard let viewController = factory.createViewController(for: sectionType, at: indexPath) else { return }
-		viewController.navigationItem.leftBarButtonItem = createDefaultBackBarButtonItem()
-		viewController.enableSwipeToBack()
         pushedViewController = viewController
 		navigationController?.pushViewController(viewController, animated: true)
 	}

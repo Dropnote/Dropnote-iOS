@@ -35,7 +35,7 @@ enum BrewDetailsTableViewSection: Int {
 }
 
 protocol BrewDetailsViewModelType: TableViewConfigurable {
-	var editable: Bool { get }
+	var isEditable: Bool { get }
 	var brewModelController: BrewModelControllerType { get }
 
 	func refreshData()
@@ -83,7 +83,7 @@ fileprivate struct BrewDetailsPresentable: TitleValuePresentable {
 final class BrewDetailsViewModel: BrewDetailsViewModelType {
 	private let disposeBag = DisposeBag()
 	let brewModelController: BrewModelControllerType
-	let editable: Bool
+	let isEditable: Bool
 
 	private let spotlightSearchService: SpotlightSearchService
     private lazy var dataSource: TableViewSourceWrapper<BrewDetailsViewModel> = TableViewSourceWrapper(tableDataSource: self)
@@ -91,7 +91,7 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 	init(editable: Bool = false, brewModelController: BrewModelControllerType, spotlightSearchService: SpotlightSearchService) {
 		self.brewModelController = brewModelController
 		self.spotlightSearchService = spotlightSearchService
-        self.editable = editable
+        self.isEditable = editable
 	}
 
 	func configure(with tableView: UITableView) {
@@ -107,7 +107,7 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 	}
 
 	func saveBrewIfNeeded() {
-		if editable {
+		if isEditable {
             brewModelController.saveBrew().subscribe(onError: {
 				print(($0 as NSError).localizedDescription)
 			}).addDisposableTo(disposeBag)
@@ -152,7 +152,7 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 				value: currentBrew().notes ?? "",
 				identifier: .notes)
 		])
-        if editable {
+        if isEditable {
             listItems.append([BrewDetailsPresentable(title: tr(.brewDetailsRemoveTitle), value: "")])
         }
 	}
@@ -198,7 +198,7 @@ extension BrewDetailsViewModel: TableListDataSource {
     func listView(_ listView: UITableView, configureCell cell: UITableViewCell, withObject object: TitleValuePresentable, atIndexPath indexPath: IndexPath) {
         let sectionType = self.sectionType(forIndexPath: indexPath)
         if sectionType != .score && sectionType != .remove {
-            cell.accessoryType = editable ? .disclosureIndicator : .none
+			cell.accessoryType = isEditable ? .disclosureIndicator : .none
         }
         let presentable = listItems[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
         (cell as? FinalScoreCell)?.configure(with: presentable)

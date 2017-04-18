@@ -7,23 +7,26 @@ import Foundation
 import UIKit
 import SnapKit
 
-final class SelectableSearchView: UIStackView {
+final class SelectableSearchView: UIView {
 	lazy var inputTextField: UITextField = UITextField()
 	lazy var tableView: UITableView = {
 		let tableView = UITableView(frame: .zero, style: .plain)
 		tableView.tableFooterView = UIView()
 		return tableView
 	}()
+	private lazy var stackView: UIStackView = {
+		let stackView = UIStackView(arrangedSubviews: [self.inputTextField, self.tableView])
+		stackView.axis = .vertical
+		stackView.alignment = .center
+		stackView.distribution = .fill
+		stackView.spacing = 10.0
+		return stackView
+	}()
 
 	init() {
 		super.init(frame: .zero)
-        addArrangedSubview(inputTextField)
-        addArrangedSubview(tableView)
 		inputTextField.accessibilityLabel = "Type"
-		axis = .vertical
-		alignment = .center
-		distribution = .fill
-		spacing = 10.0
+		addSubview(stackView)
 		configureConstraints()
 	}
     
@@ -32,6 +35,10 @@ final class SelectableSearchView: UIStackView {
     }
 
 	private func configureConstraints() {
+		stackView.snp.makeConstraints {
+			make in
+			make.leading.top.trailing.bottom.equalToSuperview()
+		}
 		inputTextField.snp.makeConstraints {
 			make in
 			make.leading.equalToSuperview().offset(15)

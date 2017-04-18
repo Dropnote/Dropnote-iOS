@@ -13,7 +13,7 @@ final class MethodPickerViewController: UIViewController, ThemeConfigurable {
 	fileprivate lazy var tableView: UITableView = {
 		let tableView = UITableView(frame: .zero, style: .plain)
 		tableView.tableFooterView = UIView()
-		tableView.rowHeight = 88
+		tableView.rowHeight = 84
 		tableView.delegate = self
 		return tableView
 	}()

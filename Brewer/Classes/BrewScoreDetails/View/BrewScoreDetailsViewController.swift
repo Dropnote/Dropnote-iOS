@@ -43,6 +43,10 @@ final class BrewScoreDetailsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+	override func loadView() {
+		view = brewScoreDetailsView
+	}
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		title = tr(.brewScoreDetailsItemTitle)
@@ -56,15 +60,20 @@ final class BrewScoreDetailsViewController: UIViewController {
         
         tableView.delegate = self
 		viewModel.configure(with: tableView)
-        
-        enableSwipeToBack()
+
+		setupDefaultBackBarButtonItemIfNeeded()
+		enableSwipeToBack()
+
+		headerView.alpha = 0
 	}
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         brewScoreDetailsView.configure(with: themeConfiguration)
-
-        Analytics.sharedInstance.trackScreen(withTitle: AppScreen.scoreDetails)
+		transitionCoordinator?.animate(alongsideTransition: { _ in
+			self.headerView.alpha = 1
+		})
+		Analytics.sharedInstance.trackScreen(withTitle: AppScreen.scoreDetails)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -74,6 +83,9 @@ final class BrewScoreDetailsViewController: UIViewController {
         } else {
             viewModel.dropScoreChanges()
         }
+		transitionCoordinator?.animate(alongsideTransition: { _ in
+			self.headerView.alpha = 0
+		})
     }
     
     @objc fileprivate func done() {

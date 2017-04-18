@@ -27,7 +27,7 @@ final class BrewCellScoreView: UIView {
         }
     }
 
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(fillingView)
         addSubview(scoreLabel)
@@ -61,7 +61,7 @@ final class BrewCellScoreView: UIView {
 
 extension BrewCellScoreView {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
+    func configure(with theme: ThemeConfiguration?) {
         super.configure(with: theme)
         scoreLabel.configure(with: theme)
         scoreLabel.backgroundColor = UIColor.clear
