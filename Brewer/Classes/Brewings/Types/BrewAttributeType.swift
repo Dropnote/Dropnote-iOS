@@ -20,21 +20,6 @@ enum BrewAttributeType: String {
 }
 
 extension BrewAttributeType {
-	var segueIdentifier: SegueIdentifier {
-		switch self {
-			case .preInfusionTime: return .NumericalInput
-			case .time: return .NumericalInput
-			case .grindSize: return .GrindSize
-			case .coffeeWeight: return .NumericalInput
-			case .waterWeight: return .NumericalInput
-			case .waterTemperature: return .NumericalInput
-			case .tampStrength: return .Tamping
-			case .notes: return .Notes
-		}
-	}
-}
-
-extension BrewAttributeType {
 	func format(_ value: Double, withUnitType unit: Int32) -> String {
 		switch self {
 			case .time, .preInfusionTime:
@@ -87,21 +72,6 @@ extension BrewAttributeType {
 			case .waterTemperature: return .Ic_temp
 			case .tampStrength: return .Ic_tamp
 			case .notes: return .Ic_notes
-		}
-	}
-}
-
-extension BrewAttributeType {
-	func storyboardIdentifier() -> String {
-		switch self {
-			case .time: return "NumericalInput"
-			case .preInfusionTime: return "NumericalInput"
-			case .grindSize: return "GrindSize"
-			case .coffeeWeight: return "NumericalInput"
-			case .waterWeight: return "NumericalInput"
-			case .waterTemperature: return "NumericalInput"
-			case .tampStrength: return "Tamping"
-			case .notes: return "Notes"
 		}
 	}
 }

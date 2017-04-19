@@ -11,7 +11,7 @@ import UIKit
 
 extension UIViewController {
     func setupDefaultBackBarButtonItemIfNeeded() {
-        if let _ = navigationController {
+        if navigationController != nil {
             navigationItem.setLeftBarButton(createDefaultBackBarButtonItem(), animated: false)
         }
     }
