@@ -15,10 +15,12 @@ extension BrewingsViewController: ThemeConfigurationContainer { }
 extension BrewingsViewController: ResolvableContainer { }
 
 final class BrewingsViewController: UIViewController {
+    private let disposeBag = DisposeBag()
     fileprivate lazy var filterBarButtonItem = UIBarButtonItem()
 
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.alwaysBounceVertical = true
         tableView.tableFooterView = UIView()
         tableView.backgroundView = UIView()
         tableView.rowHeight = 84
@@ -29,11 +31,10 @@ final class BrewingsViewController: UIViewController {
     }()
 
     fileprivate lazy var searchBar: UISearchBar = {
-        let searchBar = UISearchBar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: self.view.frame.width, height: 44)))
+        let searchBar = UISearchBar(frame: .zero)
         searchBar.placeholder = tr(.historyFilterPlaceholder)
         searchBar.showsCancelButton = true
         searchBar.returnKeyType = .done
-        searchBar.delegate = self
         return searchBar
     }()
 
@@ -63,6 +64,8 @@ final class BrewingsViewController: UIViewController {
         tableView.tableHeaderView = searchBar
         viewModel.configure(with: tableView)
 
+        configureSearchBar()
+
         if (traitCollection.forceTouchCapability == .available) {
             registerForPreviewing(with: self, sourceView: view)
         }
@@ -72,6 +75,7 @@ final class BrewingsViewController: UIViewController {
         super.viewWillAppear(animated)
         searchBar.configure(with: themeConfiguration)
         tableView.configure(with: themeConfiguration)
+        searchBar.frame.size = CGSize(width: view.frame.width, height: 44)
         tableView.hideSearchBar()
 
         filterBarButtonItem.title = nil
@@ -89,9 +93,26 @@ final class BrewingsViewController: UIViewController {
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.brewings)
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        tableView.hideSearchBar()
+    private func configureSearchBar() {
+        searchBar.rx.text
+                .asObservable()
+                .distinctUntilChanged(==)
+                .skip(1)
+                .debounce(0.2, scheduler: MainScheduler.asyncInstance)
+                .subscribe(onNext: viewModel.search(for:))
+                .addDisposableTo(disposeBag)
+
+        searchBar.rx.cancelButtonClicked.bindNext {
+            self.viewModel.resetFilters()
+            self.searchBar.text = nil
+            self.searchBar.resignFirstResponder()
+            self.tableView.hideSearchBar(animated: true)
+        }.addDisposableTo(disposeBag)
+
+        searchBar.rx.searchButtonClicked.bindNext {
+            self.searchBar.resignFirstResponder()
+            self.tableView.hideSearchBar(animated: true)
+        }.addDisposableTo(disposeBag)
     }
 
     override func restoreUserActivityState(_ activity: NSUserActivity) {
@@ -149,25 +170,6 @@ extension BrewingsViewController: UITableViewDelegate {
         if targetContentOffset.pointee.y == 0 && scrollView.contentOffset.y > searchBar.frame.size.height {
             targetContentOffset.pointee.y = searchBar.frame.size.height
         }
-    }
-}
-
-extension BrewingsViewController: UISearchBarDelegate {
-
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        viewModel.setSearchText(searchText)
-    }
-
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        tableView.hideSearchBar(animated: true)
-    }
-
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.resetFilters()
-        searchBar.text = nil
-        searchBar.resignFirstResponder()
-        tableView.hideSearchBar(animated: true)
     }
 }
 

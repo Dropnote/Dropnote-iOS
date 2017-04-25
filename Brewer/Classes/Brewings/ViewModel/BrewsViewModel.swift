@@ -20,7 +20,7 @@ protocol BrewingsViewModelType: TableViewConfigurable {
 
     func brew(forIndexPath indexPath: IndexPath) -> Brew
 	func brew(for activity: NSUserActivity) -> Brew?
-    func setSearchText(_ searchText: String)
+    func search(for text: String?)
     func resetFilters()
 }
 
@@ -65,15 +65,15 @@ final class BrewingsViewModel: BrewingsViewModelType {
 	}
     
     func brew(forIndexPath indexPath: IndexPath) -> Brew {
-        return brews[(indexPath as NSIndexPath).row]
+        return brews[indexPath.row]
     }
     
-    func setSearchText(_ text: String) {
-        brewsModelController.setSearchText(text)
+    func search(for text: String?) {
+        brewsModelController.search(for: text)
     }
     
     func resetFilters() {
-        brewsModelController.setSearchText(nil)
+        brewsModelController.search(for: nil)
     }
 
 	func brew(for activity: NSUserActivity) -> Brew? {
