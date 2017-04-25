@@ -56,13 +56,15 @@ final class SelectableSearchViewController: UIViewController {
 		inputTextField.placeholder = viewModel.placeholder
 		tableView.delegate = self
 		viewModel.configure(with: tableView)
+
 		inputTextField
-            .rx.text
-            .asDriver()
-            .distinctUntilChanged(==)
-            .skip(1)
-            .drive(onNext: viewModel.setSearchString)
-            .addDisposableTo(disposeBag)
+				.rx.text
+				.asObservable()
+				.distinctUntilChanged(==)
+				.skip(1)
+				.debounce(0.3, scheduler: MainScheduler.asyncInstance)
+				.subscribe(onNext: viewModel.setSearchString)
+				.addDisposableTo(disposeBag)
 		setupDefaultBackBarButtonItemIfNeeded()
 		enableSwipeToBack()
 	}
