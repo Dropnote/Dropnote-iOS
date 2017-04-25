@@ -77,7 +77,7 @@ extension SelectableSearchViewController: UITableViewDelegate {
 
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.accessibilityLabel = "Select \(indexPath.row + 1)"
-        cell.configure(with: themeConfiguration)
+		(cell as? SelectableSearchResultViewCell)?.configure(with: themeConfiguration)
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -46,7 +46,7 @@ final class MethodPickerCell: UITableViewCell, Highlightable {
 
         titleLabel.snp.makeConstraints {
             make in
-            make.leading.equalTo(self.iconImageView.snp.trailing).offset(15)
+            make.leading.equalTo(iconImageView.snp.trailing).offset(15)
             make.centerY.equalToSuperview()
         }
     }

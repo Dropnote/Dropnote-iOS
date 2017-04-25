@@ -27,7 +27,7 @@ final class SequenceSettingsCell: UITableViewCell {
         }
     }
 
-    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         shouldIndentWhileEditing = true
         accessoryType = .none

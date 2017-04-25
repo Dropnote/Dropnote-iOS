@@ -8,4 +8,8 @@ import UIKit
 
 final class SelectableSearchResultViewCell: UITableViewCell {
 
+	func configure(with theme: ThemeConfiguration?) {
+		super.configure(with: theme)
+		textLabel?.configure(with: theme)
+	}
 }

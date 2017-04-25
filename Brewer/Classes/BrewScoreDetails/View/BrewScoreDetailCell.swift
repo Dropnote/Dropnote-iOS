@@ -16,7 +16,7 @@ final class BrewScoreDetailCell: UITableViewCell {
     fileprivate let disposeBag = DisposeBag()
     lazy var sliderView = SliderView(margin: 15, spacing: 5)
 
-    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(sliderView)
         configureConstraints()
@@ -29,9 +29,7 @@ final class BrewScoreDetailCell: UITableViewCell {
     private func configureConstraints() {
         sliderView.snp.makeConstraints {
             make in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.top.equalToSuperview()
+            make.leading.trailing.top.equalToSuperview()
             make.bottom.equalToSuperview().offset(-15)
         }
     }

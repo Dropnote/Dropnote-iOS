@@ -46,11 +46,11 @@ final class WeightInputViewModel: NumericalInputViewModelType {
         let unit = Int32(unitModelController.rawUnit(forCategory: UnitCategory.weight.rawValue))
         brewModelController
             .createNewBrewAttribute(forType: .coffeeWeight)
-            .subscribe(onNext: configureAttibute(withBrew: brew, unit: unit, coffeeWeight: coffeeWeight))
+            .subscribe(onNext: configureAttribute(withBrew: brew, unit: unit, coffeeWeight: coffeeWeight))
             .addDisposableTo(disposeBag)
     }
     
-    fileprivate func configureAttibute(withBrew brew: Brew, unit: Int32, coffeeWeight: Double) -> (BrewAttribute) -> Void {
+    private func configureAttribute(withBrew brew: Brew, unit: Int32, coffeeWeight: Double) -> (BrewAttribute) -> Void {
         return {
             attribute in
             attribute.type = BrewAttributeType.coffeeWeight.intValue

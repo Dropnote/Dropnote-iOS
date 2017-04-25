@@ -20,6 +20,8 @@ final class TampingView: UIView {
         addSubview(informativeLabel)
         sliderView.leadingLabel.text = tr(.tampingStrengthLight)
         sliderView.trailingLabel.text = tr(.tampingStrengthStrong)
+        sliderView.slider.minimumValue = 0
+        sliderView.slider.maximumValue = 1
         configureConstraints()
     }
     

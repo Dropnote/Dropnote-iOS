@@ -66,6 +66,13 @@ final class GrindSizeViewController: UIViewController {
         numericValueTextField.text = viewModel.inputTransformer.initialString()
         numericValueTextField.isHidden = viewModel.isSliderVisible.value
 
+        if !viewModel.numericValue.value.isEmpty {
+            numericValueTextField.text = viewModel.numericValue.value
+        }
+
+        sliderView.slider.minimumValue = viewModel.sliderMinimumValue
+        sliderView.slider.maximumValue = viewModel.sliderMaximumValue
+        sliderView.slider.value = viewModel.sliderValue.value
         sliderView.isHidden = !viewModel.isSliderVisible.value
         sliderView.slider.rx.value.bindTo(viewModel.sliderValue).addDisposableTo(disposeBag)
 
@@ -78,6 +85,8 @@ final class GrindSizeViewController: UIViewController {
         viewModel.isSliderVisible.asDriver().drive(onNext: setButtonTitle).addDisposableTo(disposeBag)
         viewModel.isSliderVisible.asDriver().map(!).drive(numericValueTextField.rx.isHidden).addDisposableTo(disposeBag)
 
+        setupDefaultBackBarButtonItemIfNeeded()
+        enableSwipeToBack()
     }
     
     override func viewWillAppear(_ animated: Bool) {

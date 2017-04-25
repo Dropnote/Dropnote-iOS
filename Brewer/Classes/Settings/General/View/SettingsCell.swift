@@ -19,7 +19,7 @@ final class SettingsCell: UITableViewCell, Highlightable {
         }
     }
 
-    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
     }
     

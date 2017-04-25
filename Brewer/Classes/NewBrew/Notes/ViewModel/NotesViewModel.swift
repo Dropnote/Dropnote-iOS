@@ -26,7 +26,7 @@ final class NotesViewModel: NotesViewModelType {
         notes.asDriver().map { $0 ?? "" }.drive(onNext: setNotesToBrew).addDisposableTo(disposeBag)
     }
     
-    fileprivate func setNotesToBrew(_ notes: String) {
+    private func setNotesToBrew(_ notes: String) {
         brewModelController.currentBrew()?.notes = notes
     }
 }

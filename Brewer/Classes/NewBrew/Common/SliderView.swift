@@ -10,7 +10,12 @@ import SnapKit
 final class SliderView: UIView {
 	lazy var leadingLabel = UILabel()
 	lazy var trailingLabel = UILabel()
-	lazy var slider = UISlider()
+	lazy var slider: UISlider = {
+		let slider = UISlider()
+		slider.minimumValue = 0
+		slider.maximumValue = 10
+		return slider
+	}()
 
 	let margin: CGFloat
 	let spacing: CGFloat

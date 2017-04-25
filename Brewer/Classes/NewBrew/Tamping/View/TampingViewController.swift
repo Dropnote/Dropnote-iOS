@@ -37,8 +37,13 @@ final class TampingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = BrewAttributeType.tampStrength.description
+
+        tampingView.sliderView.slider.value = viewModel.tampingValue.value
         tampingView.sliderView.slider.rx.value.bindTo(viewModel.tampingValue).addDisposableTo(disposeBag)
         tampingView.informativeLabel.text = viewModel.informativeText
+
+        setupDefaultBackBarButtonItemIfNeeded()
+        enableSwipeToBack()
     }
     
     override func viewWillAppear(_ animated: Bool) {

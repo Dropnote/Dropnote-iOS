@@ -200,7 +200,7 @@ extension BrewDetailsViewModel: TableListDataSource {
         if sectionType != .score && sectionType != .remove {
 			cell.accessoryType = isEditable ? .disclosureIndicator : .none
         }
-        let presentable = listItems[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
+        let presentable = listItems[indexPath.section][indexPath.row]
         (cell as? FinalScoreCell)?.configure(with: presentable)
         (cell as? BrewAttributeCell)?.configure(with: presentable)
         (cell as? BrewNotesCell)?.configure(with: presentable)
