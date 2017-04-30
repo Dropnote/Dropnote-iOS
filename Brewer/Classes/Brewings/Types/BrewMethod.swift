@@ -16,6 +16,23 @@ enum BrewMethod: String {
 	case kalita
 
 	static let allValues = [coffeeMachine, pourOverV60, pourOverChemex, aeropressTraditional, aeropressInverted, kone, kalita]
+
+	// It's necessary after migrating to swift 3 naming guidelines (first letter lower case)
+	init?(serializableValue: String) {
+		if let method = BrewMethod(rawValue: serializableValue) {
+			self = method
+		} else if let method = BrewMethod(rawValue: serializableValue.lowercasedFirstLetter) {
+			self = method
+		} else if let method = BrewMethod(rawValue: serializableValue.capitalizingFirstLetter) {
+			self = method
+		} else {
+			return nil
+		}
+	}
+
+	var serializableValue: String {
+		return rawValue.capitalizingFirstLetter
+	}
 }
 
 extension BrewMethod: CustomStringConvertible {

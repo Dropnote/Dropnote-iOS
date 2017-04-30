@@ -17,6 +17,22 @@ enum BrewAttributeType: String {
 	case notes
 
 	static let allValues = [preInfusionTime, time, grindSize, coffeeWeight, waterWeight, waterTemperature, tampStrength, notes]
+
+	// It's necessary after migrating to swift 3 naming guidelines (first letter lower case)
+	public init?(rawValue: String) {
+		let lowerFirstValue = rawValue.lowercasedFirstLetter
+		switch lowerFirstValue {
+			case "preInfusionTime": self = .preInfusionTime
+			case "time": self = .time
+			case "grindSize": self = .grindSize
+			case "coffeeWeight": self = .coffeeWeight
+			case "waterWeight": self = .waterWeight
+			case "waterTemperature": self = .waterTemperature
+			case "tampStrength": self = .tampStrength
+			case "notes": self = .notes
+			default: return nil
+		}
+	}
 }
 
 extension BrewAttributeType {

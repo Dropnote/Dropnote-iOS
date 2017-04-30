@@ -67,7 +67,7 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
         var rawSequenceSettings: [String: String] = [:]
         brewingSequenceSettings.forEach {
             method, steps in
-            rawSequenceSettings[method.rawValue] = brewingSequenceMapper.toJSONString(steps)
+            rawSequenceSettings[method.serializableValue] = brewingSequenceMapper.toJSONString(steps)
         }
         store.set(rawSequenceSettings, forKey: Keys.brewingSequence)
         _ = store.synchronize()
@@ -81,22 +81,26 @@ final class SequenceSettingsModelController: SequenceSettingsModelControllerType
             return
         }
         rawSequenceSettings.forEach {
-            brewingSequenceSettings[BrewMethod(rawValue: $0)!] = brewingSequenceMapper.mapArray(JSONString: $1) ?? []
+			guard let method = BrewMethod(serializableValue: $0) else { fatalError("Unable to create method from \($0)") }
+			guard let sequenceSteps = brewingSequenceMapper.mapArray(JSONString: $1) else { fatalError("Unable to create sequence steps from \($1)") }
+            brewingSequenceSettings[method] = sequenceSteps
         }
     }
 
 	// MARK: Default settings
 
     private func presetDefaultSettings() {
-        if store.object(forKey: Keys.brewingSequence) == nil {
+        guard store.object(forKey: Keys.brewingSequence) == nil else {
+			XCGLogger.warning("There are already some settings.")
+			return
+		}
 
-            var defaultSequenceSettings: [String: String] = [:]
-            for method in BrewMethod.allValues {
-                let sequenceSteps = defaultSequenceSteps(for: method)
-                defaultSequenceSettings[method.rawValue] = brewingSequenceMapper.toJSONString(sequenceSteps)
-            }
-            store.set(defaultSequenceSettings, forKey: Keys.brewingSequence)
-        }
+		var defaultSequenceSettings: [String: String] = [:]
+		for method in BrewMethod.allValues {
+			let sequenceSteps = defaultSequenceSteps(for: method)
+			defaultSequenceSettings[method.serializableValue] = brewingSequenceMapper.toJSONString(sequenceSteps)
+		}
+		store.set(defaultSequenceSettings, forKey: Keys.brewingSequence)
     }
 
     private func defaultSequenceSteps(for method: BrewMethod) -> [BrewingSequenceStep] {
@@ -155,11 +159,11 @@ struct BrewingSequenceStep: Mappable {
 		enabled <- map["enabled"]
 	}
 
-	mutating func setEnabled(_ enabled: Bool) {
+	mutating func set(enabled: Bool) {
 		self.enabled = enabled
 	}
 
-	mutating func setPosition(_ position: Int) {
+	mutating func set(position: Int) {
 		self.position = position
 	}
 }

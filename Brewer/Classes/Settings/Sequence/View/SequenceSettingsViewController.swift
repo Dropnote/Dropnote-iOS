@@ -62,7 +62,7 @@ final class SequenceSettingsViewController: UIViewController {
         }
         
         barButtonItem.title = !tableView.isEditing ? tr(.navigationDone) : tr(.navigationEdit)
-        viewModel.prepareEditForTableView(tableView) {
+        viewModel.prepareEdit(for: tableView) {
             editing in
             self.tableView.setEditing(editing, animated: true)
             self.selectRowsForTableViewIfNeeded()
@@ -76,7 +76,7 @@ final class SequenceSettingsViewController: UIViewController {
         }
         tableView
             .indexPathsForVisibleRows?
-            .filter(viewModel.shouldSelectItemAtIndexPath)
+            .filter(viewModel.shouldSelectItem)
             .forEach(selectRow)
     }
 }
@@ -84,15 +84,15 @@ final class SequenceSettingsViewController: UIViewController {
 extension SequenceSettingsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.markIndexPath(indexPath, asSelected: true)
+        viewModel.markItem(at: indexPath, asSelected: true)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        viewModel.markIndexPath(indexPath, asSelected: false)
+        viewModel.markItem(at: indexPath, asSelected: false)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
+        cell.accessibilityLabel = "Select \(indexPath.row + 1)"
         (cell as? SequenceSettingsCell)?.configure(with: themeConfiguration)
     }
 }
