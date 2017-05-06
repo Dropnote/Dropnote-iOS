@@ -98,6 +98,9 @@
 "GrindSizeLevelMedium" = "Średnio";
 "GrindSizeLevelCoarse" = "Grubo";
 
+"TampingStrengthLight" = "Lekko";
+"TampingStrengthStrong" = "Mocno";
+
 // Informative
 
 "TimeInformativeText" = "Wpisz czas zaparzania kawy";

@@ -8,29 +8,54 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 final class MethodPickerCell: UITableViewCell, Highlightable {
-    @IBOutlet weak var iconImageView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
+    fileprivate lazy var iconImageView = UIImageView(image: nil)
+    fileprivate lazy var titleLabel = UILabel()
     
     var normalColor: UIColor?
     var highlightColor: UIColor?
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
         accessoryView = UIImageView(image: UIImage(asset: .Ic_arrow))
+        contentView.addSubview(iconImageView)
+        contentView.addSubview(titleLabel)
+        configureConstraints()
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override var isHighlighted: Bool {
         didSet {
-            highlightViews([self], highlighted: isHighlighted)
+            highlight(views: [self], highlighted: isHighlighted)
+        }
+    }
+
+    private func configureConstraints() {
+        iconImageView.snp.makeConstraints {
+            make in
+            make.width.height.equalTo(58)
+            make.leading.equalTo(15)
+            make.centerY.equalToSuperview()
+        }
+
+        titleLabel.snp.makeConstraints {
+            make in
+            make.leading.equalTo(iconImageView.snp.trailing).offset(15)
+            make.centerY.equalToSuperview()
         }
     }
 }
 
 extension MethodPickerCell: PresentableConfigurable {
+    typealias Presentable = TitleImagePresentable
     
-    func configureWithPresentable(_ presentable: TitleImagePresentable) {
+    func configure(with presentable: TitleImagePresentable) {
         accessibilityHint = "Selects \(presentable.title) method"
         titleLabel.text = presentable.title
         iconImageView.image = presentable.image
@@ -39,11 +64,11 @@ extension MethodPickerCell: PresentableConfigurable {
 
 extension MethodPickerCell {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
-        super.configureWithTheme(theme)
-        titleLabel.configureWithTheme(theme)
+    func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
+        titleLabel.configure(with: theme)
         titleLabel.backgroundColor = UIColor.clear
         normalColor = theme?.lightColor
-        highlightColor = highlightColorForTheme(theme)
+        highlightColor = highlightColor(for: theme)
     }
 }

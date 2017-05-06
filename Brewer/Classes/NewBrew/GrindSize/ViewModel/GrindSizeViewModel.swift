@@ -39,7 +39,7 @@ protocol GrindSizeViewModelType {
 	var sliderValue: Variable<Float> { get }
 	var numericValue: Variable<String> { get }
     var inputTransformer: NumericalInputTransformerType { get }
-    var isSliderVisible: Bool { get set }
+    var isSliderVisible: Variable<Bool> { get }
     var informativeText: String { get }
 }
 
@@ -56,21 +56,10 @@ final class GrindSizeViewModel: GrindSizeViewModelType {
 
 	fileprivate(set) var sliderValue = Variable<Float>(0.0)
 	fileprivate(set) var numericValue = Variable<String>("")
-    
+	let isSliderVisible = Variable(true)
+
     var informativeText: String {
         return tr(.grindSizeInformativeText)
-    }
-    
-    var isSliderVisible: Bool {
-        set {
-            keyValueStore.set(NSNumber(value: newValue as Bool), forKey: Keys.grindSizeSliderVisibility.rawValue)
-        }
-        get {
-            if let visibilitySetting = keyValueStore.object(forKey: Keys.grindSizeSliderVisibility.rawValue) as? NSNumber {
-                return visibilitySetting.boolValue
-            }
-            return true
-        }
     }
 
 	var sliderMinimumValue: Float { return Float(GrindSizeSliderValue.extraFine.rawValue) }
@@ -80,13 +69,38 @@ final class GrindSizeViewModel: GrindSizeViewModelType {
 		self.brewModelController = brewModelController
         self.keyValueStore = keyValueStore
 
+		configureInitialValues()
+		configureStoringVisibilitySetting()
 		configureAttributeUpdates()
 	}
+
+	private func configureInitialValues() {
+		guard let attribute = brewModelController.currentBrew()?.brewAttributeForType(.grindSize),
+			  let unitType = GrindSizeUnit(rawValue: attribute.unit) else { return }
+		let value = Float(attribute.value)
+		switch unitType {
+			case .slider:
+				sliderValue.value = value
+				break
+			case .numeric:
+				numericValue.value = String(value)
+				break
+		}
+	}
+
+	private func configureStoringVisibilitySetting() {
+		if let visibilitySetting = keyValueStore.object(forKey: Keys.grindSizeSliderVisibility.rawValue) as? NSNumber {
+			isSliderVisible.value = visibilitySetting.boolValue
+		}
+		isSliderVisible.asDriver().drive(onNext: {
+			self.keyValueStore.set(NSNumber(value: $0 as Bool), forKey: Keys.grindSizeSliderVisibility.rawValue)
+		}).addDisposableTo(disposeBag)
+	}
     
-    fileprivate func configureAttributeUpdates() {
+    private func configureAttributeUpdates() {
         let sliderObservable = sliderValue
             .asObservable()
-            .map { (Double(round($0 * 4)), GrindSizeUnit.slider.rawValue) }
+            .map { (Double(round($0)), GrindSizeUnit.slider.rawValue) }
         
         let numericObservable = numericValue
             .asObservable()
@@ -106,7 +120,7 @@ final class GrindSizeViewModel: GrindSizeViewModelType {
         }
     }
 
-	fileprivate func updateAttribute<O: ObservableType>(_ source: O, resultSelector: @escaping (O.E, BrewAttribute) throws -> (BrewAttribute)) {
+	private func updateAttribute<O: ObservableType>(_ source: O, resultSelector: @escaping (O.E, BrewAttribute) throws -> (BrewAttribute)) {
 		let attributeObservable: Observable<BrewAttribute> = {
 			if let attribute = brewModelController.currentBrew()?.brewAttributeForType(.grindSize) {
 				return Observable.just(attribute)

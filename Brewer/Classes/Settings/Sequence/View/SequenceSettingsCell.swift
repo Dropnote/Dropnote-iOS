@@ -26,13 +26,26 @@ final class SequenceSettingsCell: UITableViewCell {
             return super.isSelected
         }
     }
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        shouldIndentWhileEditing = true
+        accessoryType = .none
+        editingAccessoryType = .none
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 extension SequenceSettingsCell {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
+    func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
         themeBackgroundColor = theme?.lightColor
         themeSelectedBackgroundColor = theme?.lightTintColor.withAlphaComponent(0.3)
-        textLabel?.configureWithTheme(theme)
+        textLabel?.configure(with: theme)
+        textLabel?.backgroundColor = UIColor.clear
     }
 }

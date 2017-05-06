@@ -51,7 +51,7 @@ protocol BarButtonItemThemeConfiguration {
 // MARK: Configurable
 
 protocol ThemeConfigurable {
-    func configureWithTheme(_ theme: ThemeConfiguration?)
+    func configure(with theme: ThemeConfiguration?)
 }
 
 protocol ThemeConfigurationContainer {

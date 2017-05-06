@@ -81,5 +81,5 @@ final class TableViewSourceWrapper<T>: NSObject, UITableViewDataSource where T: 
 }
 
 protocol TableViewConfigurable {
-    func configureWithTableView(_ tableView: UITableView)
+    func configure(with tableView: UITableView)
 }

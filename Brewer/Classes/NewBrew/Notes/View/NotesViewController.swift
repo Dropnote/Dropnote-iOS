@@ -13,30 +13,48 @@ extension NotesViewController: ThemeConfigurationContainer { }
 
 final class NotesViewController: UIViewController {
     fileprivate let disposeBag = DisposeBag()
-    @IBOutlet weak var notesTextView: UITextView!
+
+    private var notesTextView: UITextView {
+        return notesView.textView
+    }
+    private lazy var notesView = NotesView()
 
     var active: Bool = false {
         didSet {
-            if var responder = notesTextView {
-                responder.active = active
+            if isViewLoaded {
+                notesView.textView.active = active
             }
         }
     }
     
-    var viewModel: NotesViewModelType!
+    let viewModel: NotesViewModelType
     var themeConfiguration: ThemeConfiguration?
+
+    init(viewModel: NotesViewModelType, themeConfiguration: ThemeConfiguration? = nil) {
+        self.viewModel = viewModel
+        self.themeConfiguration = themeConfiguration
+        super.init(nibName: nil, bundle: nil)
+    }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+        view = notesView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = BrewAttributeType.notes.description
         notesTextView.text = viewModel.notes.value
-        
         notesTextView.rx.text.bindTo(viewModel.notes).addDisposableTo(disposeBag)
+        setupDefaultBackBarButtonItemIfNeeded()
+        enableSwipeToBack()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        view.configureWithTheme(themeConfiguration)
-        notesTextView.configureWithTheme(themeConfiguration)
+        notesView.configure(with: themeConfiguration)
     }
 }

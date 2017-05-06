@@ -11,8 +11,10 @@ import Swinject
 
 final class BrewScoreDetailsAssembly: AssemblyType {
     func assemble(container: Container) {        
-        container.registerForStoryboard(BrewScoreDetailsViewController.self) {
-            r, c in c.themeConfiguration = r.resolve(ThemeConfiguration.self)
+        container.register(BrewScoreDetailsViewController.self) {
+            (r, brew: Brew) in
+            BrewScoreDetailsViewController(viewModel: r.resolve(BrewScoreDetailsViewModelType.self, argument: brew)!,
+                                           themeConfiguration: r.resolve(ThemeConfiguration.self))
         }
         
         container.register(BrewScoreDetailsViewModelType.self) {

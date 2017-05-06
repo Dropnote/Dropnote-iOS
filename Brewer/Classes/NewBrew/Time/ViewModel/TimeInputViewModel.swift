@@ -46,12 +46,10 @@ final class TimeInputViewModel: NumericalInputViewModelType {
             .createNewBrewAttribute(forType: .time)
             .subscribe(onNext: {
                 attribute in
-                
                 attribute.type = BrewAttributeType.time.intValue
                 attribute.value = duration
                 attribute.unit = Int32(TimeUnit.seconds.rawValue)
                 attribute.brew = brew
-                
             })
             .addDisposableTo(disposeBag)
     }

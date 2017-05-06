@@ -15,8 +15,8 @@ final class InformativeLabel: UILabel {
 
 extension InformativeLabel {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
-        super.configureWithTheme(theme)
+    func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
         textColor = UIColor.lightGray
         font = theme?.defaultFontWithSize(12)
     }

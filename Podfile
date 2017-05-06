@@ -16,6 +16,7 @@ target :Brewer do
     pod 'XCGLogger', '~> 4.0.0'
     pod 'FormatterKit'
     pod 'DZNEmptyDataSet'
+    pod 'SnapKit', '~> 3.2.0'
 
     pod 'Google/Analytics'
     pod 'Fabric'

@@ -22,8 +22,16 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 	fileprivate let disposeBag = DisposeBag()
 
 	var window: UIWindow?
-	var assembler: Assembler!
 	var themeConfiguration: ThemeConfiguration?
+	let assembler: Assembler = try! Assembler(assemblies: [
+			CoreComponentsAssembly(),
+			SettingsAssembly(),
+			NewBrewAssembly(),
+			BrewingsAssembly(),
+			BrewingsSortingAssembly(),
+			BrewDetailsAssembly(),
+			BrewScoreDetailsAssembly()
+	])
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         #if !DEBUG
@@ -33,6 +41,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 loadMockData()
             }
         #endif
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = assembler.resolver.resolve(RootViewController.self)!
+        window?.makeKeyAndVisible()
 		return true
 	}
 
@@ -58,10 +69,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 	func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-		let rootViewController = window?.rootViewController as? RootViewController
-		guard let brewingsViewController = rootViewController?.contentViewControllers?.elements(ofType: BrewingsViewController.self).first
-				else { return false }
-		brewingsViewController.restoreUserActivityState(userActivity)
+		let rootViewController = window?.rootViewController as? RootViewController		
+		rootViewController?.brewingsViewController?.restoreUserActivityState(userActivity)
 		return true
 	}
 
@@ -69,25 +78,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: ThemeConfigurationContainer { }
 
-extension SwinjectStoryboard {
-    class func setup() {
-        do {
-            let assembler = try Assembler(assemblies: [
-                CoreComponentsAssembly(),
-                SettingsAssembly(),
-                NewBrewAssembly(),
-                BrewingsAssembly(),
-				BrewingsSortingAssembly(),
-                BrewDetailsAssembly(),
-                BrewScoreDetailsAssembly()
-                ], container: defaultContainer)
-            
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                appDelegate.assembler = assembler
-                appDelegate.themeConfiguration = assembler.resolver.resolve(ThemeConfiguration.self)
-            }            
-        } catch {
-            XCGLogger.severe("Fatal error when initializer container: \(error)")
-        }
-    }
+extension Assembler {
+	static var sharedResolver: ResolverType {
+		return (UIApplication.shared.delegate as! AppDelegate).assembler.resolver
+	}
 }

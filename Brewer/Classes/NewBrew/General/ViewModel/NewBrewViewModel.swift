@@ -20,9 +20,9 @@ protocol NewBrewViewModelType {
     var methodTitle: String { get }
     var methodImage: UIImage? { get }
 
-	func configureWithCollectionView(_ collectionView: UICollectionView)
-	func setActiveViewControllerAtIndex(_ index: Int) -> UIViewController?
-	func stepViewController(forIndexPath indexPath: IndexPath) -> UIViewController
+	func configure(with collectionView: UICollectionView)
+	func setActiveViewController(at index: Int) -> UIViewController?
+	func stepViewController(for indexPath: IndexPath) -> UIViewController
 	func cleanUp() -> Observable<Void>
 	func finishBrew() -> Observable<Void>
 }
@@ -44,7 +44,7 @@ extension NewBrewViewModel: ResolvableContainer { }
 final class NewBrewViewModel: NSObject, NewBrewViewModelType {
 	fileprivate let disposeBag = DisposeBag()
 
-    var resolver: ResolverType?
+    let resolver: ResolverType
 	let brewContext: StartBrewContext
 	let settingsModelController: SequenceSettingsModelControllerType
 	let brewModelController: BrewModelControllerType
@@ -64,32 +64,30 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
        return self.brewContext.image().scaled(by: 1.6)?.alwaysOriginal()
     }()
 
-	fileprivate lazy var dataSource: NewBrewDataSource = {
-		guard let resolver = self.resolver else { fatalError("Resolver is missing!") }
-		let dataSource = NewBrewDataSource(
-				brewContext: self.brewContext,
-				brewModelController: self.brewModelController,
-				settingsModelController: self.settingsModelController
-				)
-		dataSource.resolver = resolver
-		return dataSource
-	}()
-
+    fileprivate lazy var dataSource: NewBrewDataSource = {
+        return NewBrewDataSource(brewContext: self.brewContext,
+                                 brewModelController: self.brewModelController,
+                                 settingsModelController: self.settingsModelController)
+    }()
+    
 	init(brewContext: StartBrewContext,
 		 settingsModelController: SequenceSettingsModelControllerType,
-		 newBrewModelController: BrewModelControllerType) {
+		 newBrewModelController: BrewModelControllerType,
+		 resolver: ResolverType = Assembler.sharedResolver) {
 		self.brewContext = brewContext
 		self.settingsModelController = settingsModelController
 		self.brewModelController = newBrewModelController
+		self.resolver = resolver
 		super.init()
 	}
 
-	func configureWithCollectionView(_ collectionView: UICollectionView) {
+	func configure(with collectionView: UICollectionView) {
+		collectionView.register(NewBrewCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: NewBrewCollectionViewCell.self))
 		collectionView.dataSource = self
-		reloadStepViewControllersWithBrewContext(brewContext, animated: false)
+		reloadStepViewControllers(with: brewContext, animated: false)
 	}
 
-	func setActiveViewControllerAtIndex(_ currentIndex: Int) -> UIViewController? {
+	func setActiveViewController(at currentIndex: Int) -> UIViewController? {
 		precondition(dataSource.stepViewControllers.count > 1)
 		let activables = [dataSource.stepViewControllers[0], dataSource.stepViewControllers[1]]
 			.flatMap { $0 }
@@ -106,8 +104,8 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
 		return activeViewController
 	}
 
-	func stepViewController(forIndexPath indexPath: IndexPath) -> UIViewController {
-		return dataSource.stepViewControllers[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).item]
+	func stepViewController(for indexPath: IndexPath) -> UIViewController {
+		return dataSource.stepViewControllers[indexPath.section][indexPath.item]
 	}
 
 	func cleanUp() -> Observable<Void> {
@@ -124,12 +122,13 @@ final class NewBrewViewModel: NSObject, NewBrewViewModelType {
 		})
 	}
 
-    fileprivate func reloadStepViewControllersWithBrewContext(_ brewContext: StartBrewContext, animated: Bool) {
+    fileprivate func reloadStepViewControllers(with brewContext: StartBrewContext, animated: Bool) {
 		brewModelController
 			.createNewBrew(
                 withMethod: brewContext.method,
                 coffee: nil,
-                coffeeMachine: nil)
+                coffeeMachine: nil
+			)
             .observeOn(MainScheduler.instance)
             .do(onNext: { _ in self.dataSource.reloadData() })
             .map { _ in false }
@@ -152,8 +151,8 @@ extension NewBrewViewModel: UICollectionViewDataSource {
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewBrewCollectionViewCell", for: indexPath) as! NewBrewCollectionViewCell
-		let viewController = stepViewController(forIndexPath: indexPath)
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: NewBrewCollectionViewCell.self), for: indexPath) as! NewBrewCollectionViewCell
+		let viewController = stepViewController(for: indexPath)
 		cell.stepView = viewController.view
 		return cell
 	}

@@ -8,20 +8,45 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 final class BrewScoreDetailsHeaderView: UIView {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var valueLabel: UILabel!    
+    lazy var titleLabel: UILabel = UILabel()
+    lazy var valueLabel: UILabel = UILabel()
+
+    init() {
+        super.init(frame: .zero)
+        addSubview(titleLabel)
+        addSubview(valueLabel)
+        configureConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func configureConstraints() {
+        titleLabel.snp.makeConstraints {
+            make in
+            make.leading.equalToSuperview().offset(15)
+            make.centerY.equalToSuperview()
+        }
+        valueLabel.snp.makeConstraints {
+            make in
+            make.trailing.equalToSuperview().offset(-15)
+            make.centerY.equalToSuperview()
+        }
+    }
 }
 
 extension BrewScoreDetailsHeaderView {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
+    func configure(with theme: ThemeConfiguration?) {
         backgroundColor = theme?.darkColor
         [titleLabel, valueLabel].forEach {
-            $0?.configureWithTheme(theme)
-            $0?.backgroundColor = theme?.darkColor
-            $0?.textColor = theme?.lightColor
+            $0.configure(with: theme)
+            $0.backgroundColor = theme?.darkColor
+            $0.textColor = theme?.lightColor
         }
     }
 }

@@ -12,31 +12,48 @@ extension BrewingsSortingViewController: ThemeConfigurable { }
 extension BrewingsSortingViewController: ThemeConfigurationContainer { }
 
 final class BrewingsSortingViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.delegate = self
+        tableView.tableFooterView = UIView()
+        return tableView
+    }()
 
     var themeConfiguration: ThemeConfiguration?
-    var viewModel: BrewingsSortingViewModelType!
+    let viewModel: BrewingsSortingViewModelType
 
     let dismissViewControllerAnimatedSubject = PublishSubject<Bool>()
     let switchSortingOptionSubject = PublishSubject<BrewingSortingOption>()
 
+    init(viewModel: BrewingsSortingViewModelType, themeConfiguration: ThemeConfiguration? = nil) {
+        self.viewModel = viewModel
+        self.themeConfiguration = themeConfiguration
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+        view = tableView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = tr(.brewingsSortingSortTitle)
-        
-        tableView.delegate = self
-        tableView.tableFooterView = UIView()
-        viewModel.configureWithTableView(tableView)
+        viewModel.configure(with: tableView)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(asset: .Ic_close), style: .plain, target: self, action: #selector(close))
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureWithTheme(themeConfiguration)
-        tableView.configureWithTheme(themeConfiguration)
+        configure(with: themeConfiguration)
+        tableView.configure(with: themeConfiguration)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.brewingSort)
     }
 
-    @IBAction func close(_ sender: AnyObject) {
+    func close() {
         dismissViewControllerAnimatedSubject.onNext(true)
     }
 }
@@ -45,7 +62,7 @@ extension BrewingsSortingViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
-        (cell as? BrewingsSortingOptionCell)?.configureWithTheme(themeConfiguration)
+        (cell as? BrewingsSortingOptionCell)?.configure(with: themeConfiguration)
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

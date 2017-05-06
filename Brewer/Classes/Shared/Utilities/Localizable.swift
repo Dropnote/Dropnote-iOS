@@ -137,6 +137,10 @@ enum L10n {
   case startBrewingItemTitle
   /// Select tamping strength
   case tampingInformativeText
+  /// Light
+  case tampingStrengthLight
+  /// Strong
+  case tampingStrengthStrong
   /// Type water temperature\nUnit can be changed in settings
   case temperatureInformativeText
   /// Type duration of brewing process
@@ -291,6 +295,10 @@ extension L10n: CustomStringConvertible {
         return L10n.tr(key: "StartBrewingItemTitle")
       case .tampingInformativeText:
         return L10n.tr(key: "TampingInformativeText")
+      case .tampingStrengthLight:
+        return L10n.tr(key: "TampingStrengthLight")
+      case .tampingStrengthStrong:
+        return L10n.tr(key: "TampingStrengthStrong")
       case .temperatureInformativeText:
         return L10n.tr(key: "TemperatureInformativeText")
       case .timeInformativeText:
@@ -311,7 +319,7 @@ extension L10n: CustomStringConvertible {
   }
 
   private static func tr(key: String, _ args: CVarArg...) -> String {
-    let format = NSLocalizedString(key, comment: "")
+    let format = NSLocalizedString(key, bundle: Bundle(for: BundleToken.self), comment: "")
     return String(format: format, locale: Locale.current, arguments: args)
   }
 }
@@ -319,3 +327,5 @@ extension L10n: CustomStringConvertible {
 func tr(_ key: L10n) -> String {
   return key.string
 }
+
+private final class BundleToken {}

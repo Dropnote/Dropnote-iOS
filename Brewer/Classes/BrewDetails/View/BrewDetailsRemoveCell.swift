@@ -15,14 +15,15 @@ final class BrewDetailsRemoveCell: UITableViewCell, Highlightable {
     
     override var isHighlighted: Bool {
         didSet {
-            highlightViews([self], highlighted: isHighlighted)
+            highlight(views: [self], highlighted: isHighlighted)
         }
     }
 }
 
-extension BrewDetailsRemoveCell {
+extension BrewDetailsRemoveCell: PresentableConfigurable {
+    typealias Presentable = TitleValuePresentable
     
-    func configureWithPresentable(_ presentable: TitleValuePresentable) {
+    func configure(with presentable: TitleValuePresentable) {
         accessibilityHint = "Removes current brew from history"
         textLabel?.text = presentable.title
     }
@@ -30,11 +31,11 @@ extension BrewDetailsRemoveCell {
 
 extension BrewDetailsRemoveCell {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
-        super.configureWithTheme(theme)
+    func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
         textLabel?.font = theme?.defaultFontWithSize(17)
         textLabel?.textColor = UIColor.deepBlush()
         normalColor = theme?.lightColor
-        highlightColor = highlightColorForTheme(theme)
+        highlightColor = highlightColor(for: theme)
     }
 }

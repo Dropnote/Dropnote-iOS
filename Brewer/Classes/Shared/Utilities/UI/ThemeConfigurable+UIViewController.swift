@@ -11,13 +11,13 @@ import UIKit
 
 extension ThemeConfigurable where Self: UIViewController {
 
-	func configureWithTheme(_ theme: ThemeConfiguration?) {
+	func configure(with theme: ThemeConfiguration?) {
 		guard let theme = theme else { return }
         configureTabBarItem(tabBarItem, theme: theme)
 		configureNavigationBar(theme.navigationBarConfiguration)
 		configureBarButtonItems(theme)
         if isViewLoaded {
-            view.configureWithTheme(theme)
+            view.configure(with: theme)
         }
 	}
 
@@ -31,7 +31,7 @@ extension ThemeConfigurable where Self: UIViewController {
 		}
 	}
 
-	fileprivate func configureNavigationBar(_ theme: NavigationBarThemeConfiguration) {
+	private func configureNavigationBar(_ theme: NavigationBarThemeConfiguration) {
 		guard let navigationBar = navigationController?.navigationBar else {
 			return
 		}
@@ -48,7 +48,7 @@ extension ThemeConfigurable where Self: UIViewController {
         }
 	}
 
-	fileprivate func configureBarButtonItems(_ theme: ThemeConfiguration) {
+	private func configureBarButtonItems(_ theme: ThemeConfiguration) {
 		[navigationItem.rightBarButtonItems, navigationItem.leftBarButtonItems]
 			.flatMap { $0 }
 			.joined()
@@ -58,7 +58,7 @@ extension ThemeConfigurable where Self: UIViewController {
 
 extension UIView: ThemeConfigurable { }
 extension ThemeConfigurable where Self: UIView {
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
+    func configure(with theme: ThemeConfiguration?) {
         guard let theme = theme else { return }
         backgroundColor = theme.lightColor
         tintColor = theme.lightTintColor

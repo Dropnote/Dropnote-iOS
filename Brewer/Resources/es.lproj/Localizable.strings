@@ -98,6 +98,9 @@
 "GrindSizeLevelMedium" = "Medio";
 "GrindSizeLevelCoarse" = "Grueso";
 
+"TampingStrengthLight" = "Ligero";
+"TampingStrengthStrong" = "Fuerte";
+
 // Informative
 
 "TimeInformativeText" = "Entra el tiempo de infusión";

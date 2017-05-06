@@ -48,11 +48,11 @@ final class TemperatureInputViewModel: NumericalInputViewModelType {
         let unit = Int32(unitModelController.rawUnit(forCategory: UnitCategory.temperature.rawValue))
         brewModelController
             .createNewBrewAttribute(forType: .waterTemperature)
-            .subscribe(onNext: configureAttibute(withBrew: brew, unit: unit, waterTemperature: waterTemperature))
+            .subscribe(onNext: configureAttribute(withBrew: brew, unit: unit, waterTemperature: waterTemperature))
             .addDisposableTo(disposeBag)
     }
     
-    fileprivate func configureAttibute(withBrew brew: Brew, unit: Int32, waterTemperature: Double) -> (BrewAttribute) -> Void {
+    private func configureAttribute(withBrew brew: Brew, unit: Int32, waterTemperature: Double) -> (BrewAttribute) -> Void {
         return {
             attribute in
             attribute.type = BrewAttributeType.waterTemperature.intValue

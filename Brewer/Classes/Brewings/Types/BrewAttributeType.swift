@@ -17,19 +17,20 @@ enum BrewAttributeType: String {
 	case notes
 
 	static let allValues = [preInfusionTime, time, grindSize, coffeeWeight, waterWeight, waterTemperature, tampStrength, notes]
-}
 
-extension BrewAttributeType {
-	var segueIdentifier: SegueIdentifier {
-		switch self {
-			case .preInfusionTime: return .NumericalInput
-			case .time: return .NumericalInput
-			case .grindSize: return .GrindSize
-			case .coffeeWeight: return .NumericalInput
-			case .waterWeight: return .NumericalInput
-			case .waterTemperature: return .NumericalInput
-			case .tampStrength: return .Tamping
-			case .notes: return .Notes
+	// It's necessary after migrating to swift 3 naming guidelines (first letter lower case)
+	public init?(rawValue: String) {
+		let lowerFirstValue = rawValue.lowercasedFirstLetter
+		switch lowerFirstValue {
+			case "preInfusionTime": self = .preInfusionTime
+			case "time": self = .time
+			case "grindSize": self = .grindSize
+			case "coffeeWeight": self = .coffeeWeight
+			case "waterWeight": self = .waterWeight
+			case "waterTemperature": self = .waterTemperature
+			case "tampStrength": self = .tampStrength
+			case "notes": self = .notes
+			default: return nil
 		}
 	}
 }
@@ -87,21 +88,6 @@ extension BrewAttributeType {
 			case .waterTemperature: return .Ic_temp
 			case .tampStrength: return .Ic_tamp
 			case .notes: return .Ic_notes
-		}
-	}
-}
-
-extension BrewAttributeType {
-	func storyboardIdentifier() -> String {
-		switch self {
-			case .time: return "NumericalInput"
-			case .preInfusionTime: return "NumericalInput"
-			case .grindSize: return "GrindSize"
-			case .coffeeWeight: return "NumericalInput"
-			case .waterWeight: return "NumericalInput"
-			case .waterTemperature: return "NumericalInput"
-			case .tampStrength: return "Tamping"
-			case .notes: return "Notes"
 		}
 	}
 }

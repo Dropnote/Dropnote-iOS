@@ -97,6 +97,9 @@
 "GrindSizeLevelMedium" = "Moyen"; //
 "GrindSizeLevelCoarse" = "Large"; //
 
+"TampingStrengthLight" = "Lumière";
+"TampingStrengthStrong" = "Fort";
+
 // Informative
 
 "TimeInformativeText" = "Entres la durée de la préparation"; //

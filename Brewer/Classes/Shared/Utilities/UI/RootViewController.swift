@@ -16,20 +16,32 @@ extension RootViewController: ThemeConfigurationContainer { }
 extension RootViewController: ResolvableContainer { }
 
 final class RootViewController: UITabBarController {
-    var resolver: ResolverType?
+    let resolver: ResolverType
 	var themeConfiguration: ThemeConfiguration?
 
-    fileprivate(set) var contentViewControllers: [UIViewController]?
+    fileprivate let contentViewControllers: [UIViewController]
+    
+    var brewingsViewController: BrewingsViewController? {
+        return contentViewControllers.elements(ofType: BrewingsViewController.self).first
+    }
+    
+    init(viewControllers: [UIViewController], themeConfiguration: ThemeConfiguration? = nil, resolver: ResolverType = Assembler.sharedResolver) {
+        self.contentViewControllers = viewControllers
+        self.themeConfiguration = themeConfiguration
+        self.resolver = resolver
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
-        contentViewControllers = viewControllers?
-            .elements(ofType: UINavigationController.self)
-            .map { $0.topViewController }
-            .flatMap { $0 }
         
-        let methodPickerViewController = contentViewControllers?
+        viewControllers = contentViewControllers.map { UINavigationController(rootViewController: $0) }
+
+        let methodPickerViewController = contentViewControllers
             .elements(ofType: MethodPickerViewController.self)
             .first
         
@@ -42,45 +54,28 @@ final class RootViewController: UITabBarController {
                 self.showNewBrewVieController(for: brewMethod)
             })
         
-        contentViewControllers?
+        contentViewControllers
             .elements(ofType: TabBarConfigurable.self)
             .forEach { $0.setupTabBar() }
 
         configureWithTheme(themeConfiguration)
 	}
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let resolver = resolver else { fatalError("Dependency resolver is missing.") }
-
-        if case .StartNewBrew = segueIdentifierForSegue(segue) , sender is Box<StartBrewContext> {
-            let boxedBrewContext = sender as! Box<StartBrewContext>
-            let nc = segue.destination as! UINavigationController
-            let newBrewViewController = nc.topViewController as! NewBrewViewController
-            newBrewViewController.viewModel = resolver.resolve(NewBrewViewModelType.self, argument: boxedBrewContext.value)!
-            _ = newBrewViewController
-                .hideViewControllerSwitchingToHistorySubject
-                .subscribe(onNext: dismissNewBrewViewController)
-        }
-
-        if let unwindSegue = segue as? NewBrewUnwindSegue , unwindSegue.shouldSwitchToHistory == true {
-            if let historyViewControllerIndex = contentViewControllers?.index(where: { $0 is BrewingsViewController }) {
-                DispatchQueue.main.async {
-                    self.selectedIndex = historyViewControllerIndex
-                }
-            }
-        }
-    }
     
     private func dismissNewBrewViewController(_ switchToHistory: Bool) {
-        if let historyViewControllerIndex = contentViewControllers?.index(where: { $0 is BrewingsViewController }) , switchToHistory == true {
+        if let historyViewControllerIndex = contentViewControllers.index(where: { $0 is BrewingsViewController }) , switchToHistory == true {
             selectedIndex = historyViewControllerIndex
         }
         dismiss(animated: true, completion: nil)
     }
     
     func showNewBrewVieController(for brewMethod: BrewMethod) {
-        let context = StartBrewContext(method: brewMethod)
-        performSegue(.StartNewBrew, sender: Box(context))
+        let brewContext = StartBrewContext(method: brewMethod)
+        let newBrewViewController = resolver.resolve(NewBrewViewController.self, argument: brewContext)!
+        _ = newBrewViewController
+                .hideViewControllerSwitchingToHistorySubject
+                .subscribe(onNext: dismissNewBrewViewController)
+        let navigatationController = UINavigationController(rootViewController: newBrewViewController)
+        present(navigatationController, animated: true, completion: nil)
     }
 }
 
@@ -99,8 +94,8 @@ extension RootViewController: ThemeConfigurable {
         tabBar.items?[2].accessibilityLabel = "Select Third"
         tabBar.items?[2].accessibilityHint = "Selects Settigns Tab"
 
-		contentViewControllers?
+		contentViewControllers
             .elements(ofType: ThemeConfigurable.self)			
-			.forEach { $0.configureWithTheme(themeConfiguration) }
+            .forEach { $0.configure(with: themeConfiguration) }
 	}
 }

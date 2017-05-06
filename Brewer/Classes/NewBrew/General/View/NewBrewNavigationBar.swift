@@ -8,31 +8,65 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 final class NewBrewNavigationBar: UIView {
-    @IBOutlet weak var previousButton: UIButton! {
-        didSet {
-            previousButton.imageView?.contentMode = .center
-            previousButton.imageView?.clipsToBounds = false
-            previousButton.layer.cornerRadius = 22
-        }
+    lazy var previousButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(asset: .Ic_previous), for: .normal)
+        button.imageView?.contentMode = .center
+        button.imageView?.clipsToBounds = false
+        button.layer.cornerRadius = 22
+        button.accessibilityLabel = "Previous Step"
+        return button
+    }()
+
+    lazy var nextButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(asset: .Ic_next), for: .normal)
+        button.imageView?.contentMode = .center
+        button.imageView?.clipsToBounds = false        
+        button.layer.cornerRadius = 22
+        button.accessibilityLabel = "Next Step"
+        return button
+    }()
+
+    convenience init() {
+        self.init(frame: .zero)
     }
-    @IBOutlet weak var nextButton: UIButton! {
-        didSet {
-            nextButton.imageView?.contentMode = .center
-            nextButton.imageView?.clipsToBounds = false
-            nextButton.layer.cornerRadius = 22
-        }
+
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubview(previousButton)
+        addSubview(nextButton)
+        configureConstraints()
     }
     
-    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
-    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func configureConstraints() {
+        previousButton.snp.makeConstraints {
+            make in
+            make.width.height.equalTo(44)
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().offset(10)
+        }
+        nextButton.snp.makeConstraints {
+            make in
+            make.width.height.equalTo(44)
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-10)
+        }
+    }
+
     func hide(animated: Bool = true) {
         UIView.animate(withDuration: animated ? 0.3 : 0, animations: {
             self.alpha = 0
-        }) 
+        })
     }
-    
+
     func show(animated: Bool = true) {
         UIView.animate(withDuration: animated ? 0.3 : 0, animations: {
             self.alpha = 1
@@ -66,7 +100,7 @@ final class NewBrewNavigationBar: UIView {
 
 extension NewBrewNavigationBar {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
+    func configure(with theme: ThemeConfiguration?) {
         backgroundColor = UIColor.clear
         nextButton.backgroundColor = theme?.lightColor
         nextButton.layer.borderColor = theme?.lightTintColor.cgColor

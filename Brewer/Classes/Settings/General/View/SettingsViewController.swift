@@ -5,6 +5,7 @@
 
 import Foundation
 import UIKit
+import Swinject
 import RxSwift
 import RxCocoa
 import MessageUI
@@ -13,56 +14,77 @@ extension SettingsViewController: ThemeConfigurable { }
 extension SettingsViewController: ThemeConfigurationContainer { }
 
 final class SettingsViewController: UIViewController {
-	@IBOutlet weak var tableView: UITableView!
+	private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.tableFooterView = UIView()
+        tableView.rowHeight = 50
+        tableView.delegate = self
+        return tableView
+    }()
 
     var themeConfiguration: ThemeConfiguration?
-	var viewModel: TableViewConfigurable!
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    let resolver: ResolverType
+	let viewModel: TableViewConfigurable
+
+    init(viewModel: TableViewConfigurable, themeConfiguration: ThemeConfiguration? = nil, resolver: ResolverType = Assembler.sharedResolver) {
+        self.viewModel = viewModel
+        self.themeConfiguration = themeConfiguration
+        self.resolver = resolver
+        super.init(nibName: nil, bundle: nil)
         title = tr(.settingsItemTitle)
     }
 
-	override func viewDidLoad() {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+   		view = tableView
+   	}
+
+    override func viewDidLoad() {
 		super.viewDidLoad()
-        
-		tableView.tableFooterView = UIView()
-		tableView.delegate = self
-		viewModel.configureWithTableView(tableView)
+		viewModel.configure(with: tableView)
 	}
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureWithTheme(themeConfiguration)
-        tableView.configureWithTheme(themeConfiguration)
+        tableView.configure(with: themeConfiguration)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.settings)
     }
-
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if case .MethodPicker = segueIdentifierForSegue(segue) {
-            let methodPickerViewController = segue.destination as! MethodPickerViewController
-            methodPickerViewController.enableSwipeToBack()
-            
-            _ = methodPickerViewController
-                .didSelectBrewMethodSubject
-                .observeOn(MainScheduler.asyncInstance)
-                .subscribe(onNext: {
-                    brewMethod in
-                    Analytics.sharedInstance.trackMethodPickEvent(onScreen: AppScreen.settings, method: brewMethod)
-                    methodPickerViewController.performSegue(.SequenceSettings, sender: brewMethod.rawValue as AnyObject?)
-            })
-        }
-        if case .About = segueIdentifierForSegue(segue) {
-            let aboutViewController = segue.destination as! AboutViewController
-            aboutViewController.enableSwipeToBack()
-        }
-	}
     
-    fileprivate func performSegue(for indexPath: IndexPath) {
+    fileprivate func showViewController(for indexPath: IndexPath) {
         switch (indexPath as NSIndexPath).row {
-            case 0: performSegue(.MethodPicker); break
-            case 1: performSegue(.Units); break
-            case 2: performSegue(.About); break
+            case 0:
+                let methodPickerViewController = resolver.resolve(MethodPickerViewController.self)!
+                methodPickerViewController.enableSwipeToBack()
+                _ = methodPickerViewController
+                    .didSelectBrewMethodSubject
+                    .observeOn(MainScheduler.asyncInstance)
+                    .subscribe(onNext: {
+                        brewMethod in
+                        Analytics.sharedInstance.trackMethodPickEvent(onScreen: AppScreen.settings, method: brewMethod)
+                        let sequenceSettingsViewController = self.resolver.resolve(SequenceSettingsViewController.self, argument: brewMethod)!
+                        sequenceSettingsViewController.enableSwipeToBack()
+                        sequenceSettingsViewController.navigationItem.leftBarButtonItem = self.createDefaultBackBarButtonItem()
+                        self.navigationController?.pushViewController(sequenceSettingsViewController, animated: true)
+                })
+                methodPickerViewController.navigationItem.leftBarButtonItem = createDefaultBackBarButtonItem()
+                navigationController?.pushViewController(methodPickerViewController, animated: true)
+                break
+            case 1:
+                let unitsViewController = resolver.resolve(UnitsViewController.self)!
+                unitsViewController.navigationItem.leftBarButtonItem = createDefaultBackBarButtonItem()
+                self.navigationController?.pushViewController(unitsViewController, animated: true)
+                break
+            case 2:
+                let storyboard = UIStoryboard(name: "About", bundle: nil)
+                guard let aboutViewController = storyboard.instantiateInitialViewController() as? AboutViewController else { return }
+                aboutViewController.themeConfiguration = themeConfiguration
+                aboutViewController.enableSwipeToBack()
+                aboutViewController.navigationItem.leftBarButtonItem = createDefaultBackBarButtonItem()
+                self.navigationController?.pushViewController(aboutViewController, animated: true)
+                break
             case 3: showEmailForm(); break
             case 4: showAppStore(); break
             default: break
@@ -117,7 +139,6 @@ extension SettingsViewController: MFMailComposeViewControllerDelegate {
 extension SettingsViewController: TabBarConfigurable {
     
     func setupTabBar() {
-        tabBarItem = nil
         tabBarItem = UITabBarItem(title: tr(.settingsItemTitle),
                                   image: UIImage(asset: .Ic_tab_settings)?.alwaysOriginal(),
                                   selectedImage: UIImage(asset: .Ic_tab_settings_pressed)?.alwaysOriginal())
@@ -138,10 +159,10 @@ extension SettingsViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
         cell.accessoryView = UIImageView(image: UIImage(asset: .Ic_arrow))
-        (cell as? SettingsCell)?.configureWithTheme(themeConfiguration)
+        (cell as? SettingsCell)?.configure(with: themeConfiguration)
 	}
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(for: indexPath)
+        showViewController(for: indexPath)
     }
 }

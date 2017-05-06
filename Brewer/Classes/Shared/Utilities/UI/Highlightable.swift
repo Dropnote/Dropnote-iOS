@@ -13,17 +13,17 @@ protocol Highlightable {
     var normalColor: UIColor? { get set }
     var highlightColor: UIColor? { get set }
     
-    func highlightColorForTheme(_ theme: ThemeConfiguration?) -> UIColor?
-    func highlightViews(_ views: [UIView], highlighted: Bool)
+    func highlightColor(for theme: ThemeConfiguration?) -> UIColor?
+    func highlight(views: [UIView], highlighted: Bool)
 }
 
 extension Highlightable {
  
-    func highlightColorForTheme(_ theme: ThemeConfiguration?) -> UIColor? {
+    func highlightColor(for theme: ThemeConfiguration?) -> UIColor? {
         return theme?.lightTintColor.withAlphaComponent(0.2)
     }
     
-    func highlightViews(_ views: [UIView], highlighted: Bool) {
+    func highlight(views: [UIView], highlighted: Bool) {
         for view in views {
             var highlightColor = self.highlightColor
             if view is UILabel {

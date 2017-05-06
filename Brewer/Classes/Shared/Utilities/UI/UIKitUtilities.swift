@@ -39,7 +39,7 @@ extension UIImage {
 
 extension UITableView {
     func hideSearchBar(animated: Bool = false) {
-		if let bar = self.tableHeaderView as? UISearchBar {
+		if let bar = tableHeaderView as? UISearchBar {
 			let height = bar.frame.height
 			let offset = contentOffset.y
 			if offset < height {
@@ -49,7 +49,7 @@ extension UITableView {
 	}
     
     func showSearchBar(animated: Bool = false) {
-        if self.tableHeaderView != nil && self.tableHeaderView is UISearchBar {
+        if tableHeaderView != nil && tableHeaderView is UISearchBar {
             if contentOffset.y != 0 {
                 setContentOffset(CGPoint.zero, animated: animated)
             }

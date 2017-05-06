@@ -8,24 +8,56 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 final class BrewAttributeCell: UITableViewCell, Highlightable {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var valueLabel: UILabel!
+    lazy var titleLabel: UILabel = UILabel()
+    lazy var valueLabel: UILabel = UILabel()
     
     var normalColor: UIColor?
     var highlightColor: UIColor?
     
     override var isHighlighted: Bool {
         didSet {
-            highlightViews([self, titleLabel, valueLabel], highlighted: isHighlighted)
+            highlight(views: [self, titleLabel, valueLabel], highlighted: isHighlighted)
+        }
+    }
+
+    public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(valueLabel)
+        valueLabel.textAlignment = .right
+        configureConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func configureConstraints() {
+        titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        titleLabel.snp.makeConstraints {
+            make in
+            make.leading.equalToSuperview().offset(30)
+            make.top.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-10)
+        }
+        valueLabel.snp.makeConstraints {
+            make in
+            make.leading.equalTo(titleLabel.snp.trailing).offset(20)
+            make.trailing.equalToSuperview().offset(-30)
+            make.width.greaterThanOrEqualTo(80)
+            make.top.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-10)
         }
     }
 }
 
 extension BrewAttributeCell: PresentableConfigurable {
+    typealias Presentable = TitleValuePresentable
     
-    func configureWithPresentable(_ presentable: TitleValuePresentable) {
+    func configure(with presentable: TitleValuePresentable) {
         accessibilityHint = "Represents \(presentable.title) attribute with value \(presentable.value)"
         titleLabel.text = presentable.title
         valueLabel.text = presentable.value
@@ -34,12 +66,12 @@ extension BrewAttributeCell: PresentableConfigurable {
 
 extension BrewAttributeCell {
     
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
-        super.configureWithTheme(theme)
+    func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
         [titleLabel, valueLabel].forEach {
-            $0!.configureWithTheme(theme)
+            $0.configure(with: theme)
         }
         normalColor = theme?.lightColor
-        highlightColor = highlightColorForTheme(theme)
+        highlightColor = highlightColor(for: theme)
     }
 }

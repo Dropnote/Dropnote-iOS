@@ -31,6 +31,11 @@ final class TampingViewModel: TampingViewModelType {
     
     init(brewModelController: BrewModelControllerType) {
         self.brewModelController = brewModelController
+
+        if let brew = brewModelController.currentBrew(),
+           let attribute = brew.brewAttributeForType(.tampStrength) {
+            tampingValue.value = Float(attribute.value)
+        }
         
         updateAttribute(tampingValue.asObservable()) {
             value, attribute in

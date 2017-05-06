@@ -11,7 +11,6 @@ struct SettingsItem: TitlePresentable {
 }
 
 final class SettingsViewModel {
-    
     var listItems = [[
             SettingsItem(title: tr(.settingsBrewingSequenceMenuItemTitle)),
             SettingsItem(title: tr(.settingsUnitsMenuItemTitle)),
@@ -25,7 +24,8 @@ final class SettingsViewModel {
 
 extension SettingsViewModel: TableViewConfigurable {
     
-    func configureWithTableView(_ tableView: UITableView) {
+    func configure(with tableView: UITableView) {
+        tableView.register(SettingsCell.self, forCellReuseIdentifier: String(describing: SettingsCell.self))
         tableView.dataSource = dataSource
     }
 }
@@ -33,10 +33,10 @@ extension SettingsViewModel: TableViewConfigurable {
 extension SettingsViewModel: TableListDataSource {
     
     func cellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
-        return "SettingsCell"
+        return String(describing: SettingsCell.self)
     }
     
     func listView(_ listView: UITableView, configureCell cell: SettingsCell, withObject object: SettingsItem, atIndexPath indexPath: IndexPath) {
-        cell.configureWithPresentable(object)
+        cell.configure(with: object)
     }
 }

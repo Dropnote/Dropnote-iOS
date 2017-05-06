@@ -10,7 +10,7 @@ import XCGLogger
 protocol BrewingsModelControllerType {
 	var fetchedResultsController: NSFetchedResultsController<Brew> { get }
     var sortingOption: BrewingSortingOption { get set }
-	func setSearchText(_ search: String?)
+	func search(for text: String?)
 }
 
 final class BrewingsModelController: BrewingsModelControllerType {
@@ -51,16 +51,16 @@ final class BrewingsModelController: BrewingsModelControllerType {
 		self.stack = stack
 	}
 
-	func setSearchText(_ search: String?) {
+	func search(for text: String?) {
 		var searchPredicate: NSPredicate?
-		if let search = search, !search.isEmpty {
+		if let text = text, !text.isEmpty {
 			var subpredicates = [
-					NSPredicate(format: "coffee.name CONTAINS[c] %@", search),
-					NSPredicate(format: "coffeeMachine.name CONTAINS[c] %@", search),
-					NSPredicate(format: "notes CONTAINS[c] %@", search)
+					NSPredicate(format: "coffee.name CONTAINS[c] %@", text),
+					NSPredicate(format: "coffeeMachine.name CONTAINS[c] %@", text),
+					NSPredicate(format: "notes CONTAINS[c] %@", text)
 			]
 
-			if let score = Double(search) {
+			if let score = Double(text) {
 				let lowerScoreBoundary = floor(score)
 				let isScoreNotPrecise = score == lowerScoreBoundary
 				if isScoreNotPrecise {

@@ -26,8 +26,9 @@ final class BrewingsSortingOptionCell: UITableViewCell {
 }
 
 extension BrewingsSortingOptionCell: PresentableConfigurable {
+    typealias Presentable = TitleImagePresentable
 
-    func configureWithPresentable(_ presentable: TitleImagePresentable) {
+    func configure(with presentable: TitleImagePresentable) {
         accessibilityHint = "Represents sorting \(presentable.title)"
         textLabel?.text = presentable.title
         imageView?.image = presentable.image.withRenderingMode(.alwaysTemplate)
@@ -36,12 +37,12 @@ extension BrewingsSortingOptionCell: PresentableConfigurable {
 
 extension BrewingsSortingOptionCell {
 
-    func configureWithTheme(_ theme: ThemeConfiguration?) {
-        super.configureWithTheme(theme)
+    func configure(with theme: ThemeConfiguration?) {
+        super.configure(with: theme)
         normalColor = theme?.darkColor
         selectedColor = theme?.lightTintColor
-        textLabel?.configureWithTheme(theme)
-        imageView?.configureWithTheme(theme)
+        textLabel?.configure(with: theme)
+        imageView?.configure(with: theme)
         
         adjustImageTintColorDependingOnSelection()
     }

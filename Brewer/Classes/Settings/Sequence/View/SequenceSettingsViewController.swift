@@ -11,38 +11,50 @@ extension SequenceSettingsViewController: ThemeConfigurable { }
 extension SequenceSettingsViewController: ThemeConfigurationContainer { }
 
 final class SequenceSettingsViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var editBarButtonItem: UIBarButtonItem!
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.tableFooterView = UIView()
+        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.delegate = self
+        return tableView
+    }()
+    private lazy var editBarButtonItem = UIBarButtonItem(title: tr(.navigationEdit),
+                                                         style: .plain,
+                                                         target: self,
+                                                         action: #selector(editAction))
 
     var themeConfiguration: ThemeConfiguration?
-    var viewModel: SequenceSettingsViewModelType!
+    let viewModel: SequenceSettingsViewModelType
 
-    var brewMethod: BrewMethod! {
-        didSet {
-            viewModel.brewMethod = brewMethod
-        }
+    init(viewModel: SequenceSettingsViewModelType, themeConfiguration: ThemeConfiguration? = nil) {
+        self.viewModel = viewModel
+        self.themeConfiguration = themeConfiguration
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+        view = tableView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = tr(.sequenceItemTitle)
-        
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
-        viewModel.configureWithTableView(tableView)
-        
+        viewModel.configure(with: tableView)
         enableSwipeToBack()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureWithTheme(themeConfiguration)
-        tableView.configureWithTheme(themeConfiguration)
+        tableView.configure(with: themeConfiguration)
         editAction(editBarButtonItem)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.settingsSequence)
     }
     
-    @IBAction func editAction(_ barButtonItem: UIBarButtonItem) {
+    func editAction(_ barButtonItem: UIBarButtonItem) {
         if barButtonItem.title == tr(.navigationDone) {
             Dispatcher.delay(0.6) {
                 _ = self.navigationController?.popViewController(animated: true)
@@ -50,7 +62,7 @@ final class SequenceSettingsViewController: UIViewController {
         }
         
         barButtonItem.title = !tableView.isEditing ? tr(.navigationDone) : tr(.navigationEdit)
-        viewModel.prepareEditForTableView(tableView) {
+        viewModel.prepareEdit(for: tableView) {
             editing in
             self.tableView.setEditing(editing, animated: true)
             self.selectRowsForTableViewIfNeeded()
@@ -64,7 +76,7 @@ final class SequenceSettingsViewController: UIViewController {
         }
         tableView
             .indexPathsForVisibleRows?
-            .filter(viewModel.shouldSelectItemAtIndexPath)
+            .filter(viewModel.shouldSelectItem)
             .forEach(selectRow)
     }
 }
@@ -72,15 +84,15 @@ final class SequenceSettingsViewController: UIViewController {
 extension SequenceSettingsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.markIndexPath(indexPath, asSelected: true)
+        viewModel.markItem(at: indexPath, asSelected: true)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        viewModel.markIndexPath(indexPath, asSelected: false)
+        viewModel.markItem(at: indexPath, asSelected: false)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
-        (cell as? SequenceSettingsCell)?.configureWithTheme(themeConfiguration)
+        cell.accessibilityLabel = "Select \(indexPath.row + 1)"
+        (cell as? SequenceSettingsCell)?.configure(with: themeConfiguration)
     }
 }

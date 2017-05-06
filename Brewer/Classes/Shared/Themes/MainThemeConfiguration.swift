@@ -51,22 +51,22 @@ struct MainThemeConfiguration: ThemeConfiguration {
     
     // MARK: Private
 
-	fileprivate struct MainTabBarItemThemeConfiguration: TabBarItemThemeConfiguration {
+	private struct MainTabBarItemThemeConfiguration: TabBarItemThemeConfiguration {
 		var font: UIFont
 		var color: UIColor
 	}
 
-	fileprivate struct MainTabBarThemeConfiguration: TabBarThemeConfiguration {
+	private struct MainTabBarThemeConfiguration: TabBarThemeConfiguration {
 		var tintColor: UIColor
 		var barTintColor: UIColor
 		var translucent: Bool
 	}
 
-	fileprivate struct MainBarButtonItemThemeConfiguration: BarButtonItemThemeConfiguration {
+	private struct MainBarButtonItemThemeConfiguration: BarButtonItemThemeConfiguration {
 		var tintColor: UIColor
 	}
 
-	fileprivate struct MainNavigationBarThemeConfiguration: NavigationBarThemeConfiguration {
+	private struct MainNavigationBarThemeConfiguration: NavigationBarThemeConfiguration {
 		var titleFont: UIFont
 		var titleColor: UIColor
 		var tintColor: UIColor

@@ -42,7 +42,6 @@ final class PreInfusionTimeInputViewModel: NumericalInputViewModelType {
             .createNewBrewAttribute(forType: .preInfusionTime)
             .subscribe(onNext: {
                 attribute in
-
                 attribute.type = BrewAttributeType.preInfusionTime.intValue
                 attribute.value = duration
                 attribute.unit = Int32(TimeUnit.seconds.rawValue)

@@ -97,6 +97,9 @@
 "GrindSizeLevelMedium" = "Medium";
 "GrindSizeLevelCoarse" = "Coarse";
 
+"TampingStrengthLight" = "Light";
+"TampingStrengthStrong" = "Strong";
+
 // Informative
 
 "TimeInformativeText" = "Type duration of brewing process";

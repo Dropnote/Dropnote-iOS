@@ -7,5 +7,5 @@ import Foundation
 import Swinject
 
 protocol ResolvableContainer {
-    var resolver: ResolverType? { get set }
+    var resolver: ResolverType { get }
 }

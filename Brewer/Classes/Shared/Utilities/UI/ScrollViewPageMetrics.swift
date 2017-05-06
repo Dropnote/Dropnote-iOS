@@ -7,22 +7,22 @@ import Foundation
 import UIKit
 
 protocol ScrollViewPageMetricsType {
-    func isFirstPageOfScrollView(_ scrollView: UIScrollView) -> Bool
-    func isLastPageOfScrollView(_ scrollView: UIScrollView) -> Bool
-    func currentPageIndexForScrollView(_ scrollView: UIScrollView) -> Int
+    func isFirstPage(of scrollView: UIScrollView) -> Bool
+    func isLastPage(of scrollView: UIScrollView) -> Bool
+    func currentPageIndex(for scrollView: UIScrollView) -> Int
 }
 
 final class ScrollViewPageMetrics: ScrollViewPageMetricsType {
 
-    func isFirstPageOfScrollView(_ scrollView: UIScrollView) -> Bool {
+    func isFirstPage(of scrollView: UIScrollView) -> Bool {
         return scrollView.contentOffset.x < scrollView.frame.size.width
     }
     
-    func isLastPageOfScrollView(_ scrollView: UIScrollView) -> Bool {
+    func isLastPage(of scrollView: UIScrollView) -> Bool {
         return scrollView.contentOffset.x >= (scrollView.contentSize.width - scrollView.frame.size.width)
     }
 
-    func currentPageIndexForScrollView(_ scrollView: UIScrollView) -> Int {
+    func currentPageIndex(for scrollView: UIScrollView) -> Int {
         return Int(scrollView.contentOffset.x / scrollView.frame.size.width)
     }
 

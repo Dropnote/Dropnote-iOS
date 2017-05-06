@@ -16,41 +16,60 @@ extension UnitsViewController: ThemeConfigurationContainer { }
 
 final class UnitsViewController: UIViewController {
     fileprivate let disposeBag = DisposeBag()
-    @IBOutlet weak var unitsSegmentedControl: UISegmentedControl!
-    @IBOutlet weak var tableView: UITableView!
+
+    private lazy var unitsView = UnitsView()
+
+    private var unitsSegmentedControl: UISegmentedControl {
+        return unitsView.segmentedControl
+    }
+
+    private var tableView: UITableView {
+        return unitsView.tableView
+    }
 
     var themeConfiguration: ThemeConfiguration?
-    var viewModel: UnitsViewModelType!
+    let viewModel: UnitsViewModelType
+
+    init(viewModel: UnitsViewModelType, themeConfiguration: ThemeConfiguration? = nil) {
+        self.viewModel = viewModel
+        self.themeConfiguration = themeConfiguration
+        super.init(nibName: nil, bundle: nil)
+        title = tr(.unitsItemTitle)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+        view = unitsView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = tr(.unitsItemTitle)
-        
-        setUpSegementedControlTitles()
-        setDataSourceAtIndex(0)
+
+        setUpSegmentedControlTitles()
         setUpSwitchingDataSources()
-        
-        tableView.tableFooterView = UIView()
+
         tableView.delegate = self
-        viewModel.configureWithTableView(tableView)
-        
+        viewModel.configure(with: tableView)
+
         enableSwipeToBack()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureWithTheme(themeConfiguration)
-        unitsSegmentedControl.configureWithTheme(themeConfiguration)
-        tableView.configureWithTheme(themeConfiguration)
+        unitsSegmentedControl.selectedSegmentIndex = 0
+        unitsView.configure(with: themeConfiguration)
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.settingsUnits)
     }
 
     // MARK: Configuration
 
-    fileprivate func setUpSegementedControlTitles() {
+    fileprivate func setUpSegmentedControlTitles() {
         viewModel.titles.enumerated().map {
-            index, title in (title, index)
-        }.forEach(unitsSegmentedControl.setTitle(_:forSegmentAt:))
+            index, title in (title, index, false)
+        }.forEach(unitsSegmentedControl.insertSegment(withTitle:at:animated:))
         
         unitsSegmentedControl.accessibilityHint = "Chooses between units categories " + viewModel.titles.joined(separator: ",")
     }
@@ -74,14 +93,14 @@ final class UnitsViewController: UIViewController {
 extension UnitsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.selectUnitAtIndex((indexPath as NSIndexPath).row)
+        viewModel.selectUnitAtIndex(indexPath.row)
         tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
-        cell.configureWithTheme(themeConfiguration)
-        cell.textLabel?.configureWithTheme(themeConfiguration)
-        cell.detailTextLabel?.configureWithTheme(themeConfiguration)        
+        cell.accessibilityLabel = "Select \(indexPath.row + 1)"
+        cell.configure(with: themeConfiguration)
+        cell.textLabel?.configure(with: themeConfiguration)
+        cell.detailTextLabel?.configure(with: themeConfiguration)
     }
 }

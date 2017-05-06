@@ -19,21 +19,23 @@ enum BrewDetailsTableViewSection: Int {
     case remove = 4
 
 	var cellIdentifier: String {
+		return String(describing: cellClass)
+	}
+
+	var cellClass: AnyClass {
 		switch self {
-		case .score:
-			return "FinalScoreCell"
-		case .coffeeInfo, .attributes:
-			return "BrewAttributeCell"
-		case .notes:
-			return "BrewNotesCell"
-        case .remove:
-            return "BrewDetailsRemoveCell"
+			case .score: return FinalScoreCell.self
+			case .coffeeInfo, .attributes: return BrewAttributeCell.self
+			case .notes: return BrewNotesCell.self
+			case .remove: return BrewDetailsRemoveCell.self
 		}
 	}
+
+	static let cellCases: [BrewDetailsTableViewSection] = [.score, .coffeeInfo, .notes, .remove]
 }
 
 protocol BrewDetailsViewModelType: TableViewConfigurable {
-	var editable: Bool { get set }
+	var isEditable: Bool { get }
 	var brewModelController: BrewModelControllerType { get }
 
 	func refreshData()
@@ -47,7 +49,7 @@ protocol BrewDetailsViewModelType: TableViewConfigurable {
 	func saveBrewIfNeeded()
 }
 
-struct BrewDetailsPresentable: TitleValuePresentable {
+fileprivate struct BrewDetailsPresentable: TitleValuePresentable {
 	var title: String
 	var value: String
 	var attribute: BrewAttributeType?
@@ -81,17 +83,21 @@ struct BrewDetailsPresentable: TitleValuePresentable {
 final class BrewDetailsViewModel: BrewDetailsViewModelType {
 	private let disposeBag = DisposeBag()
 	let brewModelController: BrewModelControllerType
-	var editable: Bool = false
+	let isEditable: Bool
 
 	private let spotlightSearchService: SpotlightSearchService
     private lazy var dataSource: TableViewSourceWrapper<BrewDetailsViewModel> = TableViewSourceWrapper(tableDataSource: self)
 
-	init(brewModelController: BrewModelControllerType, spotlightSearchService: SpotlightSearchService) {
+	init(editable: Bool = false, brewModelController: BrewModelControllerType, spotlightSearchService: SpotlightSearchService) {
 		self.brewModelController = brewModelController
 		self.spotlightSearchService = spotlightSearchService
+        self.isEditable = editable
 	}
 
-	func configureWithTableView(_ tableView: UITableView) {
+	func configure(with tableView: UITableView) {
+		BrewDetailsTableViewSection.cellCases.forEach {
+			tableView.register($0.cellClass, forCellReuseIdentifier: $0.cellIdentifier)
+		}
 		refreshData()
 		tableView.dataSource = dataSource
 	}
@@ -101,7 +107,7 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 	}
 
 	func saveBrewIfNeeded() {
-		if editable {
+		if isEditable {
             brewModelController.saveBrew().subscribe(onError: {
 				print(($0 as NSError).localizedDescription)
 			}).addDisposableTo(disposeBag)
@@ -146,31 +152,31 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 				value: currentBrew().notes ?? "",
 				identifier: .notes)
 		])
-        if editable {
+        if isEditable {
             listItems.append([BrewDetailsPresentable(title: tr(.brewDetailsRemoveTitle), value: "")])
         }
 	}
 
 	func sectionType(forIndexPath indexPath: IndexPath) -> BrewDetailsTableViewSection {
-		if let sectionType = BrewDetailsTableViewSection(rawValue: (indexPath as NSIndexPath).section) {
+		if let sectionType = BrewDetailsTableViewSection(rawValue: indexPath.section) {
 			return sectionType
 		}
-		fatalError("No section type for \((indexPath as NSIndexPath).section)")
+		fatalError("No section type for \(indexPath.section)")
 	}
     
     func brewAttributeType(forIndexPath indexPath: IndexPath) -> BrewAttributeType {
-        let item = listItems[(indexPath as NSIndexPath).section].elements(ofType: BrewDetailsPresentable.self)[(indexPath as NSIndexPath).row]
+        let item = listItems[indexPath.section].elements(ofType: BrewDetailsPresentable.self)[indexPath.row]
         return item.attribute!
     }
     
     func coffeeAttribute(forIndexPath indexPath: IndexPath) -> SelectableSearchIdentifier {
-        let item = listItems[(indexPath as NSIndexPath).section].elements(ofType: BrewDetailsPresentable.self)[(indexPath as NSIndexPath).row]
+        let item = listItems[indexPath.section].elements(ofType: BrewDetailsPresentable.self)[indexPath.row]
         return item.selectableSearchIdentifier!
     }
     
     func removeCurrentBrew(_ completion: @escaping ((Bool) -> Void)) {
 		let uniqueSearchableBrewIdentifier = spotlightSearchService.uniqueSearchableIndexIdentifier(for: currentBrew())
-        brewModelController
+		brewModelController
 				.removeCurrentBrew()
 				.do(onNext: {
 					[weak self] deleted in
@@ -180,7 +186,7 @@ final class BrewDetailsViewModel: BrewDetailsViewModelType {
 				})
 				.subscribe(onNext: completion)
 				.addDisposableTo(disposeBag)
-    }
+	}
 }
 
 extension BrewDetailsViewModel: TableListDataSource {
@@ -192,12 +198,12 @@ extension BrewDetailsViewModel: TableListDataSource {
     func listView(_ listView: UITableView, configureCell cell: UITableViewCell, withObject object: TitleValuePresentable, atIndexPath indexPath: IndexPath) {
         let sectionType = self.sectionType(forIndexPath: indexPath)
         if sectionType != .score && sectionType != .remove {
-            cell.accessoryType = editable ? .disclosureIndicator : .none
+			cell.accessoryType = isEditable ? .disclosureIndicator : .none
         }
-        let presentable = listItems[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).row]
-        (cell as? FinalScoreCell)?.configureWithPresentable(presentable)
-        (cell as? BrewAttributeCell)?.configureWithPresentable(presentable)
-        (cell as? BrewNotesCell)?.configureWithPresentable(presentable)
-        (cell as? BrewDetailsRemoveCell)?.configureWithPresentable(presentable)
+        let presentable = listItems[indexPath.section][indexPath.row]
+        (cell as? FinalScoreCell)?.configure(with: presentable)
+        (cell as? BrewAttributeCell)?.configure(with: presentable)
+        (cell as? BrewNotesCell)?.configure(with: presentable)
+        (cell as? BrewDetailsRemoveCell)?.configure(with: presentable)
     }
 }

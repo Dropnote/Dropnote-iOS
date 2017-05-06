@@ -15,34 +15,49 @@ extension BrewDetailsViewController: ThemeConfigurationContainer { }
 extension BrewDetailsViewController: ResolvableContainer { }
 
 final class BrewDetailsViewController: UIViewController {
-	@IBOutlet weak var tableView: UITableView!
+	private lazy var tableView: UITableView = {
+		let tableView = UITableView(frame: .zero, style: .plain)
+		tableView.tableFooterView = UIView()
+		tableView.estimatedRowHeight = 50
+		tableView.rowHeight = UITableViewAutomaticDimension
+		tableView.delegate = self
+		return tableView
+	}()
 
-	var resolver: ResolverType?
+	let resolver: ResolverType
 	var themeConfiguration: ThemeConfiguration?
-	var viewModel: BrewDetailsViewModelType!
+	let viewModel: BrewDetailsViewModelType
 
     fileprivate weak var pushedViewController: UIViewController?
 
+	init(viewModel: BrewDetailsViewModelType, themeConfiguration: ThemeConfiguration? = nil, resolver: ResolverType = Assembler.sharedResolver) {
+		self.viewModel = viewModel
+		self.themeConfiguration = themeConfiguration
+		self.resolver = resolver
+		super.init(nibName: nil, bundle: nil)
+		title = tr(.brewDetailsItemTitle)
+	}
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func loadView() {
+        view = tableView
+    }
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		title = tr(.brewDetailsItemTitle)
-		
-		tableView.tableFooterView = UIView()
-        tableView.estimatedRowHeight = 50
-        tableView.rowHeight = UITableViewAutomaticDimension
-		tableView.delegate = self
-		viewModel.configureWithTableView(tableView)
-
+		viewModel.configure(with: tableView)
         enableSwipeToBack()
+		setupDefaultBackBarButtonItemIfNeeded()
         navigationController?.delegate = self
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
         deactivatePushedViewController()
-        
-        configureWithTheme(themeConfiguration)
-		tableView.configureWithTheme(themeConfiguration)
+        tableView.configure(with: themeConfiguration)
 		viewModel.refreshData()
 
         tableView.setNeedsLayout()
@@ -53,64 +68,8 @@ final class BrewDetailsViewController: UIViewController {
 	}
     
 	override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewModel.saveBrewIfNeeded()
-    }
-
-	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		guard let resolver = resolver else { return }
-
-		switch segueIdentifierForSegue(segue) {
-		case .BrewScoreDetails:
-			let viewController = segue.destination as! BrewScoreDetailsViewController
-			viewController.viewModel = resolver.resolve(BrewScoreDetailsViewModelType.self,
-														argument: viewModel.currentBrew())!
-			break
-		case .GrindSize:
-			let viewController = segue.destination as! GrindSizeViewController
-			viewController.viewModel = resolver.resolve(GrindSizeViewModelType.self,
-														argument: viewModel.brewModelController)!
-			break
-		case .NumericalInput:
-			guard let box = sender as? Box<BrewAttributeType> else {
-				fatalError("Couldn't unbox necessary context.")
-			}
-			let viewController = segue.destination as! NumericalInputViewController
-			viewController.title = box.value.description
-			viewController.viewModel = resolver.resolve(NumericalInputViewModelType.self,
-														arguments: box.value, viewModel.brewModelController)!
-			break
-		case .Tamping:
-			let viewController = segue.destination as! TampingViewController
-			viewController.viewModel = resolver.resolve(TampingViewModelType.self,
-														argument: viewModel.brewModelController)!
-			break
-		case .Notes:
-			let viewController = segue.destination as! NotesViewController
-			viewController.viewModel = resolver.resolve(NotesViewModelType.self,
-														argument: viewModel.brewModelController)!
-			break
-		case .SelectableSearch:
-			guard let box = sender as? Box<SelectableSearchIdentifier> else {
-				fatalError("Couldn't unbox necessary context.")
-			}
-			let viewController = segue.destination as! SelectableSearchViewController
-			viewController.viewModel = resolver.resolve(SelectableSearchViewModelType.self,
-														arguments: box.value, viewModel.brewModelController)!
-			viewController.title = box.value.description
-			break
-		default:
-			fatalError("Unknown segue performed.")
-		}
-
-        segue.destination.navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(asset: .Ic_back),
-            style: .plain,
-            target: self,
-            action: #selector(pop)
-        )
-        segue.destination.enableSwipeToBack()
-        pushedViewController = segue.destination
+		super.viewWillDisappear(animated)
+		viewModel.saveBrewIfNeeded()
 	}
 
     fileprivate func deactivatePushedViewController() {
@@ -149,11 +108,11 @@ extension BrewDetailsViewController: UITableViewDelegate {
     }
 
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
-		(cell as? FinalScoreCell)?.configureWithTheme(themeConfiguration)
-		(cell as? BrewAttributeCell)?.configureWithTheme(themeConfiguration)
-		(cell as? BrewNotesCell)?.configureWithTheme(themeConfiguration)
-		(cell as? BrewDetailsRemoveCell)?.configureWithTheme(themeConfiguration)
+        cell.accessibilityLabel = "Select \((indexPath).row + 1)"
+        (cell as? FinalScoreCell)?.configure(with: themeConfiguration)
+        (cell as? BrewAttributeCell)?.configure(with: themeConfiguration)
+        (cell as? BrewNotesCell)?.configure(with: themeConfiguration)
+        (cell as? BrewDetailsRemoveCell)?.configure(with: themeConfiguration)
         if case .disclosureIndicator = cell.accessoryType {
             cell.accessoryView = UIImageView(image: UIImage(asset: .Ic_arrow))
         } else {
@@ -162,27 +121,17 @@ extension BrewDetailsViewController: UITableViewDelegate {
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch viewModel.sectionType(forIndexPath: indexPath) {
-		case .score:
-			performSegue(.BrewScoreDetails)
-			break
-		case .coffeeInfo:
-			guard viewModel.editable else { return }
-            let selectableSearchIdentifier = viewModel.coffeeAttribute(forIndexPath: indexPath)
-            performSegue(.SelectableSearch, sender: Box(selectableSearchIdentifier))
-			break
-		case .attributes:
-			guard viewModel.editable else { return }
-			let brewAttributeType = viewModel.brewAttributeType(forIndexPath: indexPath)
-			performSegue(brewAttributeType.segueIdentifier, sender: Box(brewAttributeType))
-			break
-		case .notes:
-			performSegue(.Notes, sender: Box<BrewAttributeType>(.notes))
-			break
-        case .remove:
-            removeCurrentBrewIfNeeded()
-            break
+		let factory = BrewDetailsViewControllersFactory(resolver: resolver, viewModel: viewModel)
+		let sectionType = viewModel.sectionType(forIndexPath: indexPath)
+
+		if case .remove = sectionType {
+			removeCurrentBrewIfNeeded()
+			return
 		}
+
+        guard let viewController = factory.createViewController(for: sectionType, at: indexPath) else { return }
+        pushedViewController = viewController
+		navigationController?.pushViewController(viewController, animated: true)
 	}
 }
 

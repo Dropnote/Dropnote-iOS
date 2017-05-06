@@ -98,6 +98,9 @@
 "GrindSizeLevelMedium" = "Mittel";
 "GrindSizeLevelCoarse" = "Grob";
 
+"TampingStrengthLight" = "Licht";
+"TampingStrengthStrong" = "Stark";
+
 // Informative
 
 "TimeInformativeText" = "Hier Brühzeit eintragen";

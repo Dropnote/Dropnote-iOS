@@ -9,12 +9,12 @@ import RxSwift
 import RxCocoa
 
 protocol SequenceSettingsViewModelType: UITableViewDataSource, TableViewConfigurable {
-    var brewMethod: BrewMethod! { get set }
+    var brewMethod: BrewMethod { get }
 
-    func prepareEditForTableView(_ tableView: UITableView, completion: @escaping (_ editing: Bool) -> Void)
+    func prepareEdit(for tableView: UITableView, completion: @escaping (_ editing: Bool) -> Void)
 
-    func shouldSelectItemAtIndexPath(_ indexPath: IndexPath) -> Bool
-    func markIndexPath(_ indexPath: IndexPath, asSelected selected: Bool)
+    func shouldSelectItem(at indexPath: IndexPath) -> Bool
+    func markItem(at indexPath: IndexPath, asSelected selected: Bool)
 }
 
 final class SequenceSettingsViewModel: NSObject, SequenceSettingsViewModelType {
@@ -22,11 +22,7 @@ final class SequenceSettingsViewModel: NSObject, SequenceSettingsViewModelType {
     private var dispatchHandler = Dispatcher.delay
 
     let modelController: SequenceSettingsModelControllerType
-    var brewMethod: BrewMethod! {
-        didSet {
-            populateSections()
-        }
-    }
+    let brewMethod: BrewMethod
 
     fileprivate(set) var items: [BrewingSequenceStep] = []
     fileprivate(set) var editing = false
@@ -37,20 +33,23 @@ final class SequenceSettingsViewModel: NSObject, SequenceSettingsViewModelType {
         }
     }
 
-    init(modelController: SequenceSettingsModelControllerType) {
+    init(brewMethod: BrewMethod, modelController: SequenceSettingsModelControllerType) {
+        self.brewMethod = brewMethod
         self.modelController = modelController
         super.init()
+        populateSections()
     }
 
     fileprivate func populateSections() {
         self.items = modelController.sequenceSteps(for: brewMethod, filter: .all)
     }
 
-    func configureWithTableView(_ tableView: UITableView) {
+    func configure(with tableView: UITableView) {
+        tableView.register(SequenceSettingsCell.self, forCellReuseIdentifier: String(describing: SequenceSettingsCell.self))
         tableView.dataSource = self
     }
 
-    func prepareEditForTableView(_ tableView: UITableView, completion: @escaping (_ editing: Bool) -> Void) {
+    func prepareEdit(for tableView: UITableView, completion: @escaping (_ editing: Bool) -> Void) {
         editing = !editing
         tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
         dispatchHandler(0.25) {
@@ -63,12 +62,12 @@ final class SequenceSettingsViewModel: NSObject, SequenceSettingsViewModelType {
 
     // MARK: Selection
 
-    func shouldSelectItemAtIndexPath(_ indexPath: IndexPath) -> Bool {
-        return items[(indexPath as NSIndexPath).row].enabled!
+    func shouldSelectItem(at indexPath: IndexPath) -> Bool {
+        return items[indexPath.row].enabled!
     }
 
-    func markIndexPath(_ indexPath: IndexPath, asSelected selected: Bool) {
-        items[(indexPath as NSIndexPath).row].setEnabled(selected)
+    func markItem(at indexPath: IndexPath, asSelected selected: Bool) {
+        items[indexPath.row].set(enabled: selected)
     }
 }
 
@@ -79,19 +78,19 @@ extension SequenceSettingsViewModel: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = activeItems[(indexPath as NSIndexPath).row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SequenceSettingsCell", for: indexPath) as UITableViewCell
+        let item = activeItems[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SequenceSettingsCell.self), for: indexPath) as UITableViewCell
         cell.accessibilityHint = "Represents \(item.type!.description)"
         cell.textLabel?.text = item.type!.description
         cell.isSelected = item.enabled!
         return cell
     }
 
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        var item = items[(sourceIndexPath as NSIndexPath).row]
-        item.setPosition((destinationIndexPath as NSIndexPath).row)
-        items.remove(at: (sourceIndexPath as NSIndexPath).row)
-        items.insert(item, at: (destinationIndexPath as NSIndexPath).row)
+    func tableView(_ tableView: UITableView, moveRowAt source: IndexPath, to destination: IndexPath) {
+        var item = items[source.row]
+        item.set(position: destination.row)
+        items.remove(at: source.row)
+        items.insert(item, at: destination.row)
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

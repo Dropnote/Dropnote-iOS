@@ -8,31 +8,63 @@ import UIKit
 import Swinject
 import DZNEmptyDataSet
 import RxSwift
+import RxCocoa
 
 extension BrewingsViewController: ThemeConfigurable { }
 extension BrewingsViewController: ThemeConfigurationContainer { }
 extension BrewingsViewController: ResolvableContainer { }
 
 final class BrewingsViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var filterBarButtonItem: UIBarButtonItem!
+    private let disposeBag = DisposeBag()
+    fileprivate lazy var filterBarButtonItem = UIBarButtonItem()
 
-    fileprivate var searchBar: UISearchBar!
+    fileprivate lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.alwaysBounceVertical = true
+        tableView.tableFooterView = UIView()
+        tableView.backgroundView = UIView()
+        tableView.rowHeight = 84
+        tableView.delegate = self
+        tableView.emptyDataSetDelegate = self
+        tableView.emptyDataSetSource = self
+        return tableView
+    }()
+
+    fileprivate lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar(frame: .zero)
+        searchBar.placeholder = tr(.historyFilterPlaceholder)
+        searchBar.showsCancelButton = true
+        searchBar.returnKeyType = .done
+        return searchBar
+    }()
+
     var themeConfiguration: ThemeConfiguration?
-    var resolver: ResolverType?
-    var viewModel: BrewingsViewModelType!
+    let resolver: ResolverType
+    private(set) var viewModel: BrewingsViewModelType
+    fileprivate let isBrewDetailsEditable = true
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    init(viewModel: BrewingsViewModelType, themeConfiguration: ThemeConfiguration? = nil, resolver: ResolverType = Assembler.sharedResolver) {
+        self.viewModel = viewModel
+        self.themeConfiguration = themeConfiguration
+        self.resolver = resolver
+        super.init(nibName: nil, bundle: nil)
         title = tr(.historyItemTitle)
     }
 
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func loadView() {
+   		view = tableView
+   	}
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureWithTheme(themeConfiguration)
-        setUpSearchBar()
-        configureTableView()
-        viewModel.configureWithTableView(tableView)
+        tableView.tableHeaderView = searchBar
+        viewModel.configure(with: tableView)
+
+        configureSearchBar()
 
         if (traitCollection.forceTouchCapability == .available) {
             registerForPreviewing(with: self, sourceView: view)
@@ -41,11 +73,18 @@ final class BrewingsViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        searchBar.configureWithTheme(themeConfiguration)
-        tableView.configureWithTheme(themeConfiguration)
+        searchBar.configure(with: themeConfiguration)
+        tableView.configure(with: themeConfiguration)
+        searchBar.frame.size = CGSize(width: view.frame.width, height: 44)
         tableView.hideSearchBar()
+
         filterBarButtonItem.title = nil
         filterBarButtonItem.image = viewModel.sortingOption.image
+        navigationItem.rightBarButtonItem = filterBarButtonItem
+        _ = filterBarButtonItem.rx.tap.bindNext {
+            let sortingViewController = self.createSortingViewController()
+            self.present(sortingViewController, animated: true)
+        }
 
         tableView.setNeedsLayout()
         tableView.layoutIfNeeded()
@@ -54,57 +93,46 @@ final class BrewingsViewController: UIViewController {
         Analytics.sharedInstance.trackScreen(withTitle: AppScreen.brewings)
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        tableView.hideSearchBar()
+    private func configureSearchBar() {
+        searchBar.rx.text
+                .asObservable()
+                .distinctUntilChanged(==)
+                .skip(1)
+                .debounce(0.2, scheduler: MainScheduler.asyncInstance)
+                .subscribe(onNext: viewModel.search(for:))
+                .addDisposableTo(disposeBag)
+
+        searchBar.rx.cancelButtonClicked.bindNext {
+            self.viewModel.resetFilters()
+            self.searchBar.text = nil
+            self.searchBar.resignFirstResponder()
+            self.tableView.hideSearchBar(animated: true)
+        }.addDisposableTo(disposeBag)
+
+        searchBar.rx.searchButtonClicked.bindNext {
+            self.searchBar.resignFirstResponder()
+            self.tableView.hideSearchBar(animated: true)
+        }.addDisposableTo(disposeBag)
     }
 
     override func restoreUserActivityState(_ activity: NSUserActivity) {
 		guard let brew = viewModel.brew(for: activity) else { return }
-		performSegue(.BrewDetails, sender: brew)
+        let brewDetailsViewController = resolver.resolve(BrewDetailsViewController.self, arguments: brew, isBrewDetailsEditable)!
+        navigationController?.pushViewController(brewDetailsViewController, animated: true)
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if case .BrewDetails = segueIdentifierForSegue(segue), let brew = sender as? Brew {
-            guard let resolver = resolver else { return }
-            guard let brewDetailsViewController = segue.destination as? BrewDetailsViewController else { return }
-            brewDetailsViewController.viewModel = resolver.resolve(BrewDetailsViewModelType.self, argument: brew)
-            brewDetailsViewController.viewModel.editable = true
-        }
-        if case .BrewingsSorting = segueIdentifierForSegue(segue) {
-            guard let navigationController = segue.destination as? UINavigationController else { return }
-            guard let brewingsSortingViewController = navigationController.topViewController as? BrewingsSortingViewController else { return }
-            brewingsSortingViewController.viewModel.sortingOption = viewModel.sortingOption
-
-            _ = brewingsSortingViewController.dismissViewControllerAnimatedSubject.subscribe(onNext: {
-                animated in
-                self.dismiss(animated: animated, completion: nil)
-            })
-            _ = brewingsSortingViewController.switchSortingOptionSubject.subscribe(onNext: {
-                sortingOption in
-                self.viewModel.sortingOption = sortingOption
-                self.tableView.reloadData()
-            })
-        }
-    }
-
-    private func setUpSearchBar() {
-        searchBar = UISearchBar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: view.frame.width, height: 44)))
-        searchBar.placeholder = tr(.historyFilterPlaceholder)
-        searchBar.showsCancelButton = true
-        searchBar.returnKeyType = .done
-        searchBar.delegate = self
-    }
-
-    private func configureTableView() {
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
-        tableView.backgroundView = UIView()
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 80
-        tableView.tableHeaderView = searchBar
-        tableView.emptyDataSetDelegate = self
-        tableView.emptyDataSetSource = self
+    private func createSortingViewController() -> UIViewController {
+        let sortingViewController = resolver.resolve(BrewingsSortingViewController.self, argument: viewModel.sortingOption)!
+        _ = sortingViewController.dismissViewControllerAnimatedSubject.subscribe(onNext: {
+            animated in
+            self.dismiss(animated: animated, completion: nil)
+        })
+        _ = sortingViewController.switchSortingOptionSubject.subscribe(onNext: {
+            sortingOption in
+            self.viewModel.sortingOption = sortingOption
+            self.tableView.reloadData()
+        })
+        return UINavigationController(rootViewController: sortingViewController)
     }
 }
 
@@ -129,36 +157,19 @@ extension BrewingsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.accessibilityLabel = "Select \((indexPath as NSIndexPath).row + 1)"
-        (cell as? BrewCell)?.configureWithTheme(themeConfiguration)
+        (cell as? BrewCell)?.configure(with: themeConfiguration)
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(.BrewDetails, sender: viewModel.brew(forIndexPath: indexPath))
+        let brew = viewModel.brew(forIndexPath: indexPath)
+        let brewDetailsViewController = resolver.resolve(BrewDetailsViewController.self, arguments: brew, isBrewDetailsEditable)!
+        navigationController?.pushViewController(brewDetailsViewController, animated: true)
     }
 
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         if targetContentOffset.pointee.y == 0 && scrollView.contentOffset.y > searchBar.frame.size.height {
             targetContentOffset.pointee.y = searchBar.frame.size.height
         }
-    }
-}
-
-extension BrewingsViewController: UISearchBarDelegate {
-
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        viewModel.setSearchText(searchText)
-    }
-
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        tableView.hideSearchBar(animated: true)
-    }
-
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.resetFilters()
-        searchBar.text = nil
-        searchBar.resignFirstResponder()
-        tableView.hideSearchBar(animated: true)
     }
 }
 
@@ -187,21 +198,15 @@ extension BrewingsViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource
 extension BrewingsViewController: UIViewControllerPreviewingDelegate {
 
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        guard let resolver = resolver else { return nil }
+
         let locationInTableView = tableView.convert(location, from: view)
         guard let indexPath = tableView.indexPathForRow(at: locationInTableView) else { return nil }
         guard let cell = tableView.cellForRow(at: indexPath) else { return nil }
 
-        let storyboard = UIStoryboard(name: SegueIdentifier.BrewDetails.rawValue, bundle: nil)
-        let brewDetailsViewController = storyboard.instantiateInitialViewController() as! BrewDetailsViewController
-
-        let brew = viewModel.brew(forIndexPath: indexPath)
-        brewDetailsViewController.viewModel = resolver.resolve(BrewDetailsViewModelType.self, argument: brew)
-        brewDetailsViewController.viewModel.editable = true
-
         previewingContext.sourceRect = tableView.convert(cell.frame, to: view)
 
-        return brewDetailsViewController
+        let brew = viewModel.brew(forIndexPath: indexPath)
+        return resolver.resolve(BrewDetailsViewController.self, arguments: brew, isBrewDetailsEditable)!
     }
 
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {

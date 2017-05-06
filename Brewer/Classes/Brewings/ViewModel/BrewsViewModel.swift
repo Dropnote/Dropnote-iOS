@@ -20,7 +20,7 @@ protocol BrewingsViewModelType: TableViewConfigurable {
 
     func brew(forIndexPath indexPath: IndexPath) -> Brew
 	func brew(for activity: NSUserActivity) -> Brew?
-    func setSearchText(_ searchText: String)
+    func search(for text: String?)
     func resetFilters()
 }
 
@@ -51,7 +51,8 @@ final class BrewingsViewModel: BrewingsViewModelType {
 		self.spotlightSearchService = spotlightSearchService
 	}
 
-	func configureWithTableView(_ tableView: UITableView) {
+	func configure(with tableView: UITableView) {
+		tableView.register(BrewCell.self, forCellReuseIdentifier: String(describing: BrewCell.self))
 		fetchedResultsControllerDelegate = TableViewFetchedResultsControllerDynamicChangesHandler(
 			tableView: tableView,
 			fetchedResultsController: brewsModelController.fetchedResultsController
@@ -64,15 +65,15 @@ final class BrewingsViewModel: BrewingsViewModelType {
 	}
     
     func brew(forIndexPath indexPath: IndexPath) -> Brew {
-        return brews[(indexPath as NSIndexPath).row]
+        return brews[indexPath.row]
     }
     
-    func setSearchText(_ text: String) {
-        brewsModelController.setSearchText(text)
+    func search(for text: String?) {
+        brewsModelController.search(for: text)
     }
     
     func resetFilters() {
-        brewsModelController.setSearchText(nil)
+        brewsModelController.search(for: nil)
     }
 
 	func brew(for activity: NSUserActivity) -> Brew? {
@@ -83,7 +84,7 @@ final class BrewingsViewModel: BrewingsViewModelType {
 extension BrewingsViewModel: TableListDataSource {
     
     func cellIdentifierForIndexPath(_ indexPath: IndexPath) -> String {
-        return "BrewCell"
+        return String(describing: BrewCell.self)
     }
     
     func listView(_ listView: UITableView, configureCell cell: BrewCell, withObject object: BrewCellViewModel, atIndexPath indexPath: IndexPath) {
